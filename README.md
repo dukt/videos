@@ -56,7 +56,7 @@ Display the video embed
 		<li>embed : {{ video.embed(embed_params) }}</li>
 	</ul>
 
-<a name="#template-variable"></a>
+<span id="#template-variable">test</span>
 ## blx.duktvideos
 
 If you just want to retrieve video informations from a custom video url in your templates, here is what to do :
