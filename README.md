@@ -1,6 +1,10 @@
 # Dukt Videos for Blocks CMS
 
-## Displaying a video from a field
+- [Block Type](#block-type) 
+- [blx.duktvideos](#template-variable) 
+
+<a id="#block-type"></a>
+## Block Type
 
 Retrieving video informations from your field is pretty easy. A video variable is provided which let's you retrieve all the informations related to your video.
 
@@ -52,8 +56,8 @@ Display the video embed
 		<li>embed : {{ video.embed(embed_params) }}</li>
 	</ul>
 
-
-## Retrieving a video
+<a id="#template-variable"></a>
+## blx.duktvideos
 
 If you just want to retrieve video informations from a custom video url in your templates, here is what to do :
 
