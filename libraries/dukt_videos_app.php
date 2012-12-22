@@ -118,9 +118,14 @@ class Dukt_videos_app {
 				
 				// redirects urls
 
-				$service_obj->admin_redirect = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->admin_redirect = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 				$service_obj->oauth_success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->success_redirect = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
+				
+				$service_obj->service_configure_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->service_configure_callback_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->service_configure_save_service_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
 
 				
 				$services[$service_key] = $service_obj;	
@@ -155,7 +160,7 @@ class Dukt_videos_app {
 	{
 		$option_name = $service."_".$k;
 		
-		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
+		$option = \Blocks\DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
 		
 		if($option)
 		{

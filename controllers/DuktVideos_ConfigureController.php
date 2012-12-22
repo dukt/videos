@@ -10,6 +10,7 @@ class DuktVideos_ConfigureController extends BaseController
 	
     public function actionSaveService()
     {
+
     	$this->load_libs();
     	
     	// save options
@@ -44,9 +45,14 @@ class DuktVideos_ConfigureController extends BaseController
 	    
 	    
 	    // try to connect
+	    $service_key = blx()->request->getSegment(5);
 	    
-	    $this->connectService($_POST['service']);
-	    
+	    if(!$service_key)
+	    {
+		    $service_key = $_POST['service'];
+	    }
+
+	    $this->connectService($service_key);
 	    
 	    // redirect
 
