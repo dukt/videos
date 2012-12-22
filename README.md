@@ -5,7 +5,7 @@
 Retrieving video informations from your field is pretty easy. A video variable is provided which let's you retrieve all the informations related to your video.
 
 
-### variables
+### Variables
 
 - id
 - url
