@@ -65,6 +65,23 @@ class Dukt_videos_app {
 
 				$service_obj = new $service_class();
 				
+				
+				// enabled
+				
+				$option_name = 'enabled';
+				
+				$condition = 'option_name=:option_name';
+
+				$params = array(':option_name' => $service_key.'_'.$option_name);
+
+				$db_option = \Blocks\DuktVideos_OptionRecord::model()->find($condition, $params);	
+							
+				if($db_option)
+				{
+					$service_obj->enabled = $db_option->option_value;
+				}
+				
+				
 				// api options
 				
 				foreach($service_obj->api_options as $option_name => $option_value)

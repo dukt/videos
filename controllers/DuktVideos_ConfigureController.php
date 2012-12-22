@@ -53,6 +53,69 @@ class DuktVideos_ConfigureController extends BaseController
 		$this->redirect($_POST['redirect']);  
     }
     
+    public function actionEnableService()
+    {
+	    $service_key = blx()->request->getSegment(5);
+	    
+	    $option_name = $service_key."_enabled";
+	    
+		$data = array(
+			'option_name' => $option_name,
+			'option_value' => 1
+		);
+
+		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
+		
+		if(!$option)
+		{
+    		// insert
+    		
+    		blx()->db->createCommand()->insert('duktvideos_options', $data);
+		}
+		else
+		{
+    		// update
+    		
+    		$where = array('option_name' => $option_name);
+
+    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
+		}
+
+		$this->redirect('duktvideos'); 
+    }
+    
+    
+    public function actionDisableService()
+    {
+	    $service_key = blx()->request->getSegment(5);
+	    
+	    $option_name = $service_key."_enabled";
+	    
+		$data = array(
+			'option_name' => $option_name,
+			'option_value' => 0
+		);
+
+		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
+		
+		if(!$option)
+		{
+    		// insert
+    		
+    		blx()->db->createCommand()->insert('duktvideos_options', $data);
+		}
+		else
+		{
+    		// update
+    		
+    		$where = array('option_name' => $option_name);
+
+    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
+		}
+
+		$this->redirect('duktvideos'); 
+    }
+    
     public function actionResetService()
     {
 		$service_key = $_POST['service'];
