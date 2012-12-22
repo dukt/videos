@@ -7,6 +7,8 @@ class DuktVideos_ConfigureController extends BaseController
 	var $dukt_lib;
 	var $dukt_videos;
 	var $services;
+    
+	// --------------------------------------------------------------------
 	
     public function actionSaveService()
     {
@@ -59,6 +61,8 @@ class DuktVideos_ConfigureController extends BaseController
 		$this->redirect($_POST['redirect']);  
     }
     
+	// --------------------------------------------------------------------
+    
     public function actionEnableService()
     {
 	    $service_key = blx()->request->getSegment(5);
@@ -90,6 +94,7 @@ class DuktVideos_ConfigureController extends BaseController
 		$this->redirect('duktvideos'); 
     }
     
+	// --------------------------------------------------------------------
     
     public function actionDisableService()
     {
@@ -122,6 +127,8 @@ class DuktVideos_ConfigureController extends BaseController
 		$this->redirect('duktvideos'); 
     }
     
+	// --------------------------------------------------------------------
+    
     public function actionResetService()
     {
 		$service_key = $_POST['service'];
@@ -137,6 +144,8 @@ class DuktVideos_ConfigureController extends BaseController
 		$this->redirect($_POST['redirect']); 
     }
     
+	// --------------------------------------------------------------------
+    
     public function actionCallback()
     {
 	    $this->load_libs();
@@ -147,6 +156,8 @@ class DuktVideos_ConfigureController extends BaseController
 	    
 	    $service->connect_callback($this->dukt_lib, $this->dukt_videos);
     }
+    
+	// --------------------------------------------------------------------
     
     private function load_libs()
     {
@@ -160,6 +171,8 @@ class DuktVideos_ConfigureController extends BaseController
 		
 		$this->services = $this->dukt_videos->get_services();
     }
+    
+	// --------------------------------------------------------------------
     
     private function connectService($service_key)
     {		

@@ -15,26 +15,30 @@
 		<thead>
 			<tr>
 				<th>Service</th>
-				<th>Configure</th>
 				<th class="col-status">Status</th>
+				<th class="col-actions">Actions</th>
 			</tr>
 		</thead>
 		
 		{% for service in blx.duktVideos.services() %}
 		    <tr>
 		    	<th>{{ service.service_name }}</th>
-		    	<td><a href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a></td>
 		    	<td class="col">
 					{% if service.is_authenticated() and service.enabled == 1 %}
 						<div class="status on"></div>
 						Enabled
-						<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
-					{% elseif service.is_authenticated() == false and service.enabled == 1 %}
-						<div class="status off"></div>
-						Disabled
 					{% else %}
 						<div class="status off"></div>
 						Disabled
+					{% endif %}
+		    	</td>
+		    	
+		    	<td class="col-actions">		    		
+		    		<a class="btn small" href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a>
+
+					{% if service.is_authenticated() and service.enabled == 1 %}
+						<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
+					{% else %}
 						<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
 					{% endif %}
 		    	</td>

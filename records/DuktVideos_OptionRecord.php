@@ -7,6 +7,8 @@ class DuktVideos_OptionRecord extends BaseRecord
     {
         return 'duktvideos_options';
     }
+    
+	// --------------------------------------------------------------------
 
     public function defineAttributes()
     {

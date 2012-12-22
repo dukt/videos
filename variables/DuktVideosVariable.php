@@ -8,8 +8,30 @@ class DuktVideosVariable
         return blx()->duktVideos_services->getServices($service);
     }
     
-    public function getIngredients()
+	// --------------------------------------------------------------------
+    
+    public function find($video_url)
     {
-        return blx()->duktVideos_ingredients->getIngredients();
+
+		$video_opts = array(
+			'url' => $video_url,
+		);
+	    
+		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
+		
+		$dukt_videos = new \DuktVideos\Dukt_videos_app;
+		
+		$video = $dukt_videos->get_video($video_opts);
+
+		$charset = blx()->templates->getTwig()->getCharset();
+
+		$vid = new DuktVideos_VideoModel();
+		
+		foreach($video as $k => $v)
+		{
+			$vid->{$k} = $video[$k];	
+		}
+
+		return $vid;
     }
 }

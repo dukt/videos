@@ -137,7 +137,7 @@ class Dukt_videos_app {
 	
 	// --------------------------------------------------------------------
 	
-	public function get_video($video_opts, $embed_opts)
+	public function get_video($video_opts, $embed_opts=array())
 	{
 		$services = $this->get_services();
 		

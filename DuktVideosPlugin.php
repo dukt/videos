@@ -7,31 +7,36 @@ class DuktVideosPlugin extends BasePlugin
     {
         return Blocks::t('Dukt Videos');
     }
+    
+	// --------------------------------------------------------------------
 
     function getVersion()
     {
         return '1.0';
     }
+    
+	// --------------------------------------------------------------------
 
     function getDeveloper()
     {
         return 'Dukt';
     }
+    
+	// --------------------------------------------------------------------
 
     function getDeveloperUrl()
     {
         return 'http://dukt.net/';
     }
     
-    function getHtml()
-    {
-	    echo "yo";
-    }
+	// --------------------------------------------------------------------
     
     public function hasCpSection()
     {
         return true;
     }
+    
+	// --------------------------------------------------------------------
     
     public function hookRegisterCpRoutes()
     {
@@ -39,6 +44,8 @@ class DuktVideosPlugin extends BasePlugin
             'duktvideos\/configure\/(?P<servicekey>.*)' => 'duktvideos/_configure',
         );
     }
+    
+	// --------------------------------------------------------------------
     
     public function onAfterInstall()
 	{

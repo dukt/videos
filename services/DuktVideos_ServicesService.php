@@ -8,6 +8,8 @@ class DuktVideos_ServicesService extends BaseApplicationComponent
 {
 	var $dukt_lib;
 	var $dukt_videos;
+    
+	// --------------------------------------------------------------------
 	
 	public function getServices($service = false)
 	{	
@@ -39,6 +41,8 @@ class DuktVideos_ServicesService extends BaseApplicationComponent
 		
 		return $services;
 	}
+    
+	// --------------------------------------------------------------------
 	
 	public function options()
 	{
