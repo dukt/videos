@@ -1,6 +1,6 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
-{% includeCssResource "support/css/default.css" %}
+{% includeCssResource "duktvideos/css/mcp.css" %}
 
 {% set title = "Dukt Videos"|t %}
 
@@ -10,29 +10,32 @@
 
 {% set content %}
 
-	<p>List of all available video services :</p>
-
 	<table class="data">
+	
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th>Configure</th>
+				<th class="col-status">Status</th>
+			</tr>
+		</thead>
 		
 		{% for service in blx.duktVideos.services() %}
 		    <tr>
-		    	<th>
+		    	<th>{{ service.service_name }}</th>
+		    	<td><a href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a></td>
+		    	<td class="col">
 					{% if service.is_authenticated() and service.enabled == 1 %}
 						<div class="status on"></div>
+						Enabled
+						<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
+					{% elseif service.is_authenticated() == false and service.enabled == 1 %}
+						<div class="status off"></div>
+						Disabled
 					{% else %}
 						<div class="status off"></div>
-					{% endif %}
-					
-					{{ service.service_name }}
-				</th>
-		    	<td><a href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a></td>
-		    	<td>
-					{% if service.is_authenticated() and service.enabled == 1 %}
-						<a href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
-					{% elseif service.is_authenticated() == false and service.enabled == 1 %}
-						Enable
-					{% else %}
-						<a href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
+						Disabled
+						<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
 					{% endif %}
 		    	</td>
 		    </tr>
