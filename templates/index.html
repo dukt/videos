@@ -1,0 +1,34 @@
+{% extends "_layouts/cp" %}
+{% set centered = true %}
+{% includeCssResource "support/css/default.css" %}
+
+{% set title = "Dukt Videos"|t %}
+
+{% set header %}
+    <h1>{{ title }}</h1>
+{% endset %}
+
+{% set content %}
+
+	<p>List of all available video services :</p>
+
+	<table class="data">
+		
+		{% for service in blx.duktVideos.services() %}
+		    <tr>
+		    	<th>
+					{% if service.is_authenticated() %}
+						<div class="status on"></div>
+					{% else %}
+						<div class="status off"></div>
+					{% endif %}
+					
+					{{ service.service_name }}
+				</th>
+		    	<td><a href="/admin/duktvideos/configure/{{ service.service_key }}">Configure</a></td>
+		    	<td>Enable/Disable</td>
+		    </tr>
+		{% endfor %}
+
+	</table>
+{% endset %}

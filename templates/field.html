@@ -1,0 +1,42 @@
+{% import "_includes/forms" as forms %}
+
+
+{% includeCssResource "duktvideos/universal/css/box.css" %}
+{% includeCssResource "duktvideos/css/box.css" %}
+{% includeCssResource "duktvideos/css/field.css" %}
+
+
+{% set js %}
+	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
+	Dukt_videos.ajax_endpoint = Blocks.getActionUrl('duktvideos/ajax/endpoint');
+	Dukt_videos.site_id = '1';
+{% endset %}
+
+{% includeJs js %}
+
+{% includeJsResource "duktvideos/universal/js/jquery.easing.1.3.js" %}
+{% includeJsResource "duktvideos/universal/js/spin.min.js" %}
+{% includeJsResource "duktvideos/universal/js/box.js" %}
+{% includeJsResource "duktvideos/js/field.js" %}
+
+
+
+
+<div class="dukt-videos-field">
+	<div class="input">
+		{{ forms.text({
+			name: name,
+			id: name,
+			value: videoValue
+		}) }}
+	</div>
+
+	<div class="preview"></div>
+
+	<p class="controls">
+		<a class="btn add icon small">Add Video</a>
+		<a class="btn change small"><span></span>Change Video</a>
+		<a class="btn remove small"><span></span>Remove Video</a>
+	</p>
+</div>
+
