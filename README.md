@@ -39,7 +39,7 @@ Display the video embed
 - video embed html
 
 
-### Example : Displaying video data from a Dukt Videos field
+### Example : Displaying video data from a field
 
 	{% set embed_params = { width: 300, height: 200 } %}
 	
