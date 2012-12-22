@@ -39,7 +39,7 @@ Display the video embed
 - video embed html
 
 
-#### Example : Displaying video data from a Dukt Videos field
+### Example : Displaying video data from a Dukt Videos field
 
 	{% set embed_params = { width: 300, height: 200 } %}
 	
@@ -55,6 +55,20 @@ Display the video embed
 ## blx.duktvideos
 
 If you just want to retrieve video informations from a custom video url in your templates, here is what to do :
+
+### find()
+
+Retrieve a video from its URL.
+
+#### Parameters
+
+- video_url
+
+#### Return
+
+- video
+
+### Example
 
 	{% set embed_params = { width: 300, height: 200 } %}
 
