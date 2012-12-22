@@ -1,5 +1,11 @@
 # Dukt Videos for Blocks CMS
 
+## Installation
+
+- Move `duktvideos/` folder to `/blocks/plugins/`
+- In the admin, go to *Settings / Plugins* and enable Dukt Videos
+- In the admin, go to *Dukt Videos* in order to configure YouTube & Vimeo
+
 ## Block Type
 
 Retrieving video informations from your field is pretty easy. A video variable is provided which let's you retrieve all the informations related to your video.
