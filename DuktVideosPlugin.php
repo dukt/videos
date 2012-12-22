@@ -22,4 +22,26 @@ class DuktVideosPlugin extends BasePlugin
     {
         return 'http://dukt.net/';
     }
+    
+    function getHtml()
+    {
+	    echo "yo";
+    }
+    
+    public function hasCpSection()
+    {
+        return true;
+    }
+    
+    public function hookRegisterCpRoutes()
+    {
+        return array(
+            'duktvideos\/configure\/(?P<servicekey>.*)' => 'duktvideos/_configure',
+        );
+    }
+    
+    public function onAfterInstall()
+	{
+		
+	}
 }
