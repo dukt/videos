@@ -2,9 +2,9 @@
 
 ## Installation
 
-- Move `duktvideos/` folder to `/blocks/plugins/`
-- In the admin, go to the **Settings / Plugins** section and enable Dukt Videos plugin
-- In the admin, go to the **Dukt Videos** section in order to configure YouTube & Vimeo
+1. Move `duktvideos/` folder to `/blocks/plugins/`
+2. In the admin, go to the **Settings / Plugins** section and enable Dukt Videos plugin
+3. In the admin, go to the **Dukt Videos** section in order to configure YouTube & Vimeo
 
 ## Block Type
 
