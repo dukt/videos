@@ -16,7 +16,7 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	 */
 	public function defineContentAttribute()
 	{
-		return AttributeType::DateTime;
+		return AttributeType::String;
 	}
 
 	/**
@@ -24,20 +24,11 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	 */
 	public function getInputHtml($name, $value)
 	{
-		if (empty($value)) $value = new DateTime;
-
-		return blx()->templates->render('duktvideos/input', array(
+		return blx()->templates->render('duktvideos/field', array(
 			'name'       => $name,
-			'videoValue'  => ""
+			'videoValue'  => $value
 		));
 	}
 
-	/**
-	 * Change datestring to timestamp
-	 */
-	protected function prepPostData($value)
-	{
-		return strtotime($value);
-	}
 
 }
