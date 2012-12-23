@@ -350,7 +350,6 @@ class Dukt_videos_app {
 
 		return $query->row('action_id');
 	}
-
 }
 
 /* End of file Someclass.php */

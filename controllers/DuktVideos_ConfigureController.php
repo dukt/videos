@@ -10,43 +10,41 @@ class DuktVideos_ConfigureController extends BaseController
     
 	// --------------------------------------------------------------------
 	
+	public function __construct()
+	{
+		// load libs
+		
+		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');		
+
+		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_lib.php');
+		
+		$this->dukt_lib = new \DuktVideos\Dukt_lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
+		
+		$this->dukt_videos = new \DuktVideos\Dukt_videos_app;
+		
+		
+		// load services
+		
+		$this->services = $this->dukt_videos->get_services();
+	}
+	
+	// --------------------------------------------------------------------
+	
     public function actionSaveService()
     {
-
-    	$this->load_libs();
-    	
     	// save options
     	
 	    if(isset($_POST['options']))
 	    {
 	    	foreach($_POST['options'] as $k => $v)
 	    	{
-	    		$data = array(
-	    			'option_name' => $k,
-	    			'option_value' => $v
-	    		);
-
-	    		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $k));
-	    		
-	    		if(!$option)
-	    		{
-		    		// insert
-		    		
-		    		blx()->db->createCommand()->insert('duktvideos_options', $data);
-	    		}
-	    		else
-	    		{
-		    		// update
-		    		
-		    		$where = array('option_name' => $k);
-
-		    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
-	    		}
+	    		blx()->duktVideos_configure->set_option($k, $v);
 	    	}
 	    }
 	    
 	    
 	    // try to connect
+	    
 	    $service_key = blx()->request->getSegment(5);
 	    
 	    if(!$service_key)
@@ -67,29 +65,9 @@ class DuktVideos_ConfigureController extends BaseController
     {
 	    $service_key = blx()->request->getSegment(5);
 	    
-	    $option_name = $service_key."_enabled";
+	    $option_key = $service_key."_enabled";
 	    
-		$data = array(
-			'option_name' => $option_name,
-			'option_value' => 1
-		);
-
-		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
-		
-		if(!$option)
-		{
-    		// insert
-    		
-    		blx()->db->createCommand()->insert('duktvideos_options', $data);
-		}
-		else
-		{
-    		// update
-    		
-    		$where = array('option_name' => $option_name);
-
-    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
-		}
+		blx()->duktVideos_configure->set_option($option_key, 1);
 
 		$this->redirect('duktvideos'); 
     }
@@ -100,29 +78,9 @@ class DuktVideos_ConfigureController extends BaseController
     {
 	    $service_key = blx()->request->getSegment(5);
 	    
-	    $option_name = $service_key."_enabled";
+	    $option_key = $service_key."_enabled";
 	    
-		$data = array(
-			'option_name' => $option_name,
-			'option_value' => 0
-		);
-
-		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
-		
-		if(!$option)
-		{
-    		// insert
-    		
-    		blx()->db->createCommand()->insert('duktvideos_options', $data);
-		}
-		else
-		{
-    		// update
-    		
-    		$where = array('option_name' => $option_name);
-
-    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
-		}
+		blx()->duktVideos_configure->set_option($option_key, 0);
 
 		$this->redirect('duktvideos'); 
     }
@@ -133,13 +91,7 @@ class DuktVideos_ConfigureController extends BaseController
     {
 		$service_key = $_POST['service'];
 		
-		$condition = "option_name LIKE :match";
-		
-		$params = array(':match' => $service_key."%token%%");
-		
-	    DuktVideos_OptionRecord::model()->deleteAll($condition, $params);
-	    
-	    // redirect
+		blx()->duktVideos_configure->reset_service($service_key);
 
 		$this->redirect($_POST['redirect']); 
     }
@@ -147,9 +99,7 @@ class DuktVideos_ConfigureController extends BaseController
 	// --------------------------------------------------------------------
     
     public function actionCallback()
-    {
-	    $this->load_libs();
-	    
+    {	    
 	    $service_key = blx()->request->getSegment(5);
 	    
 	    $service = $this->services[$service_key];
@@ -159,24 +109,16 @@ class DuktVideos_ConfigureController extends BaseController
     
 	// --------------------------------------------------------------------
     
-    private function load_libs()
-    {
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');		
-
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_lib.php');
-		
-		$this->dukt_lib = new \DuktVideos\Dukt_lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$this->dukt_videos = new \DuktVideos\Dukt_videos_app;
-		
-		$this->services = $this->dukt_videos->get_services();
-    }
-    
-	// --------------------------------------------------------------------
-    
     private function connectService($service_key)
     {		
+		// get service from reloaded services
+		
+		$this->services = $this->dukt_videos->get_services();
+		
 		$service = $this->services[$service_key];
+		
+		
+		// connect
 		
 		$service->connect($this->dukt_lib, $this->dukt_videos);
     }

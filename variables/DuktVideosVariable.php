@@ -1,18 +1,26 @@
 <?php
+
 namespace Blocks;
 
 class DuktVideosVariable
 {
     public function services($service = false)
     {
-        return blx()->duktVideos_services->getServices($service);
+		/*
+			require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
+			
+			$dukt_videos = new \DuktVideos\Dukt_videos_app;
+			
+			return $this->dukt_videos->get_service($service);
+		*/
+		
+        return blx()->duktVideos_configure->getServices($service);
     }
     
 	// --------------------------------------------------------------------
     
     public function find($video_url)
     {
-
 		$video_opts = array(
 			'url' => $video_url,
 		);
@@ -25,13 +33,13 @@ class DuktVideosVariable
 
 		$charset = blx()->templates->getTwig()->getCharset();
 
-		$vid = new DuktVideos_VideoModel();
+		$video_object = new DuktVideos_VideoModel();
 		
 		foreach($video as $k => $v)
 		{
-			$vid->{$k} = $video[$k];	
+			$video_object->{$k} = $video[$k];	
 		}
 
-		return $vid;
+		return $video_object;
     }
 }

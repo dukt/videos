@@ -1,4 +1,5 @@
 <?php
+
 namespace Blocks;
 
 class DuktVideos_OptionRecord extends BaseRecord

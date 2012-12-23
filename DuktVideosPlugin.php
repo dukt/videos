@@ -44,11 +44,4 @@ class DuktVideosPlugin extends BasePlugin
             'duktvideos\/configure\/(?P<servicekey>.*)' => 'duktvideos/_configure',
         );
     }
-    
-	// --------------------------------------------------------------------
-    
-    public function onAfterInstall()
-	{
-		
-	}
 }

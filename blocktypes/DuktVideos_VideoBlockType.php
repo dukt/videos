@@ -1,4 +1,5 @@
 <?php
+
 namespace Blocks;
 
 class DuktVideos_VideoBlockType extends BaseBlockType
@@ -15,7 +16,7 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	// --------------------------------------------------------------------
 
 	/**
-	 * Save it as datetime
+	 * Save it
 	 */
 	public function defineContentAttribute()
 	{
@@ -25,10 +26,19 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	// --------------------------------------------------------------------
 
 	/**
-	 * Show date field
+	 * Show field
 	 */
 	public function getInputHtml($name, $value)
-	{
+	{		
+		if(isset($value->url))
+		{
+			$value = $value->url;
+		}
+		else
+		{
+			$value = "";
+		}
+		
 		return blx()->templates->render('duktvideos/field', array(
 			'name'       => $name,
 			'videoValue'  => $value
@@ -36,7 +46,10 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	}
     
 	// --------------------------------------------------------------------
-	
+
+	/**
+	 * Prep value
+	 */
 	public function prepValue($video_url)
 	{		
 		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
@@ -47,11 +60,7 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 			'url' => $video_url,
 		);
 		
-		$embed_opts = array(
-			'width' => 500,
-			'height' => 282,
-			'autohide' => true
-		);
+		$embed_opts = array();
 		
 		$video = $dukt_videos->get_video($video_opts, $embed_opts);
 

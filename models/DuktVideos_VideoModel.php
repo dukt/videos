@@ -1,4 +1,5 @@
 <?php
+
 namespace Blocks;
 
 class DuktVideos_VideoModel extends BaseModel
@@ -19,9 +20,7 @@ class DuktVideos_VideoModel extends BaseModel
     public function defineAttributes()
     {
     	$attributes = array();
-    	
 
-		
 		foreach($this->services as $service)
 		{
 			foreach($service->model_options as $k => $v)
