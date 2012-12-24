@@ -35,11 +35,15 @@
 		    	
 		    	<td class="col-actions">		    		
 		    		<a class="btn small" href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a>
-
-					{% if service.is_authenticated() and service.enabled == 1 %}
-						<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
-					{% else %}
-						<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
+		    		
+		    		{% if service.is_authenticated() %}
+		    		
+						{% if service.enabled == 1 %}
+							<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
+						{% else %}
+							<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
+						{% endif %}
+						
 					{% endif %}
 		    	</td>
 		    </tr>
