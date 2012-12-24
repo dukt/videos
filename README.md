@@ -34,18 +34,18 @@ Display the video embed
 
 #### Parameters
 
-- width=
-- height=
-- default_size=
 - autoplay=
+- default_size=
+- height=
 - loop=
+- width=
 
 #### Vimeo Parameters
 
+- byline=
 - color=
 - portrait=
 - title=
-- byline=
 
 #### YouTube Parameters
 - autohide=
