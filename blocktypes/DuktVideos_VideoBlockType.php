@@ -51,10 +51,8 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	 * Prep value
 	 */
 	public function prepValue($video_url)
-	{		
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
-		
-		$dukt_videos = new \DuktVideos\Dukt_videos_app;
+	{
+		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 	
 		$video_opts = array(
 			'url' => $video_url,
@@ -62,19 +60,19 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 		
 		$embed_opts = array();
 		
-		$video = $dukt_videos->get_video($video_opts, $embed_opts);
+		$video = \DuktVideos\App::get_video($video_opts, $embed_opts);
 
 		$charset = blx()->templates->getTwig()->getCharset();
 		
 		$video['embed'] = new \Twig_Markup($video['embed'], $charset);
 		
-		$vid = new DuktVideos_VideoModel();
+		$video_object = new DuktVideos_VideoModel();
 		
 		foreach($video as $k => $v)
 		{
-			$vid->{$k} = $video[$k];	
+			$video_object->{$k} = $video[$k];	
 		}
 				
-		return $vid;
+		return $video_object;
 	}
 }

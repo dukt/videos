@@ -2,14 +2,13 @@
 
 namespace Blocks;
 
+require_once(DUKT_VIDEOS_PATH.'libraries/ajax_blocks.php');
+
 class DuktVideos_AjaxController extends BaseController
 {
     public function actionEndpoint()
-    {
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_videos_ajax.php');
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_ajax_blocks.php');
-		
-		$ajax = new \DuktVideos\Dukt_videos_ajax_blocks();
+    {		
+		$ajax = new \DuktVideos\Ajax_blocks();
 		
 		$method = $_POST['method'];
 		

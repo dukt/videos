@@ -2,30 +2,15 @@
 
 namespace Blocks;
 
+require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
+
 class DuktVideos_ConfigureController extends BaseController
-{
-	var $dukt_lib;
-	var $dukt_videos;
-	var $services;
-    
+{    
 	// --------------------------------------------------------------------
 	
 	public function __construct()
 	{
-		// load libs
-		
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');		
-
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_lib.php');
-		
-		$this->dukt_lib = new \DuktVideos\Dukt_lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$this->dukt_videos = new \DuktVideos\Dukt_videos_app;
-		
-		
-		// load services
-		
-		$this->services = $this->dukt_videos->get_services();
+		// Dukt Videos App
 	}
 	
 	// --------------------------------------------------------------------
@@ -53,6 +38,7 @@ class DuktVideos_ConfigureController extends BaseController
 	    }
 
 	    $this->connectService($service_key);
+	    
 	    
 	    // redirect
 
@@ -102,9 +88,21 @@ class DuktVideos_ConfigureController extends BaseController
     {	    
 	    $service_key = blx()->request->getSegment(5);
 	    
-	    $service = $this->services[$service_key];
+	    $services = \DuktVideos\App::get_services();
 	    
-	    $service->connect_callback($this->dukt_lib, $this->dukt_videos);
+	    $service = $services[$service_key];
+	    
+	    
+		// lib & app
+		
+		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
+		
+		$app = new \DuktVideos\App;
+		
+		
+		// service connect callback
+	    
+	    $service->connect_callback($lib, $app);
     }
     
 	// --------------------------------------------------------------------
@@ -113,13 +111,20 @@ class DuktVideos_ConfigureController extends BaseController
     {		
 		// get service from reloaded services
 		
-		$this->services = $this->dukt_videos->get_services();
+	    $services = \DuktVideos\App::get_services();
 		
-		$service = $this->services[$service_key];
+		$service = $services[$service_key];
+		
+		
+		// lib & app
+		
+		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
+		
+		$app = new \DuktVideos\App;
 		
 		
 		// connect
 		
-		$service->connect($this->dukt_lib, $this->dukt_videos);
+		$service->connect($lib, $app);
     }
 }

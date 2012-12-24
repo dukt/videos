@@ -12,27 +12,24 @@
  */
  
 namespace DuktVideos;
+
+require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/ajax.php');
+require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
  
-class Dukt_videos_ajax_blocks extends Dukt_videos_ajax {
+class Ajax_blocks extends Ajax {
 
 	public function __construct()
 	{
 		parent::__construct();
-		
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
-		
-		$this->dukt_videos = new Dukt_videos_app;
-		
-		$this->services = $this->dukt_videos->get_services();
 	}
 	
 	// --------------------------------------------------------------------
 	
 	public function field_preview()
 	{
-		$services = $this->services;
+		$services = \DuktVideos\App::get_services();;
 		
-		$video_page = $this->dukt_lib->input_post('video_page');
+		$video_page = $this->lib->input_post('video_page');
 		
 		$video_opts = array(
 			'url' => $video_page,
@@ -44,9 +41,9 @@ class Dukt_videos_ajax_blocks extends Dukt_videos_ajax {
 			'autohide' => true
 		);
 		
-		$vars['video'] = $this->dukt_videos->get_video($video_opts, $embed_opts);
+		$vars['video'] = \DuktVideos\App::get_video($video_opts, $embed_opts);
 
-		echo $this->dukt_lib->load_view('field/preview', $vars, true, 'expressionengine');
+		echo $this->lib->load_view('field/preview', $vars, true, 'expressionengine');
 		
 		exit;
 	}

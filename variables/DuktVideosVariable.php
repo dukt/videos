@@ -7,7 +7,7 @@ class DuktVideosVariable
     public function services($service = false)
     {
 		/*
-			require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
+			require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 			
 			$dukt_videos = new \DuktVideos\Dukt_videos_app;
 			
@@ -25,11 +25,11 @@ class DuktVideosVariable
 			'url' => $video_url,
 		);
 	    
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');
+		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 		
-		$dukt_videos = new \DuktVideos\Dukt_videos_app;
+		$app = new \DuktVideos\App;
 		
-		$video = $dukt_videos->get_video($video_opts);
+		$video = $app->get_video($video_opts);
 
 		$charset = blx()->templates->getTwig()->getCharset();
 

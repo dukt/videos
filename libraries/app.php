@@ -13,7 +13,7 @@
  
 namespace DuktVideos;
 
-class Dukt_videos_app {
+class App {
 
 	var $version = "1.0";
 
@@ -21,9 +21,9 @@ class Dukt_videos_app {
 	
 	function __construct()
 	{		
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_lib.php');
+		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
 		
-		$this->dukt_lib = new Dukt_lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
+		$this->lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
 	}
 	
 	// --------------------------------------------------------------------
@@ -41,12 +41,17 @@ class Dukt_videos_app {
 	
 	// --------------------------------------------------------------------
 	
-	public function get_services($api_mode = false)
-	{		
-		$services = array();
+	public static function get_services($api_mode = false)
+	{
+		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
 		
-		$this->dukt_lib->load_helper('directory');
-		$this->dukt_lib->load_library('dukt_video_service');
+		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
+		
+		$lib->load_helper('directory');
+		
+		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/service.php');
+		
+		$services = array();
 
 		$map = directory_map(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/services/', 1);
 
@@ -60,7 +65,7 @@ class Dukt_videos_app {
 			{			
 				include_once($service_class_file);
 				
-				$service_class = "Dukt_video_".$service_key;
+				$service_class = '\\DuktVideos\\'.ucwords($service_key);
 
 
 				$service_obj = new $service_class();
@@ -137,9 +142,11 @@ class Dukt_videos_app {
 	
 	// --------------------------------------------------------------------
 	
-	public function get_video($video_opts, $embed_opts=array())
+	public static function get_video($video_opts, $embed_opts=array())
 	{
-		$services = $this->get_services();
+        $fn = array('self', 'get_services');
+        
+		$services = call_user_func($fn);
 		
 		foreach($services as $service)
 		{

@@ -25,17 +25,15 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 
 	public function getServices($service = false)
 	{
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');		
+		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');		
 
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/dukt_lib.php');
+		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
 		
-		$dukt_lib = new \DuktVideos\Dukt_lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$dukt_videos = new \DuktVideos\Dukt_videos_app;
+		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
 		
 		$api_mode = true;
 		
-		$services = $dukt_videos->get_services($api_mode);
+		$services = \DuktVideos\App::get_services($api_mode);
 		
 		if($service)
 		{
@@ -45,8 +43,7 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 				{					
 					return $s;	
 				}
-			}
-		
+			}		
 		}
 		
 		return $services;

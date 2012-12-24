@@ -8,11 +8,9 @@ class DuktVideos_VideoModel extends BaseModel
 	
 	public function __construct()
 	{
-		require_once(DUKT_VIDEOS_PATH.'libraries/dukt_videos_app.php');		
+		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 		
-		$dukt_videos = new \DuktVideos\Dukt_videos_app;
-		
-		$this->services = $dukt_videos->get_services();
+		$this->services = \DuktVideos\App::get_services();
 	}
     
 	// --------------------------------------------------------------------
