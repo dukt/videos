@@ -39,7 +39,6 @@ class DuktVideos_VideoModel extends BaseModel
     	$video_id = $this->id;
     	
     	$embed = $service->get_embed($video_id, $embed_options);
-    	
 
 		$charset = blx()->templates->getTwig()->getCharset();
 		

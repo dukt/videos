@@ -171,10 +171,10 @@ class App {
 		foreach($services as $service)
 		{
 			$video = $service->get_video($video_opts, $embed_opts);
-			
-			if(isset($video['video_found']))
-			{
-				return $video;
+
+			if($video)
+			{		
+				return $video;	
 			}
 		}
 		

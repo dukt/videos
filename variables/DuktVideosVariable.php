@@ -29,7 +29,7 @@ class DuktVideosVariable
 		$app = new \DuktVideos\App;
 		
 		$video = $app->get_video($video_opts);
-
+		
 		$charset = blx()->templates->getTwig()->getCharset();
 
 		$video_object = new DuktVideos_VideoModel();
