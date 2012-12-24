@@ -32,7 +32,7 @@ class DuktVideos_VideoModel extends BaseModel
     
 	// --------------------------------------------------------------------
     
-    public function embed($embed_options)
+    public function embed($embed_options = array())
     {
     	$service = $this->services[$this->service_key];
     	
