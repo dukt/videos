@@ -10,7 +10,7 @@ class DuktVideosVariable
     {	
     	// for CP only
     	
-		if (!blx()->request->isCpRequest() 
+		if (!blx()->request->isCpRequest() )
 		{ 
 			return false; 
 		}
