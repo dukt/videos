@@ -33,6 +33,7 @@ class App {
 /* 		$this->EE->session->set_flashdata('message_failure', $msg); */
 	}
 	
+	// --------------------------------------------------------------------
 	
 	public function success($msg)
 	{
@@ -41,7 +42,26 @@ class App {
 	
 	// --------------------------------------------------------------------
 	
-	public static function get_services($api_mode = false)
+	public static function get_service($service_key=false)
+	{
+        $fn = array('self', 'get_services');
+        
+		$services = call_user_func($fn);
+		
+		if($service_key)
+		{
+			if(isset($services[$service_key]))
+			{
+				return $services[$service_key];
+			}
+		}
+		
+		return false;
+	}
+	
+	// --------------------------------------------------------------------
+	
+	public static function get_services()
 	{
 		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
 		

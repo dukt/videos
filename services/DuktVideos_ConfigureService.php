@@ -23,32 +23,6 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 	}
 */
 
-	public function getServices($service = false)
-	{
-		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');		
-
-		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
-		
-		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$api_mode = true;
-		
-		$services = \DuktVideos\App::get_services($api_mode);
-		
-		if($service)
-		{
-			foreach($services as $s)
-			{
-				if($s->service_key == $service)
-				{					
-					return $s;	
-				}
-			}		
-		}
-		
-		return $services;
-	}
-	
 	// --------------------------------------------------------------------
 	
 	function set_option($k, $v)

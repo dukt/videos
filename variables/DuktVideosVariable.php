@@ -2,19 +2,20 @@
 
 namespace Blocks;
 
+require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
+
 class DuktVideosVariable
 {
     public function services($service = false)
-    {
-		/*
-			require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
-			
-			$dukt_videos = new \DuktVideos\Dukt_videos_app;
-			
-			return $this->dukt_videos->get_service($service);
-		*/
-		
-        return blx()->duktVideos_configure->getServices($service);
+    {	
+		if($service)
+		{
+			return \DuktVideos\App::get_service($service);		
+		}
+		else
+		{
+			return \DuktVideos\App::get_services();
+		}
     }
     
 	// --------------------------------------------------------------------
@@ -24,8 +25,6 @@ class DuktVideosVariable
 		$video_opts = array(
 			'url' => $video_url,
 		);
-	    
-		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 		
 		$app = new \DuktVideos\App;
 		
