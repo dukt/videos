@@ -13,23 +13,20 @@ Retrieving video informations from your field is pretty easy. A video variable i
 
 ### Variables
 
-- id
-- url
-- date
-- plays
-- duration
 - author_name
-- author_link
+- author_url
+- author_username
+- date
+- description
+- duration
+- id
+- plays
+- service_key
+- service_name
 - thumbnail
 - thumbnail_large
-- embed
 - title
-- description
-
-- username
-- author
-- video_found
-
+- url
 
 ### embed()
 
