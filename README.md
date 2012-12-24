@@ -20,13 +20,14 @@ Retrieving video informations from your field is pretty easy. A video variable i
 - duration
 - author_name
 - author_link
-- username
-- author
 - thumbnail
 - thumbnail_large
 - embed
 - title
 - description
+
+- username
+- author
 - video_found
 
 
@@ -36,9 +37,33 @@ Display the video embed
 
 #### Parameters
 
-- width
-- height
-- autoplay
+- width=
+- height=
+- default_size=
+- autoplay=
+- loop=
+
+#### Vimeo Parameters
+
+- color=
+- portrait=
+- title=
+- byline=
+
+#### YouTube Parameters
+- autohide=
+- cc_load_policy=
+- color=
+- controls=
+- disablekb=
+- end=
+- fs=
+- iv_load_policy=
+- modestbranding=
+- rel=
+- showinfo=
+- start=
+- theme=
 
 #### Return
 
