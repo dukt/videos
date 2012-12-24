@@ -5,26 +5,7 @@ namespace Blocks;
 require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
 
 class DuktVideos_ConfigureService extends BaseApplicationComponent
-{
-
-/*
-	function get_option($k)
-	{
-		$option = DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $k));
-		
-		if($option)
-		{
-    		// insert
-    		
-    		return $option->option_value;
-		}
-		
-		return false;
-	}
-*/
-
-	// --------------------------------------------------------------------
-	
+{	
 	function set_option($k, $v)
 	{
 		$data = array(
