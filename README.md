@@ -2,9 +2,34 @@
 
 ## Installation
 
+### Plugin installation
+
 1. Move `duktvideos/` folder to `/blocks/plugins/`
-2. In the admin, go to the **Settings / Plugins** section and enable Dukt Videos plugin
-3. In the admin, go to the **Dukt Videos** section in order to configure YouTube & Vimeo
+2. In the admin, go to the **CP / Settings / Plugins** section and enable Dukt Videos plugin
+3. In the admin, go to the **CP / Dukt Videos** section in order to configure YouTube & Vimeo
+
+### Vimeo Configuration
+
+1. Create a new app in Vimeo Developer : [https://developer.vimeo.com/apps](https://developer.vimeo.com/apps)
+2. Copy paste client_id and client secret_values to **CP / Dukt Videos / Vimeo Configuration**
+
+### YouTube Configuration
+
+#### Get a client id & secret for OAuth authentication
+
+1. Create a new project in Google APIs : [https://code.google.com/apis/console/](https://code.google.com/apis/console/)
+2. Go to **Google APIs / Your Project / API Access** and click **Create an OAuth 2.0 client ID**
+3. Give a product name and click **Next**
+4. Your client should have the following settings :
+	- Application type : Web Application
+	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/duktvideos/configure/callback/youtube**
+	- Authorized Javascript Origins : **http://yourwebsite.com/**
+5. Copy paste client id and client secret values to **CP / Dukt Videos / YouTube Configuration**
+
+#### Create a Developer Key for YouTube requests
+
+1. Register a new Developer Key : https://code.google.com/apis/youtube/dashboard
+2. Copy paste Developer Key to ** CP / Dukt Videos / YouTube Configuration**
 
 ## Block Type
 
