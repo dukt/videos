@@ -61,10 +61,6 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 		$embed_opts = array();
 		
 		$video = \DuktVideos\App::get_video($video_opts, $embed_opts);
-
-		$charset = blx()->templates->getTwig()->getCharset();
-		
-		$video['embed'] = new \Twig_Markup($video['embed'], $charset);
 		
 		$video_object = new DuktVideos_VideoModel();
 		
