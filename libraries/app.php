@@ -11,11 +11,20 @@
  *
  */
  
+ 
 namespace DuktVideos;
 
-class App {
+interface iApp
+{
+    public static function get_service($service_key);
+    public static function get_services();
+    public static function get_video($video_opts, $embed_opts);
+	public function get_option($service, $k, $default);
+	public function set_option($service, $k, $v);
+	public function redirect($url);
+}
 
-	var $version = "1.0";
+class App implements iApp {
 
 	// --------------------------------------------------------------------
 	
@@ -27,21 +36,7 @@ class App {
 	}
 	
 	// --------------------------------------------------------------------
-	
-	public function problem($msg)
-	{
-/* 		$this->EE->session->set_flashdata('message_failure', $msg); */
-	}
-	
-	// --------------------------------------------------------------------
-	
-	public function success($msg)
-	{
-/* 		$this->EE->session->set_flashdata('message_success', $msg); */
-	}
-	
-	// --------------------------------------------------------------------
-	
+
 	public static function get_service($service_key=false)
 	{
         $fn = array('self', 'get_services');
@@ -58,6 +53,7 @@ class App {
 		
 		return false;
 	}
+	
 	
 	// --------------------------------------------------------------------
 	
@@ -225,6 +221,36 @@ class App {
     		\Blocks\blx()->db->createCommand()->update('duktvideos_options', $data, $where);
 		}
 	}
+
+	// --------------------------------------------------------------------
+	
+	public function redirect($url)
+	{
+    	\Blocks\BaseController::redirect($url);
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	// --------------------------------------------------------------------
+	
+	public function problem($msg)
+	{
+/* 		$this->EE->session->set_flashdata('message_failure', $msg); */
+	}
+	
+	// --------------------------------------------------------------------
+	
+	public function success($msg)
+	{
+/* 		$this->EE->session->set_flashdata('message_success', $msg); */
+	}
 	
 	// --------------------------------------------------------------------
 
@@ -238,13 +264,6 @@ class App {
 		}
 		
 		return $url;
-	}
-
-	// --------------------------------------------------------------------
-	
-	public function redirect($url)
-	{
-    	\Blocks\BaseController::redirect($url);
 	}
 	
 	// --------------------------------------------------------------------
