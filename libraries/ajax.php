@@ -35,14 +35,18 @@ class Ajax_blocks extends Ajax {
 			'url' => $video_page,
 		);
 		
-		$embed_opts = array(
+		$embed_options = array(
 			'width' => 500,
 			'height' => 282,
 			'autohide' => true
 		);
 		
-		$vars['video'] = \DuktVideos\App::get_video($video_opts, $embed_opts);
-
+		$vars['video'] = \DuktVideos\App::get_video($video_opts, $embed_options);
+		
+		$service = $services[$vars['video']['service_key']];
+		
+		$vars['embed'] = $service->get_embed($vars['video']['id'], $embed_options);
+    	
 		echo $this->lib->load_view('field/preview', $vars, true, 'expressionengine');
 		
 		exit;
