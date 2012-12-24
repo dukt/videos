@@ -23,7 +23,6 @@
 	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/duktvideos/configure/callback/youtube**
 	- Authorized Javascript Origins : **http://yourwebsite.com/**
 5. Copy paste client id and client secret values to **CP / Dukt Videos / YouTube Configuration**
-
 6. Register a new Developer Key : https://code.google.com/apis/youtube/dashboard
 7. Copy paste Developer Key to **CP / Dukt Videos / YouTube Configuration**
 
