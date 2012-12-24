@@ -8,6 +8,13 @@ class DuktVideosVariable
 {
     public function services($service = false)
     {	
+    	// for CP only
+    	
+		if (!blx()->request->isCpRequest() 
+		{ 
+			return false; 
+		}
+		
 		if($service)
 		{
 			return \DuktVideos\App::get_service($service);		
