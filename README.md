@@ -35,7 +35,7 @@ Display the video embed
 #### Parameters
 
 - autoplay=
-- default_size=
+- disable_size=
 - height=
 - loop=
 - width=
