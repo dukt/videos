@@ -2,7 +2,7 @@
 
 namespace Blocks;
 
-require_once(DUKT_VIDEOS_PATH.'libraries/ajax_blocks.php');
+require_once(DUKT_VIDEOS_PATH.'libraries/ajax.php');
 
 class DuktVideos_AjaxController extends BaseController
 {
