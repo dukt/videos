@@ -18,7 +18,7 @@ interface iApp
 {
     public static function get_service($service_key);
     public static function get_services();
-    public static function get_video($video_opts, $embed_opts);
+    public static function get_video($video_url);
 	public function get_option($service, $k, $default);
 	public function set_option($service, $k, $v);
 	public function redirect($url);
@@ -158,7 +158,7 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
-	public static function get_video($video_opts, $embed_opts=array())
+	public static function get_video($video_url)
 	{
         $fn = array('self', 'get_services');
         
@@ -166,7 +166,7 @@ class App implements iApp {
 		
 		foreach($services as $service)
 		{
-			$video = $service->get_video($video_opts, $embed_opts);
+			$video = $service->get_video($video_url);
 
 			if($video)
 			{		

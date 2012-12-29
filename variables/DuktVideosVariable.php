@@ -28,14 +28,10 @@ class DuktVideosVariable
 	// --------------------------------------------------------------------
     
     public function find($video_url)
-    {
-		$video_opts = array(
-			'url' => $video_url,
-		);
-		
+    {		
 		$app = new \DuktVideos\App;
 		
-		$video = $app->get_video($video_opts);
+		$video = $app->get_video($video_url);
 		
 		$charset = blx()->templates->getTwig()->getCharset();
 

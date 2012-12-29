@@ -53,14 +53,8 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 	public function prepValue($video_url)
 	{
 		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
-	
-		$video_opts = array(
-			'url' => $video_url,
-		);
-		
-		$embed_opts = array();
-		
-		$video = \DuktVideos\App::get_video($video_opts, $embed_opts);
+			
+		$video = \DuktVideos\App::get_video($video_url);
 		
 		$video_object = new DuktVideos_VideoModel();
 		
