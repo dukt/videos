@@ -8,7 +8,7 @@
  * @link		http://dukt.net/videos/
  *
  */
-.dukt-videos-wrapper {
+.dv-box {
   display: none;
   position: fixed;
   width: 860px;

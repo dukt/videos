@@ -1,6 +1,7 @@
 {% import "_includes/forms" as forms %}
 
 
+{% includeCssResource "duktvideos/universal/css/reset.css" %}
 {% includeCssResource "duktvideos/universal/css/box.css" %}
 {% includeCssResource "duktvideos/css/box.css" %}
 {% includeCssResource "duktvideos/css/field.css" %}
@@ -22,7 +23,7 @@
 
 
 
-<div class="dukt-videos-field">
+<div class="dv-field">
 	<div class="input">
 		{{ forms.text({
 			name: name,
@@ -31,9 +32,9 @@
 		}) }}
 	</div>
 
-	<div class="preview"></div>
+	<div class="dv-preview"></div>
 
-	<p class="controls">
+	<p class="dv-controls">
 		<a class="btn add icon small">Add Video</a>
 		<a class="btn change small"><span></span>Change Video</a>
 		<a class="btn remove small"><span></span>Remove Video</a>

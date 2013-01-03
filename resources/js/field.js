@@ -52,7 +52,7 @@
 				// init dukt videos box
 				
 				dukt_videos_box.box.init(function() {
-					if($('.dukt-videos-overlay').css('display') != 'none')
+					if($('.dv-overlay').css('display') != 'none')
 					{
 						dukt_videos_box.lightbox.show();
 					}
@@ -63,16 +63,16 @@
 
 		// cancel
 		
-		$('.dukt-videos-cancel').live('click', function() {
+		$('.dv-cancel').live('click', function() {
 			dukt_videos_box.lightbox.hide();
 		});
 		
 		
 		// submit
 		
-		$('.dukt-videos-submit').live('click', function() {
+		$('.dv-submit').live('click', function() {
 			var field = $.fn.dukt_videos_field.current_field;
-			var video_url = $('.dukt-videos-current').data('video-url');
+			var video_url = $('.dv-current').data('video-url');
 			
 			$('input', field).attr('value', video_url);
 			
@@ -93,7 +93,7 @@
 
 				if (cell.row.isNew)
 				{
-					var field = $('> .dukt-videos-field', cell.dom.$td);
+					var field = $('> .dv-field', cell.dom.$td);
 
 					$.fn.dukt_videos_field.init_field(field);
 				}
@@ -108,9 +108,9 @@
 
 		if(inputValue != "")
 		{
-			field.find('.preview').html('');
-			field.find('.preview').css('display', 'block');
-			field.find('.preview').addClass('videoplayer-field-preview-loading');
+			field.find('.dv-preview').html('');
+			field.find('.dv-preview').css('display', 'block');
+			field.find('.dv-preview').addClass('videoplayer-field-preview-loading');
 
 			video_page = inputValue;
 
@@ -128,8 +128,8 @@
 			  data : data,
 			  success: function(data)
 			  {
-		  		field.find('.preview').html(data);
-				field.find('.preview').removeClass('videoplayer-field-preview-loading');
+		  		field.find('.dv-preview').html(data);
+				field.find('.dv-preview').removeClass('dv-field-preview-loading');
 			  }
 			});
 
@@ -154,9 +154,9 @@
 			$.fn.dukt_videos_field.remove(field);
 		});
 	
-		$('.dukt-videos-field-embed-btn').live('click', function() {
-			$('.dukt-videos-overlay').css('display', 'block');
-			$('.dukt-videos-overlay').addClass('videoplayer-overlay-loading');
+		$('.dv-field-embed-btn').live('click', function() {
+			$('.dv-overlay').css('display', 'block');
+			$('.dv-overlay').addClass('dv-overlay-loading');
 	
 			data = {
 				'method': $(this).data('method'),
@@ -172,7 +172,7 @@
 	
 		  		$('body').append(data);
 	
-				$('.dukt-videos-overlay').removeClass('videoplayer-overlay-loading');
+				$('.dv-overlay').removeClass('dv-overlay-loading');
 				$.fn.dukt_videos_field.lightbox.resize();
 	
 			  }
@@ -188,11 +188,11 @@
 		field.find('.add').css('display', 'none');
 		field.find('.change').css('display', 'inline-block');
 		field.find('.remove').css('display', 'inline-block');
-		field.find('.preview').html('');
-		field.find('.preview').css('display', 'block');
-		field.find('.preview').addClass('videoplayer-field-preview-loading');
+		field.find('.dv-preview').html('');
+		field.find('.dv-preview').css('display', 'block');
+		field.find('.dv-preview').addClass('dv-field-preview-loading');
 	
-			video_page = $('.dukt-videos-preview').data('video-page');
+			video_page = $('.dv-preview').data('video-page');
 	
 		data = {
 			'method': 'field_preview',
@@ -210,8 +210,8 @@
 	
 			//console.log('after ajax');
 	
-	  		field.find('.preview').html(data);
-			field.find('.preview').removeClass('videoplayer-field-preview-loading');
+	  		field.find('.dv-preview').html(data);
+			field.find('.dv-preview').removeClass('dv-field-preview-loading');
 		  }
 		});
 	};
@@ -234,7 +234,7 @@
 		// video page
 		
 		var video_page = field.find('input').attr('value');
-		var current_service = $('.dukt-videos-services li.selected a.dukt-videos-service').data('service');
+		var current_service = $('.dv-services li.selected a.dv-service').data('service');
 		
 		// ajax browse to account
 		
@@ -246,11 +246,11 @@
 			autoplay: 0
 		}
 		
-		$('.dukt-videos-preview').data('video-page', video_page);
+		$('.dv-preview').data('video-page', video_page);
 		
 		
 		dukt_videos_box.browser.go(data, 'preview', function() {
-		$('.dukt-videos-controls').css('display', 'block');
+		$('.dv-controls').css('display', 'block');
 		});
 	};
 	
@@ -263,7 +263,7 @@
 		field.find('.add').css('display', 'inline-block');
 		field.find('.change').css('display', 'none');
 		field.find('.remove').css('display', 'none');
-		field.find('.preview').css('display', 'none');
+		field.find('.dv-preview').css('display', 'none');
 	};
 
 
@@ -278,7 +278,7 @@
 
 $().ready(function()
 {
-	$('.dukt-videos-field').dukt_videos_field();
+	$('.dv-field').dukt_videos_field();
 });
 
 /* End of file videoplayer.field.js */
