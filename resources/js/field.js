@@ -250,7 +250,7 @@
 		
 		
 		dukt_videos_box.browser.go(data, 'preview', function() {
-		$('.dv-controls').css('display', 'block');
+			$('.dv-controls').css('display', 'block');
 		});
 	};
 	
