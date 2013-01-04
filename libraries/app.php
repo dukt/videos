@@ -138,7 +138,31 @@ class App implements iApp {
 				
 				
 				// redirects urls
+				
+					// VIMEO
 
+						// oauth_redirect_uri
+						
+						// admin_redirect
+						// oauth_success_url
+						
+					// YouTube
+						
+						// oauth_redirect_uri
+						// service_configure_callback_url
+						// service_configure_url
+						
+						// success_redirect
+						
+						// (oauth_authorization_endpoint)
+						// (oauth_token_endpoint)
+					
+					// BOTH
+						
+						// redirect_url configure/callback/$service_key
+						// success_url configure/$service_key
+
+/*
 				$service_obj->admin_redirect = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 				$service_obj->oauth_success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
@@ -147,8 +171,30 @@ class App implements iApp {
 				$service_obj->service_configure_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 				$service_obj->service_configure_callback_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 				$service_obj->service_configure_save_service_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
-
+*/
 				
+				// Vimeo
+				
+/*
+				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->admin_redirect = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->oauth_success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+*/
+				$service_obj->redirect_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				
+				
+				// YouTube
+				
+				//$service_obj->save_service_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
+/*
+				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->service_configure_callback_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->service_configure_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->success_redirect = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
+*/
+				
+								
 				$services[$service_key] = $service_obj;	
 			}
 		}
