@@ -32,7 +32,7 @@
 	
 	$.fn.dukt_videos_field.init = function()
 	{
-		dukt.log('field.js : ', '$.fn.dukt_videos_field.init()');
+		dukt_log('field.js : ', '$.fn.dukt_videos_field.init()');
 		
 		// load box
 	

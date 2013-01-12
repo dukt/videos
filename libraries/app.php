@@ -35,6 +35,76 @@ class App implements iApp {
 		$this->lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
 	}
 	
+	/**
+	 * Userdata
+	 *
+	 * @access	public
+	 */
+	public static function userdata($k)
+	{
+		switch($k)
+		{
+			case "time_format":
+			return "fr";
+			break;
+		}
+/*
+		$EE =& get_instance();
+		return $EE->session->userdata[$k];
+*/
+	}
+	
+	// --------------------------------------------------------------------
+
+	/**
+	 * Lang Line
+	 *
+	 * @access	public
+	 */
+	public static function lang_line($k)
+	{
+		$current_language = self::current_language();
+
+		ob_start();
+
+		include(DUKT_VIDEOS_UNIVERSAL_PATH.'language/'.$current_language.'/dukt_videos_lang.php');
+		
+		$buffer = ob_get_contents();
+		
+		@ob_end_clean();
+		
+		if(isset($lang[$k]))
+		{
+			return $lang[$k];
+		}
+		else
+		{
+			return $k;
+		}
+		
+		
+		
+		//$EE =& get_instance();
+		
+		//return $EE->lang->line($k);
+	}
+	
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Current Language
+	 *
+	 * @access	public
+	 */
+	public static function current_language()
+	{
+		return "english";
+		// $EE =& get_instance();
+		
+		// return $EE->lang->user_lang;
+	}
+	
 	// --------------------------------------------------------------------
 
 	public static function get_service($service_key=false)
@@ -182,6 +252,7 @@ class App implements iApp {
 */
 				$service_obj->redirect_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 				$service_obj->success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->problem_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 				
 				
 				// YouTube

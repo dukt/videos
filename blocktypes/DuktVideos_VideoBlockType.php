@@ -58,11 +58,16 @@ class DuktVideos_VideoBlockType extends BaseBlockType
 		
 		$video_object = new DuktVideos_VideoModel();
 		
-		foreach($video as $k => $v)
+		if($video)
 		{
-			$video_object->{$k} = $video[$k];	
+			foreach($video as $k => $v)
+			{
+				$video_object->{$k} = $video[$k];	
+			}
+			
+			return $video_object;
 		}
-				
-		return $video_object;
+		
+		return false;
 	}
 }
