@@ -14,15 +14,11 @@
  
 namespace DuktVideos;
 
-interface iApp
-{
-    public static function get_service($service_key);
-    public static function get_services();
-    public static function get_video($video_url);
-	public function get_option($service, $k, $default);
-	public function set_option($service, $k, $v);
-	public function redirect($url);
-}
+require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/config.php');
+
+/* App Interface */
+
+require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'interfaces/app.php');
 
 class App implements iApp {
 
@@ -34,6 +30,7 @@ class App implements iApp {
 		
 		$this->lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
 	}
+	
 	
 	/**
 	 * Userdata
@@ -296,7 +293,7 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
-	public function get_option($service, $k, $default=false)
+	public static function get_option($service, $k, $default=false)
 	{
 		$option_name = $service."_".$k;
 		
@@ -312,7 +309,7 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
-	public function set_option($service, $k, $v)
+	public static function set_option($service, $k, $v)
 	{
 		$option_name = $service."_".$k;
 		
@@ -341,7 +338,7 @@ class App implements iApp {
 
 	// --------------------------------------------------------------------
 	
-	public function redirect($url)
+	public static function redirect($url)
 	{
     	\Blocks\BaseController::redirect($url);
 	}
@@ -349,10 +346,47 @@ class App implements iApp {
 	
 	
 	
+
+	/**
+	 * Get callback_url
+	 *
+	 * @access	public static
+	 */	
+	public static function callback_url($service_key)
+	{
+		return \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+	}
 	
 	
+	public static function cache_path()
+	{
+		return false;
+	}
 	
 	
+		
+	// --------------------------------------------------------------------
+
+	/**
+	 * Developer Log
+	 *
+	 * @access	public
+	 */
+	public static function developer_log($msg)
+	{
+		return false;
+		
+		$EE =& get_instance();
+		
+		$EE->load->library('logger');
+		
+		$debug = \DuktVideos\Config::item('debug');
+		
+		if($debug)
+		{
+			$EE->logger->developer("Dukt Videos : ".$msg, TRUE);	
+		}
+	}
 	
 	
 	// --------------------------------------------------------------------
