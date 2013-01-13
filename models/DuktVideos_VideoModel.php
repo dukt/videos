@@ -1,10 +1,23 @@
 <?php
 
+/**
+ * Dukt Videos
+ *
+ * @package		Dukt Videos
+ * @version		Version 1.0
+ * @author		Benjamin David
+ * @copyright	Copyright (c) 2013 - DUKT
+ * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
+ *
+ */
+ 
 namespace Blocks;
 
 class DuktVideos_VideoModel extends BaseModel
 {
 	var $services;
+	
+	// --------------------------------------------------------------------
 	
 	public function __construct()
 	{
@@ -15,6 +28,9 @@ class DuktVideos_VideoModel extends BaseModel
     
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Define Attributes
+	 */	
     public function defineAttributes()
     {
     	$attributes = array();
@@ -31,7 +47,10 @@ class DuktVideos_VideoModel extends BaseModel
     }
     
 	// --------------------------------------------------------------------
-    
+	
+	/**
+	 * Embed
+	 */	
     public function embed($embed_options = array())
     {
     	$service = $this->services[$this->service_key];

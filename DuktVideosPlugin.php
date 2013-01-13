@@ -1,8 +1,23 @@
 <?php
+
+/**
+ * Dukt Videos
+ *
+ * @package		Dukt Videos
+ * @version		Version 1.0
+ * @author		Benjamin David
+ * @copyright	Copyright (c) 2013 - DUKT
+ * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
+ *
+ */
+
 namespace Blocks;
 
 class DuktVideosPlugin extends BasePlugin
 {
+	/**
+	 * Get Name
+	 */
     function getName()
     {
         return Blocks::t('Dukt Videos');
@@ -10,6 +25,9 @@ class DuktVideosPlugin extends BasePlugin
     
 	// --------------------------------------------------------------------
 
+	/**
+	 * Get Version
+	 */
     function getVersion()
     {
         return '1.0';
@@ -17,6 +35,9 @@ class DuktVideosPlugin extends BasePlugin
     
 	// --------------------------------------------------------------------
 
+	/**
+	 * Get Developer
+	 */
     function getDeveloper()
     {
         return 'Dukt';
@@ -24,20 +45,29 @@ class DuktVideosPlugin extends BasePlugin
     
 	// --------------------------------------------------------------------
 
+	/**
+	 * Get Developer URL
+	 */
     function getDeveloperUrl()
     {
         return 'http://dukt.net/';
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Has CP Section
+	 */
     public function hasCpSection()
     {
         return true;
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Hook Register CP Routes
+	 */
     public function hookRegisterCpRoutes()
     {
         return array(

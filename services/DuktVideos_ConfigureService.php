@@ -1,11 +1,26 @@
 <?php
 
+
+/**
+ * Dukt Videos
+ *
+ * @package		Dukt Videos
+ * @version		Version 1.0
+ * @author		Benjamin David
+ * @copyright	Copyright (c) 2013 - DUKT
+ * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
+ *
+ */
+
 namespace Blocks;
 
 require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
 
 class DuktVideos_ConfigureService extends BaseApplicationComponent
 {	
+	/**
+	 * Set Option
+	 */
 	function set_option($k, $v)
 	{
 		$data = array(
@@ -36,6 +51,9 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Reset Service
+	 */
 	function reset_service($service_key)
 	{		
 		$condition = "option_name LIKE :match";

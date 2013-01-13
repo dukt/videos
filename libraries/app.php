@@ -4,13 +4,12 @@
  * Dukt Videos
  *
  * @package		Dukt Videos
- * @version		Version 1.0b1
+ * @version		Version 1.0
  * @author		Benjamin David
- * @copyright	Copyright (c) 2012 - DUKT
- * @link		http://dukt.net/videos/
+ * @copyright	Copyright (c) 2013 - DUKT
+ * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
  *
  */
- 
  
 namespace DuktVideos;
 
@@ -31,11 +30,10 @@ class App implements iApp {
 		$this->lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));
 	}
 	
+	// --------------------------------------------------------------------
 	
 	/**
-	 * Userdata
-	 *
-	 * @access	public
+	 * User Data
 	 */
 	public static function userdata($k)
 	{
@@ -45,10 +43,6 @@ class App implements iApp {
 			return "fr";
 			break;
 		}
-/*
-		$EE =& get_instance();
-		return $EE->session->userdata[$k];
-*/
 	}
 	
 	// --------------------------------------------------------------------
@@ -78,14 +72,7 @@ class App implements iApp {
 		{
 			return $k;
 		}
-		
-		
-		
-		//$EE =& get_instance();
-		
-		//return $EE->lang->line($k);
 	}
-	
 
 	// --------------------------------------------------------------------
 
@@ -97,13 +84,13 @@ class App implements iApp {
 	public static function current_language()
 	{
 		return "english";
-		// $EE =& get_instance();
-		
-		// return $EE->lang->user_lang;
 	}
 	
 	// --------------------------------------------------------------------
-
+	
+	/**
+	 * Get Service
+	 */
 	public static function get_service($service_key=false)
 	{
         $fn = array('self', 'get_services');
@@ -121,9 +108,11 @@ class App implements iApp {
 		return false;
 	}
 	
-	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Get Services
+	 */
 	public static function get_services()
 	{
 		require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/lib.php');
@@ -203,65 +192,9 @@ class App implements iApp {
 					}
 				}
 				
-				
-				// redirects urls
-				
-					// VIMEO
-
-						// oauth_redirect_uri
-						
-						// admin_redirect
-						// oauth_success_url
-						
-					// YouTube
-						
-						// oauth_redirect_uri
-						// service_configure_callback_url
-						// service_configure_url
-						
-						// success_redirect
-						
-						// (oauth_authorization_endpoint)
-						// (oauth_token_endpoint)
-					
-					// BOTH
-						
-						// redirect_url configure/callback/$service_key
-						// success_url configure/$service_key
-
-/*
-				$service_obj->admin_redirect = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->oauth_success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->success_redirect = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
-				
-				$service_obj->service_configure_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->service_configure_callback_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->service_configure_save_service_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
-*/
-				
-				// Vimeo
-				
-/*
-				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->admin_redirect = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->oauth_success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-*/
 				$service_obj->redirect_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 				$service_obj->success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 				$service_obj->problem_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				
-				
-				// YouTube
-				
-				//$service_obj->save_service_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
-/*
-				$service_obj->oauth_redirect_uri = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->service_configure_callback_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->service_configure_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->success_redirect = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/saveService/'.$service_key);
-*/
-				
 								
 				$services[$service_key] = $service_obj;	
 			}
@@ -272,6 +205,9 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Get Video
+	 */
 	public static function get_video($video_url)
 	{
         $fn = array('self', 'get_services');
@@ -293,6 +229,9 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Get Option
+	 */
 	public static function get_option($service, $k, $default=false)
 	{
 		$option_name = $service."_".$k;
@@ -309,6 +248,9 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Set Option
+	 */	
 	public static function set_option($service, $k, $v)
 	{
 		$option_name = $service."_".$k;
@@ -338,14 +280,15 @@ class App implements iApp {
 
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Redirect
+	 */
 	public static function redirect($url)
 	{
     	\Blocks\BaseController::redirect($url);
 	}
 	
-	
-	
-	
+	// --------------------------------------------------------------------
 
 	/**
 	 * Get callback_url
@@ -357,14 +300,16 @@ class App implements iApp {
 		return \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 	}
 	
+	// --------------------------------------------------------------------
 	
+	/**
+	 * Cache Path
+	 */
 	public static function cache_path()
 	{
 		return false;
 	}
 	
-	
-		
 	// --------------------------------------------------------------------
 
 	/**
@@ -376,6 +321,7 @@ class App implements iApp {
 	{
 		return false;
 		
+		/*
 		$EE =& get_instance();
 		
 		$EE->load->library('logger');
@@ -386,11 +332,14 @@ class App implements iApp {
 		{
 			$EE->logger->developer("Dukt Videos : ".$msg, TRUE);	
 		}
+		*/
 	}
-	
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Problem
+	 */
 	public function problem($msg)
 	{
 		\Blocks\blx()->userSession->setError($msg);
@@ -398,154 +347,12 @@ class App implements iApp {
 	
 	// --------------------------------------------------------------------
 	
+	/**
+	 * Success
+	 */
 	public function success($msg)
 	{
 		\Blocks\blx()->userSession->setNotice($msg);
-	}
-	
-	// --------------------------------------------------------------------
-
-	public function cp_link($more = false)
-	{
-		$url = BASE.AMP.'C=addons_modules'.AMP.'M=show_module_cp'.AMP.'module=dukt_videos';
-		
-		if($more)
-		{
-			$url .= AMP.$more;
-		}
-		
-		return $url;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert JS code
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	void
-	 */
-	public function insert_js($str)
-	{
-		$this->EE->cp->add_to_head('<script type="text/javascript">' . $str . '</script>');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert JS file
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	void
-	 */
-	public function insert_js_file($file)
-	{
-		$this->EE->cp->add_to_head('<script charset="utf-8" type="text/javascript" src="'.$this->_theme_url().$file.'?'.$this->version.'"></script>');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Insert CSS file
-	 *
-	 * @access	public
-	 * @param	string
-	 * @return	void
-	 */
-	public function insert_css_file($file)
-	{
-		$this->EE->cp->add_to_head('<link rel="stylesheet" type="text/css" href="'.$this->_theme_url().$file.'?'.$this->version.'" />');
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Load heading files once (load_head_files)
-	 *
-	 * @access	private
-	 * @return	void
-	 */
-	public function include_resources()
-	{
-		$js = "	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-				Dukt_videos.ajax_endpoint = '".$this->endpoint_url()."';
-				Dukt_videos.site_id = '".$this->EE->config->item('site_id')."';
-			";
-
-		$this->insert_js($js);
-
-		$this->insert_css_file('universal/css/box.css');
-		$this->insert_css_file('expressionengine/css/box.css');
-		$this->insert_css_file('expressionengine/css/field.css');
-
-		$this->insert_js_file('universal/js/jquery.easing.1.3.js');
-		$this->insert_js_file('universal/js/spin.min.js');
-		$this->insert_js_file('universal/js/box.js');
-		
-		$this->insert_js_file('expressionengine/js/field.js');
-	}
-
-	// --------------------------------------------------------------------
-	
-	/**
-	 * Theme URL
-	 *
-	 * @access	private
-	 * @return	string
-	 */
-	public function _theme_url()
-	{
-		$url = $this->EE->config->item('theme_folder_url')."third_party/dukt_videos/";
-		return $url;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * Endpoint base URL for frontend & cp
-	 *
-	 * @access	public
-	 * @return	void
-	 */
-	function endpoint_url()
-	{
-		$site_url = $this->EE->functions->fetch_site_index(0, 0);
-
-		if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on')
-		{
-			$site_url = str_replace('http://', 'https://', $site_url);
-		}
-
-		$action_id = $this->fetch_action_id('Dukt_videos', 'ajax');
-
-		$url = $site_url.QUERY_MARKER.'ACT='.$action_id;
-
-		return $url;
-	}
-	
-	// --------------------------------------------------------------------
-
-	/**
-	 * A copy of the standard fetch_action_id method that was unavailable from here
-	 *
-	 * @access	private
-	 * @return	void
-	 */
-	private function fetch_action_id($class, $method)
-	{
-		$this->EE->db->select('action_id');
-		$this->EE->db->where('class', $class);
-		$this->EE->db->where('method', $method);
-		$query = $this->EE->db->get('actions');
-
-		if ($query->num_rows() == 0)
-		{
-			return FALSE;
-		}
-
-		return $query->row('action_id');
 	}
 }
 

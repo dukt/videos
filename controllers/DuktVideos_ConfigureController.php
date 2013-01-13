@@ -1,20 +1,25 @@
 <?php
 
+/**
+ * Dukt Videos
+ *
+ * @package		Dukt Videos
+ * @version		Version 1.0
+ * @author		Benjamin David
+ * @copyright	Copyright (c) 2013 - DUKT
+ * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
+ *
+ */
+
 namespace Blocks;
 
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideos_ConfigureController extends BaseController
-{    
-	// --------------------------------------------------------------------
-	
-	public function __construct()
-	{
-		// Dukt Videos App
-	}
-	
-	// --------------------------------------------------------------------
-	
+{
+	/**
+	 * Action Save Service
+	 */	
     public function actionSaveService()
     {
     	// save options
@@ -46,7 +51,10 @@ class DuktVideos_ConfigureController extends BaseController
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Action Enable Service
+	 */
     public function actionEnableService()
     {
 	    $service_key = blx()->request->getSegment(5);
@@ -59,7 +67,10 @@ class DuktVideos_ConfigureController extends BaseController
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Action Disable Service
+	 */
     public function actionDisableService()
     {
 	    $service_key = blx()->request->getSegment(5);
@@ -72,7 +83,10 @@ class DuktVideos_ConfigureController extends BaseController
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Action Reset Service
+	 */
     public function actionResetService()
     {
 		$service_key = $_POST['service'];
@@ -83,7 +97,10 @@ class DuktVideos_ConfigureController extends BaseController
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Action Callback
+	 */
     public function actionCallback()
     {	    
 	    $service_key = blx()->request->getSegment(5);
@@ -106,7 +123,10 @@ class DuktVideos_ConfigureController extends BaseController
     }
     
 	// --------------------------------------------------------------------
-    
+
+	/**
+	 * Connect Service
+	 */
     private function connectService($service_key)
     {		
 		// get service from reloaded services
