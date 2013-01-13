@@ -8,6 +8,12 @@
  * @link		http://dukt.net/videos/
  *
  */
+.dv-overlay {
+  background: #fff;
+  -moz-opacity: 0.70;
+  opacity: .70;
+  filter: alpha(opacity=70);
+}
 div.dv-box {
   display: none;
   position: fixed;
@@ -16,6 +22,8 @@ div.dv-box {
   top: 0;
   left: 0;
   z-index: 9999999;
+  -webkit-box-shadow: 0px 0px 10px 0px #eee;
+  box-shadow: 0px 0px 10px 0px #eee;
 }
 div.dv-box div.dv-box-in div.dv-col div.dv-top {
   background: #ffffff;
@@ -41,8 +49,6 @@ div.dv-box div.dv-box-in div.dv-col div.dv-top {
 
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dbdbdb', GradientType=0);
   /* IE6-9 */
-
-  /* 				border-bottom: 1px solid #aaa; */
 
 }
 div.dv-box div.dv-box-in div.dv-col div.dv-bottom {
