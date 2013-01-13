@@ -8,7 +8,7 @@
  * @link		http://dukt.net/videos/
  *
  */
-.dv-box {
+div.dv-box {
   display: none;
   position: fixed;
   width: 860px;
@@ -16,4 +16,125 @@
   top: 0;
   left: 0;
   z-index: 9999999;
+}
+div.dv-box div.dv-box-in div.dv-col div.dv-top {
+  background: #ffffff;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(top, #ffffff 0%, #dbdbdb 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #ffffff), color-stop(100%, #dbdbdb));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, #ffffff 0%, #dbdbdb 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, #ffffff 0%, #dbdbdb 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(top, #ffffff 0%, #dbdbdb 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to bottom, #ffffff 0%, #dbdbdb 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#dbdbdb', GradientType=0);
+  /* IE6-9 */
+
+  /* 				border-bottom: 1px solid #aaa; */
+
+}
+div.dv-box div.dv-box-in div.dv-col div.dv-bottom {
+  background: #e5e5e5;
+  /* Old browsers */
+
+  background: -moz-linear-gradient(top, #e5e5e5 0%, #c4c4c4 100%);
+  /* FF3.6+ */
+
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e5e5e5), color-stop(100%, #c4c4c4));
+  /* Chrome,Safari4+ */
+
+  background: -webkit-linear-gradient(top, #e5e5e5 0%, #c4c4c4 100%);
+  /* Chrome10+,Safari5.1+ */
+
+  background: -o-linear-gradient(top, #e5e5e5 0%, #c4c4c4 100%);
+  /* Opera 11.10+ */
+
+  background: -ms-linear-gradient(top, #e5e5e5 0%, #c4c4c4 100%);
+  /* IE10+ */
+
+  background: linear-gradient(to bottom, #e5e5e5 0%, #c4c4c4 100%);
+  /* W3C */
+
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e5e5e5', endColorstr='#c4c4c4', GradientType=0);
+  /* IE6-9 */
+
+}
+div.dv-box div.dv-box-in div.dv-col.dv-listings .dv-top .dv-title {
+  color: #666;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-listings div.dv-videos {
+  background: #fafafa;
+  border-right: 1px solid #ccc;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-listings div.dv-videos ul li {
+  background-image: -o-linear-gradient(-90deg, #ffffff 0%, #fafafa 100%);
+  background-image: -moz-linear-gradient(-90deg, #ffffff 0%, #fafafa 100%);
+  background-image: -webkit-linear-gradient(-90deg, #ffffff 0%, #fafafa 100%);
+  background-image: -ms-linear-gradient(-90deg, #ffffff 0%, #fafafa 100%);
+  background-image: linear-gradient(-90deg, #ffffff 0%, #fafafa 100%);
+  border-bottom: 1px solid #ccc;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-listings div.dv-videos ul li.selected {
+  background-image: -o-linear-gradient(90deg, #f8fbfe 0%, #d2e8f5 100%);
+  background-image: -moz-linear-gradient(90deg, #f8fbfe 0%, #d2e8f5 100%);
+  background-image: -webkit-linear-gradient(90deg, #f8fbfe 0%, #d2e8f5 100%);
+  background-image: -ms-linear-gradient(90deg, #f8fbfe 0%, #d2e8f5 100%);
+  background-image: linear-gradient(90deg, #f8fbfe 0%, #d2e8f5 100%);
+  border-top: 1px solid #D2E8F5;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-listings div.dv-videos ul li div.dv-videos-thumb {
+  border-color: #999;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview {
+  background: #333;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-preview-inject div.dv-preview-description {
+  background: #fafafa;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .dv-controls a.dv-btn {
+  background: #1B97E4;
+  font-weight: bold;
+  border: 1px solid #1780C2;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  background-image: -o-linear-gradient(-90deg, #2f86d9 0%, #2b7bc8 100%);
+  background-image: -moz-linear-gradient(-90deg, #2f86d9 0%, #2b7bc8 100%);
+  background-image: -webkit-linear-gradient(-90deg, #2f86d9 0%, #2b7bc8 100%);
+  background-image: -ms-linear-gradient(-90deg, #2f86d9 0%, #2b7bc8 100%);
+  background-image: linear-gradient(-90deg, #2f86d9 0%, #2b7bc8 100%);
+  border: 1px solid #205991;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .dv-controls a.dv-btn:hover {
+  background-image: -o-linear-gradient(-90deg, #4b93d0 0%, #2b7bc8 100%);
+  background-image: -moz-linear-gradient(-90deg, #4b93d0 0%, #2b7bc8 100%);
+  background-image: -webkit-linear-gradient(-90deg, #4b93d0 0%, #2b7bc8 100%);
+  background-image: -ms-linear-gradient(-90deg, #4b93d0 0%, #2b7bc8 100%);
+  background-image: linear-gradient(-90deg, #4b93d0 0%, #2b7bc8 100%);
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .dv-controls a.dv-btn.dv-cancel {
+  background-image: -o-linear-gradient(-90deg, #ffffff 0%, #c6c6c6 100%);
+  background-image: -moz-linear-gradient(-90deg, #ffffff 0%, #c6c6c6 100%);
+  background-image: -webkit-linear-gradient(-90deg, #ffffff 0%, #c6c6c6 100%);
+  background-image: -ms-linear-gradient(-90deg, #ffffff 0%, #c6c6c6 100%);
+  background-image: linear-gradient(-90deg, #ffffff 0%, #c6c6c6 100%);
+  border: 1px solid #767676;
+}
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .dv-controls a.dv-btn.dv-cancel:hover {
+  background-image: -o-linear-gradient(-90deg, #ffffff 0%, #d6d7d6 100%);
+  background-image: -moz-linear-gradient(-90deg, #ffffff 0%, #d6d7d6 100%);
+  background-image: -webkit-linear-gradient(-90deg, #ffffff 0%, #d6d7d6 100%);
+  background-image: -ms-linear-gradient(-90deg, #ffffff 0%, #d6d7d6 100%);
+  background-image: linear-gradient(-90deg, #ffffff 0%, #d6d7d6 100%);
 }
