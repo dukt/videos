@@ -393,14 +393,14 @@ class App implements iApp {
 	
 	public function problem($msg)
 	{
-/* 		$this->EE->session->set_flashdata('message_failure', $msg); */
+		\Blocks\blx()->userSession->setError($msg);
 	}
 	
 	// --------------------------------------------------------------------
 	
 	public function success($msg)
 	{
-/* 		$this->EE->session->set_flashdata('message_success', $msg); */
+		\Blocks\blx()->userSession->setNotice($msg);
 	}
 	
 	// --------------------------------------------------------------------

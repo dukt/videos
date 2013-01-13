@@ -26,7 +26,7 @@ class DuktVideos_VideoModel extends BaseModel
 				$attributes[$k] = AttributeType::String;
 			}
 		}
-    
+		
         return $attributes;
     }
     

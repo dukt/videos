@@ -6,27 +6,10 @@ require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideosVariable
 {
-    public function services($service = false)
-    {	
-    	// for CP only
-    	
-		if (!blx()->request->isCpRequest() )
-		{ 
-			return false; 
-		}
-		
-		if($service)
-		{
-			return \DuktVideos\App::get_service($service);		
-		}
-		else
-		{
-			return \DuktVideos\App::get_services();
-		}
-    }
-    
-	// --------------------------------------------------------------------
-    
+  	/*
+  	* Find a video
+  	*
+  	*/
     public function find($video_url)
     {		
 		$app = new \DuktVideos\App;
@@ -43,5 +26,28 @@ class DuktVideosVariable
 		}
 
 		return $video_object;
+    }
+    
+    // --------------------------------------------------------------------
+    
+  	/*
+  	* Services (CP only)
+  	*
+  	*/
+    public function services($service = false)
+    {	    	
+		if (!blx()->request->isCpRequest() )
+		{ 
+			return false; 
+		}
+		
+		if($service)
+		{
+			return \DuktVideos\App::get_service($service);		
+		}
+		else
+		{
+			return \DuktVideos\App::get_services();
+		}
     }
 }
