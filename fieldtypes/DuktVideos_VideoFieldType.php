@@ -13,7 +13,7 @@
 
 namespace Blocks;
 
-class DuktVideos_VideoBlockType extends BaseBlockType
+class DuktVideos_VideoFieldType extends BaseFieldType
 {
 	
 	/**
