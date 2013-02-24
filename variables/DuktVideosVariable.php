@@ -13,6 +13,7 @@
  
 namespace Blocks;
 
+require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideosVariable

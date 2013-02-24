@@ -13,6 +13,7 @@
 
 namespace Blocks;
 
+require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/ajax.php');
 
 class DuktVideos_AjaxController extends BaseController
@@ -24,7 +25,7 @@ class DuktVideos_AjaxController extends BaseController
     {		
 		$ajax = new \DuktVideos\Ajax_blocks();
 		
-		$method = $_POST['method'];
+		$method = blx()->request->getParam('method');
 		
 		if($method)
 		{

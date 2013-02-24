@@ -13,6 +13,8 @@
 
 namespace Blocks;
 
+require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
+
 class DuktVideos_VideoFieldType extends BaseFieldType
 {
 	
