@@ -8,6 +8,7 @@
  * @link		http://dukt.net/videos/
  *
  */
+console.log('hello field.js');
 
 (function($) {
 
@@ -63,18 +64,18 @@
 
 		// cancel
 		
-		$('.dv-cancel').live('click', function() {
+		$('.dv-cancel').on('click', function() {
 			dukt_videos_box.lightbox.hide();
 		});
 		
 		
 		// submit
 		
-		$('.dv-submit').live('click', function() {
+		$('.dv-submit').on('click', function() {
 			var field = $.fn.dukt_videos_field.current_field;
 			var video_url = $('.dv-current').data('video-url');
 			
-			$('input', field).attr('value', video_url);
+			$('input', field).val(video_url);
 			
 			dukt_videos_box.lightbox.hide();
 			
@@ -104,7 +105,9 @@
 	
 	$.fn.dukt_videos_field.init_field = function(field)
 	{
-		inputValue = $('input', field).attr('value');
+		inputValue = $('input', field).val();
+
+		//console.log('$.fn.dukt_videos_field.init_field = function(field) : ', $('input', field).val());
 
 		if(inputValue != "")
 		{
@@ -120,7 +123,7 @@
 				'site_id': Dukt_videos.site_id
 			};
 
-			$('input[type="hidden"]', field).attr('value', video_page);
+			$('input[type="hidden"]', field).val(video_page);
 
 			$.ajax({
 			  url: Dukt_videos.ajax_endpoint,
@@ -154,7 +157,7 @@
 			$.fn.dukt_videos_field.remove(field);
 		});
 	
-		$('.dv-field-embed-btn').live('click', function() {
+		$('.dv-field-embed-btn').on('click', function() {
 			$('.dv-overlay').css('display', 'block');
 			$('.dv-overlay').addClass('dv-overlay-loading');
 	
@@ -200,7 +203,7 @@
 			'site_id': Dukt_videos.site_id
 		};
 	
-			$('input[type="hidden"]', field).attr('value', video_page);
+			$('input[type="hidden"]', field).val(video_page);
 	
 		$.ajax({
 		  url: Dukt_videos.ajax_endpoint,
@@ -233,7 +236,7 @@
 		
 		// video page
 		
-		var video_page = field.find('input').attr('value');
+		var video_page = field.find('input').val();
 		var current_service = $('.dv-services li.selected a.dv-service').data('service');
 		
 		// ajax browse to account
@@ -258,7 +261,7 @@
 	{
 		dukt_videos_box.lightbox.hide();
 		
-		field.find('input').attr('value', '');
+		field.find('input').val('');
 		
 		field.find('.add').css('display', 'inline-block');
 		field.find('.change').css('display', 'none');
@@ -278,6 +281,7 @@
 
 $().ready(function()
 {
+	console.log('Videos field on this page : ', $('.dv-field').length);
 	$('.dv-field').dukt_videos_field();
 });
 

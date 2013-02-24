@@ -30,7 +30,9 @@ class Ajax_blocks extends Ajax {
 	 */
 	public function field_preview()
 	{
-		$services = \DuktVideos\App::get_services();;
+		$vars['embed'] = false;
+		
+		$services = \DuktVideos\App::get_services();
 		
 		$video_url = $this->lib->input_post('video_page');
 		
@@ -47,11 +49,14 @@ class Ajax_blocks extends Ajax {
 			'height' => 282,
 			'autohide' => true
 		);
-		
-		$service = $services[$vars['video']['service_key']];
-		
-		$vars['embed'] = $service->get_embed($vars['video']['id'], $embed_options);
-    	
+
+		if($vars['video'])
+		{
+			$service = $services[$vars['video']['service_key']];
+			
+			$vars['embed'] = $service->get_embed($vars['video']['id'], $embed_options);
+    	}
+
 		echo $this->lib->load_view('field/preview', $vars, true, 'expressionengine');
 		
 		exit;

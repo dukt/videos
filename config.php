@@ -27,7 +27,7 @@ $config['version'] = DUKT_VIDEOS_VERSION;
 /* ------ Edit below this line only ------ */
 
 $config['cache_ttl'] = 60 * 60 * 24;
-$config['debug'] = false;
+$config['debug'] = true;
 
 /* End of file config.php */
 /* Location: ./system/expressionengine/third_party/dukt_videos/config.php */
