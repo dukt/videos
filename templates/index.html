@@ -4,12 +4,9 @@
 
 {% set title = "Dukt Videos"|t %}
 
-{% set header %}
-    <h1>{{ title }}</h1>
-{% endset %}
-
 {% set content %}
 
+	
 	<table class="data">
 	
 		<thead>
@@ -19,8 +16,10 @@
 				<th class="col-actions">Actions</th>
 			</tr>
 		</thead>
-		
-		{% for service in blx.duktVideos.services() %}
+
+
+
+		{% for service in craft.duktVideos.services() %}
 		    <tr>
 		    	<th>{{ service.service_name }}</th>
 		    	<td class="col">

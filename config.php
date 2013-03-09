@@ -17,7 +17,7 @@ if (! defined('DUKT_VIDEOS_NAME'))
 {
 	define('DUKT_VIDEOS_NAME', 'Dukt Videos');
 	define('DUKT_VIDEOS_VERSION',  '1.0');
-	define('DUKT_VIDEOS_PATH',  BLOCKS_PLUGINS_PATH.'duktvideos/');
+	define('DUKT_VIDEOS_PATH',  CRAFT_PLUGINS_PATH.'duktvideos/');
 	define('DUKT_VIDEOS_UNIVERSAL_PATH',  DUKT_VIDEOS_PATH.'third_party/dukt-videos-universal/');
 }
 

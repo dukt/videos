@@ -9,7 +9,7 @@
 
 {% set js %}
 	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-	Dukt_videos.ajax_endpoint = Blocks.getActionUrl('duktvideos/ajax/endpoint');
+	Dukt_videos.ajax_endpoint = Craft.getActionUrl('duktvideos/ajax/endpoint');
 	Dukt_videos.site_id = '1';
 {% endset %}
 

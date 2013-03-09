@@ -12,9 +12,9 @@
  *
  */
 
-namespace Blocks;
+namespace Craft;
 
-require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
+require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 
 class DuktVideos_ConfigureService extends BaseApplicationComponent
 {	
@@ -37,7 +37,7 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 		{
     		// insert
     		
-    		blx()->db->createCommand()->insert('duktvideos_options', $data);
+    		craft()->db->createCommand()->insert('duktvideos_options', $data);
 		}
 		else
 		{
@@ -45,7 +45,7 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
     		
     		$where = array('option_name' => $k);
 
-    		blx()->db->createCommand()->update('duktvideos_options', $data, $where);
+    		craft()->db->createCommand()->update('duktvideos_options', $data, $where);
 		}
 	}
 	

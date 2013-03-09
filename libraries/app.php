@@ -151,7 +151,7 @@ class App implements iApp {
 
 				$params = array(':option_name' => $service_key.'_'.$option_name);
 
-				$db_option = \Blocks\DuktVideos_OptionRecord::model()->find($condition, $params);	
+				$db_option = \Craft\DuktVideos_OptionRecord::model()->find($condition, $params);	
 							
 				if($db_option)
 				{
@@ -167,7 +167,7 @@ class App implements iApp {
 
 					$params = array(':option_name' => $service_key.'_'.$option_name);
 
-					$db_option = \Blocks\DuktVideos_OptionRecord::model()->find($condition, $params);
+					$db_option = \Craft\DuktVideos_OptionRecord::model()->find($condition, $params);
 				
 					if($db_option)
 					{
@@ -184,7 +184,7 @@ class App implements iApp {
 
 					$params = array(':option_name' => $service_key.'_'.$option_name);
 
-					$db_option = \Blocks\DuktVideos_OptionRecord::model()->find($condition, $params);
+					$db_option = \Craft\DuktVideos_OptionRecord::model()->find($condition, $params);
 				
 					if($db_option)
 					{
@@ -192,9 +192,9 @@ class App implements iApp {
 					}
 				}
 				
-				$service_obj->redirect_url = \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->success_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->problem_url = \Blocks\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->redirect_url = \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+				$service_obj->success_url = \Craft\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->problem_url = \Craft\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
 								
 				$services[$service_key] = $service_obj;	
 			}
@@ -236,7 +236,7 @@ class App implements iApp {
 	{
 		$option_name = $service."_".$k;
 		
-		$option = \Blocks\DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
+		$option = \Craft\DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
 		
 		if($option)
 		{
@@ -260,13 +260,13 @@ class App implements iApp {
 			'option_value' => $v
 		);
 
-		$option = \Blocks\DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
+		$option = \Craft\DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $option_name));
 		
 		if(!$option)
 		{
     		// insert
     		
-    		\Blocks\blx()->db->createCommand()->insert('duktvideos_options', $data);
+    		\Craft\craft()->db->createCommand()->insert('duktvideos_options', $data);
 		}
 		else
 		{
@@ -274,7 +274,7 @@ class App implements iApp {
     		
     		$where = array('option_name' => $option_name);
 
-    		\Blocks\blx()->db->createCommand()->update('duktvideos_options', $data, $where);
+    		\Craft\craft()->db->createCommand()->update('duktvideos_options', $data, $where);
 		}
 	}
 
@@ -285,7 +285,7 @@ class App implements iApp {
 	 */
 	public static function redirect($url)
 	{
-    	\Blocks\BaseController::redirect($url);
+    	\Craft\BaseController::redirect($url);
 	}
 	
 	// --------------------------------------------------------------------
@@ -297,7 +297,7 @@ class App implements iApp {
 	 */	
 	public static function callback_url($service_key)
 	{
-		return \Blocks\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+		return \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
 	}
 	
 	// --------------------------------------------------------------------
@@ -342,7 +342,7 @@ class App implements iApp {
 	 */
 	public function problem($msg)
 	{
-		\Blocks\blx()->userSession->setError($msg);
+		\Craft\craft()->userSession->setError($msg);
 	}
 	
 	// --------------------------------------------------------------------
@@ -352,7 +352,7 @@ class App implements iApp {
 	 */
 	public function success($msg)
 	{
-		\Blocks\blx()->userSession->setNotice($msg);
+		\Craft\craft()->userSession->setNotice($msg);
 	}
 }
 

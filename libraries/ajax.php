@@ -1,4 +1,4 @@
-<?
+<?php
 
 /**
  * Dukt Videos

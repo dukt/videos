@@ -11,7 +11,7 @@
  *
  */
  
-namespace Blocks;
+namespace Craft;
 
 class DuktVideos_VideoModel extends BaseModel
 {
@@ -59,7 +59,7 @@ class DuktVideos_VideoModel extends BaseModel
     	
     	$embed = $service->get_embed($video_id, $embed_options);
 
-		$charset = blx()->templates->getTwig()->getCharset();
+		$charset = craft()->templates->getTwig()->getCharset();
 		
 		$embed = new \Twig_Markup($embed, $charset);
     	

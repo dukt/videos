@@ -11,9 +11,9 @@
  *
  */
  
-namespace Blocks;
+namespace Craft;
 
-require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
+require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideosVariable
@@ -22,13 +22,14 @@ class DuktVideosVariable
   	* Find a video
   	*
   	*/
+
     public function find($video_url)
     {		
 		$app = new \DuktVideos\App;
 		
 		$video = $app->get_video($video_url);
 		
-		$charset = blx()->templates->getTwig()->getCharset();
+		$charset = craft()->templates->getTwig()->getCharset();
 
 		$video_object = new DuktVideos_VideoModel();
 		
@@ -39,6 +40,10 @@ class DuktVideosVariable
 
 		return $video_object;
     }
+
+    public function aze() {
+    	return craft()->duktVideos->aze();
+    }
     
     // --------------------------------------------------------------------
     
@@ -48,7 +53,7 @@ class DuktVideosVariable
   	*/
     public function services($service = false)
     {	    	
-		if (!blx()->request->isCpRequest() )
+		if (!craft()->request->isCpRequest() )
 		{ 
 			return false; 
 		}

@@ -11,9 +11,9 @@
  *
  */
 
-namespace Blocks;
+namespace Craft;
 
-require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
+require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 
 class DuktVideos_VideoFieldType extends BaseFieldType
 {
@@ -23,7 +23,8 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	 */
 	public function getName()
 	{
-		return Blocks::t('Dukt Videos');
+		
+		return Craft::t('Dukt Videos');
 	}
     
 	// --------------------------------------------------------------------
@@ -52,7 +53,7 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 			$value = "";
 		}
 		
-		return blx()->templates->render('duktvideos/field', array(
+		return craft()->templates->render('duktvideos/field', array(
 			'name'       => $name,
 			'videoValue'  => $value
 		));

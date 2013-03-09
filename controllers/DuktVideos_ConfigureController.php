@@ -11,9 +11,9 @@
  *
  */
 
-namespace Blocks;
+namespace Craft;
 
-require_once(BLOCKS_PLUGINS_PATH."duktvideos/config.php");
+require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideos_ConfigureController extends BaseController
@@ -29,14 +29,14 @@ class DuktVideos_ConfigureController extends BaseController
 	    {
 	    	foreach($_POST['options'] as $k => $v)
 	    	{
-	    		blx()->duktVideos_configure->set_option($k, $v);
+	    		craft()->duktVideos_configure->set_option($k, $v);
 	    	}
 	    }
 	    
 	    
 	    // try to connect
 	    
-	    $service_key = blx()->request->getSegment(5);
+	    $service_key = craft()->request->getSegment(5);
 	    
 	    if(!$service_key)
 	    {
@@ -58,11 +58,11 @@ class DuktVideos_ConfigureController extends BaseController
 	 */
     public function actionEnableService()
     {
-	    $service_key = blx()->request->getSegment(5);
+	    $service_key = craft()->request->getSegment(5);
 	    
 	    $option_key = $service_key."_enabled";
 	    
-		blx()->duktVideos_configure->set_option($option_key, 1);
+		craft()->duktVideos_configure->set_option($option_key, 1);
 
 		$this->redirect('duktvideos'); 
     }
@@ -74,11 +74,11 @@ class DuktVideos_ConfigureController extends BaseController
 	 */
     public function actionDisableService()
     {
-	    $service_key = blx()->request->getSegment(5);
+	    $service_key = craft()->request->getSegment(5);
 	    
 	    $option_key = $service_key."_enabled";
 	    
-		blx()->duktVideos_configure->set_option($option_key, 0);
+		craft()->duktVideos_configure->set_option($option_key, 0);
 
 		$this->redirect('duktvideos'); 
     }
@@ -92,7 +92,7 @@ class DuktVideos_ConfigureController extends BaseController
     {
 		$service_key = $_POST['service'];
 		
-		blx()->duktVideos_configure->reset_service($service_key);
+		craft()->duktVideos_configure->reset_service($service_key);
 
 		$this->redirect($_POST['redirect']); 
     }
@@ -104,7 +104,7 @@ class DuktVideos_ConfigureController extends BaseController
 	 */
     public function actionCallback()
     {	    
-	    $service_key = blx()->request->getSegment(5);
+	    $service_key = craft()->request->getSegment(5);
 	    
 	    $services = \DuktVideos\App::get_services();
 	    

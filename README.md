@@ -100,7 +100,7 @@ Display the video embed
 	</ul>
 
 
-## blx.duktvideos
+## craft.duktvideos
 
 If you just want to retrieve video informations from a custom video url in your templates, here is what to do :
 
@@ -120,7 +120,7 @@ Retrieve a video from its URL.
 
 	{% set embed_params = { width: 300, height: 200 } %}
 
-	{% set video = blx.duktvideos.find('http://youtu.be/14pRmb5LAhU') %}
+	{% set video = craft.duktvideos.find('http://youtu.be/14pRmb5LAhU') %}
 	
 	<ul>
 		<li>title : {{ video.title }}</li>

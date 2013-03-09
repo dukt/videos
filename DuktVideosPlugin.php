@@ -11,7 +11,7 @@
  *
  */
 
-namespace Blocks;
+namespace Craft;
 
 class DuktVideosPlugin extends BasePlugin
 {
@@ -20,7 +20,7 @@ class DuktVideosPlugin extends BasePlugin
 	 */
     function getName()
     {
-        return Blocks::t('Dukt Videos');
+        return Craft::t('Dukt Videos');
     }
     
 	// --------------------------------------------------------------------

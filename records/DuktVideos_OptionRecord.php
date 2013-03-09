@@ -11,7 +11,7 @@
  *
  */
 
-namespace Blocks;
+namespace Craft;
 
 class DuktVideos_OptionRecord extends BaseRecord
 {
