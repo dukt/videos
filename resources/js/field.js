@@ -64,14 +64,16 @@ console.log('hello field.js');
 
 		// cancel
 		
-		$('.dv-cancel').on('click', function() {
+		$('body').on('click', '.dv-cancel', function(e) {
 			dukt_videos_box.lightbox.hide();
+
+			e.preventDefault();
 		});
 		
 		
 		// submit
 		
-		$('.dv-submit').on('click', function() {
+		$('body').on('click', '.dv-submit', function() {
 			var field = $.fn.dukt_videos_field.current_field;
 			var video_url = $('.dv-current').data('video-url');
 			
@@ -157,7 +159,7 @@ console.log('hello field.js');
 			$.fn.dukt_videos_field.remove(field);
 		});
 	
-		$('.dv-field-embed-btn').on('click', function() {
+		$('body').on('click', '.dv-field-embed-btn', function() {
 			$('.dv-overlay').css('display', 'block');
 			$('.dv-overlay').addClass('dv-overlay-loading');
 	
