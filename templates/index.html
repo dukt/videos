@@ -1,52 +1,54 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
-{% includeCssResource "duktvideos/css/mcp.css" %}
 
-{% set title = "Dukt Videos"|t %}
+
+{% set js %}
+	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
+	Dukt_videos.pagination_per_page = {{craft.duktVideos.pagination_per_page}};
+{% endset %}
+
+{% includeJs js %}
+
+{% includeCssResource "duktvideos/css/mcp.css" %}
+{% includeCssResource "duktvideos/css/angular.css" %}
+
+{% includeJsResource "duktvideos/google/jsapi.js" %}
+{% includeJsResource "duktvideos/js/player.js" %}
+
+{% includeJsResource "duktvideos/js/angular.js" %}
+
+
+
+{% includeJsResource "duktvideos/angular/src/angular.js" %}
+{% includeJsResource "duktvideos/angular/js/app.js" %}
+{% includeJsResource "duktvideos/angular/js/controllers.js" %}
+{% set title = "Videos"|t %}
+
+
+{% set extraPageHeaderHtml %}
+	<a class="btn settings icon" href="{{ url('duktvideos/settings') }}" title="{{ 'Settings'|t }}"></a>
+{% endset %}
+
 
 {% set content %}
+	<div ng-controller="ServicesListCtrl" class="dv-controller">
+	 	
+	 	<div ng-view>Loading Angular...</div>	
+	</div>
 
-	
-	<table class="data">
-	
-		<thead>
-			<tr>
-				<th>Service</th>
-				<th class="col-status">Status</th>
-				<th class="col-actions">Actions</th>
-			</tr>
-		</thead>
+	<div id="player">
+		<div id="videoDiv">Loading...</div>
+
+		<div id="videoInfo">
+	        <p>Player state: <span id="playerState">--</span></p>
+	        <p>Current Time: <span id="videoCurrentTime">--:--</span> | Duration: <span id="videoDuration">--:--</span></p>
+	        <p>
+	        	Bytes Total: <span id="bytesTotal">--</span> | 
+	        	Start Bytes: <span id="startBytes">--</span> | 
+	        	Bytes Loaded: <span id="bytesLoaded">--</span>
+	        </p>
+	     </div>
+	</div>
 
 
-
-		{% for service in craft.duktVideos.services() %}
-		    <tr>
-		    	<th>{{ service.service_name }}</th>
-		    	<td class="col">
-					{% if service.is_authenticated() and service.enabled == 1 %}
-						<div class="status on"></div>
-						Enabled
-					{% else %}
-						<div class="status off"></div>
-						Disabled
-					{% endif %}
-		    	</td>
-		    	
-		    	<td class="col-actions">		    		
-		    		<a class="btn small" href="{{ url('duktvideos/configure') }}/{{ service.service_key }}">Configure</a>
-		    		
-		    		{% if service.is_authenticated() %}
-		    		
-						{% if service.enabled == 1 %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
-						{% else %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
-						{% endif %}
-						
-					{% endif %}
-		    	</td>
-		    </tr>
-		{% endfor %}
-
-	</table>
 {% endset %}

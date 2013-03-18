@@ -15,6 +15,7 @@ namespace Craft;
 
 require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/ajax.php');
+require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/ajax-angular.php');
 
 class DuktVideos_AjaxController extends BaseController
 {
@@ -30,6 +31,22 @@ class DuktVideos_AjaxController extends BaseController
 		if($method)
 		{
 			$ajax->{$method}();
+		}
+    }
+
+	/**
+	 * Action Endpoint
+	 */
+    public function actionAngular()
+    {		
+		$ajax = new \DuktVideos\AjaxAngular();
+		
+		$method = craft()->request->getParam('method');
+		
+		if($method)
+		{
+			$array = ($ajax->{$method}());
+			$this->returnJson($array);
 		}
     }
 }

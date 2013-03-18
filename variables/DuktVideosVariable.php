@@ -13,7 +13,7 @@
  
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
+require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 class DuktVideosVariable
@@ -22,6 +22,13 @@ class DuktVideosVariable
   	* Find a video
   	*
   	*/
+
+  	public function __construct()
+  	{
+  		require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
+
+  		$this->pagination_per_page = $config['pagination_per_page'];
+  	}
 
     public function find($video_url)
     {		
