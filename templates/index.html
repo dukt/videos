@@ -31,9 +31,17 @@
 
 
 {% set content %}
+
 	<div ng-controller="ServicesListCtrl" class="dv-controller">
 	 	
-	 	<div ng-view>Loading Angular...</div>	
+		<div class="dv-box">
+
+			<div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/sidebar.html') }}'"></div>
+			<div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/main.html') }}'"></div>
+
+			<div class="clear"></div>
+		</div>
+
 	</div>
 
 	<div id="player">

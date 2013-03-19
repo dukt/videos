@@ -1,0 +1,26 @@
+<div class="dv-sidebar">				
+	{{selectServiceKey}}
+	<div class="select">
+		
+		<select ng-model="serviceKey" ng-change="serviceChange()" class="fieldtoggle" ng-options="serviceI as service.service_name for (serviceI,service) in services">
+
+        </select>
+
+	</div>
+
+	<ul>
+		<li><a href="#/{{serviceKey}}/search" ng-class="getClass('search')">Explore</a></li>
+		<li><a href="#/{{serviceKey}}/myvideos" ng-class="getClass('myvideos')">My Uploads</a></li>
+		<li><a href="#/{{serviceKey}}/favorites" ng-class="getClass('favorites')">Favorites</a></li>
+		<li>
+			<a href="#/{{serviceKey}}/playlists" ng-class="getClass('playlists')">Playlists</a>
+
+			<ul>
+				<li ng-repeat="playlist in currentService.playlists">
+					<a href="#/{{serviceKey}}/playlist/{{playlist.id}}/">{{playlist.title}}</a>
+				</li>
+			</ul>
+		</li>
+	</ul>
+	
+</div>

@@ -31,7 +31,7 @@
   position: relative;
 }
 .dv-box .dv-sidebar {
-  width: 300px;
+  width: 200px;
   float: left;
   padding-bottom: 1em;
 }
@@ -74,7 +74,7 @@
   height: 200px;
 }
 .dv-box .dv-main {
-  margin-left: 320px;
+  margin-left: 220px;
 }
 .dv-box .dv-main .toolbar {
   margin-right: 30px;

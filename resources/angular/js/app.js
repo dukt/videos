@@ -18,35 +18,25 @@ var duktvideos = angular.module('duktvideos', []).
 
 duktvideos.run(function($rootScope, $http, $location, $q) {
 
+    $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
+        success(function(data, status, headers, config) {
 
+            $rootScope.services = data;
 
+            $.each(data, function(k, el) {
+                $rootScope.serviceKey = k;
+                return false;
+            });
 
-  
-  $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
-    success(function(data, status, headers, config) {
+            if($location.path() == "/" || $location.path() == "")
+            {
+                $location.path($rootScope.serviceKey+"/search");   
+            }
 
-
-      $rootScope.services = data;
-      
-
-      $.each(data, function(k, el) {
-        $rootScope.serviceKey = k;
-        return false;
-      });
-
-      $rootScope.currentService = $rootScope.services[$rootScope.serviceKey];
-
-      console.log('####', $rootScope.currentService);
-
-      if($location.path() == "/")
-      {
-        $location.path($rootScope.serviceKey+"/search");   
-      }
-
-    }).
-    error(function(data, status, headers, config) {
-      console.log('error', data, status, headers, config);
-    });
+        }).
+        error(function(data, status, headers, config) {
+          console.log('error', data, status, headers, config);
+        });
 
 });
 
@@ -55,21 +45,3 @@ duktvideos.run(function($rootScope, $http, $location, $q) {
 duktvideos.factory("DuktVideosService",function($rootScope){
         return { searchQuery: "", currentService: false, services: false};
 });
-
-console.log('duktvideos', duktvideos);
-
-
-
-
-
-  // var duktvideos = angular.module('duktvideos', []);
-  
-  // duktvideos.run(function($rootScope) {
-  //    $rootScope.btnVal = 'You can change my value'; 
-  // });
-  
-  // myApp.controller('myCtrl', function($scope, $rootScope) {
-  //   $scope.changeValue = function() {
-  //     $rootScope.btnVal = $scope.input || 'You can change my value';
-  //   };
-  // }); 
