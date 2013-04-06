@@ -10,10 +10,16 @@
 
 	<ul>
 		<!-- <li><a href="#/{{serviceKey}}/search" ng-class="getClass('search')">Explore</a></li> -->
-		<li><a href="#/{{serviceKey}}/uploads" ng-class="getClass('uploads')">Uploads</a></li>
-		<li><a href="#/{{serviceKey}}/favorites" ng-class="getClass('favorites')">Favorites</a></li>
 		<li>
-			<a href="#/{{serviceKey}}/playlists" ng-class="getClass('playlists')">Playlists</a>
+			<h3>Library</h3>
+
+			<ul>
+				<li><a href="#/{{serviceKey}}/uploads" ng-class="getClass('uploads')">Uploads</a></li>
+				<li><a href="#/{{serviceKey}}/favorites" ng-class="getClass('favorites')">Favorites</a></li>
+			</ul>
+		</li>
+		<li>
+			<h3>Playlists</h3>
 
 			<ul>
 				<li ng-repeat="playlist in currentService.playlists">

@@ -34,13 +34,29 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
     $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
         success(function(data, status, headers, config) {
-
-            $rootScope.services = data;
+          
+            
 
             $.each(data, function(k, el) {
                 $rootScope.serviceKey = el.name;
-                return false;
+                data[k].playlists = [{title:"Test", id:"1"}];
+
+                // get playlists for this service
+                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'playlists', service:el.name})}).
+                    success(function(data2, status2, headers2, config2) {
+                        console.log('playlists success', DuktVideosService);
+                        DuktVideosService.services[k].playlists = data2;
+                    }).
+                    error(function(data2, status2, headers2, config2) {
+                        console.log('error', data2, status2, headers2, config2);
+                    });
             });
+
+            $rootScope.services = data;
+            DuktVideosService.services = data;
+
+            DuktVideosService.currentService = $rootScope.services[$rootScope.serviceKey]; 
+            $rootScope.currentService = DuktVideosService.currentService;
 
             if($location.path() == "/" || $location.path() == "")
             {
@@ -58,20 +74,16 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
         error(function(data, status, headers, config) {
           console.log('error', data, status, headers, config);
         });
-    // --------------------------------------------------------------------
-
-    // // default current service
-
-    // if(typeof($rootScope.services) != "undefined")
-    // {
-    //     $rootScope.currentService = $rootScope.services[$rootScope.serviceKey]; 
-    // }
 
     // --------------------------------------------------------------------
 
     $rootScope.serviceChange = function()
     {
+        
+
         $location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
+
+
     }
 
     // --------------------------------------------------------------------

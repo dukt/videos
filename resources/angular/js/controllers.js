@@ -10,7 +10,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			$rootScope.serviceKey = $scope.serviceKey = $routeParams.serviceKey;
 			$rootScope.methodName = $routeParams.methodName; 
 
-			DuktVideosService.currentService = $rootScope.serviceKey;
+			DuktVideosService.currentService = DuktVideosService.services[$rootScope.serviceKey];
 			DuktVideosService.currentMethod = $rootScope.methodName;
 			
 		});
@@ -24,6 +24,10 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	if(DuktVideosService.currentService && DuktVideosService.currentMethod)
 	{
+		console.log('make a request', DuktVideosService);
+		
+		$rootScope.currentService = DuktVideosService.currentService;
+
 		if(DuktVideosService.currentMethod == "search")
 		{
 			$rootScope.search(true);
@@ -32,7 +36,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		var opts = {
 			method:DuktVideosService.currentMethod,
-			service:DuktVideosService.currentService,
+			service:DuktVideosService.currentService.name,
 			page:1,
 			perPage:Dukt_videos.pagination_per_page
 		};
@@ -113,7 +117,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		var opts = {
 			method:DuktVideosService.currentMethod,
-			service:DuktVideosService.currentService,
+			service:DuktVideosService.currentService.name,
 			searchQuery: DuktVideosService.searchQuery,
 			page:page,
 			perPage:perPage

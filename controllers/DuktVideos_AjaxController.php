@@ -43,6 +43,23 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($services);
     }
 
+    public function playlists()
+    {
+        try {
+            $service = $this->getService();
+
+            $params = array();
+
+        
+            $playlists = $service->playlists($params);
+        } catch(\Exception $e)
+        {
+            $playlists = $e->getMessage();
+        }
+
+        $this->returnJson($playlists);
+    }
+
     public function embed()
     {
         $videoUrl = craft()->request->getParam('videoUrl');
