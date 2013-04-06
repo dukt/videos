@@ -16,60 +16,20 @@ var duktvideos = angular.module('duktvideos', []).
 }]);
 
 
+// Dukt Videos Service
+
+duktvideos.factory("DuktVideosService",function($rootScope){
+        return { searchQuery: "", currentService: false, currentMethod: false, services: false};
+});
+
+// Dukt Videos App
+
 duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
 
-    // --------------------------------------------------------------------
-
-    // default current service
-
-    if(typeof($rootScope.services) != "undefined")
-    {
-        $rootScope.currentService = $rootScope.services[$rootScope.serviceKey]; 
-    }
-
-    // videos equals s$rootScope.{service_key}_videos
-    //$rootScope.videos = eval("$rootScope."+$rootScope.serviceKey+"_videos");
 
     // --------------------------------------------------------------------
-
-    $rootScope.serviceChange = function()
-    {
-        $location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
-    }
-
-    // --------------------------------------------------------------------
-
-    $rootScope.getClass = function(path)
-    {
-        var pat = new RegExp("\/.*\/"+path);
-        var match = $location.path().match(pat);
-
-        if (match)
-        {
-            return "active";
-        }
-        else
-        {
-            return "";
-        }
-    };
-
-    // search field
-
-    var searchTimer = false;
-
-    $rootScope.search = function(force)
-    {
-        if(typeof(this.searchQuery) != "undefined")
-        {
-            DuktVideosService.searchQuery = this.searchQuery;
-        }
-
-        search();
-    }
-
-
+    
     // get services
 
     $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
@@ -98,7 +58,56 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
         error(function(data, status, headers, config) {
           console.log('error', data, status, headers, config);
         });
+    // --------------------------------------------------------------------
 
+    // // default current service
+
+    // if(typeof($rootScope.services) != "undefined")
+    // {
+    //     $rootScope.currentService = $rootScope.services[$rootScope.serviceKey]; 
+    // }
+
+    // --------------------------------------------------------------------
+
+    $rootScope.serviceChange = function()
+    {
+        $location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
+    }
+
+    // --------------------------------------------------------------------
+
+    $rootScope.getClass = function(path)
+    {
+        var pat = new RegExp("\/.*\/"+path);
+        var match = $location.path().match(pat);
+
+        if (match)
+        {
+            return "active";
+        }
+        else
+        {
+            return "";
+        }
+    };
+
+    // --------------------------------------------------------------------
+
+    // search field
+
+    var searchTimer = false;
+
+    $rootScope.search = function(force)
+    {
+        if(typeof(this.searchQuery) != "undefined")
+        {
+            DuktVideosService.searchQuery = this.searchQuery;
+        }
+
+        search();
+    }
+
+    // --------------------------------------------------------------------
 
     // search function
 
@@ -169,11 +178,6 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
         }
     }
-});
 
-
-// Dukt Videos Service
-
-duktvideos.factory("DuktVideosService",function($rootScope){
-        return { searchQuery: "", currentService: false, currentMethod: false, services: false};
+    // --------------------------------------------------------------------
 });

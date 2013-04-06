@@ -7,9 +7,6 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	if(!once)
 	{
 		$rootScope.$on('$routeChangeSuccess', function(scope, newRoute){
-		    
-		    
-
 			$rootScope.serviceKey = $scope.serviceKey = $routeParams.serviceKey;
 			$rootScope.methodName = $routeParams.methodName; 
 
@@ -20,7 +17,6 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		once = true;
 	}
-
 
 	// --------------------------------------------------------------------
 
@@ -65,6 +61,8 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	// --------------------------------------------------------------------
 
+	// play a video
+
 	$scope.play = function(video)
 	{
 		$('#player').css('visibility', 'visible');
@@ -89,24 +87,30 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	// --------------------------------------------------------------------
 
+	// is video selected
+
 	$scope.isSelected = function(video) {
 	    return $scope.selected === video;
 	}
 
 	// --------------------------------------------------------------------
 
+	// more videos
+
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
-		console.log('offset', offset);
+		
 		$('.dv-video-more').css('display', 'none');
 
 		perPage = Dukt_videos.pagination_per_page;
 		page = Math.floor(offset / perPage) + 1;
 
+		console.log('offset', offset);
 		console.log('page', page);
 		console.log('perPage', perPage);
 		console.log('--', DuktVideosService.currentService);
+
 		var opts = {
 			method:DuktVideosService.currentMethod,
 			service:DuktVideosService.currentService,

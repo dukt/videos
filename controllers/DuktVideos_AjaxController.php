@@ -75,14 +75,20 @@ class DuktVideos_AjaxController extends BaseController
 
     public function myvideos()
     {
-        $service = $this->getService();
+        try {
+            $service = $this->getService();
 
-        $params = array(
-                'page' => craft()->request->getParam('page'),
-                'perPage' => craft()->request->getParam('perPage')
-            );
+            $params = array(
+                    'page' => craft()->request->getParam('page'),
+                    'perPage' => craft()->request->getParam('perPage')
+                );
 
-        $videos = $service->uploads($params);
+        
+            $videos = $service->uploads($params);
+        } catch(\Exception $e)
+        {
+            $videos = $e->getMessage();
+        }
 
         $this->returnJson($videos);
     }
@@ -116,10 +122,12 @@ class DuktVideos_AjaxController extends BaseController
         
         $parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
         $parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+        $parameters['developerKey'] = craft()->duktVideos_configure->get_option($serviceKey."_developerKey");
 
         $provider = \OAuth\OAuth::provider($serviceKey, array(
             'id' => $parameters['id'],
             'secret' => $parameters['secret'],
+            'developerKey' => $parameters['developerKey'],
             'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
         ));
 
