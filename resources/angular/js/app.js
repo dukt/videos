@@ -44,7 +44,7 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
             if($location.path() == "/" || $location.path() == "")
             {
-                $location.path($rootScope.serviceKey+"/myvideos");   
+                $location.path($rootScope.serviceKey+"/uploads");   
             }
 
             $('.search input').keypress(function(e) {

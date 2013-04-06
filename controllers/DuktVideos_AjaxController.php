@@ -73,7 +73,7 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($videos);
     }
 
-    public function myvideos()
+    public function uploads()
     {
         try {
             $service = $this->getService();
