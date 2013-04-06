@@ -32,7 +32,7 @@ class DuktVideos_OptionRecord extends BaseRecord
     {
         return array(
             'option_name' => AttributeType::String,
-            'option_value' => AttributeType::String,
+            'option_value' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
     }
 }

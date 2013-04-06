@@ -16,6 +16,8 @@ namespace Craft;
 require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
+require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+
 class DuktVideosVariable
 {
   	/*
@@ -53,25 +55,18 @@ class DuktVideosVariable
     }
     
     // --------------------------------------------------------------------
-    
+    public function getOption($k)
+    {
+        $option = craft()->duktVideos_configure->get_option($k);
+
+        return $option;
+    }
   	/*
   	* Services (CP only)
   	*
   	*/
     public function services($service = false)
     {	    	
-		if (!craft()->request->isCpRequest() )
-		{ 
-			return false; 
-		}
-		
-		if($service)
-		{
-			return \DuktVideos\App::get_service($service);		
-		}
-		else
-		{
-			return \DuktVideos\App::get_services();
-		}
+        return craft()->duktVideos_ajax->services($service);
     }
 }

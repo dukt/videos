@@ -21,6 +21,13 @@
 	</div>
 		
 
+		
+		<ul class="dv-videos">
+			<li ng-repeat="video in videos" ng-class="{active: isSelected(video)}">
+				<a ng-click="play(video)"><div><img ng-src="{{video.thumbnailLarge}}"></div></a>
+			</li>
+		</ul>
+
 
 	<div ng-view>Loading Angular...</div>	
 

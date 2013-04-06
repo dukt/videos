@@ -1,20 +1,52 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 {% includeCssResource "support/css/default.css" %}
-{% set service = craft.duktVideos.services( servicekey ) %}
+{% set service = craft.duktVideos.services( serviceClassName ) %}
 
-{% set title = "Dukt Videos"|t %}
+{% set title = "Configure "~service.name|t %}
 
-{% set header %}
-    <h1>Configure {{ service.service_name }}</h1>
-
-	<ul class="left">
-		<li><a class="backbtn" href="{{ url('duktvideos') }}">{{ title }}</a></li>
-	</ul>
-{% endset %}
+{% set crumbs = [
+    { label: "Videos"|t, url: url('duktvideos') },
+    { label: "Settings"|t, url: url('duktvideos/settings') },
+] %}
 
 {% set content %}
-	{% if service.is_authenticated() %}
+
+
+
+	<form method="post" action="" accept-charset="UTF-8">
+		<input type="hidden" name="action" value="duktvideos/configure/saveService" />
+		<input type="hidden" name="redirect" value="duktvideos/settings/{{service.name}}" />
+		<input type="hidden" name="service" value="{{service.name}}" />
+		
+
+		{% for key, value in service.getDefaultParameters() %}
+
+			<div class="field">
+				<div class="heading">
+					<label>{{ key }}</label>				
+				</div>
+				
+				<div class="input">
+					<input class="text fullwidth" {% if key == "token" %}{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.getOption(service.name~"_"~key)}}" />
+				</div>
+			</div>
+		{% endfor %}
+		
+		<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~service.name|t }}">  &nbsp; 
+		
+		{% if craft.duktVideos.getOption(service.name~"_token") == "" %}
+		
+		{% else %}
+			<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
+			<input class="btn" name="reset" type="submit" value="{{ 'Reset Token'|t }}"> &nbsp; 
+		{% endif %}
+			<a class="btn" href="{{actionUrl('duktvideos/configure/test/'~service.name)}}">Test</a>
+	</form>
+
+	
+
+	{#% if service.is_authenticated() %}
 		<form method="post" action="" accept-charset="UTF-8">
 			<input type="hidden" name="action" value="duktvideos/configure/resetService" />
 			<input type="hidden" name="redirect" value="duktvideos/configure/{{service.service_key}}" />
@@ -56,6 +88,6 @@
 			
 			<input class="btn submit" type="submit" value="{{ 'Connect to'|t }} {{service.service_name}}">
 		</form>
-	{% endif %}
+	{% endif %#}
 
 {% endset %}

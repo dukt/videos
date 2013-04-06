@@ -16,8 +16,48 @@ namespace Craft;
 require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
+require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+
+
 class DuktVideos_ConfigureController extends BaseController
 {
+
+	public function actionTest()
+	{
+		
+		$serviceKey = craft()->request->getSegment(5);
+
+		// Retrieve token
+
+		$token = craft()->duktVideos_configure->get_option($serviceKey."_token");
+		$token = unserialize(base64_decode($token));
+
+
+		// Create the OAuth provider
+
+		
+		$parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
+		$parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+
+	    $provider = \OAuth\OAuth::provider($serviceKey, array(
+	        'id' => $parameters['id'],
+	        'secret' => $parameters['secret'],
+	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+	    ));
+
+
+		$provider->setToken($token);
+
+
+		// Create video service
+
+		$service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
+		$service->setProvider($provider);
+
+		$userInfos = $service->userInfos();
+		var_dump($userInfos);
+		die();
+	}
 	/**
 	 * Action Save Service
 	 */	
@@ -43,12 +83,26 @@ class DuktVideos_ConfigureController extends BaseController
 		    $service_key = $_POST['service'];
 	    }
 
-	    $this->connectService($service_key);
+	    if(isset($_POST['connect']))
+	    {
+	    	$this->connectService($service_key);
+	    }
+
+
+	    if(isset($_POST['reset']))
+	    {
+	    	$this->resetService($service_key);
+	    }
+
+	    if(isset($_POST['refresh']))
+	    {
+	    	$this->refreshService($service_key);
+	    }
 	    
-	    
+
 	    // redirect
 
-		$this->redirect($_POST['redirect']);  
+		//$this->redirect($_POST['redirect']);  
     }
     
 	// --------------------------------------------------------------------
@@ -88,15 +142,37 @@ class DuktVideos_ConfigureController extends BaseController
 	/**
 	 * Action Reset Service
 	 */
-    public function actionResetService()
+    public function resetService()
     {
-		$service_key = $_POST['service'];
+		$service_key = craft()->request->getSegment(5);
 		
 		craft()->duktVideos_configure->reset_service($service_key);
 
 		$this->redirect($_POST['redirect']); 
     }
     
+    public function refreshService()
+    {
+    	$serviceKey = craft()->request->getSegment(3);
+    	$token = craft()->duktVideos_configure->get_option($serviceKey."_token");
+    	$token = unserialize(base64_decode($token));
+
+	    $parameters = array();
+		$parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
+		$parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+
+	    $provider = \OAuth\OAuth::provider($serviceKey, array(
+	        'id' => $parameters['id'],
+	        'secret' => $parameters['secret'],
+	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+	    ));
+
+
+    	$provider->access($token);
+
+    	var_dump($token);
+    	die();
+    }
 	// --------------------------------------------------------------------
 
 	/**
@@ -104,48 +180,99 @@ class DuktVideos_ConfigureController extends BaseController
 	 */
     public function actionCallback()
     {	    
-	    $service_key = craft()->request->getSegment(5);
+	    $serviceKey = craft()->request->getSegment(5);
 	    
-	    $services = \DuktVideos\App::get_services();
-	    
-	    $service = $services[$service_key];
-	    
-	    
-		// lib & app
-		
-		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$app = new \DuktVideos\App;
-		
-		
-		// service connect callback
-	    
-	    $service->connect_callback($lib, $app);
+		$service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
+
+
+	    // save token for this provider
+
+		$this->connectService($serviceKey);
+
+
     }
     
 	// --------------------------------------------------------------------
 
+    private function connectService($serviceKey)
+    {
+	    $service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
+
+	    $parameters = array();
+		$parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
+		$parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+
+	    $service->initialize((array) $parameters);
+
+	    $provider = \OAuth\OAuth::provider($service->getProviderClass(), array(
+	        'id' => $parameters['id'],
+	        'secret' => $parameters['secret'],
+	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+	    ));
+
+	    $provider = $provider->process(function($url, $token = null) {
+
+	        if ($token) {
+	            $_SESSION['token'] = base64_encode(serialize($token));
+	        }
+
+	        header("Location: {$url}");
+
+	        exit;
+
+	    }, function() {
+	        return unserialize(base64_decode($_SESSION['token']));
+	    });
+
+	    // save token
+
+	    $parameters['token'] = $provider->token();
+	    $parameters['token'] = base64_encode(serialize($parameters['token']));
+
+	    craft()->duktVideos_configure->set_option($serviceKey."_token", $parameters['token']);
+
+
+	    // redirect to service
+
+	    return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
+    }
 	/**
 	 * Connect Service
 	 */
-    private function connectService($service_key)
+    private function connectServiceOld($serviceKey)
     {		
-		// get service from reloaded services
+		$service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
 		
-	    $services = \DuktVideos\App::get_services();
-		
-		$service = $services[$service_key];
-		
-		
-		// lib & app
-		
-		$lib = new \DuktVideos\Lib(array('basepath' => DUKT_VIDEOS_UNIVERSAL_PATH));;
-		
-		$app = new \DuktVideos\App;
-		
-		
-		// connect
-		
-		$service->connect($lib, $app);
+		$parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
+		$parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+
+	    $provider = \OAuth\OAuth::provider($service->getProviderClass(), array(
+	        'id' => $parameters['id'],
+	        'secret' => $parameters['secret'],
+	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+	    ));
+
+	    $provider = $provider->process(function($url, $token = null) {
+
+	        if ($token) {
+	            $_SESSION['token'] = base64_encode(serialize($token));
+	        }
+
+	        header("Location: {$url}");
+
+	        exit;
+
+	    }, function() {
+	        return unserialize(base64_decode($_SESSION['token']));
+	    });
+
+	    // save token
+
+	    $parameters['token'] = $provider->token();
+	    $parameters['token'] = base64_encode(serialize($parameters['token']));
+
+	    // $app['session']->set($sessionVar, $parameters);
+
+	    craft()->duktVideos_configure->set_option($serviceKey."_token", $parameters['token']);
     }
 }

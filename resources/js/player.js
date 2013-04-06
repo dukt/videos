@@ -174,7 +174,7 @@ $(window).resize(function() {
 
 function next()
 {
-	console.log('hello next');
+	console.log('next video');
 
 	if($('.dv-videos li.active').next().length == 0)
 	{
@@ -185,7 +185,6 @@ function next()
 	{
 		var nextEl = $('.dv-videos li.active').next();
 	}
-	console.log(nextEl);
 
 	nextEl.find('a').trigger('click');
 

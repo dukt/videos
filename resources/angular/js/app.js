@@ -24,15 +24,21 @@ duktvideos.run(function($rootScope, $http, $location, $q) {
             $rootScope.services = data;
 
             $.each(data, function(k, el) {
-                $rootScope.serviceKey = k;
+                $rootScope.serviceKey = el.name;
                 return false;
             });
 
             if($location.path() == "/" || $location.path() == "")
             {
-                $location.path($rootScope.serviceKey+"/search");   
+                $location.path($rootScope.serviceKey+"/myvideos");   
             }
 
+            $('.search input').keypress(function(e) {
+                if(e.keyCode == "13") {
+                    // enter
+                    $rootScope.search(true);
+                }
+            });
         }).
         error(function(data, status, headers, config) {
           console.log('error', data, status, headers, config);

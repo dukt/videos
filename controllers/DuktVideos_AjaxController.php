@@ -17,6 +17,8 @@ require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 require_once(DUKT_VIDEOS_PATH.'libraries/ajax.php');
 require_once(DUKT_VIDEOS_UNIVERSAL_PATH.'libraries/ajax-angular.php');
 
+require_once(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+
 class DuktVideos_AjaxController extends BaseController
 {
 	/**
@@ -45,8 +47,98 @@ class DuktVideos_AjaxController extends BaseController
 		
 		if($method)
 		{
-			$array = ($ajax->{$method}());
-			$this->returnJson($array);
+
+            if(method_exists($this, $method))
+            {
+                $this->{$method}();
+            }
+            else
+            {
+                $array = ($ajax->{$method}());
+                $this->returnJson($array);
+            }
 		}
+    }
+
+    public function services()
+    {
+        $response = craft()->duktVideos_ajax->services();
+
+        $services = array();
+
+        foreach($response as $k => $v)
+        {
+            $services[$v->providerClass] = array(
+                    'name' => $v->providerClass
+                );
+        }
+
+        $this->returnJson($services);
+    }
+
+
+    public function search()
+    {
+        $service = $this->getService();
+
+        $q = craft()->request->getParam('searchQuery');
+
+        $params = array('q' => $q);
+
+        $videos = $service->search($params);
+
+        $this->returnJson($videos);
+    }
+
+    public function myvideos()
+    {
+        $service = $this->getService();
+
+        $videos = $service->uploads();
+
+        $this->returnJson($videos);
+    }
+
+    public function favorites()
+    {
+        $service = $this->getService();
+
+        $videos = $service->favorites();
+
+        $this->returnJson($videos);
+    }
+
+    private function getService()
+    {
+        $serviceKey = craft()->request->getParam('service');
+
+
+        // Retrieve token
+
+        $token = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        $token = unserialize(base64_decode($token));
+
+
+        // Create the OAuth provider
+        
+        $parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
+        $parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+
+        $provider = \OAuth\OAuth::provider($serviceKey, array(
+            'id' => $parameters['id'],
+            'secret' => $parameters['secret'],
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+        ));
+
+        $provider->setToken($token);
+
+
+        // Create video service
+
+        $service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
+
+        $service->setProvider($provider);
+
+        return $service;
     }
 }
