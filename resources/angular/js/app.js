@@ -21,6 +21,18 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
     // --------------------------------------------------------------------
 
+    // default current service
+
+    if(typeof($rootScope.services) != "undefined")
+    {
+        $rootScope.currentService = $rootScope.services[$rootScope.serviceKey]; 
+    }
+
+    // videos equals s$rootScope.{service_key}_videos
+    //$rootScope.videos = eval("$rootScope."+$rootScope.serviceKey+"_videos");
+
+    // --------------------------------------------------------------------
+
     $rootScope.serviceChange = function()
     {
         $location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
@@ -163,5 +175,5 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 // Dukt Videos Service
 
 duktvideos.factory("DuktVideosService",function($rootScope){
-        return { searchQuery: "", currentService: false, services: false};
+        return { searchQuery: "", currentService: false, currentMethod: false, services: false};
 });

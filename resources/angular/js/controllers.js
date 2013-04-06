@@ -2,6 +2,7 @@ var once = false;
 
 function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $route, DuktVideosService)
 {
+	// root success
 
 	if(!once)
 	{
@@ -13,41 +14,31 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			$rootScope.methodName = $routeParams.methodName; 
 
 			DuktVideosService.currentService = $rootScope.serviceKey;
+			DuktVideosService.currentMethod = $rootScope.methodName;
 			
 		});
+
 		once = true;
 	}
-
-	$scope.playlistId = $routeParams.playlistId;
-
-
-	// default current service
-
-	if(typeof($rootScope.services) != "undefined")
-	{
-		$scope.currentService = $rootScope.services[$rootScope.serviceKey];	
-	}
-
-	// videos equals s$rootScope.{service_key}_videos
-	//$rootScope.videos = eval("$rootScope."+$rootScope.serviceKey+"_videos");
 
 
 	// --------------------------------------------------------------------
 
-	if($rootScope.serviceKey && $rootScope.methodName)
+	// let's make the request
+
+	if(DuktVideosService.currentService && DuktVideosService.currentMethod)
 	{
-		if($rootScope.methodName == "search")
+		if(DuktVideosService.currentMethod == "search")
 		{
 			$rootScope.search(true);
 			return; // otherwise it loads the search page after having searched
 		}
 
 		var opts = {
-			method:$rootScope.methodName,
-			service:$rootScope.serviceKey,
+			method:DuktVideosService.currentMethod,
+			service:DuktVideosService.currentService,
 			page:1,
 			perPage:Dukt_videos.pagination_per_page
-			//playlistId:$scope.playlistId
 		};
 
 		$('.dv-main .toolbar .spinner').removeClass('hidden');
@@ -72,9 +63,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			});
 	}
 
-
 	// --------------------------------------------------------------------
-
 
 	$scope.play = function(video)
 	{
@@ -105,7 +94,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	}
 
 	// --------------------------------------------------------------------
-	
+
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
@@ -119,7 +108,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		console.log('perPage', perPage);
 		console.log('--', DuktVideosService.currentService);
 		var opts = {
-			method:$rootScope.methodName,
+			method:DuktVideosService.currentMethod,
 			service:DuktVideosService.currentService,
 			searchQuery: DuktVideosService.searchQuery,
 			page:page,
