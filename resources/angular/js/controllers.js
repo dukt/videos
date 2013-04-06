@@ -72,107 +72,6 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			});
 	}
 
-	// --------------------------------------------------------------------
-
-	$rootScope.serviceChange = function()
-	{
-		$location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
-	}
-
-	// --------------------------------------------------------------------
-
-	$scope.getClass = function(path)
-	{
-		var pat = new RegExp("\/.*\/"+path);
-		var match = $location.path().match(pat);
-
-		if (match)
-		{
-			return "active";
-		}
-		else
-		{
-			return "";
-		}
-	};
-
-	// --------------------------------------------------------------------
-	
-	//$scope.searchQuery = DuktVideosService.searchQuery;
-	
-	var searchTimer = false;
-
-	$rootScope.search = function(force)
-	{
-
-		var searchQuery = this.searchQuery;
-
-		var pat = new RegExp("\/.*\/"+"search");
-		var match = $location.path().match(pat);
-
-		if (match)
-		{
-
-		}
-		else
-		{
-			$location.path($rootScope.serviceKey+"/search");
-		}
-
-
-
-
-		if(typeof(force) == 'undefined')
-		{
-			force = false;
-		}
-
-		if(searchQuery != "" || force == true)
-		{
-			clearTimeout(searchTimer);
-
-			searchTimer = setTimeout(function() {
-
-				console.log('search', searchQuery);
-
-				var opts = {
-					method:'search',
-					service:$rootScope.serviceKey,
-					searchQuery: searchQuery,
-					page: 1,
-					perPage: Dukt_videos.pagination_per_page
-				};
-
-				$('.dv-main .toolbar .spinner').removeClass('hidden');
-
-				$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
-					success(function(data, status, headers, config)
-					{
-						$rootScope.videos = data;
-						if($rootScope.videos.length == 0)
-						{
-							//$('.dv-empty').css('display', 'block');	
-						}
-						if(data.length < Dukt_videos.pagination_per_page)
-						{
-							$('.dv-video-more').css('display', 'none');
-						}
-						else
-						{
-
-							$('.dv-video-more').css('display', 'block');
-						}
-						$('.dv-main .toolbar .spinner').addClass('hidden');
-
-					}).
-					error(function(data, status, headers, config)
-					{
-						console.log('error', data, status, headers, config);
-					});
-			}, 500);
-
-		}
-	}
 
 	// --------------------------------------------------------------------
 
@@ -199,10 +98,14 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		console.log('play video', video.id);
 	}
 
+	// --------------------------------------------------------------------
+
 	$scope.isSelected = function(video) {
 	    return $scope.selected === video;
 	}
 
+	// --------------------------------------------------------------------
+	
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
