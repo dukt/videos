@@ -170,7 +170,17 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		
 		$scope.selected = video;
 
-		loadVideo(video.id);
+		//loadVideo(video.id);
+
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'embed', videoUrl:video.url, service: $scope.serviceKey})}).
+        success(function(data, status, headers, config) {
+        	console.log('--success', $.parseJSON(data));
+        	$('#player #videoDiv').html($.parseJSON(data));
+        }).
+        error(function(data, status, headers, config) {
+          console.log('--error', data, status, headers, config);
+        });
+
 
 		console.log('play video', video.id);
 	}
