@@ -7,10 +7,13 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	{
 		$rootScope.$on('$routeChangeSuccess', function(scope, newRoute){
 		    
+		    
+
 			$rootScope.serviceKey = $scope.serviceKey = $routeParams.serviceKey;
 			$rootScope.methodName = $routeParams.methodName; 
 
-			console.log($rootScope.serviceKey);
+			DuktVideosService.currentService = $rootScope.serviceKey;
+			
 		});
 		once = true;
 	}
@@ -129,7 +132,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			clearTimeout(searchTimer);
 
 			searchTimer = setTimeout(function() {
-				
+
+				console.log('search', searchQuery);
+
 				var opts = {
 					method:'search',
 					service:$rootScope.serviceKey,
@@ -209,10 +214,10 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		console.log('page', page);
 		console.log('perPage', perPage);
-
+		console.log('--', DuktVideosService.currentService);
 		var opts = {
 			method:$rootScope.methodName,
-			service:$rootScope.serviceKey,
+			service:DuktVideosService.currentService,
 			searchQuery: DuktVideosService.searchQuery,
 			page:page,
 			perPage:perPage
