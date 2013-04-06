@@ -62,7 +62,11 @@ class DuktVideos_AjaxController extends BaseController
 
         $q = craft()->request->getParam('searchQuery');
 
-        $params = array('q' => $q);
+        $params = array(
+                'q' => $q,
+                'page' => craft()->request->getParam('page'),
+                'perPage' => craft()->request->getParam('perPage')
+            );
 
         $videos = $service->search($params);
 
@@ -73,7 +77,12 @@ class DuktVideos_AjaxController extends BaseController
     {
         $service = $this->getService();
 
-        $videos = $service->uploads();
+        $params = array(
+                'page' => craft()->request->getParam('page'),
+                'perPage' => craft()->request->getParam('perPage')
+            );
+
+        $videos = $service->uploads($params);
 
         $this->returnJson($videos);
     }
@@ -82,7 +91,12 @@ class DuktVideos_AjaxController extends BaseController
     {
         $service = $this->getService();
 
-        $videos = $service->favorites();
+        $params = array(
+                'page' => craft()->request->getParam('page'),
+                'perPage' => craft()->request->getParam('perPage')
+            );
+
+        $videos = $service->favorites($params);
 
         $this->returnJson($videos);
     }

@@ -28,6 +28,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	// videos equals s$rootScope.{service_key}_videos
 	//$rootScope.videos = eval("$rootScope."+$rootScope.serviceKey+"_videos");
 
+
 	// --------------------------------------------------------------------
 
 	if($rootScope.serviceKey && $rootScope.methodName)
@@ -37,15 +38,18 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			$rootScope.search(true);
 			return; // otherwise it loads the search page after having searched
 		}
+
 		var opts = {
 			method:$rootScope.methodName,
 			service:$rootScope.serviceKey,
+			page:1,
+			perPage:Dukt_videos.pagination_per_page
 			//playlistId:$scope.playlistId
 		};
 
 		$('.dv-main .toolbar .spinner').removeClass('hidden');
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: false}).
 			success(function(data, status, headers, config)
 			{
 				$rootScope.videos = data;
@@ -92,11 +96,14 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	// --------------------------------------------------------------------
 	
 	//$scope.searchQuery = DuktVideosService.searchQuery;
-	//$scope.searchQuery = DuktVideosService.searchQuery;
+	
 	var searchTimer = false;
 
 	$rootScope.search = function(force)
 	{
+
+		var searchQuery = this.searchQuery;
+
 		var pat = new RegExp("\/.*\/"+"search");
 		var match = $location.path().match(pat);
 
@@ -117,7 +124,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			force = false;
 		}
 
-		if($scope.searchQuery != "" || force == true)
+		if(searchQuery != "" || force == true)
 		{
 			clearTimeout(searchTimer);
 
@@ -126,7 +133,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 				var opts = {
 					method:'search',
 					service:$rootScope.serviceKey,
-					searchQuery: $scope.searchQuery
+					searchQuery: searchQuery,
+					page: 1,
+					perPage: Dukt_videos.pagination_per_page
 				};
 
 				$('.dv-main .toolbar .spinner').removeClass('hidden');
@@ -192,14 +201,21 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
-
+		console.log('offset', offset);
 		$('.dv-video-more').css('display', 'none');
+
+		perPage = Dukt_videos.pagination_per_page;
+		page = Math.floor(offset / perPage) + 1;
+
+		console.log('page', page);
+		console.log('perPage', perPage);
 
 		var opts = {
 			method:$rootScope.methodName,
 			service:$rootScope.serviceKey,
 			searchQuery: DuktVideosService.searchQuery,
-			offset: offset
+			page:page,
+			perPage:perPage
 		};
 
 		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
