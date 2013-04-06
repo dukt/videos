@@ -14,8 +14,6 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
-
 class DuktVideos_ConfigureService extends BaseApplicationComponent
 {	
 	/**
@@ -49,11 +47,12 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 		}
 	}
 	
+	// --------------------------------------------------------------------
 
 	function get_option($k)
 	{
-		
 		$option =  DuktVideos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $k));
+
 		if(is_object($option))
 		{
 			return $option->option_value;
@@ -61,6 +60,7 @@ class DuktVideos_ConfigureService extends BaseApplicationComponent
 		
 		return false;
 	}
+
 	// --------------------------------------------------------------------
 	
 	/**
