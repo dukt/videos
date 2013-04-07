@@ -29,14 +29,50 @@ class DuktVideos_AjaxService extends BaseApplicationComponent
             return \Dukt\Videos\Common\ServiceFactory::create($service);
         }
 
-        $services = array_map(
+        $allServices = array_map(
             function($className) {
-                return \Dukt\Videos\Common\ServiceFactory::create($className);
+                $service = \Dukt\Videos\Common\ServiceFactory::create($className);
+
+
+                // Retrieve token
+
+                $token = craft()->duktVideos_configure->get_option($service->getName()."_token");
+                $token = unserialize(base64_decode($token));
+
+                if(!$token)
+                {
+                    return $service;
+                }
+
+                // Create the OAuth provider
+
+                
+                $parameters['id'] = craft()->duktVideos_configure->get_option($service->getName()."_id");
+                $parameters['secret'] = craft()->duktVideos_configure->get_option($service->getName()."_secret");
+
+                $provider = \OAuth\OAuth::provider($service->getName(), array(
+                    'id' => $parameters['id'],
+                    'secret' => $parameters['secret'],
+                    'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service->getName())
+                ));
+
+
+                $provider->setToken($token);
+
+                $service->setProvider($provider);
+
+                return $service;
             },
 
             \Dukt\Videos\Common\ServiceFactory::find()
         );
 
+        $services = array();
+
+        foreach($allServices as $s)
+        {
+            array_push($services, $s);
+        }
 
         return $services;
     }

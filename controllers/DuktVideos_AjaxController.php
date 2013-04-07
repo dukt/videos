@@ -35,9 +35,12 @@ class DuktVideos_AjaxController extends BaseController
 
         foreach($response as $k => $v)
         {
-            $services[$v->providerClass] = array(
-                    'name' => $v->providerClass
-                );
+            if($v->isAuthenticated())
+            {
+                $services[$v->providerClass] = array(
+                        'name' => $v->providerClass
+                    );
+            }
         }
 
         $this->returnJson($services);

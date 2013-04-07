@@ -61,12 +61,21 @@ class DuktVideosVariable
 
         return $option;
     }
-  	/*
-  	* Services (CP only)
-  	*
-  	*/
+    /*
+    * Services (CP only)
+    *
+    */
     public function services($service = false)
-    {	    	
+    {       
         return craft()->duktVideos_ajax->services($service);
+    }
+
+    /*
+    * Services (CP only)
+    *
+    */
+    public function servicesEnabled()
+    {       
+        return craft()->duktVideos_ajax->servicesEnabled();
     }
 }
