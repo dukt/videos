@@ -1,6 +1,6 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
-{% includeCssResource "support/css/default.css" %}
+{% includeJsResource "duktvideos/js/refreshToken.js" %}
 {% set service = craft.duktVideos.services( serviceClassName ) %}
 
 {% set title = "Configure "~service.name|t %}
@@ -46,7 +46,7 @@
 			
 
 			{% if craft.duktVideos.supportsRefresh(service.name) %}
-				<p>Token expires in <strong class="dv-expires">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds</p>
+				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds</p>
 				
 				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
 			{% endif %}
