@@ -57,9 +57,26 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
     $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
         success(function(data, status, headers, config) {
+
             console.log('services success');
 
+            $('.dv-box').removeClass('dv-loading');
+
             $rootScope.services = data;
+
+            // no service ? display an error
+
+            console.log('number of services detected : ', $rootScope.services.length);
+
+            if($rootScope.services.length == 0)
+            {
+                $rootScope.errorMessage = "Set up a video service";
+
+                $('.dv-getStarted').css('display', 'block');
+                $('.dv-box').css('display', 'none');
+
+                return false;
+            }
 
             // get playlists for this service
 

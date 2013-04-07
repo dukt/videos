@@ -61,6 +61,60 @@ class DuktVideosVariable
 
         return $option;
     }
+
+    public function getToken($serviceKey)
+    {
+        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+
+        if(!$option)
+        {
+          return false;
+        }
+        $option = unserialize(base64_decode($option));
+
+        // $option = date(DATE_RSS, $option->expires);
+
+        return $option;
+    }
+
+    public function tokenExpires($serviceKey)
+    {
+        
+
+        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+
+        if(!$option)
+        {
+          return false;
+        }
+        $option = unserialize(base64_decode($option));
+
+        $expires = ($option->expires - time());
+
+        return $expires;
+
+        // $option = date(DATE_RSS, $option->expires);
+
+        return $option;
+    }
+
+    public function supportsRefresh($serviceKey)
+    {
+        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+
+        if(!$option)
+        {
+          return false;
+        }
+        $option = unserialize(base64_decode($option));
+
+        if(isset($option->refresh_token))
+        {
+          return true;
+        }
+        
+        return false;
+    }
     /*
     * Services (CP only)
     *

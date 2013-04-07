@@ -30,10 +30,49 @@
 	display: none;
 }
 
+.dv-error {
+	text-align: center;
+	padding: 3em;
+	color:#333;
+	font-style: italic;
+	font-size: 1.2em;
+}
+
+
+.dv-getStarted {
+	display: none;
+	text-align: center;
+	padding: 3em;
+	color:#333;
+	font-style: italic;
+	font-size: 1.2em;
+}
+
 .dv-box {
 	margin-left: -30px;
 	margin-right: -30px;
 	position: relative;
+
+	.dv-box-spinner {
+		display: none;
+	}
+	
+	&.dv-loading {
+		height: 100px;
+		position: relative;
+
+		& > * {
+			display: none;
+		}
+
+		& > .dv-box-spinner {
+			display: block;
+			position: relative;
+			left:50%;
+			top: 30%;
+
+		}
+	}
 
 	// .dv-player {
 	// 	background: #000;

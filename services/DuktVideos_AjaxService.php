@@ -49,10 +49,12 @@ class DuktVideos_AjaxService extends BaseApplicationComponent
                 
                 $parameters['id'] = craft()->duktVideos_configure->get_option($service->getName()."_id");
                 $parameters['secret'] = craft()->duktVideos_configure->get_option($service->getName()."_secret");
+                $parameters['developerKey'] = craft()->duktVideos_configure->get_option($service->getName()."_developerKey");
 
                 $provider = \OAuth\OAuth::provider($service->getName(), array(
                     'id' => $parameters['id'],
                     'secret' => $parameters['secret'],
+                    'developerKey' => $parameters['developerKey'],
                     'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service->getName())
                 ));
 

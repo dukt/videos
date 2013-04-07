@@ -33,61 +33,29 @@
 			</div>
 		{% endfor %}
 		
-		<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~service.name|t }}">  &nbsp; 
+
+		
+
+		
 		
 		{% if craft.duktVideos.getOption(service.name~"_token") == "" %}
-		
+			
+
+			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~service.name|t }}">  &nbsp; 
 		{% else %}
-			<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
+			
+
+			{% if craft.duktVideos.supportsRefresh(service.name) %}
+				<p>Token expires in <strong class="dv-expires">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds</p>
+				
+				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
+			{% endif %}
 			<input class="btn" name="reset" type="submit" value="{{ 'Reset Token'|t }}"> &nbsp; 
 		{% endif %}
-			<a class="btn" href="{{actionUrl('duktvideos/configure/test/'~service.name)}}">Test</a>
+
+		<!-- <p>{{inspect(craft.duktVideos.getToken(service.name))}}</p> -->
+
+		<!-- <a class="btn" href="{{actionUrl('duktvideos/configure/test/'~service.name)}}">Test</a> -->
 	</form>
-
-	
-
-	{#% if service.is_authenticated() %}
-		<form method="post" action="" accept-charset="UTF-8">
-			<input type="hidden" name="action" value="duktvideos/configure/resetService" />
-			<input type="hidden" name="redirect" value="duktvideos/configure/{{service.service_key}}" />
-			<input type="hidden" name="service" value="{{service.service_key}}" />
-			
-			{% for option_key,option_value in service.api_options %}
-				<div class="field">
-					<div class="heading">
-						<label>{{ option_key }}</label>				
-					</div>
-					
-					<div class="input">
-						<input class="text fullwidth" readonly="readonly" name="options[{{ service.service_key }}_{{ option_key }}]" type="text" value="{{option_value}}" />
-					</div>
-				</div>
-			{% endfor %}
-			
-			<input class="btn small" type="submit" value="&times; {{ 'Reset authentication'|t }}">
-		</form>
-	{% else %}
-
-
-		<form method="post" action="" accept-charset="UTF-8">
-			<input type="hidden" name="action" value="duktvideos/configure/saveService" />
-			<input type="hidden" name="redirect" value="duktvideos/configure/{{service.service_key}}" />
-			<input type="hidden" name="service" value="{{service.service_key}}" />
-			
-			{% for option_key,option_value in service.api_options %}
-				<div class="field">
-					<div class="heading">
-						<label>{{ option_key }}</label>				
-					</div>
-					
-					<div class="input">
-						<input class="text fullwidth" name="options[{{ service.service_key }}_{{ option_key }}]" type="text" value="{{option_value}}" />
-					</div>
-				</div>
-			{% endfor %}
-			
-			<input class="btn submit" type="submit" value="{{ 'Connect to'|t }} {{service.service_name}}">
-		</form>
-	{% endif %#}
 
 {% endset %}

@@ -140,7 +140,7 @@ class DuktVideos_ConfigureController extends BaseController
 	 */
     public function resetService()
     {
-		$service_key = craft()->request->getSegment(5);
+		$service_key = craft()->request->getSegment(3);
 		
 		craft()->duktVideos_configure->reset_service($service_key);
 
@@ -150,6 +150,7 @@ class DuktVideos_ConfigureController extends BaseController
     public function refreshService()
     {
     	$serviceKey = craft()->request->getSegment(3);
+
     	$token = craft()->duktVideos_configure->get_option($serviceKey."_token");
     	$token = unserialize(base64_decode($token));
 
@@ -164,10 +165,27 @@ class DuktVideos_ConfigureController extends BaseController
 	    ));
 
 
-    	$provider->access($token);
+    	// var_dump($token->refresh_token);
 
-    	var_dump($token);
-    	die();
+    	// die();
+
+    	$accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+
+	    
+
+	    // save token
+
+	    $token->access_token = $accessToken->access_token;
+	    $token->expires = $accessToken->expires;
+
+	    $token = base64_encode(serialize($token));
+
+		craft()->duktVideos_configure->set_option($serviceKey."_token", $token);
+
+	    // redirect to service
+
+	    return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
+
     }
 	// --------------------------------------------------------------------
 
