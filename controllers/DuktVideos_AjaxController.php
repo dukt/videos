@@ -74,6 +74,12 @@ class DuktVideos_AjaxController extends BaseController
         return $this->returnJson($remaining);
     }
 
+    public function refreshServicesTokens()
+    {
+        return $this->services();
+        //return $this->returnJson("Hello world");
+    }
+
     public function services()
     {
         $response = craft()->duktVideos_ajax->services();
@@ -82,6 +88,38 @@ class DuktVideos_AjaxController extends BaseController
 
         foreach($response as $k => $v)
         {
+
+
+            $token = craft()->duktVideos_configure->get_option($v->getName()."_token");
+            $token = unserialize(base64_decode($token));
+
+            if(isset($token->expires))
+            {
+                $remaining = $token->expires - time();
+
+                if($remaining < 240)
+                {
+                    // refresh token
+
+
+                    $accessToken = $v->provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+
+                    
+
+                    // save token
+
+                    $token->access_token = $accessToken->access_token;
+                    $token->expires = $accessToken->expires;
+
+
+                    $remaining = $token->expires - time();
+
+                    $serializedToken = base64_encode(serialize($token));
+
+                    craft()->duktVideos_configure->set_option($v->getName()."_token", $serializedToken  );
+                }
+            }
+
             if($v->isAuthenticated())
             {
                 $services[$v->providerClass] = array(

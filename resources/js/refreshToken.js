@@ -1,19 +1,27 @@
 $(document).ready(function() {
     console.log('refreshToken.js');
 
-    var serviceKey = $('.dv-expires').data('service');
-    
+    // enable expire logic ?
 
-    setInterval(function() {
-        var expires = $('.dv-expires').html();
-        expires = expires - 1;
-        $('.dv-expires').html(expires);
+    if($('.dv-expires').length > 0)
+    {
+        var serviceKey = $('.dv-expires').data('service');
+        
 
-        if(expires < 60)
-        {
-            refreshToken();
-        }
-    }, 1000);
+        setInterval(function() {
+            var expires = $('.dv-expires').html();
+            expires = expires - 1;
+            $('.dv-expires').html(expires);
+
+            if(expires < 60)
+            {
+                refreshToken();
+            }
+        }, 1000);
+    }
+
+
+    // send a refreshToken request
 
     function refreshToken()
     {

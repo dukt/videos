@@ -46,7 +46,7 @@
 			
 
 			{% if craft.duktVideos.supportsRefresh(service.name) %}
-				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds</p>
+				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds. It will be automatically refreshed.</p>
 				
 				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
 			{% endif %}

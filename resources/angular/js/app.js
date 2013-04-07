@@ -18,7 +18,7 @@ var duktvideos = angular.module('duktvideos', []).
 
 // Dukt Videos Service
 
-duktvideos.factory("DuktVideosService",function($rootScope){
+duktvideos.factory("DuktVideosService",function($rootScope, $http){
         var ret = {
             searchQuery: "",
             currentService: false,
@@ -39,6 +39,15 @@ duktvideos.factory("DuktVideosService",function($rootScope){
                 off: function() {
                     $('.dv-video-more').css('display', 'none');
                 }
+            },
+            refreshServicesTokens: function() {
+                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'refreshServicesTokens'})}).
+                        success(function(data, status, headers, config) {
+                            console.log(data);
+                        }).
+                        error(function(data, status, headers, config) {
+                          console.log('error', data, status, headers, config);
+                        });
             }
         };
 
@@ -64,6 +73,7 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
             $rootScope.services = data;
 
+
             // no service ? display an error
 
             console.log('number of services detected : ', $rootScope.services.length);
@@ -77,6 +87,16 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
                 return false;
             }
+
+            // refresh services token periodically
+            
+            setInterval(function() {
+                // 
+                console.log('check and refresh services tokens');
+
+                DuktVideosService.refreshServicesTokens();
+            }, 180000);
+            
 
             // get playlists for this service
 
