@@ -1,11 +1,11 @@
 <div class="dv-sidebar">				
 	{{selectServiceKey}}
+
 	<div class="select">
-		
-		<select ng-model="serviceKey" ng-change="serviceChange()" class="fieldtoggle" ng-options="serviceI as service.name for (serviceI,service) in services">
+
+		<select ng-model="serviceKey" ng-change="serviceChange()" class="fieldtoggle" ng-options="service.name as service.name for (serviceI,service) in services">
 
         </select>
-
 	</div>
 
 	<ul>
@@ -23,7 +23,7 @@
 
 			<ul>
 				<li ng-repeat="playlist in currentService.playlists">
-					<a href="#/{{serviceKey}}/playlist/{{playlist.id}}/">{{playlist.title}}</a>
+					<a href="#/{{serviceKey}}/playlist/{{playlist.id}}/" ng-class="getClass(playlist.id)">{{playlist.title}}</a>
 				</li>
 			</ul>
 		</li>

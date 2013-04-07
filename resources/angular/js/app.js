@@ -19,74 +19,114 @@ var duktvideos = angular.module('duktvideos', []).
 // Dukt Videos Service
 
 duktvideos.factory("DuktVideosService",function($rootScope){
-        return { searchQuery: "", currentService: false, currentMethod: false, services: false};
+        var ret = {
+            searchQuery: "",
+            currentService: false,
+            currentMethod: false,
+            services: false,
+            loader: {
+                on: function() {
+                    $('.dv-main .toolbar .spinner').removeClass('hidden');
+                },
+                off: function() {
+                    $('.dv-main .toolbar .spinner').addClass('hidden');
+                }
+            },
+            videoMore: {
+                on: function() {
+                    $('.dv-video-more').css('display', 'block');
+                },
+                off: function() {
+                    $('.dv-video-more').css('display', 'none');
+                }
+            }
+        };
+
+        return ret;
 });
 
 // Dukt Videos App
 
-duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
+duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVideosService) {
 
-
+    console.log('run');
 
     // --------------------------------------------------------------------
-    
+
     // get services
 
     $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
         success(function(data, status, headers, config) {
-          
-            
+            console.log('services success');
+
+            $rootScope.services = data;
+
+            // get playlists for this service
 
             $.each(data, function(k, el) {
-                $rootScope.serviceKey = el.name;
-                data[k].playlists = [{title:"Test", id:"1"}];
-
-                // get playlists for this service
                 $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'playlists', service:el.name})}).
                     success(function(data2, status2, headers2, config2) {
-                        console.log('playlists success', DuktVideosService);
-                        DuktVideosService.services[k].playlists = data2;
+                        $rootScope.services[k].playlists = data2;                    
                     }).
                     error(function(data2, status2, headers2, config2) {
                         console.log('error', data2, status2, headers2, config2);
                     });
             });
 
-            $rootScope.services = data;
-            DuktVideosService.services = data;
 
-            DuktVideosService.currentService = $rootScope.services[$rootScope.serviceKey]; 
-            $rootScope.currentService = DuktVideosService.currentService;
+            // set the first service as current
+
+            $.each($rootScope.services, function (k, el) {
+                
+                if($routeParams.serviceKey == k || typeof($routeParams.serviceKey) == "undefined")
+                {
+                    // define element as current service
+
+                    $rootScope.currentService = el;
+
+
+                    // break the each loop
+
+                    return false;
+                }
+                
+            });
+
+            console.log('currentService', $rootScope.currentService);
+            console.log('$routeParams.serviceKey', $routeParams.serviceKey);
+
+            // update selected field
+
+            $rootScope.serviceKey = $rootScope.currentService.name;
+
+            // redirect if needed
 
             if($location.path() == "/" || $location.path() == "")
             {
+                console.log('redirect', $rootScope.serviceKey+"/uploads");
+                
                 $location.path($rootScope.serviceKey+"/uploads");   
             }
-
-            $('.search input').keypress(function(e) {
-                if(e.keyCode == "13") {
-                    // enter
-                    console.log('enter', DuktVideosService);
-                    search();
-                }
-            });
+            
         }).
         error(function(data, status, headers, config) {
           console.log('error', data, status, headers, config);
         });
-
+    
     // --------------------------------------------------------------------
+
+    // service change
 
     $rootScope.serviceChange = function()
     {
-        
-
-        $location.path($('.dv-sidebar select').val()+"/"+$rootScope.methodName);
-
-
+        console.log('serviceChange', this.serviceKey);
+        $rootScope.currentService = $rootScope.services[this.serviceKey];
+        $location.path($('.dv-sidebar select').val()+"/"+$routeParams.methodName);
     }
 
     // --------------------------------------------------------------------
+
+    // service change
 
     $rootScope.getClass = function(path)
     {
@@ -109,23 +149,18 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
 
     var searchTimer = false;
 
-    $rootScope.search = function(force)
+    $rootScope.search = function()
     {
+        // define searchQuery, DuktVideosService helps for persistance
+
         if(typeof(this.searchQuery) != "undefined")
         {
             DuktVideosService.searchQuery = this.searchQuery;
         }
 
-        search();
-    }
-
-    // --------------------------------------------------------------------
-
-    // search function
-
-    function search(force)
-    {
         var searchQuery = DuktVideosService.searchQuery;
+
+        // redirect to search
 
         var pat = new RegExp("\/.*\/"+"search");
         var match = $location.path().match(pat);
@@ -136,60 +171,68 @@ duktvideos.run(function($rootScope, $http, $location, $q, DuktVideosService) {
         }
         else
         {
-          $location.path($rootScope.serviceKey+"/search");
+            $location.path($routeParams.serviceKey+"/search");
         }
 
-        if(typeof(force) == 'undefined')
-        {
-            force = false;
-        }
+        // time out before search
 
-        if(searchQuery != "" || force == true)
+        if(searchQuery != "")
         {
           clearTimeout(searchTimer);
 
           searchTimer = setTimeout(function() {
 
-            console.log('search', DuktVideosService);
+                // perfom search request
+                
+                console.log('search', $routeParams.serviceKey, searchQuery);
 
-            var opts = {
-              method:'search',
-              service:DuktVideosService.currentService,
-              searchQuery: searchQuery,
-              page: 1,
-              perPage: Dukt_videos.pagination_per_page
-            };
+                searchRequest($routeParams, searchQuery, DuktVideosService);
 
-            $('.dv-main .toolbar .spinner').removeClass('hidden');
-
-            $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
-              success(function(data, status, headers, config)
-              {
-                $rootScope.videos = data;
-                if($rootScope.videos.length == 0)
-                {
-                  //$('.dv-empty').css('display', 'block'); 
-                }
-                if(data.length < Dukt_videos.pagination_per_page)
-                {
-                  $('.dv-video-more').css('display', 'none');
-                }
-                else
-                {
-
-                  $('.dv-video-more').css('display', 'block');
-                }
-                $('.dv-main .toolbar .spinner').addClass('hidden');
-
-              }).
-              error(function(data, status, headers, config)
-              {
-                console.log('error', data, status, headers, config);
-              });
-          }, 500);
-
+            }, 500);
         }
     }
 
-    // --------------------------------------------------------------------
+    function searchRequest($routeParams, searchQuery, DuktVideosService)
+    {
+        var opts = {
+          method:'search',
+          service:$routeParams.serviceKey,
+          searchQuery: searchQuery,
+          page: 1,
+          perPage: Dukt_videos.pagination_per_page
+        };
+
+        DuktVideosService.loader.on();
+
+        $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
+          success(function(data, status, headers, config)
+          {
+                $rootScope.videos = data;
+
+                if(data.length < Dukt_videos.pagination_per_page)
+                {
+                    DuktVideosService.videoMore.off();
+                }
+                else
+                {
+                    DuktVideosService.videoMore.on();
+                }
+
+                DuktVideosService.loader.off();
+          }).
+          error(function(data, status, headers, config)
+          {
+            console.log('error', data, status, headers, config);
+          });
+    }
+
+    // press enter triggers search
+
+    $(document).on('keypress', '.search input', function(e) {
+        if(e.keyCode == "13") {
+            $rootScope.search();
+        }
+    });
 });
+
+

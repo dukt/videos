@@ -1,66 +1,47 @@
-var once = false;
-
 function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $route, DuktVideosService)
 {
-	// root success
-
-	if(!once)
-	{
-		$rootScope.$on('$routeChangeSuccess', function(scope, newRoute){
-			$rootScope.serviceKey = $scope.serviceKey = $routeParams.serviceKey;
-			$rootScope.methodName = $routeParams.methodName; 
-
-			DuktVideosService.currentService = DuktVideosService.services[$rootScope.serviceKey];
-			DuktVideosService.currentMethod = $rootScope.methodName;
-			
-		});
-
-		once = true;
-	}
+	console.log('controller', $routeParams.serviceKey, $routeParams.methodName);
 
 	// --------------------------------------------------------------------
 
-	// let's make the request
-
-	if(DuktVideosService.currentService && DuktVideosService.currentMethod)
+	if(typeof($routeParams.serviceKey) !== "undefined" && typeof($routeParams.methodName) !== "undefined")
 	{
-		console.log('make a request', DuktVideosService);
-		
-		$rootScope.currentService = DuktVideosService.currentService;
-
-		if(DuktVideosService.currentMethod == "search")
-		{
-			$rootScope.search(true);
-			return; // otherwise it loads the search page after having searched
-		}
-
 		var opts = {
-			method:DuktVideosService.currentMethod,
-			service:DuktVideosService.currentService.name,
+			service : $routeParams.serviceKey,
+			method : $routeParams.methodName,
 			page:1,
 			perPage:Dukt_videos.pagination_per_page
 		};
 
-		$('.dv-main .toolbar .spinner').removeClass('hidden');
+		if($routeParams.methodName != 'search')
+		{
+			performRequest(opts);	
+		}
+		
+	}
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: false}).
-			success(function(data, status, headers, config)
-			{
-				$rootScope.videos = data;
+	// --------------------------------------------------------------------
 
-				if (data.length < Dukt_videos.pagination_per_page) {
-					$('.dv-video-more').css('display', 'none');
-				} else {
-					$('.dv-video-more').css('display', 'block');
-				}
+	$scope.moreVideos = function()
+	{
+		var offset = $rootScope.videos.length;
+		
+		DuktVideosService.videoMore.off();
 
-				$('.dv-main .toolbar .spinner').addClass('hidden');
+		perPage = Dukt_videos.pagination_per_page;
+		page = Math.floor(offset / perPage) + 1;
 
-			}).
-			error(function(data, status, headers, config)
-			{
-				console.log('error', data, status, headers, config);
-			});
+		var opts = {
+			method: $routeParams.methodName,
+			service: $routeParams.serviceKey,
+			searchQuery: DuktVideosService.searchQuery,
+			page:page,
+			perPage:perPage
+		};
+
+		performRequest(opts, function(data) {
+			$.merge($rootScope.videos, data);
+		});
 	}
 
 	// --------------------------------------------------------------------
@@ -99,60 +80,49 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	// --------------------------------------------------------------------
 
-	// more videos
+	// perform AJAX request
 
-	$scope.moreVideos = function()
+	function performRequest(opts, callback)
 	{
-		var offset = $rootScope.videos.length;
-		
-		$('.dv-video-more').css('display', 'none');
+		if(typeof($routeParams.playlistId) !== "undefined")
+		{
+			opts.playlistId = $routeParams.playlistId;
+		}
 
-		perPage = Dukt_videos.pagination_per_page;
-		page = Math.floor(offset / perPage) + 1;
+		DuktVideosService.loader.on();
 
-		console.log('offset', offset);
-		console.log('page', page);
-		console.log('perPage', perPage);
-		console.log('--', DuktVideosService.currentService);
-
-		var opts = {
-			method:DuktVideosService.currentMethod,
-			service:DuktVideosService.currentService.name,
-			searchQuery: DuktVideosService.searchQuery,
-			page:page,
-			perPage:perPage
-		};
-
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts)}).
 			success(function(data, status, headers, config)
 			{
-				console.log('xxxxsuccess', data);
-
-				console.log('-----success', data.length);
-				$.merge($rootScope.videos, data);
-
-				if($rootScope.videos.length == 0)
-				{
-					// $('.dv-empty').css('display', 'block');	
-				}
-
-				console.log('success', data.length);
-				if(data.length < Dukt_videos.pagination_per_page)
-				{
-					console.log('display none');
-					$('.dv-video-more').css('display', 'none');
-				}
-				else
-				{
-
-					$('.dv-video-more').css('display', 'block');
-				}
-				$('.dv-main .toolbar .spinner').addClass('hidden');
-
+				console.log('ajax/angular : success');
 			}).
 			error(function(data, status, headers, config)
 			{
-				console.log('error', data, status, headers, config);
-			});
+				console.log('ajax/angular : error', data, status, headers, config);
+			}).then(function(a, b, c) {
+	        	console.log('ajax/angular : then');
+
+	        	
+
+	        	if(typeof(callback) == "function")
+	        	{
+	        		callback(a.data);
+	        	}
+	        	else
+	        	{
+	        		$rootScope.videos = a.data;
+	        	}
+
+                if(a.data.length < Dukt_videos.pagination_per_page)
+                {
+                    DuktVideosService.videoMore.off();
+                }
+                else
+                {
+                    DuktVideosService.videoMore.on();
+                }
+
+                DuktVideosService.loader.off();
+	    });
 	}
 }
