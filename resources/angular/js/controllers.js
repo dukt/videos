@@ -57,7 +57,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		//loadVideo(video.id);
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'embed', videoUrl:video.url, service: $scope.serviceKey})}).
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'embed', videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
         	console.log('--success', $.parseJSON(data));
         	$('#player #videoDiv').html($.parseJSON(data));
