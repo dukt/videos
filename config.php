@@ -28,7 +28,7 @@ $config['version'] = DUKT_VIDEOS_VERSION;
 
 $config['cache_ttl'] = 60 * 60 * 24;
 $config['debug'] = true;
-$config['pagination_per_page'] = 12;
+$config['pagination_per_page'] = 48;
 
 
 /* End of file config.php */
