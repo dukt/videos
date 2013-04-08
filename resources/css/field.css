@@ -23,15 +23,24 @@
 }
 .dv-modal {
   display: none;
-  position: absolute;
+  position: fixed;
   top: 20%;
   left: 20%;
   z-index: 1;
   background: #fff;
-  width: 800px;
-  height: 500px;
-  padding: 30px;
+  width: 830px;
+  height: 600px;
   overflow: hidden;
+}
+.dv-modal .dv-box {
+  height: 400px;
+  padding: 20px;
+  overflow: hidden;
+}
+.dv-modal .modal-bottom {
+  background: #fff;
+  text-align: right;
+  padding: 15px 25px;
 }
 #player {
   display: none;

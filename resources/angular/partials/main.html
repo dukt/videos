@@ -20,18 +20,16 @@
 		<p>No videos</p>
 	</div>
 		
-
-		
+	
+	<div class="dv-videos-wrap">
 		<ul class="dv-videos">
 			<li ng-repeat="video in videos" ng-class="{active: isSelected(video)}">
 				<a ng-click="play(video)"><div><img ng-src="{{video.thumbnailLarge}}"></div></a>
 			</li>
 		</ul>
 
+		<div ng-view>Loading Angular...</div>	
 
-	<div ng-view>Loading Angular...</div>	
-
-
-
-	<p class="dv-video-more"><a class="btn" ng-click="moreVideos()">Load more videos</a></p>
+		<p class="dv-video-more"><a class="btn" ng-click="moreVideos()">Load more videos</a></p>
+	</div>
 </div>

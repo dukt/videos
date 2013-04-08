@@ -109,7 +109,7 @@
   float: right;
 }
 .dv-box .dv-main .toolbar .search {
-  margin-right: 50px;
+  margin-right: 40px;
 }
 .dv-box .dv-main .dv-video-more {
   display: none;
@@ -127,6 +127,9 @@
   text-align: center;
   padding: 5em 0 8em 0;
   color: #aaa;
+}
+.dv-box .dv-main .dv-videos-wrap {
+  overflow: auto;
 }
 .dv-box .dv-main .dv-videos li {
   background: #fff;

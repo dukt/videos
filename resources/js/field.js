@@ -2,6 +2,10 @@ console.log('field.js');
 
 var videos = {};
 
+// --------------------------------------------------------------------
+
+// preview
+
 videos.preview = {
     init: function() {
         console.log('mcp.preview.init()');
@@ -18,9 +22,15 @@ videos.preview = {
         var modalH = $('.dv-modal').outerHeight();
         var modahW = $('.dv-modal').outerWidth();
 
-        var iFrameHeight = modalH - $('#player .top').outerHeight() - $('#player .bottom').outerHeight();
 
-        $('#player').css('height', modalH);
+        var modalBottomH = $('.dv-modal .modal-bottom').outerHeight();
+
+        var playerH = modalH - modalBottomH;
+
+        var iFrameHeight = playerH - $('#player .top').outerHeight() - $('#player .bottom').outerHeight();
+        
+
+        $('#player').css('height', playerH);
 
         $('#player #videoDiv').css('height', iFrameHeight);
 
@@ -39,12 +49,68 @@ videos.preview = {
     }
 };
 
+// --------------------------------------------------------------------
 
+// modal
 
+videos.modal = {
+    init: function() {
+        console.log('videos.modal.init()');
+
+        overlay = $('<div class="dv-overlay"></div>');
+
+        overlay.appendTo('body');
+
+        overlay.click(function() {
+            videos.modal.hide();
+        });
+    },
+
+    resize: function() {
+        var winH = $(window).height();
+        var winW = $(window).width();
+
+        var modalH = $('.dv-modal').outerHeight();
+        var modalW = $('.dv-modal').outerWidth();
+
+        var modalT = (winH - modalH) / 2;
+        var modalL = (winW - modalW) / 2;
+
+        $('.dv-modal').css('top', modalT);
+        $('.dv-modal').css('left', modalL);
+
+        var modalBottomH = $('.dv-modal .modal-bottom').outerHeight();
+
+        var boxH = modalH - modalBottomH - 40;
+
+        $('.dv-box').css('height', boxH);
+
+        var videosH = modalH - 80;
+
+        $('.dv-videos-wrap').css('height', videosH);
+
+    },
+
+    show : function() {
+        $('.dv-overlay').css('display', 'block');
+        $('.dv-modal').css('display', 'block');
+
+        videos.modal.resize();
+    },
+
+    hide: function() {
+        $('.dv-overlay').css('display', 'none');
+        $('.dv-modal').css('display', 'none');
+    }
+};
+
+// --------------------------------------------------------------------
+
+// plugin definition
 
 (function($) {
 
-    // plugin definition
+
 
     $.fn.dukt_videos_field = function(options)
     {       
@@ -67,14 +133,12 @@ videos.preview = {
 
     $.fn.dukt_videos_field.init = function()
     {
-         $.fn.dukt_videos_field.modal.init();
+         videos.modal.init();
 
 
         // get modal body
 
         Craft.postActionRequest('duktvideos/ajax/modal', {}, function(response) {
-
-            
 
             // load modal body
 
@@ -91,44 +155,12 @@ videos.preview = {
 
     // --------------------------------------------------------------------
 
-    // modal
-
-    $.fn.dukt_videos_field.modal = {
-        init: function() {
-            console.log('videos.modal.init()');
-
-            overlay = $('<div class="dv-overlay"></div>');
-
-            overlay.appendTo('body');
-
-            overlay.click(function() {
-                $.fn.dukt_videos_field.modal.hide();
-            });
-        },
-
-        resize: function() {
-
-        },
-
-        show : function() {
-            $('.dv-overlay').css('display', 'block');
-            $('.dv-modal').css('display', 'block');
-        },
-
-        hide: function() {
-            $('.dv-overlay').css('display', 'none');
-            $('.dv-modal').css('display', 'none');
-        }
-    };
-
-    // --------------------------------------------------------------------
-
     // init field
 
     $.fn.dukt_videos_field.init_field = function(field)
     {
         $('.add', field).click(function() {
-            $.fn.dukt_videos_field.modal.show();
+            videos.modal.show();
         });
     }
 
