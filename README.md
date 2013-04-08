@@ -1,10 +1,10 @@
-# Dukt Videos for Blocks CMS
+# Dukt Videos for Craft
 
 ## Installation
 
 ### Plugin installation
 
-1. Move `duktvideos/` folder to `/blocks/plugins/`
+1. Move `duktvideos/` folder to `/craft/plugins/`
 2. In the admin, go to the **CP / Settings / Plugins** section and enable Dukt Videos plugin
 3. In the admin, go to the **CP / Dukt Videos** section in order to configure YouTube & Vimeo
 
@@ -20,13 +20,13 @@
 3. Give a product name and click **Next**
 4. Your client should have the following settings :
 	- Application type : Web Application
-	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/duktvideos/configure/callback/youtube**
+	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/duktvideos/settings/callback/youtube**
 	- Authorized Javascript Origins : **http://yourwebsite.com/**
 5. Copy paste client id and client secret values to **CP / Dukt Videos / YouTube Configuration**
 6. Register a new Developer Key : https://code.google.com/apis/youtube/dashboard
 7. Copy paste Developer Key to **CP / Dukt Videos / YouTube Configuration**
 
-## Block Type
+## Field Type
 
 Retrieving video informations from your field is pretty easy. A video variable is provided which let's you retrieve all the informations related to your video.
 
@@ -104,7 +104,7 @@ Display the video embed
 
 If you just want to retrieve video informations from a custom video url in your templates, here is what to do :
 
-### find()
+### url()
 
 Retrieve a video from its URL.
 
@@ -118,14 +118,14 @@ Retrieve a video from its URL.
 
 ### Example
 
-	{% set embed_params = { width: 300, height: 200 } %}
+	{% set video = craft.duktvideos.url('http://youtu.be/14pRmb5LAhU') %}
 
-	{% set video = craft.duktvideos.find('http://youtu.be/14pRmb5LAhU') %}
-	
+	{{video.embed({ width: 300, height: 200, autoplay: 1 })}}
+
 	<ul>
 		<li>title : {{ video.title }}</li>
+		<li>description : {{ video.description }}</li>
 		<li>url : {{ video.url }}</li>
-		<li>embed : {{ video.embed(embed_params) }}</li>
 	</ul>
 
 

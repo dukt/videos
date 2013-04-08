@@ -1,7 +1,7 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 {% includeJsResource "duktvideos/js/refreshToken.js" %}
-{% set service = craft.duktVideos.services( serviceClassName ) %}
+{% set service = craft.duktVideos.cpServices( serviceClassName ) %}
 
 {% set title = "Configure "~service.name|t %}
 
@@ -15,7 +15,7 @@
 
 
 	<form method="post" action="" accept-charset="UTF-8">
-		<input type="hidden" name="action" value="duktvideos/configure/saveService" />
+		<input type="hidden" name="action" value="duktvideos/settings/saveService" />
 		<input type="hidden" name="redirect" value="duktvideos/settings/{{service.name}}" />
 		<input type="hidden" name="service" value="{{service.name}}" />
 		
@@ -28,7 +28,7 @@
 				</div>
 				
 				<div class="input">
-					<input class="text fullwidth" {% if key == "token" %}{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.getOption(service.name~"_"~key)}}" />
+					<input class="text fullwidth" {% if key == "token" %}{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
 				</div>
 			</div>
 		{% endfor %}
@@ -38,24 +38,25 @@
 
 		
 		
-		{% if craft.duktVideos.getOption(service.name~"_token") == "" %}
+		{% if craft.duktVideos.cpGetOption(service.name~"_token") == "" %}
 			
 
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~service.name|t }}">  &nbsp; 
 		{% else %}
 			
 
-			{% if craft.duktVideos.supportsRefresh(service.name) %}
-				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.tokenExpires(service.name)}}</strong> seconds. It will be automatically refreshed.</p>
+			{% if craft.duktVideos.cpSupportsRefresh(service.name) %}
+				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.cpTokenExpires(service.name)}}</strong> seconds. It will be automatically refreshed.</p>
 				
 				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
 			{% endif %}
+			
 			<input class="btn" name="reset" type="submit" value="{{ 'Reset Token'|t }}"> &nbsp; 
 		{% endif %}
 
-		<!-- <p>{{inspect(craft.duktVideos.getToken(service.name))}}</p> -->
+		<!-- <p>{{inspect(craft.duktVideos.cpGetToken(service.name))}}</p> -->
 
-		<!-- <a class="btn" href="{{actionUrl('duktvideos/configure/test/'~service.name)}}">Test</a> -->
+		<!-- <a class="btn" href="{{actionUrl('duktvideos/settings/test/'~service.name)}}">Test</a> -->
 	</form>
 
 {% endset %}

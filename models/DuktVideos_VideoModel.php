@@ -15,15 +15,29 @@ namespace Craft;
 
 class DuktVideos_VideoModel extends BaseModel
 {
-	var $services;
+    private $videoComponent;
 	
 	// --------------------------------------------------------------------
 	
-	public function __construct()
+	public function __construct($videoComponent = false)
 	{
-		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
-		
-		$this->services = \DuktVideos\App::get_services();
+        if($videoComponent)
+        {
+            $vars = get_object_vars($videoComponent);
+
+            $attributes = $this->defineAttributes();
+
+
+            foreach($vars as $k => $v)
+            {
+                if(isset($attributes[$k]))
+                {
+                    $this->{$k} = $v;
+                }
+            }
+
+            $this->videoComponent = $videoComponent;
+        }
 	}
     
 	// --------------------------------------------------------------------
@@ -33,16 +47,22 @@ class DuktVideos_VideoModel extends BaseModel
 	 */	
     public function defineAttributes()
     {
-    	$attributes = array();
+    	$attributes = array(
+                'id' => AttributeType::String,
+                'title' => AttributeType::String,
+                'description' => AttributeType::String,
+                'plays' => AttributeType::String,
+                'authorName' => AttributeType::String,
+                'authorUrl' => AttributeType::String,
+                'authorUsername' => AttributeType::String,
+                'date' => AttributeType::String,
+                'duration' => AttributeType::String,
+                'thumbnail' => AttributeType::String,
+                'thumbnailLarge' => AttributeType::String,
+                'thumbnails' => AttributeType::Mixed,
+                'url' => AttributeType::String
+            );
 
-		foreach($this->services as $service)
-		{
-			foreach($service->model_options as $k => $v)
-			{
-				$attributes[$k] = AttributeType::String;
-			}
-		}
-		
         return $attributes;
     }
     
@@ -51,18 +71,17 @@ class DuktVideos_VideoModel extends BaseModel
 	/**
 	 * Embed
 	 */	
-    public function embed($embed_options = array())
+    public function embed($opts)
     {
-    	$service = $this->services[$this->service_key];
-    	
-    	$video_id = $this->id;
-    	
-    	$embed = $service->get_embed($video_id, $embed_options);
+        if($this->videoComponent)
+        {
+        $embed = $this->videoComponent->getEmbed($opts);
+        
+        $charset = craft()->templates->getTwig()->getCharset();
 
-		$charset = craft()->templates->getTwig()->getCharset();
-		
-		$embed = new \Twig_Markup($embed, $charset);
-    	
-	    return $embed;
+        $result = new \Twig_Markup($embed, $charset);
+        
+        return $result;
+        }
     }
 }

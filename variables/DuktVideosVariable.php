@@ -20,51 +20,66 @@ require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
 
 class DuktVideosVariable
 {
-  	/*
-  	* Find a video
-  	*
-  	*/
-
   	public function __construct()
   	{
   		require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 
   		$this->pagination_per_page = $config['pagination_per_page'];
   	}
-
-    public function find($video_url)
-    {		
-		$app = new \DuktVideos\App;
-		
-		$video = $app->get_video($video_url);
-		
-		$charset = craft()->templates->getTwig()->getCharset();
-
-		$video_object = new DuktVideos_VideoModel();
-		
-		foreach($video as $k => $v)
-		{
-			$video_object->{$k} = $video[$k];	
-		}
-
-		return $video_object;
-    }
-
-    public function aze() {
-    	return craft()->duktVideos->aze();
-    }
     
     // --------------------------------------------------------------------
-    public function getOption($k)
-    {
-        $option = craft()->duktVideos_configure->get_option($k);
 
-        return $option;
+    // Public variables
+
+    // --------------------------------------------------------------------
+
+    /*
+    * Retrieves a video from its URL
+    *
+    */
+    public function url($videoUrl)
+    {
+        $services = craft()->duktVideos->services();
+
+        foreach($services as $s)
+        {
+            $params['url'] = $videoUrl;
+
+            try {
+                $video = $s->videoFromUrl($params);
+
+                $video_object = new DuktVideos_VideoModel($video);
+
+
+                return $video_object;
+
+                //return $video;
+            }
+            catch(\Exception $e)
+            {
+                // return $e->getMessage();
+            }
+        }
+
+        return false;
     }
 
-    public function getToken($serviceKey)
+    // --------------------------------------------------------------------
+
+    // CP reserved variables
+
+    // --------------------------------------------------------------------
+
+    public function cpGetOption($k)
     {
-        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        return craft()->duktVideos->getOption($k);
+    }
+
+    // --------------------------------------------------------------------
+
+    public function cpGetToken($serviceKey)
+    {
+        $option = craft()->duktVideos->getOption($serviceKey."_token");
 
         if(!$option)
         {
@@ -77,11 +92,13 @@ class DuktVideosVariable
         return $option;
     }
 
-    public function tokenExpires($serviceKey)
+    // --------------------------------------------------------------------
+
+    public function cpTokenExpires($serviceKey)
     {
         
 
-        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        $option = craft()->duktVideos->getOption($serviceKey."_token");
 
         if(!$option)
         {
@@ -98,9 +115,11 @@ class DuktVideosVariable
         return $option;
     }
 
-    public function supportsRefresh($serviceKey)
+    // --------------------------------------------------------------------
+
+    public function cpSupportsRefresh($serviceKey)
     {
-        $option = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        $option = craft()->duktVideos->getOption($serviceKey."_token");
 
         if(!$option)
         {
@@ -115,21 +134,11 @@ class DuktVideosVariable
         
         return false;
     }
-    /*
-    * Services (CP only)
-    *
-    */
-    public function services($service = false)
-    {       
-        return craft()->duktVideos_ajax->services($service);
-    }
 
-    /*
-    * Services (CP only)
-    *
-    */
-    public function servicesEnabled()
+    // --------------------------------------------------------------------
+    
+    public function cpServices($service = false)
     {       
-        return craft()->duktVideos_ajax->servicesEnabled();
+        return craft()->duktVideos->services($service);
     }
 }

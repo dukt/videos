@@ -21,7 +21,7 @@
 			</tr>
 		</thead>
 
-		{% for service in craft.duktVideos.services() %}
+		{% for service in craft.duktVideos.cpServices() %}
 		    <tr>
 		    	<th>{{service.name}}</th>
 		    	<td class="col">
@@ -40,9 +40,9 @@
 		    		{% if service.isAuthenticated() %}
 		    		
 						{#% if service.enabled == 1 %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/configure/disableService') }}/{{ service.service_key }}">Disable</a>
+							<a class="btn small" href="{{ actionUrl('duktvideos/settings/disableService') }}/{{ service.service_key }}">Disable</a>
 						{% else %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/configure/enableService') }}/{{ service.service_key }}">Enable</a>
+							<a class="btn small" href="{{ actionUrl('duktvideos/settings/enableService') }}/{{ service.service_key }}">Enable</a>
 						{% endif %#}
 						
 					{% endif %}

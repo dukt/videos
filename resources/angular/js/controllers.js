@@ -57,7 +57,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		//loadVideo(video.id);
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'embed', videoUrl:video.url, service: $routeParams.serviceKey})}).
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
         	console.log('--success', $.parseJSON(data));
         	$('#player #videoDiv').html($.parseJSON(data));
@@ -91,16 +91,16 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		DuktVideosService.loader.on();
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts)}).
+		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/'+opts.method, opts)}).
 			success(function(data, status, headers, config)
 			{
-				console.log('ajax/angular : success');
+				console.log('ajax/'+opts.method+' : success');
 			}).
 			error(function(data, status, headers, config)
 			{
-				console.log('ajax/angular : error', data, status, headers, config);
+				console.log('ajax/'+opts.method+' : error', data, status, headers, config);
 			}).then(function(a, b, c) {
-	        	console.log('ajax/angular : then');
+	        	console.log('ajax/'+opts.method+' : then');
 
 	        	
 

@@ -27,11 +27,13 @@ class DuktVideos_AjaxController extends BaseController
         $this->{$method}();
     }
 
+    // --------------------------------------------------------------------
+
     public function actionRefreshToken()
     {
         $serviceKey = craft()->request->getParam('serviceKey');
 
-        $token = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        $token = craft()->duktVideos->getOption($serviceKey."_token");
         $token = unserialize(base64_decode($token));
 
 
@@ -39,23 +41,17 @@ class DuktVideos_AjaxController extends BaseController
         // refresh  token
 
         $parameters = array();
-        $parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
-        $parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
+        $parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
+        $parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
 
         $provider = \OAuth\OAuth::provider($serviceKey, array(
             'id' => $parameters['id'],
             'secret' => $parameters['secret'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
         ));
-
-
-        // var_dump($token->refresh_token);
-
-        // die();
 
         $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
 
-        
 
         // save token
 
@@ -67,59 +63,30 @@ class DuktVideos_AjaxController extends BaseController
 
         $token = base64_encode(serialize($token));
 
-        craft()->duktVideos_configure->set_option($serviceKey."_token", $token);
+        craft()->duktVideos->setOption($serviceKey."_token", $token);
 
         // redirect to service
 
         return $this->returnJson($remaining);
     }
 
-    public function refreshServicesTokens()
+    // --------------------------------------------------------------------
+
+    public function actionRefreshServicesTokens()
     {
         return $this->services();
-        //return $this->returnJson("Hello world");
     }
 
-    public function services()
+    // --------------------------------------------------------------------
+
+    public function actionServices()
     {
-        $response = craft()->duktVideos_ajax->services();
+        $response = craft()->duktVideos->services();
 
         $services = array();
 
         foreach($response as $k => $v)
         {
-
-
-            $token = craft()->duktVideos_configure->get_option($v->getName()."_token");
-            $token = unserialize(base64_decode($token));
-
-            if(isset($token->expires))
-            {
-                $remaining = $token->expires - time();
-
-                if($remaining < 240)
-                {
-                    // refresh token
-
-
-                    $accessToken = $v->provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
-                    
-
-                    // save token
-
-                    $token->access_token = $accessToken->access_token;
-                    $token->expires = $accessToken->expires;
-
-
-                    $remaining = $token->expires - time();
-
-                    $serializedToken = base64_encode(serialize($token));
-
-                    craft()->duktVideos_configure->set_option($v->getName()."_token", $serializedToken  );
-                }
-            }
-
             if($v->isAuthenticated())
             {
                 $services[$v->providerClass] = array(
@@ -131,7 +98,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($services);
     }
 
-    public function playlists()
+    // --------------------------------------------------------------------
+
+    public function actionPlaylists()
     {
         try {
             $service = $this->getService();
@@ -148,7 +117,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($playlists);
     }
 
-    public function playlist()
+    // --------------------------------------------------------------------
+
+    public function actionPlaylist()
     {
         try {
             $service = $this->getService();
@@ -172,7 +143,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($videos);
     }
 
-    public function embed()
+    // --------------------------------------------------------------------
+
+    public function actionEmbed()
     {
         $videoUrl = craft()->request->getParam('videoUrl');
 
@@ -185,7 +158,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($embed);
     }
 
-    public function search()
+    // --------------------------------------------------------------------
+
+    public function actionSearch()
     {
         $service = $this->getService();
 
@@ -202,7 +177,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($videos);
     }
 
-    public function uploads()
+    // --------------------------------------------------------------------
+
+    public function actionUploads()
     {
         try {
             $service = $this->getService();
@@ -222,7 +199,9 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($videos);
     }
 
-    public function favorites()
+    // --------------------------------------------------------------------
+
+    public function actionFavorites()
     {
         $service = $this->getService();
 
@@ -236,6 +215,8 @@ class DuktVideos_AjaxController extends BaseController
         $this->returnJson($videos);
     }
 
+    // --------------------------------------------------------------------
+
     private function getService()
     {
         $serviceKey = craft()->request->getParam('service');
@@ -243,21 +224,21 @@ class DuktVideos_AjaxController extends BaseController
 
         // Retrieve token
 
-        $token = craft()->duktVideos_configure->get_option($serviceKey."_token");
+        $token = craft()->duktVideos->getOption($serviceKey."_token");
         $token = unserialize(base64_decode($token));
 
 
         // Create the OAuth provider
         
-        $parameters['id'] = craft()->duktVideos_configure->get_option($serviceKey."_id");
-        $parameters['secret'] = craft()->duktVideos_configure->get_option($serviceKey."_secret");
-        $parameters['developerKey'] = craft()->duktVideos_configure->get_option($serviceKey."_developerKey");
+        $parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
+        $parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
+        $parameters['developerKey'] = craft()->duktVideos->getOption($serviceKey."_developerKey");
 
         $provider = \OAuth\OAuth::provider($serviceKey, array(
             'id' => $parameters['id'],
             'secret' => $parameters['secret'],
             'developerKey' => $parameters['developerKey'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$serviceKey)
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
         ));
 
         $provider->setToken($token);

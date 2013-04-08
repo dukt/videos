@@ -192,9 +192,9 @@ class App implements iApp {
 					}
 				}
 				
-				$service_obj->redirect_url = \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
-				$service_obj->success_url = \Craft\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
-				$service_obj->problem_url = \Craft\UrlHelper::getUrl('duktvideos/configure/'.$service_key);
+				$service_obj->redirect_url = \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$service_key);
+				$service_obj->success_url = \Craft\UrlHelper::getUrl('duktvideos/settings/'.$service_key);
+				$service_obj->problem_url = \Craft\UrlHelper::getUrl('duktvideos/settings/'.$service_key);
 								
 				$services[$service_key] = $service_obj;	
 			}
@@ -297,7 +297,7 @@ class App implements iApp {
 	 */	
 	public static function callback_url($service_key)
 	{
-		return \Craft\UrlHelper::getActionUrl('duktvideos/configure/callback/'.$service_key);
+		return \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$service_key);
 	}
 	
 	// --------------------------------------------------------------------

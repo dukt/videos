@@ -41,7 +41,7 @@ duktvideos.factory("DuktVideosService",function($rootScope, $http){
                 }
             },
             refreshServicesTokens: function() {
-                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'refreshServicesTokens'})}).
+                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/refreshServicesTokens')}).
                         success(function(data, status, headers, config) {
                             console.log(data);
                         }).
@@ -64,7 +64,7 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
     // get services
 
-    $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'services'})}).
+    $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/services')}).
         success(function(data, status, headers, config) {
 
             console.log('services success');
@@ -101,7 +101,7 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
             // get playlists for this service
 
             $.each(data, function(k, el) {
-                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', {method:'playlists', service:el.name})}).
+                $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/playlists', {service:el.name})}).
                     success(function(data2, status2, headers2, config2) {
                         $rootScope.services[k].playlists = data2;                    
                     }).
@@ -241,7 +241,7 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
         DuktVideosService.loader.on();
 
-        $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/angular', opts), cache: true}).
+        $http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/search', opts), cache: true}).
           success(function(data, status, headers, config)
           {
                 $rootScope.videos = data;
