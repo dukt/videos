@@ -1,26 +1,3 @@
-/**
- * Dukt Videos
- *
- * @package		Dukt Videos
- * @version		Version 1.0b1
- * @author		Benjamin David
- * @copyright	Copyright (c) 2012 - DUKT
- * @link		http://dukt.net/videos/
- *
- */
-.dv-overlay {
-  display: none;
-  width: 200px;
-  height: 200px;
-  background: #000;
-  opacity: .8;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  position: fixed;
-  z-index: 1;
-}
 .dv-modal {
   display: none;
   position: fixed;

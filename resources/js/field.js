@@ -110,8 +110,6 @@ videos.modal = {
 
 (function($) {
 
-
-
     $.fn.dukt_videos_field = function(options)
     {       
         // build main options before element iteration
@@ -177,7 +175,7 @@ videos.modal = {
 
 // --------------------------------------------------------------------
 
-$().ready(function()
+$(document).ready(function()
 {
     console.log('Videos field on this page : ', $('.dv-field').length);
     

@@ -16,9 +16,6 @@ videos.preview = {
 
             return false;
         });
-
-        //$('#player').appendTo('body');
-
     },
 
     resize: function() {
