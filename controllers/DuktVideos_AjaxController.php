@@ -20,11 +20,10 @@ class DuktVideos_AjaxController extends BaseController
 	/**
 	 * Action Endpoint
 	 */
-    public function actionAngular()
+    public function actionModal()
     {		
-		$method = craft()->request->getParam('method');
-		
-        $this->{$method}();
+
+        $this->renderTemplate('duktvideos/modal');
     }
 
     // --------------------------------------------------------------------

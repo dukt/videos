@@ -1,0 +1,35 @@
+<div id="duktvideosModal">
+    <div ng-controller="ServicesListCtrl" class="dv-controller">
+        
+        <div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/top.html') }}'"></div>
+
+        <div class="dv-getStarted">
+            Get started by <a href="{{ url('duktvideos/settings') }}">setting up a video service</a>.
+        </div>
+
+        <div class="dv-box dv-loading">
+
+            <div class="spinner dv-box-spinner"></div>
+
+            <div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/sidebar.html') }}'"></div>
+            <div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/main.html') }}'"></div>
+
+            <div class="clear"></div>
+        </div>
+
+    </div>
+
+    <div id="player">
+        <div id="videoDiv">Loading...</div>
+
+        <div id="videoInfo">
+            <p>Player state: <span id="playerState">--</span></p>
+            <p>Current Time: <span id="videoCurrentTime">--:--</span> | Duration: <span id="videoDuration">--:--</span></p>
+            <p>
+                Bytes Total: <span id="bytesTotal">--</span> | 
+                Start Bytes: <span id="startBytes">--</span> | 
+                Bytes Loaded: <span id="bytesLoaded">--</span>
+            </p>
+         </div>
+    </div>
+</div>

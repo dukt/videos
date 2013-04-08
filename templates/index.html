@@ -1,6 +1,8 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 
+{% includeCssResource "duktvideos/css/mcp.css" %}
+{% includeCssResource "duktvideos/css/angular.css" %}
 
 {% set js %}
 	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
@@ -9,20 +11,14 @@
 
 {% includeJs js %}
 
-{% includeCssResource "duktvideos/css/mcp.css" %}
-{% includeCssResource "duktvideos/css/angular.css" %}
-
 {% includeJsResource "duktvideos/js/player.js" %}
-
 {% includeJsResource "duktvideos/js/angular.js" %}
-
-
 
 {% includeJsResource "duktvideos/angular/src/angular.js" %}
 {% includeJsResource "duktvideos/angular/js/app.js" %}
 {% includeJsResource "duktvideos/angular/js/controllers.js" %}
-{% set title = "Videos"|t %}
 
+{% set title = "Videos"|t %}
 
 {% set extraPageHeaderHtml %}
 	<a class="btn settings icon" href="{{ url('duktvideos/settings') }}" title="{{ 'Settings'|t }}"></a>
@@ -31,39 +27,7 @@
 
 {% set content %}
 
-	<div ng-controller="ServicesListCtrl" class="dv-controller">
-	 	
-		<div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/top.html') }}'"></div>
-
-		<div class="dv-getStarted">
-			Get started by <a href="{{ url('duktvideos/settings') }}">setting up a video service</a>.
-		</div>
-
-		<div class="dv-box dv-loading">
-
-			<div class="spinner dv-box-spinner"></div>
-
-			<div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/sidebar.html') }}'"></div>
-			<div ng-include src="'{{ resourceUrl('duktvideos/angular/partials/main.html') }}'"></div>
-
-			<div class="clear"></div>
-		</div>
-
-	</div>
-
-	<div id="player">
-		<div id="videoDiv">Loading...</div>
-
-		<div id="videoInfo">
-	        <p>Player state: <span id="playerState">--</span></p>
-	        <p>Current Time: <span id="videoCurrentTime">--:--</span> | Duration: <span id="videoDuration">--:--</span></p>
-	        <p>
-	        	Bytes Total: <span id="bytesTotal">--</span> | 
-	        	Start Bytes: <span id="startBytes">--</span> | 
-	        	Bytes Loaded: <span id="bytesLoaded">--</span>
-	        </p>
-	     </div>
-	</div>
+	{% include 'duktvideos/modal' %}
 
 
 {% endset %}
