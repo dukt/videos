@@ -65,12 +65,12 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	 * Prep value
 	 */
 	public function prepValue($video_url)
-	{
-		require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
-			
-		$video = \DuktVideos\App::get_video($video_url);
+	{			
+		// $video = \DuktVideos\App::get_video($video_url);
 		
 		$video_object = new DuktVideos_VideoModel();
+
+		return $video_object; // temporary
 		
 		if($video)
 		{

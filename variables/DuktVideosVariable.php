@@ -14,7 +14,6 @@
 namespace Craft;
 
 require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
-require_once(DUKT_VIDEOS_PATH.'libraries/app.php');
 
 require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
 
