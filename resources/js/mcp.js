@@ -11,11 +11,13 @@ videos.preview = {
 
         overlay.appendTo('body');
 
-        overlay.click(function() {
+        $('.dv-overlay, .dv-modal .cancel').click(function() {
             videos.preview.hide();
+
+            return false;
         });
 
-        $('#player').appendTo('body');
+        //$('#player').appendTo('body');
 
     },
 
@@ -25,19 +27,28 @@ videos.preview = {
         
         var playerTop = (winH / 2) - $('#player').outerHeight() / 2;
         var playerLeft = (winW / 2) - $('#player').outerWidth() / 2;
+
         $('#player').css('top', playerTop);
         $('#player').css('left', playerLeft);
     },
 
     show : function() {
-        $('#player').css('visibility', 'visible');
+        $('#player').css('display', 'block');
         $('.dv-overlay').css('display', 'block');
+        videos.preview.resize();
     },
 
     hide: function() {
-        $('#player').css('visibility', 'hidden');
         $('.dv-overlay').css('display', 'none');
+        $('#player #videoDiv').html('');
+        $('#player .title').html('Loading...');
+        $('#player').css('display', 'none');
     }
 };
 
 videos.preview.init();
+
+$(document).ready(function() {
+    $('html').attr('ng-app', "duktvideos");
+    $('body').attr('ng-controller', "ServicesListCtrl");
+});
