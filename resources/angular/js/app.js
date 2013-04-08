@@ -58,7 +58,13 @@ duktvideos.factory("DuktVideosService",function($rootScope, $http){
 
 duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVideosService) {
 
-    console.log('run');
+    console.log('run', videos);
+
+    // --------------------------------------------------------------------
+    
+    // initialize videos
+    
+    
 
     // --------------------------------------------------------------------
 

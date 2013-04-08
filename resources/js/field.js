@@ -1,4 +1,46 @@
-console.log('hello field.js');
+console.log('field.js');
+
+var videos = {};
+
+videos.preview = {
+    init: function() {
+        console.log('mcp.preview.init()');
+        //$('#player').appendTo('.dv-modal');
+
+        $('#player .player-close, #player .cancel').click(function() {
+            videos.preview.hide();
+            return false;
+        });
+
+    },
+
+    resize: function() {
+        var modalH = $('.dv-modal').outerHeight();
+        var modahW = $('.dv-modal').outerWidth();
+
+        var iFrameHeight = modalH - $('#player .top').outerHeight() - $('#player .bottom').outerHeight();
+
+        $('#player').css('height', modalH);
+
+        $('#player #videoDiv').css('height', iFrameHeight);
+
+        // $('#player').css('left', playerLeft);
+    },
+
+    show : function() {
+        $('#player').css('display', 'block');
+        videos.preview.resize();
+    },
+
+    hide: function() {
+        $('#player #videoDiv').html('');
+        $('#player .title').html('Loading...');
+        $('#player').css('display', 'none');
+    }
+};
+
+
+
 
 (function($) {
 
@@ -19,6 +61,9 @@ console.log('hello field.js');
         );
     };
 
+    // --------------------------------------------------------------------
+
+    // main init
 
     $.fn.dukt_videos_field.init = function()
     {
@@ -29,12 +74,13 @@ console.log('hello field.js');
 
         Craft.postActionRequest('duktvideos/ajax/modal', {}, function(response) {
 
+            
+
             // load modal body
 
             $(response).appendTo('body');
 
-
-
+            videos.preview.init();
             
             // manual bootstrap
             
@@ -42,6 +88,10 @@ console.log('hello field.js');
         });
 
     };
+
+    // --------------------------------------------------------------------
+
+    // modal
 
     $.fn.dukt_videos_field.modal = {
         init: function() {
@@ -71,6 +121,9 @@ console.log('hello field.js');
         }
     };
 
+    // --------------------------------------------------------------------
+
+    // init field
 
     $.fn.dukt_videos_field.init_field = function(field)
     {
@@ -78,8 +131,10 @@ console.log('hello field.js');
             $.fn.dukt_videos_field.modal.show();
         });
     }
+
+    // --------------------------------------------------------------------
     
-    // Initialization
+    // init on document ready
 
     $(document).ready(function() {
         $.fn.dukt_videos_field.init();
@@ -88,13 +143,13 @@ console.log('hello field.js');
 
 })(jQuery);
 
+// --------------------------------------------------------------------
+
 $().ready(function()
 {
     console.log('Videos field on this page : ', $('.dv-field').length);
+    
+    // init loop on each field
+
     $('.dv-field').dukt_videos_field();
 });
-
-function build_modal()
-{
-
-}

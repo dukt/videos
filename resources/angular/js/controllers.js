@@ -50,22 +50,20 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	$scope.play = function(video)
 	{
-		$('#player').css('visibility', 'visible');
-		$('#player-overlay').css('visibility', 'visible');
+		// show preview modal
+		videos.preview.show();
 		
 		$scope.selected = video;
-
-		//loadVideo(video.id);
 
 		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
         	console.log('--success', $.parseJSON(data));
+        	$('#player .title').html(video.title);
         	$('#player #videoDiv').html($.parseJSON(data));
         }).
         error(function(data, status, headers, config) {
           console.log('--error', data, status, headers, config);
         });
-
 
 		console.log('play video', video.id);
 	}
