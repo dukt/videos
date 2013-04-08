@@ -2,6 +2,15 @@
 
 ## Installation
 
+### Beta installation
+
+You need to run composer in order to install all the libraries required by Dukt Videos. This step won't be necessary for the final release.
+
+Run composer to update your dependencies:
+
+    $ curl -s http://getcomposer.org/installer | php
+    $ php composer.phar update
+
 ### Plugin installation
 
 1. Move `duktvideos/` folder to `/craft/plugins/`
