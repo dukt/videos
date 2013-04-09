@@ -155,6 +155,8 @@ videos.modal = {
     hide: function() {
         $('.dv-overlay').css('display', 'none');
         $('.dv-modal').css('display', 'none');
+
+        videos.preview.hide();
     }
 };
 
