@@ -43,18 +43,16 @@ class DuktVideos_SettingsController extends BaseController
 
         // save options
         
-        if (isset($_POST['options'])) {
-            foreach ($_POST['options'] as $k => $v) {
-                craft()->duktVideos->setOption($serviceKey."_".$k, $v);
+        if (isset($_POST['connect'])) {
+            if (isset($_POST['options'])) {
+                foreach ($_POST['options'] as $k => $v) {
+                    craft()->duktVideos->setOption($serviceKey."_".$k, $v);
+                }
             }
         }
-        
+
         if($validate)
         {
-
-
-            
-            
             // try to connect
             
             if (!$serviceKey) {
@@ -79,7 +77,7 @@ class DuktVideos_SettingsController extends BaseController
             }
 
             if (isset($_POST['refresh'])) {
-                $this->refreshService($serviceKey);
+                @$this->refreshService($serviceKey);
                 craft()->userSession->setNotice(Craft::t('Service token refreshed.'));
                 $this->redirectToPostedUrl();
             }
