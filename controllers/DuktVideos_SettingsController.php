@@ -23,36 +23,72 @@ class DuktVideos_SettingsController extends BaseController
 	 */	
     public function actionSaveService()
     {
-    	// save options
-    	
-	    if (isset($_POST['options'])) {
-	    	foreach ($_POST['options'] as $k => $v) {
-	    		craft()->duktVideos->setOption($k, $v);
-	    	}
-	    }
-	    
-	    
-	    // try to connect
-	    
-	    $service_key = craft()->request->getSegment(5);
-	    
-	    if (!$service_key) {
-		    $service_key = $_POST['service'];
-	    }
+        $serviceKey = craft()->request->getSegment(3);
 
-	    if (isset($_POST['connect'])) {
-	    	$this->connectService($service_key);
-	    }
+        // validation service options
+
+        $options = craft()->request->getPost('options');
 
 
-	    if (isset($_POST['reset'])) {
-	    	$this->resetService($service_key);
-	    }
+        // validate service parameters
 
-	    if (isset($_POST['refresh'])) {
-	    	$this->refreshService($service_key);
-	    }
-	    
+        $service = craft()->duktVideos->services($serviceKey);
+
+        $func = '\Craft\DuktVideos_Service' . $serviceKey . 'Model';
+
+        $attributes = $func::populateModel($options);
+
+        $validate = $attributes->validate();
+        // $params = $service->getDefaultParameters();
+
+        // save options
+        
+        if (isset($_POST['options'])) {
+            foreach ($_POST['options'] as $k => $v) {
+                craft()->duktVideos->setOption($serviceKey."_".$k, $v);
+            }
+        }
+        
+        if($validate)
+        {
+
+
+            
+            
+            // try to connect
+            
+            if (!$serviceKey) {
+                $serviceKey = $_POST['service'];
+            }
+
+            if (isset($_POST['connect'])) {
+                try {
+                    $this->connectService($serviceKey);
+                }
+                catch(\Exception $e)
+                {
+                    craft()->userSession->setError(Craft::t('Couldn’t connect to service, check your credentials.'));
+                }
+            }
+
+
+            if (isset($_POST['reset'])) {
+                $this->resetService($serviceKey);
+                craft()->userSession->setNotice(Craft::t('Service token reset.'));
+                $this->redirectToPostedUrl();
+            }
+
+            if (isset($_POST['refresh'])) {
+                $this->refreshService($serviceKey);
+                craft()->userSession->setNotice(Craft::t('Service token refreshed.'));
+                $this->redirectToPostedUrl();
+            }
+        }
+        else
+        {
+            // craft()->userSession->setNotice(Craft::t('Email settings saved.'));
+            craft()->userSession->setError(Craft::t('Couldn’t save service.'));
+        }
 
 	    // redirect
 
@@ -119,7 +155,7 @@ class DuktVideos_SettingsController extends BaseController
 		
 		craft()->duktVideos->resetService($service_key);
 
-		$this->redirect($_POST['redirect']); 
+		//$this->redirect($_POST['redirect']); 
     }
 
     // --------------------------------------------------------------------
@@ -158,7 +194,7 @@ class DuktVideos_SettingsController extends BaseController
 
 	    // redirect to service
 
-	    return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
+	    //return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
 
     }
 
@@ -200,9 +236,12 @@ class DuktVideos_SettingsController extends BaseController
 	    $parameters['token'] = base64_encode(serialize($parameters['token']));
 
 	    craft()->duktVideos->setOption($serviceKey."_token", $parameters['token']);
+        craft()->userSession->setNotice(Craft::t('Service connected.'));
 
 
 	    // redirect to service
+
+        craft()->userSession->setNotice(Craft::t('Service connected.'));
 
 	    return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
     }

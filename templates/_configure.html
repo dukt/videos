@@ -31,7 +31,7 @@
 				</div>
 				
 				<div class="input">
-					<input class="text fullwidth{% if key == 'token' %} readonly{% endif %}" {% if key == "token" %}readonly="readonly"{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
+					<input class="text fullwidth{% if key == 'token' %} readonly{% endif %}" {% if key == "token" %}readonly="readonly"{% endif %} name="options[{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
 				</div>
 			</div>
 		{% endfor %}
