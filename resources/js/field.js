@@ -266,3 +266,9 @@ $(document).ready(function()
 
     $('.dv-field').dukt_videos_field();
 });
+
+
+$(window).resize(function() {
+    videos.preview.resize();
+    videos.modal.resize();
+});
