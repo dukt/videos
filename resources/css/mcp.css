@@ -2,6 +2,18 @@ table.data td.col-actions {
   /* 		text-align: right; */
 
 }
+input.readonly {
+  background: #fafafa;
+}
+input.readonly:focus {
+  border-color: #ccc;
+  outline: none;
+  webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.1), 0 0 0px #6eb1db;
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0.1), 0 0 0px #6eb1db;
+}
+.field.dv-hide {
+  display: none;
+}
 #player {
   display: none;
   z-index: 20000;

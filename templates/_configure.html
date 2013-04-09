@@ -1,6 +1,7 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 {% includeJsResource "duktvideos/js/refreshToken.js" %}
+{% includeCssResource "duktvideos/css/mcp.css" %}
 {% set service = craft.duktVideos.cpServices( serviceClassName ) %}
 
 {% set title = "Configure "~service.name|t %}
@@ -21,14 +22,16 @@
 		
 
 		{% for key, value in service.getDefaultParameters() %}
-
-			<div class="field">
+			
+			<div class="field{% if key == "token" and craft.duktVideos.cpGetOption(service.name~"_token") == "" %}
+				dv-hide
+			{% endif %}">
 				<div class="heading">
 					<label>{{ key }}</label>				
 				</div>
 				
 				<div class="input">
-					<input class="text fullwidth" {% if key == "token" %}{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
+					<input class="text fullwidth{% if key == 'token' %} readonly{% endif %}" {% if key == "token" %}readonly="readonly"{% endif %} name="options[{{ service.name }}_{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
 				</div>
 			</div>
 		{% endfor %}
