@@ -163,8 +163,20 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
     $rootScope.serviceChange = function()
     {
         console.log('serviceChange', this.serviceKey);
+
+        // define current service
+
         $rootScope.currentService = $rootScope.services[this.serviceKey];
+
+
+        // change route
+
         $location.path($('.dv-sidebar select').val()+"/"+$routeParams.methodName);
+
+
+        // re-run rearch
+
+        $rootScope.search();
     }
 
     // --------------------------------------------------------------------
