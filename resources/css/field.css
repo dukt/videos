@@ -1,3 +1,19 @@
+.dv-field input.text {
+  display: none;
+}
+.dv-field .btn {
+  display: none;
+}
+.dv-field .dv-preview {
+  display: none;
+  background: #eee;
+  height: 300px;
+}
+.dv-field .dv-preview iframe,
+.dv-field .dv-preview object {
+  width: 100%;
+  height: 100%;
+}
 .dv-modal {
   display: none;
   position: fixed;

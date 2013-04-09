@@ -2,6 +2,8 @@ console.log('mcp.js');
 
 var videos = {};
 
+videos.currentVideo = false;
+
 videos.preview = {
     init: function() {
         console.log('mcp.preview.init()');
@@ -27,6 +29,13 @@ videos.preview = {
 
         $('#player').css('top', playerTop);
         $('#player').css('left', playerLeft);
+    },
+
+    play: function(video)
+    {
+        videos.currentVideo = video;
+
+        videos.preview.show();
     },
 
     show : function() {

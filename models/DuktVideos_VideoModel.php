@@ -75,13 +75,11 @@ class DuktVideos_VideoModel extends BaseModel
     {
         if($this->videoComponent)
         {
-        $embed = $this->videoComponent->getEmbed($opts);
-        
-        $charset = craft()->templates->getTwig()->getCharset();
-
-        $result = new \Twig_Markup($embed, $charset);
-        
-        return $result;
+            $embed = $this->videoComponent->getEmbed($opts);
+            
+            return $embed;
         }
+
+        return false;
     }
 }

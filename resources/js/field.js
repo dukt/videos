@@ -2,6 +2,9 @@ console.log('field.js');
 
 var videos = {};
 
+videos.currentVideo = false;
+videos.currentField = false;
+
 // --------------------------------------------------------------------
 
 // preview
@@ -11,11 +14,34 @@ videos.preview = {
         console.log('mcp.preview.init()');
         //$('#player').appendTo('.dv-modal');
 
+        // cancel
+
         $('#player .player-close, #player .cancel').click(function() {
             videos.preview.hide();
             return false;
         });
 
+
+        // select video
+
+        $('#player .submit').click(function() {
+            videos.preview.hide();
+            videos.modal.hide();
+            console.log('submit');
+            $('input.text', videos.currentField).attr('value', videos.currentVideo.url);
+
+            videos.field.preview(videos.currentVideo.url, videos.currentField);
+
+            return false;
+        });
+
+    },
+
+    play: function(video)
+    {
+        videos.currentVideo = video;
+
+        videos.preview.show();
     },
 
     resize: function() {
@@ -33,8 +59,6 @@ videos.preview = {
         $('#player').css('height', playerH);
 
         $('#player #videoDiv').css('height', iFrameHeight);
-
-        // $('#player').css('left', playerLeft);
     },
 
     show : function() {
@@ -48,6 +72,36 @@ videos.preview = {
         $('#player').css('display', 'none');
     }
 };
+
+videos.field = {};
+
+videos.field.preview = function(videoUrl, field) {
+    
+    // request field preview embed
+
+    Craft.postActionRequest('duktvideos/ajax/fieldEmbed', {videoUrl:videoUrl}, function(response) {
+        console.log('fieldEmbed', videoUrl);
+        // load modal body
+
+        var fieldPreview = $('.dv-preview', field);
+
+        fieldPreview.html('');
+
+        fieldPreview.css('display', 'block');
+
+        $(response).appendTo(fieldPreview);
+
+        videos.preview.init();
+
+        $('.add', field).css('display', 'none');
+        $('.change', field).css('display', 'inline-block');
+        $('.remove', field).css('display', 'inline-block');
+        
+        // manual bootstrap
+        
+        //angular.bootstrap($('.dv-modal'), ['duktvideos']);
+    });
+}
 
 // --------------------------------------------------------------------
 
@@ -148,7 +202,6 @@ videos.modal = {
             
             angular.bootstrap($('.dv-modal'), ['duktvideos']);
         });
-
     };
 
     // --------------------------------------------------------------------
@@ -157,8 +210,38 @@ videos.modal = {
 
     $.fn.dukt_videos_field.init_field = function(field)
     {
-        $('.add', field).click(function() {
+        // if a video is already set, load the iframe
+
+        var input = $('input.text', field);
+        var videoUrl = input.val();
+
+        if(videoUrl !== "") {
+            // a video is set
+
+            videos.field.preview(videoUrl, field);
+        } else {
+            $('.add', field).css('display', 'inline-block');
+            $('.change', field).css('display', 'none');
+            $('.remove', field).css('display', 'none');
+        }
+        // add & change button
+
+        $('.add, .change', field).click(function() {
+            videos.currentField = field;
             videos.modal.show();
+        });
+
+        // remove button
+
+        $('.remove', field).click(function() {
+            input.val('');
+
+            $('.dv-preview', field).css('display', 'none');
+            $('.dv-preview', field).html();
+
+            $('.add', field).css('display', 'inline-block');
+            $('.change', field).css('display', 'none');
+            $('.remove', field).css('display', 'none');
         });
     }
 

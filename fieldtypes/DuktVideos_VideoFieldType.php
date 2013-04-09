@@ -15,6 +15,8 @@ namespace Craft;
 
 require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 
+require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+
 class DuktVideos_VideoFieldType extends BaseFieldType
 {
 	
@@ -43,7 +45,7 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	 * Show field
 	 */
 	public function getInputHtml($name, $value)
-	{		
+	{
 		if(isset($value->url))
 		{
 			$value = $value->url;
@@ -64,22 +66,21 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	/**
 	 * Prep value
 	 */
-	public function prepValue($video_url)
-	{			
-		// $video = \DuktVideos\App::get_video($video_url);
-		
-		$video_object = new DuktVideos_VideoModel();
+	public function prepValue($videoUrl)
+	{
+		$video = craft()->duktVideos->url($videoUrl);
 
-		return $video_object; // temporary
+		
+		$videoObject = new DuktVideos_VideoModel();
 		
 		if($video)
 		{
 			foreach($video as $k => $v)
 			{
-				$video_object->{$k} = $video[$k];	
+				$videoObject->{$k} = $video[$k];	
 			}
 			
-			return $video_object;
+			return $videoObject;
 		}
 		
 		return false;

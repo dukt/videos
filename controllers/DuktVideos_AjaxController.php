@@ -154,6 +154,23 @@ class DuktVideos_AjaxController extends BaseController
 
         $embed = $video->getEmbed(array('autoplay' => '1'));
 
+        // $charset = craft()->templates->getTwig()->getCharset();
+
+        // $result = new \Twig_Markup($embed, $charset);
+
+        $this->returnJson($embed);
+    }
+
+    // --------------------------------------------------------------------
+
+    public function actionFieldEmbed()
+    {
+        $videoUrl = craft()->request->getParam('videoUrl');
+
+        $video = craft()->duktVideos->url($videoUrl);
+
+        $embed = $video->embed(array('autoplay' => '0'));
+
         $this->returnJson($embed);
     }
 

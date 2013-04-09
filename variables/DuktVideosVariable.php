@@ -38,29 +38,7 @@ class DuktVideosVariable
     */
     public function url($videoUrl)
     {
-        $services = craft()->duktVideos->services();
-
-        foreach($services as $s)
-        {
-            $params['url'] = $videoUrl;
-
-            try {
-                $video = $s->videoFromUrl($params);
-
-                $video_object = new DuktVideos_VideoModel($video);
-
-
-                return $video_object;
-
-                //return $video;
-            }
-            catch(\Exception $e)
-            {
-                // return $e->getMessage();
-            }
-        }
-
-        return false;
+        return craft()->duktVideos->url($videoUrl);
     }
 
     // --------------------------------------------------------------------

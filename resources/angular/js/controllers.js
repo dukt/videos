@@ -51,7 +51,10 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	$scope.play = function(video)
 	{
 		// show preview modal
-		videos.preview.show();
+
+		//videos.preview.show();
+		
+		videos.preview.play(video);
 		
 		$scope.selected = video;
 

@@ -15,7 +15,40 @@
 namespace Craft;
 
 class DuktVideosService extends BaseApplicationComponent
-{   
+{
+    /*
+    * Retrieves a video from its URL
+    *
+    */
+    public function url($videoUrl)
+    {
+        $services = $this->services();
+
+        foreach($services as $s)
+        {
+            $params['url'] = $videoUrl;
+
+            try {
+                $video = $s->videoFromUrl($params);
+
+                $video_object = new DuktVideos_VideoModel($video);
+
+
+                return $video_object;
+
+                //return $video;
+            }
+            catch(\Exception $e)
+            {
+                // return $e->getMessage();
+            }
+        }
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+
     /**
      * Services
      */
