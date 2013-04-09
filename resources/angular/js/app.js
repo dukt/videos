@@ -168,15 +168,22 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
 
         $rootScope.currentService = $rootScope.services[this.serviceKey];
 
+        var methodName = $routeParams.methodName;
 
-        // change route
-
-        $location.path($('.dv-sidebar select').val()+"/"+$routeParams.methodName);
-
-
+        if(methodName == "playlist")
+        {
+            methodName = "favorites";
+        }
+        
         // re-run rearch
 
         $rootScope.search();
+
+        // change route
+
+        $location.path($('.dv-sidebar select').val()+"/"+methodName);
+
+
     }
 
     // --------------------------------------------------------------------
