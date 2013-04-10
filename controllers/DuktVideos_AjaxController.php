@@ -152,7 +152,7 @@ class DuktVideos_AjaxController extends BaseController
 
         $video = $service->videoFromUrl(array('url' => $videoUrl));
 
-        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 0));
+        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 0, 'showinfo' => 0));
 
         // $charset = craft()->templates->getTwig()->getCharset();
 
@@ -169,7 +169,7 @@ class DuktVideos_AjaxController extends BaseController
 
         $video = craft()->duktVideos->url($videoUrl);
 
-        $embed = $video->embed(array('autoplay' => '0', 'controls' => 0));
+        $embed = $video->embed(array('autoplay' => '0', 'controls' => 0, 'showinfo' => 0));
 
         $this->returnJson($embed);
     }
