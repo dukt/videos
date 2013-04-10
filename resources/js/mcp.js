@@ -55,8 +55,7 @@ videos.preview = {
 videos.preview.init();
 
 $(document).ready(function() {
-    $('html').attr('ng-app', "duktvideos");
-    $('body').attr('ng-controller', "ServicesListCtrl");
+    angular.bootstrap($('.dv-modal'), ['duktvideos']);
 });
 
 $(window).resize(function() {

@@ -202,6 +202,8 @@ videos.modal = {
             
             // manual bootstrap
             
+            console.log('angular bootstrap');
+
             angular.bootstrap($('.dv-modal'), ['duktvideos']);
         });
     };
