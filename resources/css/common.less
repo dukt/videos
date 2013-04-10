@@ -14,3 +14,81 @@
     z-index: 1;
  }
  
+div.dv-videos-thumb
+{
+    float: left;
+    overflow: hidden;
+
+    border-color:#aaa;
+    border-width:0px;
+    /* Firefox v1.0+ */
+    -moz-border-radius:1%;
+    /* Safari v3.0+ and by Chrome v0.2+ */
+    -webkit-border-radius:0%/1%;
+    /* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
+    border-radius:0%/1%;
+    border-style:solid;
+    /* Firefox v3.5+ */
+    -moz-box-shadow:0px 1px 0px rgb(255,255,255);
+    /* Safari v3.0+ and by Chrome v0.2+ */
+    -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
+    /* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
+    box-shadow:0px 1px 0px rgb(255,255,255);
+
+    display: inline-block;
+    position: relative;
+
+    .dv-clip-outer
+    {
+        position: relative;
+        display: inline-block;
+        width: 180px;
+        height: 97px;
+        overflow: hidden;
+        vertical-align: bottom;
+
+        .dv-clip
+        {
+            display: block;
+            position: absolute;
+            bottom: -100px;
+            top: -100px;
+            left: -100px;
+            right: -100px;
+            text-align: center;
+            white-space: nowrap;
+            word-break: normal;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            font-size: 100%;
+            background: transparent;
+
+            .dv-clip-inner
+            {
+                display: block;
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+
+                img
+                {
+                    width: 182px;
+                    display: inline-block;
+                    vertical-align: middle;
+                    border: 0;
+                    outline: none;
+                }
+
+                .dv-vertical-align
+                {
+                    height: 100%;
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+            }
+        }
+    }
+}

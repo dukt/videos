@@ -24,7 +24,21 @@
 	<div class="dv-videos-wrap">
 		<ul class="dv-videos">
 			<li ng-repeat="video in videos" ng-class="{active: isSelected(video)}">
-				<a ng-click="play(video)"><div><img ng-src="{{video.thumbnailLarge}}"></div></a>
+				<a ng-click="play(video)">
+
+
+					<div class="dv-videos-thumb">
+						<span class="dv-clip-outer">
+							<span class="dv-clip">
+								<span class="dv-clip-inner">
+									<img ng-src="{{video.thumbnailLarge}}">
+									<span class="dv-vertical-align"></span>
+								</span>
+							</span>
+						</span>
+					</div>
+				</a>
+
 			</li>
 		</ul>
 
