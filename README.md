@@ -1,6 +1,6 @@
 # Dukt Videos for Craft
 
-*Beta Notice : Do **not** use on production yet, we could make major changes before going out of beta, you must be able to re-install the plugin at any time.*
+*Beta Notice : Do NOT use on production yet, we could make major changes before going out of beta, you must be able to re-install the plugin at any time.*
 
 ## Installation
 
