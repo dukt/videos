@@ -1,6 +1,6 @@
 # Dukt Videos for Craft
 
-*Notice : Thank you for taking the time to test Dukt Videos. Please do not install on production environment, the plugin is not ready for this yet.* 
+*Beta Notice : Do **not** use on production yet, we could make major changes before going out of beta, you must be able to re-install the plugin at any time.*
 
 ## Installation
 
@@ -75,4 +75,9 @@ Retrieve a video from its URL.
 		<li>url : {{ video.url }}</li>
 	</ul>
 
+## Feedback
 
+**Please provide feedback!** We want this plugin to make fit your needs as much as possible.
+Please [get in touch](mailto:hello@dukt.net), and point out what you do and don't like. **No issue is too small.**
+
+This plugin is actively maintained by [Benjamin David](https://github.com/benjamindavid), from [Dukt](http://dukt.net/).
