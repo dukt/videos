@@ -16,10 +16,121 @@ namespace Craft;
 
 class DuktVideosService extends BaseApplicationComponent
 {
-    /*
-    * Retrieves a video from its URL
-    *
-    */
+    protected $serviceRecord;
+
+    public function __construct($serviceRecord = null)
+    {
+        $this->serviceRecord = $serviceRecord;
+        if (is_null($this->serviceRecord)) {
+            $this->serviceRecord = DuktVideos_ServiceRecord::model();
+        }
+    }
+
+
+
+    public function saveService(DuktVideos_ServiceModel &$model)
+    {
+        $class = $model->getAttribute('providerClass');
+
+        if (null === ($record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $class)))) {
+            $record = $this->serviceRecord->create();
+        }
+
+        $record->setAttributes($model->getAttributes());
+
+        if ($record->save()) {
+            // update id on model (for new records)
+
+            $model->setAttribute('id', $record->getAttribute('id'));
+
+            // Connect Service
+
+           $this->connectService($record);
+
+            return true;
+        } else {
+
+            $model->addErrors($record->getErrors());
+
+            return false;
+        }
+    }
+
+
+
+    public function connectService($record = false)
+    {
+        if(!$record)
+        {
+            $class = craft()->request->getParam('providerClass');
+
+            $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $class));
+        }
+
+
+        $providerClass = $record->providerClass;
+
+        $provider = \OAuth\OAuth::provider($providerClass, array(
+            'id' => $record->clientId,
+            'secret' => $record->clientSecret,
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/serviceCallback/', array('providerClass' => $providerClass))
+        ));
+
+        $provider = $provider->process(function($url, $token = null) {
+
+            if ($token) {
+                $_SESSION['token'] = base64_encode(serialize($token));
+            }
+
+            header("Location: {$url}");
+
+            exit;
+
+        }, function() {
+            return unserialize(base64_decode($_SESSION['token']));
+        });
+
+
+        $token = $provider->token();
+
+        $record->token = base64_encode(serialize($token));
+
+        $record->save();
+
+
+        craft()->request->redirect(UrlHelper::getUrl('duktvideos/settings'));
+
+    }
+
+    public function getServiceRecord($providerClass)
+    {
+        // get the option
+        
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        if ($record) {
+
+            return DuktVideos_ServiceModel::populateModel($record);
+        }
+
+        return false;
+    }
+
+    public function getServiceByProviderClass($providerClass)
+    {        
+        
+        // get the option
+        
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        if ($record) {
+
+            return DuktVideos_ServiceModel::populateModel($record);
+        }
+
+        return new DuktVideos_ServiceModel();
+    }
+
     public function url($videoUrl)
     {
         $services = $this->services();
@@ -198,13 +309,12 @@ class DuktVideosService extends BaseApplicationComponent
     /**
      * Reset Service
      */
-    function resetService($service_key)
+    function resetService($providerClass)
     {       
-        $condition = "option_name LIKE :match";
-        
-        $params = array(':match' => $service_key."%token%%");
-        
-        DuktVideos_OptionRecord::model()->deleteAll($condition, $params);
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+        $record->token = NULL;
+        return $record->save();
+
     }
 }
 

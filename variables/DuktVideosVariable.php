@@ -25,6 +25,11 @@ class DuktVideosVariable
 
   		$this->pagination_per_page = $config['pagination_per_page'];
   	}
+
+    public function getServiceByProviderClass($providerClass)
+    {
+        return craft()->duktVideos->getServiceByProviderClass($providerClass);
+    }
     
     // --------------------------------------------------------------------
 
@@ -117,5 +122,10 @@ class DuktVideosVariable
     public function cpServices($service = false)
     {       
         return craft()->duktVideos->services($service);
+    }
+
+    function cpGetServiceRecord($providerClass)
+    {
+        return craft()->duktVideos->getServiceRecord($providerClass);
     }
 }

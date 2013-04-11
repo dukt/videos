@@ -1,15 +1,4 @@
 <?php
-
-/**
- * Dukt Videos
- *
- * @package     Dukt Videos
- * @version     Version 1.0
- * @author      Benjamin David
- * @copyright   Copyright (c) 2013 - DUKT
- * @link        http://dukt.net/add-ons/expressionengine/dukt-videos/
- *
- */
  
 namespace Craft;
 
@@ -23,7 +12,11 @@ class DuktVideos_ServiceModel extends BaseModel
     public function defineAttributes()
     {
         $attributes = array(
-                'token' => array(AttributeType::String, 'required' => false),
+                'id'    => AttributeType::Number,
+                'providerClass' => array(AttributeType::String, 'required' => true),
+                'clientId' => array(AttributeType::String, 'required' => true),
+                'clientSecret' => array(AttributeType::String, 'required' => true),
+                'token' => array(AttributeType::Mixed, 'required' => false),
             );
 
         return $attributes;

@@ -23,10 +23,14 @@
 		</thead>
 
 		{% for service in craft.duktVideos.cpServices() %}
+		
+			{% set serviceRecord = craft.duktVideos.cpGetServiceRecord(service.name) %}
 		    <tr>
-		    	<th>{{service.name}}</th>
+		    	<th>
+		    		{{service.name}}
+		    	</th>
 		    	<td class="col">
-					{% if service.isAuthenticated() %}
+					{% if serviceRecord.token is defined and serviceRecord.token is not null %}
 						<div class="status on"></div>
 						Enabled
 					{% else %}

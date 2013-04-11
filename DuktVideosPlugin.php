@@ -71,7 +71,7 @@ class DuktVideosPlugin extends BasePlugin
     public function hookRegisterCpRoutes()
     {
         return array(
-            'duktvideos\/settings\/(?P<serviceClassName>.*)' => 'duktvideos/_configure',
+            'duktvideos\/settings\/(?P<providerClass>.*)' => 'duktvideos/_configure',
         );
     }
 }

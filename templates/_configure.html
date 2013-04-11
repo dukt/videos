@@ -1,10 +1,28 @@
 {% extends "_layouts/cp" %}
-{% set centered = true %}
-{% includeJsResource "duktvideos/js/refreshToken.js" %}
-{% includeCssResource "duktvideos/css/mcp.css" %}
-{% set service = craft.duktVideos.cpServices( serviceClassName ) %}
+{% import "_includes/forms" as forms %}
 
-{% set title = "Configure "~service.name|t %}
+{% set centered = true %}
+
+{% includeJsResource "duktvideos/js/refreshToken.js" %}
+
+{% includeCssResource "duktvideos/css/mcp.css" %}
+
+
+{% if providerClass is not defined %}{% set providerClass = null %}{% endif %}
+
+{% if service is not defined %}
+    {% if providerClass %}
+        {% set service = craft.duktVideos.getServiceByProviderClass(providerClass) %}
+
+        {% if not service %}{% exit 404 %}{% endif %}
+    {% else %}
+        {% set service = null %}
+    {% endif %}
+{% endif %}
+
+
+
+{% set title = "Configure "~providerClass|t %}
 
 {% set crumbs = [
     { label: "Videos"|t, url: url('duktvideos') },
@@ -13,51 +31,42 @@
 
 {% set content %}
 
-
-
 	<form method="post" action="" accept-charset="UTF-8">
 		<input type="hidden" name="action" value="duktvideos/settings/saveService" />
-		<input type="hidden" name="redirect" value="duktvideos/settings/{{service.name}}" />
-		<input type="hidden" name="service" value="{{service.name}}" />
+		<input type="hidden" name="redirect" value="duktvideos/settings/{{providerClass}}" />
+		<input type="hidden" name="service" value="{{providerClass}}" />
 		
 
-		{% for key, value in service.getDefaultParameters() %}
-			
-			{%- set errors = (errors is defined ? errors : null) -%}
 
-			<div class="field{% if key == "token" and craft.duktVideos.cpGetOption(service.name~"_token") == "" %}
-				dv-hide
-			{% endif %}">
-				<div class="heading">
-					<label{% if key != 'token' %} class="required"{% endif %}>{{ key }}</label>				
-				</div>
-				
-				<div class="input">
-					<input class="text fullwidth{% if key == 'token' %} readonly{% endif %}" {% if key == "token" %}readonly="readonly"{% endif %} name="options[{{ key }}]" type="text" value="{{craft.duktVideos.cpGetOption(service.name~"_"~key)}}" />
-				</div>
-				{% include "_includes/forms/errorList" with { errors: errors } %}
-			</div>
-		{% endfor %}
-		
+        {{ forms.textField({
+            label: 'Client Id'|t,
+            required: true,
+            name: 'service[clientId]',
+            value: service ? service.clientId : null,
+            errors: service ? service.errors('clientId') : null,
+            disabled: ((service.token is defined and service.token|length) > 0 ? true : false)
+        }) }}
 
-		
-
+        {{ forms.textField({
+            label: 'Client Secret'|t,
+            required: true,
+            name: 'service[clientSecret]',
+            value: service ? service.clientSecret : null,
+            errors: service ? service.errors('clientSecret') : null,
+            disabled: (service.token is defined and service.token|length > 0 ? true : false)
+        }) }}
 		
 		
-		{% if craft.duktVideos.cpGetOption(service.name~"_token") == "" %}
-			
-
-			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~service.name|t }}">  &nbsp; 
+		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
+			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp; 
 		{% else %}
-			
-
-			{% if craft.duktVideos.cpSupportsRefresh(service.name) %}
-				<p>Token expires in <strong class="dv-expires" data-service="{{service.name}}">{{craft.duktVideos.cpTokenExpires(service.name)}}</strong> seconds. It will be automatically refreshed.</p>
+			{% if craft.duktVideos.cpSupportsRefresh(providerClass) %}
+				<p>Token expires in <strong class="dv-expires" data-service="{{providerClass}}">{{craft.duktVideos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
 				
 				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
 			{% endif %}
 			
-			<input class="btn" name="reset" type="submit" value="{{ 'Reset Token'|t }}"> &nbsp; 
+            <a class="btn" href="{{actionUrl('duktvideos/settings/resetService', {providerClass:providerClass})}}">Reset Token</a>
 		{% endif %}
 	</form>
 
