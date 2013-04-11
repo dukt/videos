@@ -25,8 +25,74 @@ class DuktVideosService extends BaseApplicationComponent
             $this->serviceRecord = DuktVideos_ServiceRecord::model();
         }
     }
+    function refreshServiceToken($providerClass)
+    {
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        $token = unserialize(base64_decode($record->token));
+        
+
+        $parameters = array();
+        $parameters['id'] = $record->clientId;
+        $parameters['secret'] = $record->clientSecret;
+
+        $provider = \OAuth\OAuth::provider($providerClass, array(
+            'id' => $parameters['id'],
+            'secret' => $parameters['secret'],
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$providerClass)
+        ));
+
+        // token
+
+        $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
 
 
+        // save token
+
+        $token->access_token = $accessToken->access_token;
+        $token->expires = $accessToken->expires;
+
+        $token = base64_encode(serialize($token));
+
+        $record->token = $token;
+
+        $record->save();
+    }
+    
+    function serviceSupportsRefresh($providerClass)
+    {
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        if(!$record)
+        {
+          return false;
+        }
+
+        $token = unserialize(base64_decode($record->token));
+
+        if(isset($token->refresh_token))
+        {
+          return true;
+        }
+        
+        return false;
+    }
+
+    function serviceTokenExpires($providerClass)
+    {
+        $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        if(!$record)
+        {
+          return false;
+        }
+
+        $token = unserialize(base64_decode($record->token));
+
+        $expires = ($token->expires - time());
+
+        return $expires;
+    }
 
     public function saveService(DuktVideos_ServiceModel &$model)
     {

@@ -60,13 +60,15 @@
 		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp; 
 		{% else %}
+
 			{% if craft.duktVideos.cpSupportsRefresh(providerClass) %}
 				<p>Token expires in <strong class="dv-expires" data-service="{{providerClass}}">{{craft.duktVideos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
 				
-				<input class="btn" type="submit" name="refresh" value="{{ 'Refresh Token'|t }}"> &nbsp; 
+				<a class="btn" href="{{actionUrl('duktvideos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
 			{% endif %}
 			
             <a class="btn" href="{{actionUrl('duktvideos/settings/resetService', {providerClass:providerClass})}}">Reset Token</a>
+
 		{% endif %}
 	</form>
 

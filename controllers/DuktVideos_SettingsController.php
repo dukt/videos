@@ -115,47 +115,18 @@ class DuktVideos_SettingsController extends BaseController
 		
 		craft()->duktVideos->resetService($providerClass);
 
-		$this->redirect('duktvideos/settings'); 
+		$this->redirect('duktvideos/settings/'.$providerClass); 
     }
 
     // --------------------------------------------------------------------
     
-    private function refreshService()
+    public function actionRefreshServiceToken()
     {
-    	$serviceKey = craft()->request->getSegment(3);
+        $providerClass = craft()->request->getParam('providerClass');
 
-    	$token = craft()->duktVideos->getOption($serviceKey."_token");
-    	$token = unserialize(base64_decode($token));
+        craft()->duktVideos->refreshServiceToken($providerClass);
 
-	    $parameters = array();
-		$parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
-		$parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
-
-	    $provider = \OAuth\OAuth::provider($serviceKey, array(
-	        'id' => $parameters['id'],
-	        'secret' => $parameters['secret'],
-	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
-	    ));
-
-	    // token
-
-    	$accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
-
-	    // save token
-
-	    $token->access_token = $accessToken->access_token;
-	    $token->expires = $accessToken->expires;
-
-	    $token = base64_encode(serialize($token));
-
-		craft()->duktVideos->setOption($serviceKey."_token", $token);
-
-
-	    // redirect to service
-
-	    //return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
-
+        $this->redirect('duktvideos/settings/'.$providerClass); 
     }
 
 	// --------------------------------------------------------------------

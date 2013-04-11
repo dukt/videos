@@ -76,45 +76,16 @@ class DuktVideosVariable
 
     // --------------------------------------------------------------------
 
-    public function cpTokenExpires($serviceKey)
+    public function cpTokenExpires($providerClass)
     {
-        
-
-        $option = craft()->duktVideos->getOption($serviceKey."_token");
-
-        if(!$option)
-        {
-          return false;
-        }
-        $option = unserialize(base64_decode($option));
-
-        $expires = ($option->expires - time());
-
-        return $expires;
-
-        // $option = date(DATE_RSS, $option->expires);
-
-        return $option;
+        return craft()->duktVideos->serviceTokenExpires($providerClass);
     }
 
     // --------------------------------------------------------------------
 
-    public function cpSupportsRefresh($serviceKey)
+    public function cpSupportsRefresh($providerClass)
     {
-        $option = craft()->duktVideos->getOption($serviceKey."_token");
-
-        if(!$option)
-        {
-          return false;
-        }
-        $option = unserialize(base64_decode($option));
-
-        if(isset($option->refresh_token))
-        {
-          return true;
-        }
-        
-        return false;
+        return craft()->duktVideos->serviceSupportsRefresh($providerClass);
     }
 
     // --------------------------------------------------------------------
