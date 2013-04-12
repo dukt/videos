@@ -55,18 +55,17 @@ class DuktVideos_AjaxController extends BaseController
 
     public function actionServices()
     {
-        $response = craft()->duktVideos->services();
+            
+        $servicesRecords = craft()->duktVideos->servicesRecords();
 
         $services = array();
 
-        foreach($response as $k => $v)
+        foreach($servicesRecords as $k => $v)
         {
-            if($v->isAuthenticated())
-            {
                 $services[$v->providerClass] = array(
                         'name' => $v->providerClass
                     );
-            }
+
         }
 
         $this->returnJson($services);
@@ -210,26 +209,28 @@ class DuktVideos_AjaxController extends BaseController
 
     private function getService()
     {
-        $serviceKey = craft()->request->getParam('service');
+        $providerClass = craft()->request->getParam('service');
+
+        $serviceRecord = craft()->duktVideos->getServiceRecord($providerClass);
 
 
         // Retrieve token
 
-        $token = craft()->duktVideos->getOption($serviceKey."_token");
+        $token = $serviceRecord->token;
         $token = unserialize(base64_decode($token));
 
 
         // Create the OAuth provider
         
-        $parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
-        $parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
-        $parameters['developerKey'] = craft()->duktVideos->getOption($serviceKey."_developerKey");
+        $parameters['id'] = $serviceRecord->clientId;
+        $parameters['secret'] = $serviceRecord->clientSecret;
+        $parameters['developerKey'] = $service->params['developerKey'];
 
-        $provider = \OAuth\OAuth::provider($serviceKey, array(
+        $provider = \OAuth\OAuth::provider($providerClass, array(
             'id' => $parameters['id'],
             'secret' => $parameters['secret'],
             'developerKey' => $parameters['developerKey'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$providerClass)
         ));
 
         $provider->setToken($token);
@@ -237,7 +238,7 @@ class DuktVideos_AjaxController extends BaseController
 
         // Create video service
 
-        $service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
+        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
         $service->setProvider($provider);
 

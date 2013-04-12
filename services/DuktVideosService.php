@@ -231,7 +231,12 @@ class DuktVideosService extends BaseApplicationComponent
     }
 
     // --------------------------------------------------------------------
+    public function servicesRecords()
+    {
+        $records = DuktVideos_ServiceRecord::model()->findAll();
 
+        return $records;
+    }
     /**
      * Services
      */
