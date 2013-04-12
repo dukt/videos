@@ -42,21 +42,24 @@ class DuktVideosService extends BaseApplicationComponent
             'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$providerClass)
         ));
 
-        // token
+        // only refresh if the provider implements access
 
-        $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+        if(method_exists($provider, 'access'))
+        {
+            $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
 
 
-        // save token
+            // save token
 
-        $token->access_token = $accessToken->access_token;
-        $token->expires = $accessToken->expires;
+            $token->access_token = $accessToken->access_token;
+            $token->expires = $accessToken->expires;
 
-        $token = base64_encode(serialize($token));
+            $token = base64_encode(serialize($token));
 
-        $record->token = $token;
+            $record->token = $token;
 
-        $record->save();
+            $record->save();
+        }
 
         return $record;
     }

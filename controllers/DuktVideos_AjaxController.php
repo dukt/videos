@@ -48,7 +48,14 @@ class DuktVideos_AjaxController extends BaseController
 
     public function actionRefreshServicesTokens()
     {
-        return $this->services();
+        $services = craft()->duktVideos->services();
+
+        foreach($services as $s)
+        {
+            craft()->duktVideos->refreshServiceToken($s->providerClass);
+        }
+
+        return $this->returnJson(true);
     }
 
     // --------------------------------------------------------------------

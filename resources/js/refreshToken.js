@@ -33,8 +33,6 @@ $(document).ready(function() {
             providerClass: providerClass
         };
 
-        console.log('datax', data);
-
         Craft.postActionRequest('duktvideos/ajax/refreshToken', data, function(response) {
             console.log('refreshToken response', response);
 

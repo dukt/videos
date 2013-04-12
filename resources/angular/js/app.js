@@ -67,6 +67,8 @@ duktvideos.run(function($rootScope, $http, $location, $q, $routeParams, DuktVide
     
 
     // --------------------------------------------------------------------
+    
+    DuktVideosService.refreshServicesTokens();
 
     // get services
 
