@@ -70,7 +70,7 @@
 		{% else %}
 
 			{% if craft.duktVideos.cpSupportsRefresh(providerClass) %}
-				<p>Token expires in <strong class="dv-expires" data-service="{{providerClass}}">{{craft.duktVideos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
+				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{craft.duktVideos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
 				
 				<a class="btn" href="{{actionUrl('duktvideos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
 			{% endif %}

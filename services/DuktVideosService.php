@@ -57,6 +57,8 @@ class DuktVideosService extends BaseApplicationComponent
         $record->token = $token;
 
         $record->save();
+
+        return $record;
     }
     
     function serviceSupportsRefresh($providerClass)

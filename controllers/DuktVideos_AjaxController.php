@@ -30,39 +30,14 @@ class DuktVideos_AjaxController extends BaseController
 
     public function actionRefreshToken()
     {
-        $serviceKey = craft()->request->getParam('serviceKey');
+        $providerClass = craft()->request->getParam('providerClass');
 
-        $token = craft()->duktVideos->getOption($serviceKey."_token");
+        $record = craft()->duktVideos->refreshServiceToken($providerClass);
+        
+        $token = $record->token;
         $token = unserialize(base64_decode($token));
 
-
-
-        // refresh  token
-
-        $parameters = array();
-        $parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
-        $parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
-
-        $provider = \OAuth\OAuth::provider($serviceKey, array(
-            'id' => $parameters['id'],
-            'secret' => $parameters['secret'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
-        ));
-
-        $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
-
-        // save token
-
-        $token->access_token = $accessToken->access_token;
-        $token->expires = $accessToken->expires;
-
-
         $remaining = $token->expires - time();
-
-        $token = base64_encode(serialize($token));
-
-        craft()->duktVideos->setOption($serviceKey."_token", $token);
 
         // redirect to service
 

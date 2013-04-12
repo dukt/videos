@@ -5,7 +5,7 @@ $(document).ready(function() {
 
     if($('.dv-expires').length > 0)
     {
-        var serviceKey = $('.dv-expires').data('service');
+        var providerClass = $('.dv-expires').data('providerclass');
         
 
         setInterval(function() {
@@ -13,7 +13,7 @@ $(document).ready(function() {
             expires = expires - 1;
             $('.dv-expires').html(expires);
 
-            if(expires < 60)
+            if(expires <= 0)
             {
                 refreshToken();
             }
@@ -25,13 +25,15 @@ $(document).ready(function() {
 
     function refreshToken()
     {
-        var serviceKey = $('.dv-expires').data('service');
+        var providerClass = $('.dv-expires').data('providerclass');
 
         // send refresh request and expect seconds in result
 
         var data = {
-            serviceKey: serviceKey
+            providerClass: providerClass
         };
+
+        console.log('datax', data);
 
         Craft.postActionRequest('duktvideos/ajax/refreshToken', data, function(response) {
             console.log('refreshToken response', response);
