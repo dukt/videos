@@ -27,14 +27,11 @@ class DuktVideos_SettingsController extends BaseController
         
         $model = new DuktVideos_ServiceModel();
 
-
-
         $attributes = craft()->request->getPost('service');
         
         $attributes['providerClass'] = $class;
 
         $model->setAttributes($attributes);
-
 
         if (craft()->duktVideos->saveService($model)) {
 

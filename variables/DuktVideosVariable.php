@@ -17,6 +17,7 @@ require(CRAFT_PLUGINS_PATH."duktvideos/config.php");
 
 require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
 
+
 class DuktVideosVariable
 {
   	public function __construct()
@@ -36,6 +37,14 @@ class DuktVideosVariable
     // Public variables
 
     // --------------------------------------------------------------------
+
+
+    public function getServiceProvider($providerClass)
+    {
+        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
+        
+        return $service;
+    }
 
     /*
     * Retrieves a video from its URL

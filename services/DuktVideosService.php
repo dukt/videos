@@ -102,7 +102,11 @@ class DuktVideosService extends BaseApplicationComponent
             $record = $this->serviceRecord->create();
         }
 
+        $params = $model->getAttributes();
+        
         $record->setAttributes($model->getAttributes());
+
+        $record->params = $model->getAttribute('params');
 
         if ($record->save()) {
             // update id on model (for new records)
@@ -164,7 +168,7 @@ class DuktVideosService extends BaseApplicationComponent
         $record->save();
 
 
-        craft()->request->redirect(UrlHelper::getUrl('duktvideos/settings'));
+        craft()->request->redirect(UrlHelper::getUrl('duktvideos/settings/'.$providerClass));
 
     }
 

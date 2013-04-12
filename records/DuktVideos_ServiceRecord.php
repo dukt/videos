@@ -24,6 +24,7 @@ class DuktVideos_ServiceRecord extends BaseRecord
             'clientId' => array(AttributeType::String, 'required' => true),
             'clientSecret' => array(AttributeType::String, 'required' => true),
             'token' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'params' => array(AttributeType::Mixed),
         );
     }
 
