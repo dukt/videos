@@ -209,23 +209,30 @@ class DuktVideosService extends BaseApplicationComponent
 
         foreach($services as $s)
         {
+
             $params['url'] = $videoUrl;
 
             try {
+                
                 $video = $s->videoFromUrl($params);
 
-                $video_object = new DuktVideos_VideoModel($video);
+                if($video)
+                {
 
+                    $video_object = new DuktVideos_VideoModel($video);
 
-                return $video_object;
+                    return $video_object;
+                }
 
                 //return $video;
             }
             catch(\Exception $e)
             {
-                // return $e->getMessage();
+
+                //return $e->getMessage();
             }
         }
+
 
         return false;
     }
@@ -259,7 +266,9 @@ class DuktVideosService extends BaseApplicationComponent
 
                 // Retrieve token
 
-                $token = craft()->duktVideos->getOption($service->getName()."_token");
+                $record = DuktVideos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $className));
+
+                $token = $record->token;
                 $token = unserialize(base64_decode($token));
 
                 if(!$token)
@@ -270,9 +279,16 @@ class DuktVideosService extends BaseApplicationComponent
 
                 // Create the OAuth provider
 
-                $parameters['id'] = craft()->duktVideos->getOption($service->getName()."_id");
-                $parameters['secret'] = craft()->duktVideos->getOption($service->getName()."_secret");
-                $parameters['developerKey'] = craft()->duktVideos->getOption($service->getName()."_developerKey");
+                $parameters['id'] = $record->clientId;
+                $parameters['secret'] = $record->clientSecret;
+
+                $parameters['developerKey'] = "";
+
+                if(isset($record->params['developerKey']))
+                {
+                    $parameters['developerKey'] = $record->params['developerKey'];    
+                }
+                
 
                 $provider = \OAuth\OAuth::provider($service->getName(), array(
                     'id' => $parameters['id'],
