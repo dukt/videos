@@ -3,17 +3,17 @@
 
 {% set centered = true %}
 
-{% includeJsResource "duktvideos/js/refreshToken.js" %}
+{% includeJsResource "videos/js/refreshToken.js" %}
 
-{% includeCssResource "duktvideos/css/mcp.css" %}
+{% includeCssResource "videos/css/mcp.css" %}
 
 
 {% if providerClass is not defined %}{% set providerClass = null %}{% endif %}
 
 {% if service is not defined %}
     {% if providerClass %}
-        {% set service = craft.duktVideos.getServiceByProviderClass(providerClass) %}
-        {% set provider = craft.duktVideos.getServiceProvider(providerClass) %}
+        {% set service = craft.videos.getServiceByProviderClass(providerClass) %}
+        {% set provider = craft.videos.getServiceProvider(providerClass) %}
 
         {% if not service %}{% exit 404 %}{% endif %}
     {% else %}
@@ -26,15 +26,15 @@
 {% set title = "Configure "~providerClass|t %}
 
 {% set crumbs = [
-    { label: "Videos"|t, url: url('duktvideos') },
-    { label: "Settings"|t, url: url('duktvideos/settings') },
+    { label: "Videos"|t, url: url('videos') },
+    { label: "Settings"|t, url: url('videos/settings') },
 ] %}
 
 {% set content %}
 
 	<form method="post" action="" accept-charset="UTF-8">
-		<input type="hidden" name="action" value="duktvideos/settings/saveService" />
-		<input type="hidden" name="redirect" value="duktvideos/settings/{{providerClass}}" />
+		<input type="hidden" name="action" value="videos/settings/saveService" />
+		<input type="hidden" name="redirect" value="videos/settings/{{providerClass}}" />
 		<input type="hidden" name="service" value="{{providerClass}}" />
 
         {{ forms.textField({
@@ -54,7 +54,7 @@
             errors: service ? service.errors('clientSecret') : null,
             disabled: (service.token is defined and service.token|length > 0 ? true : false)
         }) }}
-		
+
         {% for parameterK, parameterV in provider.getDefaultParameters() %}
             {{ forms.textField({
                 label: parameterK|t,
@@ -64,18 +64,18 @@
                 disabled: (service.token is defined and service.token|length > 0 ? true : false)
             }) }}
         {% endfor %}
-		
+
 		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
-			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp; 
+			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;
 		{% else %}
 
-			{% if craft.duktVideos.cpSupportsRefresh(providerClass) %}
-				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{craft.duktVideos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
-				
-				<a class="btn" href="{{actionUrl('duktvideos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
+			{% if craft.videos.cpSupportsRefresh(providerClass) %}
+				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{craft.videos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
+
+				<a class="btn" href="{{actionUrl('videos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
 			{% endif %}
-			
-            <a class="btn" href="{{actionUrl('duktvideos/settings/resetService', {providerClass:providerClass})}}">Reset Token</a>
+
+            <a class="btn" href="{{actionUrl('videos/settings/resetService', {providerClass:providerClass})}}">Reset Token</a>
 
 		{% endif %}
 	</form>

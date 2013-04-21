@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
@@ -13,27 +13,27 @@
 
 namespace Craft;
 
-require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 
-class DuktVideos_SettingsController extends BaseController
+class Videos_SettingsController extends BaseController
 {
 	/**
 	 * Action Save Service
-	 */	
+	 */
     public function actionSaveService()
     {
         $class = craft()->request->getSegment(3);
-        
-        $model = new DuktVideos_ServiceModel();
+
+        $model = new Videos_ServiceModel();
 
         $attributes = craft()->request->getPost('service');
-        
+
         $attributes['providerClass'] = $class;
 
         $model->setAttributes($attributes);
 
-        if (craft()->duktVideos->saveService($model)) {
+        if (craft()->videos->saveService($model)) {
 
             craft()->userSession->setNotice(Craft::t('Service saved.'));
 
@@ -45,7 +45,7 @@ class DuktVideos_SettingsController extends BaseController
             craft()->urlManager->setRouteVariables(array('service' => $model));
         }
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -54,14 +54,14 @@ class DuktVideos_SettingsController extends BaseController
     public function actionEnableService()
     {
 	    $service_key = craft()->request->getSegment(5);
-	    
-	    $option_key = $service_key."_enabled";
-	    
-		craft()->duktVideos->setOption($option_key, 1);
 
-		$this->redirect('duktvideos'); 
+	    $option_key = $service_key."_enabled";
+
+		craft()->videos->setOption($option_key, 1);
+
+		$this->redirect('videos');
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -70,23 +70,23 @@ class DuktVideos_SettingsController extends BaseController
     public function actionDisableService()
     {
 	    $service_key = craft()->request->getSegment(5);
-	    
-	    $option_key = $service_key."_enabled";
-	    
-		craft()->duktVideos->setOption($option_key, 0);
 
-		$this->redirect('duktvideos'); 
+	    $option_key = $service_key."_enabled";
+
+		craft()->videos->setOption($option_key, 0);
+
+		$this->redirect('videos');
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
 	 * Action Callback
 	 */
     public function actionCallback()
-    {	    
+    {
 	    $serviceKey = craft()->request->getSegment(5);
-	    
+
 		$service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
 
 
@@ -98,9 +98,9 @@ class DuktVideos_SettingsController extends BaseController
 
     public function actionServiceCallback()
     {
-        craft()->duktVideos->connectService();
+        craft()->videos->connectService();
     }
-    
+
     // --------------------------------------------------------------------
 
 	/**
@@ -109,21 +109,21 @@ class DuktVideos_SettingsController extends BaseController
     public function actionResetService()
     {
 		$providerClass = craft()->request->getParam('providerClass');
-		
-		craft()->duktVideos->resetService($providerClass);
 
-		$this->redirect('duktvideos/settings/'.$providerClass); 
+		craft()->videos->resetService($providerClass);
+
+		$this->redirect('videos/settings/'.$providerClass);
     }
 
     // --------------------------------------------------------------------
-    
+
     public function actionRefreshServiceToken()
     {
         $providerClass = craft()->request->getParam('providerClass');
 
-        craft()->duktVideos->refreshServiceToken($providerClass);
+        craft()->videos->refreshServiceToken($providerClass);
 
-        $this->redirect('duktvideos/settings/'.$providerClass); 
+        $this->redirect('videos/settings/'.$providerClass);
     }
 
 	// --------------------------------------------------------------------
@@ -133,15 +133,15 @@ class DuktVideos_SettingsController extends BaseController
 	    $service = \Dukt\Videos\Common\ServiceFactory::create($serviceKey);
 
 	    $parameters = array();
-		$parameters['id'] = craft()->duktVideos->getOption($serviceKey."_id");
-		$parameters['secret'] = craft()->duktVideos->getOption($serviceKey."_secret");
+		$parameters['id'] = craft()->videos->getOption($serviceKey."_id");
+		$parameters['secret'] = craft()->videos->getOption($serviceKey."_secret");
 
 	    $service->initialize((array) $parameters);
 
 	    $provider = \OAuth\OAuth::provider($service->getProviderClass(), array(
 	        'id' => $parameters['id'],
 	        'secret' => $parameters['secret'],
-	        'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$serviceKey)
+	        'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$serviceKey)
 	    ));
 
 	    $provider = $provider->process(function($url, $token = null) {
@@ -163,7 +163,7 @@ class DuktVideos_SettingsController extends BaseController
 	    $parameters['token'] = $provider->token();
 	    $parameters['token'] = base64_encode(serialize($parameters['token']));
 
-	    craft()->duktVideos->setOption($serviceKey."_token", $parameters['token']);
+	    craft()->videos->setOption($serviceKey."_token", $parameters['token']);
         craft()->userSession->setNotice(Craft::t('Service connected.'));
 
 
@@ -171,6 +171,6 @@ class DuktVideos_SettingsController extends BaseController
 
         craft()->userSession->setNotice(Craft::t('Service connected.'));
 
-	    return $this->redirect(\Craft\UrlHelper::getUrl('duktvideos/settings/'.$serviceKey));
+	    return $this->redirect(\Craft\UrlHelper::getUrl('videos/settings/'.$serviceKey));
     }
 }

@@ -6,7 +6,7 @@ $(document).ready(function() {
     if($('.dv-expires').length > 0)
     {
         var providerClass = $('.dv-expires').data('providerclass');
-        
+
 
         setInterval(function() {
             var expires = $('.dv-expires').html();
@@ -33,11 +33,11 @@ $(document).ready(function() {
             providerClass: providerClass
         };
 
-        Craft.postActionRequest('duktvideos/ajax/refreshToken', data, function(response) {
+        Craft.postActionRequest('videos/ajax/refreshToken', data, function(response) {
             console.log('refreshToken response', response);
 
             $('.dv-expires').html(response);
-            
+
         });
     }
 

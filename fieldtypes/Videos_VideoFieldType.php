@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
@@ -13,22 +13,22 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH."duktvideos/config.php");
+require_once(CRAFT_PLUGINS_PATH."videos/config.php");
 
-require(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
-class DuktVideos_VideoFieldType extends BaseFieldType
+class Videos_VideoFieldType extends BaseFieldType
 {
-	
+
 	/**
 	 * Block type name
 	 */
 	public function getName()
 	{
-		
-		return Craft::t('Dukt Videos');
+
+		return Craft::t('Videos');
 	}
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -38,7 +38,7 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	{
 		return AttributeType::String;
 	}
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -54,13 +54,13 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 		{
 			$value = "";
 		}
-		
-		return craft()->templates->render('duktvideos/field', array(
+
+		return craft()->templates->render('videos/field', array(
 			'name'       => $name,
 			'videoValue'  => $value
 		));
 	}
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -68,21 +68,21 @@ class DuktVideos_VideoFieldType extends BaseFieldType
 	 */
 	public function prepValue($videoUrl)
 	{
-		$video = craft()->duktVideos->url($videoUrl);
+		$video = craft()->videos->url($videoUrl);
 
-		
-		$videoObject = new DuktVideos_VideoModel();
-		
+
+		$videoObject = new Videos_VideoModel();
+
 		if($video)
 		{
 			foreach($video as $k => $v)
 			{
-				$videoObject->{$k} = $video[$k];	
+				$videoObject->{$k} = $video[$k];
 			}
-			
+
 			return $videoObject;
 		}
-		
+
 		return false;
 	}
 }

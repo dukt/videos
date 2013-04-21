@@ -1,14 +1,14 @@
 <?php
- 
+
 namespace Craft;
 
-class DuktVideos_ServiceModel extends BaseModel
-{    
+class Videos_ServiceModel extends BaseModel
+{
     // --------------------------------------------------------------------
-    
+
     /**
      * Define Attributes
-     */ 
+     */
     public function defineAttributes()
     {
         $attributes = array(

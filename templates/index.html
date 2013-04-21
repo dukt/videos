@@ -1,33 +1,33 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 
-{% includeCssResource "duktvideos/css/angular.css" %}
-{% includeCssResource "duktvideos/css/common.css" %}
-{% includeCssResource "duktvideos/css/mcp.css" %}
+{% includeCssResource "videos/css/angular.css" %}
+{% includeCssResource "videos/css/common.css" %}
+{% includeCssResource "videos/css/mcp.css" %}
 
 {% set js %}
 	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-	Dukt_videos.pagination_per_page = {{craft.duktVideos.pagination_per_page}};
+	Dukt_videos.pagination_per_page = {{craft.videos.pagination_per_page}};
 {% endset %}
 
 {% includeJs js %}
 
-{% includeJsResource "duktvideos/js/mcp.js" %}
+{% includeJsResource "videos/js/mcp.js" %}
 
-{% includeJsResource "duktvideos/angular/src/angular.js" %}
-{% includeJsResource "duktvideos/angular/js/app.js" %}
-{% includeJsResource "duktvideos/angular/js/controllers.js" %}
+{% includeJsResource "videos/angular/src/angular.js" %}
+{% includeJsResource "videos/angular/js/app.js" %}
+{% includeJsResource "videos/angular/js/controllers.js" %}
 
 {% set title = "Videos"|t %}
 
 {% set extraPageHeaderHtml %}
-	<a class="btn settings icon" href="{{ url('duktvideos/settings') }}" title="{{ 'Settings'|t }}"></a>
+	<a class="btn settings icon" href="{{ url('videos/settings') }}" title="{{ 'Settings'|t }}"></a>
 {% endset %}
 
 
 {% set content %}
 
-	{% include 'duktvideos/modal' %}
+	{% include 'videos/modal' %}
 
 
 {% endset %}

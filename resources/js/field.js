@@ -1,15 +1,15 @@
 console.log('field.js');
 
-var videos = {};
+var dkvideos = {};
 
-videos.currentVideo = false;
-videos.currentField = false;
+dkvideos.currentVideo = false;
+dkvideos.currentField = false;
 
 // --------------------------------------------------------------------
 
 // preview
 
-videos.preview = {
+dkvideos.preview = {
     init: function() {
         console.log('mcp.preview.init()');
         //$('#player').appendTo('.dv-modal');
@@ -17,7 +17,7 @@ videos.preview = {
         // cancel
 
         $('#player .player-close, #player .cancel').click(function() {
-            videos.preview.hide();
+            dkvideos.preview.hide();
             return false;
         });
 
@@ -25,12 +25,12 @@ videos.preview = {
         // select video
 
         $('#player .submit').click(function() {
-            videos.preview.hide();
-            videos.modal.hide();
+            dkvideos.preview.hide();
+            dkvideos.modal.hide();
             console.log('submit');
-            $('input.text', videos.currentField).attr('value', videos.currentVideo.url);
+            $('input.text', dkvideos.currentField).attr('value', dkvideos.currentVideo.url);
 
-            videos.field.preview(videos.currentVideo.url, videos.currentField);
+            dkvideos.field.preview(dkvideos.currentVideo.url, dkvideos.currentField);
 
             return false;
         });
@@ -39,9 +39,9 @@ videos.preview = {
 
     play: function(video)
     {
-        videos.currentVideo = video;
+        dkvideos.currentVideo = video;
 
-        videos.preview.show();
+        dkvideos.preview.show();
     },
 
     resize: function() {
@@ -54,7 +54,7 @@ videos.preview = {
         var playerH = modalH - modalBottomH;
 
         var iFrameHeight = playerH - $('#player .top').outerHeight() - $('#player .bottom').outerHeight();
-        
+
 
         $('#player').css('height', playerH);
 
@@ -63,7 +63,7 @@ videos.preview = {
 
     show : function() {
         $('#player').css('display', 'block');
-        videos.preview.resize();
+        dkvideos.preview.resize();
     },
 
     hide: function() {
@@ -73,13 +73,13 @@ videos.preview = {
     }
 };
 
-videos.field = {};
+dkvideos.field = {};
 
-videos.field.preview = function(videoUrl, field) {
-    
+dkvideos.field.preview = function(videoUrl, field) {
+
     // request field preview embed
 
-    Craft.postActionRequest('duktvideos/ajax/fieldEmbed', {videoUrl:videoUrl}, function(response) {
+    Craft.postActionRequest('videos/ajax/fieldEmbed', {videoUrl:videoUrl}, function(response) {
         console.log('fieldEmbed', videoUrl);
         // load modal body
 
@@ -91,15 +91,15 @@ videos.field.preview = function(videoUrl, field) {
 
         $(response).appendTo(fieldPreview);
 
-        videos.preview.init();
+        dkvideos.preview.init();
 
         $('.add', field).css('display', 'none');
         $('.change', field).css('display', 'inline-block');
         $('.remove', field).css('display', 'inline-block');
-        
+
         // manual bootstrap
-        
-        //angular.bootstrap($('.dv-modal'), ['duktvideos']);
+
+        //angular.bootstrap($('.dv-modal'), ['videos']);
     });
 }
 
@@ -107,16 +107,16 @@ videos.field.preview = function(videoUrl, field) {
 
 // modal
 
-videos.modal = {
+dkvideos.modal = {
     init: function() {
-        console.log('videos.modal.init()');
+        console.log('dkvideos.modal.init()');
 
         overlay = $('<div class="dv-overlay"></div>');
 
         overlay.appendTo('body');
 
         overlay.click(function() {
-            videos.modal.hide();
+            dkvideos.modal.hide();
         });
     },
 
@@ -149,16 +149,18 @@ videos.modal = {
         $('.dv-overlay').css('display', 'block');
         $('.dv-modal').css('display', 'block');
 
-        videos.modal.resize();
+        dkvideos.modal.resize();
     },
 
     hide: function() {
         $('.dv-overlay').css('display', 'none');
         $('.dv-modal').css('display', 'none');
 
-        videos.preview.hide();
+        dkvideos.preview.hide();
     }
 };
+
+console.log('hello modal');
 
 // --------------------------------------------------------------------
 
@@ -167,7 +169,7 @@ videos.modal = {
 (function($) {
 
     $.fn.dukt_videos_field = function(options)
-    {       
+    {
         // build main options before element iteration
         // iterate and reformat each matched element
 
@@ -187,24 +189,25 @@ videos.modal = {
 
     $.fn.dukt_videos_field.init = function()
     {
-         videos.modal.init();
+        console.log('hello', videos);
+         dkvideos.modal.init();
 
 
         // get modal body
 
-        Craft.postActionRequest('duktvideos/ajax/modal', {}, function(response) {
+        Craft.postActionRequest('videos/ajax/modal', {}, function(response) {
 
             // load modal body
 
             $(response).appendTo('body');
 
-            videos.preview.init();
-            
+            dkvideos.preview.init();
+
             // manual bootstrap
-            
+
             console.log('angular bootstrap');
 
-            angular.bootstrap($('.dv-modal'), ['duktvideos']);
+            angular.bootstrap($('.dv-modal'), ['videos']);
         });
     };
 
@@ -222,7 +225,7 @@ videos.modal = {
         if(videoUrl !== "") {
             // a video is set
 
-            videos.field.preview(videoUrl, field);
+            dkvideos.field.preview(videoUrl, field);
         } else {
             $('.add', field).css('display', 'inline-block');
             $('.change', field).css('display', 'none');
@@ -231,8 +234,8 @@ videos.modal = {
         // add & change button
 
         $('.add, .change', field).click(function() {
-            videos.currentField = field;
-            videos.modal.show();
+            dkvideos.currentField = field;
+            dkvideos.modal.show();
         });
 
         // remove button
@@ -250,7 +253,7 @@ videos.modal = {
     }
 
     // --------------------------------------------------------------------
-    
+
     // init on document ready
 
     $(document).ready(function() {
@@ -265,7 +268,7 @@ videos.modal = {
 $(document).ready(function()
 {
     console.log('Videos field on this page : ', $('.dv-field').length);
-    
+
     // init loop on each field
 
     $('.dv-field').dukt_videos_field();
@@ -273,6 +276,6 @@ $(document).ready(function()
 
 
 $(window).resize(function() {
-    videos.preview.resize();
-    videos.modal.resize();
+    dkvideos.preview.resize();
+    dkvideos.modal.resize();
 });

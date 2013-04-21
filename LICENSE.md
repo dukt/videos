@@ -1,4 +1,4 @@
-# Dukt Videos for Craft License Agreement
+# Craft Videos for Craft License Agreement
 
 ## Usage
 

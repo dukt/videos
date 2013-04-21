@@ -1,12 +1,12 @@
-# Dukt Videos for Craft
+# Craft Videos for Craft
 
 *Beta Notice : Do NOT use on production yet, we could make major changes before going out of beta, you must be able to re-install the plugin at any time.*
 
 ## Installation
 
-1. Move `duktvideos/` folder to `/craft/plugins/`
-2. In the admin, go to the **CP / Settings / Plugins** section and enable Dukt Videos plugin
-3. In the admin, go to the **CP / Dukt Videos** section in order to configure YouTube & Vimeo
+1. Move `videos/` folder to `/craft/plugins/`
+2. In the admin, go to the **CP / Settings / Plugins** section and enable Craft Videos plugin
+3. In the admin, go to the **CP / Craft Videos** section in order to configure YouTube & Vimeo
 
 ## Video Service Settings
 
@@ -19,9 +19,9 @@ For each video service, you need to get access to an API and you will need crede
 *Required credentials : client id & secret*
 
 1. [Create a new app](https://developer.vimeo.com/apps) in Vimeo Developer
-2. Copy paste client_id and client secret_values to **CP / Dukt Videos / Vimeo Configuration**
+2. Copy paste client_id and client secret_values to **CP / Craft Videos / Vimeo Configuration**
 
-#### YouTube 
+#### YouTube
 
 *Required credentials : client id, secret, developer key*
 
@@ -30,20 +30,20 @@ For each video service, you need to get access to an API and you will need crede
 3. Give a product name and click **Next**
 4. Your client should have the following settings :
 	- Application type : Web Application
-	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/duktvideos/settings/callback/youtube**
+	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/videos/settings/callback/youtube**
 	- Authorized Javascript Origins : **http://yourwebsite.com/**
-5. Copy paste client id and client secret values to **CP / Dukt Videos / YouTube Configuration**
+5. Copy paste client id and client secret values to **CP / Craft Videos / YouTube Configuration**
 6. [Register a new Developer Key](https://code.google.com/apis/youtube/dashboard)
-7. Copy paste Developer Key to **CP / Dukt Videos / YouTube Configuration**
+7. Copy paste Developer Key to **CP / Craft Videos / YouTube Configuration**
 
 ## Field Type
 
-Dukt Videos field type lets you add videos to your entries. Retrieving video informations is then pretty easy : a video variable is provided which let's you retrieve all the informations related to your video.
+Craft Videos field type lets you add videos to your entries. Retrieving video informations is then pretty easy : a video variable is provided which let's you retrieve all the informations related to your video.
 
 	{% set embed_params = { width: 300, height: 200 } %}
-	
+
 	{% set video = entry.video %}
-	
+
 	<ul>
 		<li>title : {{ video.title }}</li>
 		<li>url : {{ video.url }}</li>
@@ -51,7 +51,7 @@ Dukt Videos field type lets you add videos to your entries. Retrieving video inf
 	</ul>
 
 
-## craft.duktvideos.url(videoUrl)
+## craft.videos.url(videoUrl)
 
 Retrieve a video from its URL.
 
@@ -65,7 +65,7 @@ Retrieve a video from its URL.
 
 #### Example
 
-	{% set video = craft.duktvideos.url('http://youtu.be/14pRmb5LAhU') %}
+	{% set video = craft.videos.url('http://youtu.be/14pRmb5LAhU') %}
 
 	{{video.embed({ width: 300, height: 200, autoplay: 1 })}}
 

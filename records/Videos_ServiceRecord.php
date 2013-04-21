@@ -2,21 +2,21 @@
 
 namespace Craft;
 
-class DuktVideos_ServiceRecord extends BaseRecord
+class Videos_ServiceRecord extends BaseRecord
 {
     /**
      * Get Table Name
-     */ 
+     */
     public function getTableName()
     {
-        return 'duktvideos_services';
+        return 'videos_services';
     }
-    
+
     // --------------------------------------------------------------------
-    
+
     /**
      * Define Attributes
-     */ 
+     */
     public function defineAttributes()
     {
         return array(

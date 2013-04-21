@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
@@ -13,21 +13,21 @@
 
 namespace Craft;
 
-class DuktVideos_OptionRecord extends BaseRecord
+class Videos_OptionRecord extends BaseRecord
 {
 	/**
 	 * Get Table Name
-	 */	
+	 */
     public function getTableName()
     {
-        return 'duktvideos_options';
+        return 'videos_options';
     }
-    
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Define Attributes
-	 */	
+	 */
     public function defineAttributes()
     {
         return array(

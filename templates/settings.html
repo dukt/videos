@@ -1,19 +1,19 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 
-{% includeCssResource "duktvideos/css/mcp.css" %}
+{% includeCssResource "videos/css/mcp.css" %}
 
 {% set crumbs = [
-	{ label: "Videos"|t, url: url('duktvideos') }
+	{ label: "Videos"|t, url: url('videos') }
 ] %}
 
 {% set title = "Videos Settings"|t %}
 
 
 {% set content %}
-	
+
 	<table class="data">
-	
+
 		<thead>
 			<tr>
 				<th>Service</th>
@@ -22,9 +22,9 @@
 			</tr>
 		</thead>
 
-		{% for service in craft.duktVideos.cpServices() %}
-		
-			{% set serviceRecord = craft.duktVideos.cpGetServiceRecord(service.name) %}
+		{% for service in craft.videos.cpServices() %}
+
+			{% set serviceRecord = craft.videos.cpGetServiceRecord(service.name) %}
 		    <tr>
 		    	<th>
 		    		{{service.name}}
@@ -38,18 +38,18 @@
 						Disabled
 					{% endif %}
 		    	</td>
-		    	
-		    	<td class="col-actions">		    		
-		    		<a class="btn small" href="{{ url('duktvideos/settings') }}/{{ service.name }}">Configure</a>
-		    		
+
+		    	<td class="col-actions">
+		    		<a class="btn small" href="{{ url('videos/settings') }}/{{ service.name }}">Configure</a>
+
 		    		{% if service.isAuthenticated() %}
-		    		
+
 						{#% if service.enabled == 1 %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/settings/disableService') }}/{{ service.service_key }}">Disable</a>
+							<a class="btn small" href="{{ actionUrl('videos/settings/disableService') }}/{{ service.service_key }}">Disable</a>
 						{% else %}
-							<a class="btn small" href="{{ actionUrl('duktvideos/settings/enableService') }}/{{ service.service_key }}">Enable</a>
+							<a class="btn small" href="{{ actionUrl('videos/settings/enableService') }}/{{ service.service_key }}">Enable</a>
 						{% endif %#}
-						
+
 					{% endif %}
 		    	</td>
 		    </tr>

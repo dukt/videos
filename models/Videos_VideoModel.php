@@ -1,24 +1,24 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
  * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
  *
  */
- 
+
 namespace Craft;
 
-class DuktVideos_VideoModel extends BaseModel
+class Videos_VideoModel extends BaseModel
 {
     private $videoComponent;
-	
+
 	// --------------------------------------------------------------------
-	
+
 	public function __construct($videoComponent = false)
 	{
         if($videoComponent)
@@ -39,12 +39,12 @@ class DuktVideos_VideoModel extends BaseModel
             $this->videoComponent = $videoComponent;
         }
 	}
-    
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Define Attributes
-	 */	
+	 */
     public function defineAttributes()
     {
     	$attributes = array(
@@ -65,18 +65,18 @@ class DuktVideos_VideoModel extends BaseModel
 
         return $attributes;
     }
-    
+
 	// --------------------------------------------------------------------
-	
+
 	/**
 	 * Embed
-	 */	
+	 */
     public function embed($opts)
     {
         if($this->videoComponent)
         {
             $embed = $this->videoComponent->getEmbed($opts);
-            
+
             return $embed;
         }
 

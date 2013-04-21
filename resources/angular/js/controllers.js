@@ -1,4 +1,4 @@
-function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $route, DuktVideosService)
+function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $route, VideosService)
 {
 	console.log('controller', $routeParams.serviceKey, $routeParams.methodName);
 
@@ -15,9 +15,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		if($routeParams.methodName != 'search')
 		{
-			performRequest(opts);	
+			performRequest(opts);
 		}
-		
+
 	}
 
 	// --------------------------------------------------------------------
@@ -25,8 +25,8 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
-		
-		DuktVideosService.videoMore.off();
+
+		VideosService.videoMore.off();
 
 		perPage = Dukt_videos.pagination_per_page;
 		page = Math.floor(offset / perPage) + 1;
@@ -34,7 +34,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		var opts = {
 			method: $routeParams.methodName,
 			service: $routeParams.serviceKey,
-			searchQuery: DuktVideosService.searchQuery,
+			searchQuery: VideosService.searchQuery,
 			page:page,
 			perPage:perPage
 		};
@@ -53,12 +53,12 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		// show preview modal
 
 		//videos.preview.show();
-		
-		videos.preview.play(video);
-		
+
+		dkvideos.preview.play(video);
+
 		$scope.selected = video;
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
+		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
         	console.log('--success', $.parseJSON(data));
         	$('#player .title').html(video.title);
@@ -90,9 +90,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			opts.playlistId = $routeParams.playlistId;
 		}
 
-		DuktVideosService.loader.on();
+		VideosService.loader.on();
 
-		$http({method: 'POST', url: Craft.getActionUrl('duktvideos/ajax/'+opts.method, opts)}).
+		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/'+opts.method, opts)}).
 			success(function(data, status, headers, config)
 			{
 				console.log('ajax/'+opts.method+' : success');
@@ -103,7 +103,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 			}).then(function(a, b, c) {
 	        	console.log('ajax/'+opts.method+' : then');
 
-	        	
+
 
 	        	if(typeof(callback) == "function")
 	        	{
@@ -116,14 +116,14 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
                 if(a.data.length < Dukt_videos.pagination_per_page)
                 {
-                    DuktVideosService.videoMore.off();
+                    VideosService.videoMore.off();
                 }
                 else
                 {
-                    DuktVideosService.videoMore.on();
+                    VideosService.videoMore.on();
                 }
 
-                DuktVideosService.loader.off();
+                VideosService.loader.off();
 	    });
 	}
 }

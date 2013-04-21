@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
@@ -13,17 +13,17 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH.'duktvideos/vendor/autoload.php');
+require_once(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
-class DuktVideos_AjaxController extends BaseController
+class Videos_AjaxController extends BaseController
 {
 	/**
 	 * Action Endpoint
 	 */
     public function actionModal()
-    {		
+    {
 
-        $this->renderTemplate('duktvideos/modal');
+        $this->renderTemplate('videos/modal');
     }
 
     // --------------------------------------------------------------------
@@ -32,8 +32,8 @@ class DuktVideos_AjaxController extends BaseController
     {
         $providerClass = craft()->request->getParam('providerClass');
 
-        $record = craft()->duktVideos->refreshServiceToken($providerClass);
-        
+        $record = craft()->videos->refreshServiceToken($providerClass);
+
         $token = $record->token;
         $token = unserialize(base64_decode($token));
 
@@ -48,11 +48,11 @@ class DuktVideos_AjaxController extends BaseController
 
     public function actionRefreshServicesTokens()
     {
-        $services = craft()->duktVideos->services();
+        $services = craft()->videos->services();
 
         foreach($services as $s)
         {
-            craft()->duktVideos->refreshServiceToken($s->providerClass);
+            craft()->videos->refreshServiceToken($s->providerClass);
         }
 
         return $this->returnJson(true);
@@ -62,8 +62,8 @@ class DuktVideos_AjaxController extends BaseController
 
     public function actionServices()
     {
-            
-        $servicesRecords = craft()->duktVideos->servicesRecords();
+
+        $servicesRecords = craft()->videos->servicesRecords();
 
         $services = array();
 
@@ -89,7 +89,7 @@ class DuktVideos_AjaxController extends BaseController
 
             $params = array();
 
-        
+
             $playlists = $service->playlists($params);
         } catch(\Exception $e)
         {
@@ -115,7 +115,7 @@ class DuktVideos_AjaxController extends BaseController
             );
 
 
-        
+
             $videos = $service->playlistVideos($params);
         } catch(\Exception $e)
         {
@@ -150,7 +150,7 @@ class DuktVideos_AjaxController extends BaseController
     {
         $videoUrl = craft()->request->getParam('videoUrl');
 
-        $video = craft()->duktVideos->url($videoUrl);
+        $video = craft()->videos->url($videoUrl);
 
         $embed = $video->embed(array('autoplay' => '0', 'controls' => 0, 'showinfo' => 0));
 
@@ -188,7 +188,7 @@ class DuktVideos_AjaxController extends BaseController
                     'perPage' => craft()->request->getParam('perPage')
                 );
 
-        
+
             $videos = $service->uploads($params);
         } catch(\Exception $e)
         {
@@ -220,7 +220,7 @@ class DuktVideos_AjaxController extends BaseController
     {
         $providerClass = craft()->request->getParam('service');
 
-        $serviceRecord = craft()->duktVideos->getServiceRecord($providerClass);
+        $serviceRecord = craft()->videos->getServiceRecord($providerClass);
 
 
         // Retrieve token
@@ -230,7 +230,7 @@ class DuktVideos_AjaxController extends BaseController
 
 
         // Create the OAuth provider
-        
+
         $parameters['id'] = $serviceRecord->clientId;
         $parameters['secret'] = $serviceRecord->clientSecret;
         $parameters['developerKey'] = $service->params['developerKey'];
@@ -239,7 +239,7 @@ class DuktVideos_AjaxController extends BaseController
             'id' => $parameters['id'],
             'secret' => $parameters['secret'],
             'developerKey' => $parameters['developerKey'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('duktvideos/settings/callback/'.$providerClass)
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
         ));
 
         $provider->setToken($token);

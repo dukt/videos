@@ -1,9 +1,9 @@
 <?php
 
 /**
- * Dukt Videos
+ * Craft Videos
  *
- * @package		Dukt Videos
+ * @package		Craft Videos
  * @version		Version 1.0
  * @author		Benjamin David
  * @copyright	Copyright (c) 2013 - DUKT
@@ -13,16 +13,16 @@
 
 namespace Craft;
 
-class DuktVideosPlugin extends BasePlugin
+class VideosPlugin extends BasePlugin
 {
 	/**
 	 * Get Name
 	 */
     function getName()
     {
-        return Craft::t('Dukt Videos');
+        return Craft::t('Videos');
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -30,9 +30,9 @@ class DuktVideosPlugin extends BasePlugin
 	 */
     function getVersion()
     {
-        return '1.0';
+        return '0.9';
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -42,7 +42,7 @@ class DuktVideosPlugin extends BasePlugin
     {
         return 'Dukt';
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -52,7 +52,7 @@ class DuktVideosPlugin extends BasePlugin
     {
         return 'http://dukt.net/';
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -62,7 +62,7 @@ class DuktVideosPlugin extends BasePlugin
     {
         return true;
     }
-    
+
 	// --------------------------------------------------------------------
 
 	/**
@@ -71,7 +71,7 @@ class DuktVideosPlugin extends BasePlugin
     public function hookRegisterCpRoutes()
     {
         return array(
-            'duktvideos\/settings\/(?P<providerClass>.*)' => 'duktvideos/_configure',
+            'videos\/settings\/(?P<providerClass>.*)' => 'videos/_configure',
         );
     }
 }

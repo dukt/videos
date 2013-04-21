@@ -1,21 +1,21 @@
 {% import "_includes/forms" as forms %}
 
-{% includeCssResource "duktvideos/css/angular.css" %}
-{% includeCssResource "duktvideos/css/common.css" %}
-{% includeCssResource "duktvideos/css/field.css" %}
+{% includeCssResource "videos/css/angular.css" %}
+{% includeCssResource "videos/css/common.css" %}
+{% includeCssResource "videos/css/field.css" %}
 
 {% set js %}
     var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-    Dukt_videos.pagination_per_page = {{craft.duktVideos.pagination_per_page}};
+    Dukt_videos.pagination_per_page = {{craft.videos.pagination_per_page}};
 {% endset %}
 
 {% includeJs js %}
 
-{% includeJsResource "duktvideos/js/field.js" %}
+{% includeJsResource "videos/js/field.js" %}
 
-{% includeJsResource "duktvideos/angular/src/angular.js" %}
-{% includeJsResource "duktvideos/angular/js/app.js" %}
-{% includeJsResource "duktvideos/angular/js/controllers.js" %}
+{% includeJsResource "videos/angular/src/angular.js" %}
+{% includeJsResource "videos/angular/js/app.js" %}
+{% includeJsResource "videos/angular/js/controllers.js" %}
 
 <div class="dv-field">
     <div class="input">
