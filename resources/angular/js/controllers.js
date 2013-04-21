@@ -61,7 +61,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
         	console.log('--success', $.parseJSON(data));
-        	$('#player .title').html(video.title);
+        	// $('#player .title').html(video.title);
         	$('#player #videoDiv').html($.parseJSON(data));
         }).
         error(function(data, status, headers, config) {

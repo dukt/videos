@@ -30,6 +30,9 @@
   padding: 20px;
   overflow: hidden;
 }
+.dv-modal .top {
+  display: none;
+}
 .dv-modal .modal-bottom {
   background: #fff;
   text-align: right;

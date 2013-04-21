@@ -135,7 +135,7 @@ class Videos_AjaxController extends BaseController
 
         $video = $service->videoFromUrl(array('url' => $videoUrl));
 
-        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 0, 'showinfo' => 0));
+        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 1, 'showinfo' => 1, 'iv_load_policy' => 3));
 
         // $charset = craft()->templates->getTwig()->getCharset();
 
