@@ -1,9 +1,9 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 
-{% includeCssResource "videos/css/angular.css" %}
-{% includeCssResource "videos/css/common.css" %}
-{% includeCssResource "videos/css/mcp.css" %}
+{% includeCssResource "videos/etc/css/angular.css" %}
+{% includeCssResource "videos/etc/css/common.css" %}
+{% includeCssResource "videos/cp/css/cp.css" %}
 
 {% set js %}
 	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
@@ -12,9 +12,9 @@
 
 {% includeJs js %}
 
-{% includeJsResource "videos/js/mcp.js" %}
+{% includeJsResource "videos/cp/js/cp.js" %}
 
-{% includeJsResource "videos/angular/src/angular.js" %}
+{% includeJsResource "videos/etc/js/angular.js" %}
 {% includeJsResource "videos/angular/js/app.js" %}
 {% includeJsResource "videos/angular/js/controllers.js" %}
 

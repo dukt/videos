@@ -1,8 +1,8 @@
 {% import "_includes/forms" as forms %}
 
-{% includeCssResource "videos/css/angular.css" %}
-{% includeCssResource "videos/css/common.css" %}
-{% includeCssResource "videos/css/field.css" %}
+{% includeCssResource "videos/etc/css/angular.css" %}
+{% includeCssResource "videos/etc/css/common.css" %}
+{% includeCssResource "videos/field/css/field.css" %}
 
 {% set js %}
     var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
@@ -11,9 +11,9 @@
 
 {% includeJs js %}
 
-{% includeJsResource "videos/js/field.js" %}
+{% includeJsResource "videos/field/js/field.js" %}
 
-{% includeJsResource "videos/angular/src/angular.js" %}
+{% includeJsResource "videos/etc/js/angular.js" %}
 {% includeJsResource "videos/angular/js/app.js" %}
 {% includeJsResource "videos/angular/js/controllers.js" %}
 
