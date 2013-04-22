@@ -37,6 +37,11 @@
 		<input type="hidden" name="redirect" value="videos/settings/{{providerClass}}" />
 		<input type="hidden" name="service" value="{{providerClass}}" />
 
+        <p>
+            <strong>Endpoint : </strong>
+            {{actionUrl('videos/settings/serviceCallback', {providerClass:providerClass})}}
+        </p>
+
         {{ forms.textField({
             label: 'Client Id'|t,
             required: true,
