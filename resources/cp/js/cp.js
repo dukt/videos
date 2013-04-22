@@ -18,6 +18,22 @@ dkvideos.preview = {
 
             return false;
         });
+
+        // $('#player .favorite').click(function() {
+
+
+        //     if (!$('#player .favorite').hasClass('on')) {
+        //         console.log('set favorite', dkvideos.currentVideo);
+        //     } else {
+        //         console.log('unset favorite', dkvideos.currentVideo);
+
+        //         Craft.postActionRequest('videos/ajax/favoriteAdd', {videoUrl:dkvideos.currentVideo.url}, function(response) {
+
+        //         });
+        //     }
+
+        //     return false;
+        // });
     },
 
     resize: function() {

@@ -109,6 +109,9 @@ div.dv-box div.dv-box-in div.dv-col.dv-preview {
 div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-preview-inject div.dv-preview-description {
   background: #fafafa;
 }
+div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .favorite {
+  background: red;
+}
 div.dv-box div.dv-box-in div.dv-col.dv-preview .dv-bottom .dv-controls a.dv-btn {
   background: #1B97E4;
   font-weight: bold;

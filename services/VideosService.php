@@ -274,10 +274,13 @@ class VideosService extends BaseApplicationComponent
                 $token = $record->token;
                 $token = unserialize(base64_decode($token));
 
+                $service->initialize($record->params);
+
                 if(!$token)
                 {
                     return $service;
                 }
+
 
 
                 // Create the OAuth provider
@@ -285,20 +288,21 @@ class VideosService extends BaseApplicationComponent
                 $parameters['id'] = $record->clientId;
                 $parameters['secret'] = $record->clientSecret;
 
-                $parameters['developerKey'] = "";
 
-                if(isset($record->params['developerKey']))
-                {
-                    $parameters['developerKey'] = $record->params['developerKey'];
-                }
-
-
-                $provider = \OAuth\OAuth::provider($service->getName(), array(
+                $providerParams = array(
                     'id' => $parameters['id'],
                     'secret' => $parameters['secret'],
-                    'developerKey' => $parameters['developerKey'],
                     'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$service->getName())
-                ));
+                );
+
+                // add custom parameters such as YT.developerKey
+
+                //$providerParams = array_merge($providerParams, $record->params);
+
+
+                // create provider
+
+                $provider = \OAuth\OAuth::provider($service->getName(), $providerParams);
 
 
                 $provider->setToken($token);

@@ -135,13 +135,17 @@ class Videos_AjaxController extends BaseController
 
         $video = $service->videoFromUrl(array('url' => $videoUrl));
 
-        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 1, 'showinfo' => 1, 'iv_load_policy' => 3));
+        $embed = $video->getEmbed(array('autoplay' => '1', 'controls' => 1, 'showinfo' => 1, 'iv_load_policy' => 3, 'rel' => 0));
 
         // $charset = craft()->templates->getTwig()->getCharset();
 
         // $result = new \Twig_Markup($embed, $charset);
 
-        $this->returnJson($embed);
+        $response = array();
+        $response['embed'] = $embed;
+        $response['isFavorite'] = $service->isFavorite(array('id' => $video->id));
+
+        $this->returnJson($response);
     }
 
     // --------------------------------------------------------------------
@@ -152,9 +156,12 @@ class Videos_AjaxController extends BaseController
 
         $video = craft()->videos->url($videoUrl);
 
-        $embed = $video->embed(array('autoplay' => '0', 'controls' => 0, 'showinfo' => 0));
+        $embed = $video->embed(array('autoplay' => '0', 'controls' => 1, 'showinfo' => 1, 'iv_load_policy' => 3, 'rel' => 0));
 
-        $this->returnJson($embed);
+        $response = array();
+        $response['embed'] = $embed;
+
+        $this->returnJson($response);
     }
 
     // --------------------------------------------------------------------
@@ -216,6 +223,36 @@ class Videos_AjaxController extends BaseController
 
     // --------------------------------------------------------------------
 
+    public function actionFavoriteAdd()
+    {
+        $videoId = craft()->request->getParam('id');
+
+        $service = $this->getService();
+
+        $params = array('id' => $videoId);
+
+        $service->favoriteAdd($params);
+
+        $this->returnJson(true);
+    }
+
+    // --------------------------------------------------------------------
+
+    public function actionFavoriteRemove()
+    {
+        $videoId = craft()->request->getParam('id');
+
+        $service = $this->getService();
+
+        $params = array('id' => $videoId);
+
+        $service->favoriteRemove($params);
+
+        $this->returnJson(true);
+    }
+
+    // --------------------------------------------------------------------
+
     private function getService()
     {
         $providerClass = craft()->request->getParam('service');
@@ -233,14 +270,16 @@ class Videos_AjaxController extends BaseController
 
         $parameters['id'] = $serviceRecord->clientId;
         $parameters['secret'] = $serviceRecord->clientSecret;
-        $parameters['developerKey'] = $service->params['developerKey'];
+        $parameters['redirect_url'] = \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass);
 
-        $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $parameters['id'],
-            'secret' => $parameters['secret'],
-            'developerKey' => $parameters['developerKey'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
-        ));
+        // if(isset($serviceRecord->params['developerKey']))
+        // {
+
+        //     $parameters['developerKey'] = $serviceRecord->params['developerKey'];
+
+        // }
+
+        $provider = \OAuth\OAuth::provider($providerClass, $parameters);
 
         $provider->setToken($token);
 
@@ -248,7 +287,7 @@ class Videos_AjaxController extends BaseController
         // Create video service
 
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
-
+        $service->initialize($serviceRecord->params);
         $service->setProvider($provider);
 
         return $service;

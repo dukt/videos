@@ -89,7 +89,7 @@ dkvideos.field.preview = function(videoUrl, field) {
 
         fieldPreview.css('display', 'block');
 
-        $(response).appendTo(fieldPreview);
+        $(response['embed']).appendTo(fieldPreview);
 
         dkvideos.preview.init();
 

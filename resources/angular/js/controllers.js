@@ -22,6 +22,31 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 	// --------------------------------------------------------------------
 
+	$scope.favorite = function()
+	{
+        currentVideo = $scope.selected;
+
+        if(!$scope.isFavorite) {
+            method = 'favoriteAdd';
+            //$("#player .favorite").addClass('on');
+            $scope.isFavorite = true;
+        } else {
+            method = 'favoriteRemove';
+            //$("#player .favorite").removeClass('on');
+            $scope.isFavorite = false;
+        }
+
+        $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/'+method, {id:currentVideo.id, service: $routeParams.serviceKey})}).
+            success(function(data, status, headers, config) {
+
+            }).
+            error(function(data, status, headers, config) {
+              console.log('--error', data, status, headers, config);
+            });
+	}
+
+	// --------------------------------------------------------------------
+
 	$scope.moreVideos = function()
 	{
 		var offset = $rootScope.videos.length;
@@ -54,15 +79,28 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		//videos.preview.show();
 
+        $scope.isFavorite = false;
+
 		dkvideos.preview.play(video);
 
 		$scope.selected = video;
 
 		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
-        	console.log('--success', $.parseJSON(data));
+
+        	console.log('--success', data);
+
         	// $('#player .title').html(video.title);
-        	$('#player #videoDiv').html($.parseJSON(data));
+
+        	$('#player #videoDiv').html(data.embed);
+
+        	if(data.isFavorite) {
+                $scope.isFavorite = true;
+        		//$('#player .tools .favorite').addClass('on');
+        	} else {
+                $scope.isFavorite = false;
+        		//$('#player .tools .favorite').removeClass('on');
+        	}
         }).
         error(function(data, status, headers, config) {
           console.log('--error', data, status, headers, config);
@@ -71,13 +109,19 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		console.log('play video', video.id);
 	}
 
-	// --------------------------------------------------------------------
+    // --------------------------------------------------------------------
 
-	// is video selected
+    // is video selected
 
-	$scope.isSelected = function(video) {
-	    return $scope.selected === video;
-	}
+    $scope.isFavorite = false;
+
+    // --------------------------------------------------------------------
+
+    // is video selected
+
+    $scope.isSelected = function(video) {
+        return $scope.selected === video;
+    }
 
 	// --------------------------------------------------------------------
 
