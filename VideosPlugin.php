@@ -71,7 +71,7 @@ class VideosPlugin extends BasePlugin
     public function hookRegisterCpRoutes()
     {
         return array(
-            'videos\/settings\/(?P<providerClass>.*)' => 'videos/_configure',
+            'videos\/settings\/(?P<providerClass>.*)' => 'videos/settings/_configure',
         );
     }
 }

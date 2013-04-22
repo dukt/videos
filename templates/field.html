@@ -1,6 +1,5 @@
 {% import "_includes/forms" as forms %}
 
-{% includeCssResource "videos/etc/css/angular.css" %}
 {% includeCssResource "videos/etc/css/common.css" %}
 {% includeCssResource "videos/field/css/field.css" %}
 
@@ -11,9 +10,10 @@
 
 {% includeJs js %}
 
-{% includeJsResource "videos/field/js/field.js" %}
-
 {% includeJsResource "videos/etc/js/angular.js" %}
+{% includeJsResource "videos/etc/js/waypoints/waypoints.js" %}
+
+{% includeJsResource "videos/field/js/field.js" %}
 {% includeJsResource "videos/angular/js/app.js" %}
 {% includeJsResource "videos/angular/js/controllers.js" %}
 

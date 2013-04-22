@@ -23,7 +23,7 @@ class Videos_AjaxController extends BaseController
     public function actionModal()
     {
 
-        $this->renderTemplate('videos/modal');
+        $this->renderTemplate('videos/_modal');
     }
 
     // --------------------------------------------------------------------

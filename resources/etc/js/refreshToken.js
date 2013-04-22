@@ -37,8 +37,6 @@ $(document).ready(function() {
             console.log('refreshToken response', response);
 
             $('.dv-expires').html(response);
-
         });
     }
-
 });

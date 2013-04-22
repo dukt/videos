@@ -1,3 +1,179 @@
+#player-overlay {
+  visibility: hidden;
+  background: #000;
+  opacity: .8;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  position: fixed;
+  z-index: 1;
+}
+#videoInfo {
+  display: none;
+}
+.dv-error {
+  text-align: center;
+  padding: 3em;
+  color: #333;
+  font-style: italic;
+  font-size: 1.2em;
+}
+.dv-getStarted {
+  display: none;
+  text-align: center;
+  padding: 3em;
+  color: #333;
+  font-style: italic;
+  font-size: 1.2em;
+}
+.dv-box {
+  margin-left: -30px;
+  margin-right: -30px;
+  position: relative;
+}
+.dv-box .dv-box-spinner {
+  display: none;
+}
+.dv-box.dv-loading {
+  height: 100px;
+  position: relative;
+}
+.dv-box.dv-loading > * {
+  display: none;
+}
+.dv-box.dv-loading > .dv-box-spinner {
+  display: block;
+  position: relative;
+  left: 50%;
+  top: 30%;
+}
+.dv-box .dv-sidebar {
+  width: 200px;
+  float: left;
+  padding-bottom: 1em;
+}
+.dv-box .dv-sidebar .select {
+  margin-left: 30px;
+  margin-bottom: 30px;
+  display: block;
+}
+.dv-box .dv-sidebar .select select {
+  width: 100%;
+}
+.dv-box .dv-sidebar h3 {
+  text-transform: uppercase;
+  font-size: 0.9em;
+  padding-left: 30px;
+}
+.dv-box .dv-sidebar ul {
+  margin-bottom: 2em;
+}
+.dv-box .dv-sidebar ul li a {
+  display: block;
+  padding: 4px;
+  padding-left: 30px;
+  color: #555;
+}
+.dv-box .dv-sidebar ul li a:hover {
+  text-decoration: none;
+  color: #5295ff;
+}
+.dv-box .dv-sidebar ul li a.active {
+  background: #555;
+  color: #fff;
+}
+.dv-box .dv-sidebar ul li a.active:hover {
+  text-decoration: none;
+  color: #fff;
+  cursor: default;
+}
+.dv-box .dv-sidebar ul li ul li a {
+  padding-left: 50px;
+}
+.dv-box .dv-sidebar .dv-player-placeholder {
+  background: red;
+  width: 100%;
+  height: 200px;
+}
+.dv-box .dv-main {
+  margin-left: 220px;
+  margin-right: 10px;
+}
+.dv-box .dv-main .toolbar {
+  margin-right: 30px;
+}
+.dv-box .dv-main .toolbar .btngroup {
+  display: none;
+}
+.dv-box .dv-main .toolbar .spinner {
+  float: right;
+}
+.dv-box .dv-main .toolbar .search {
+  margin-right: 40px;
+}
+.dv-box .dv-main .dv-video-more {
+  display: none;
+  clear: both;
+  padding-bottom: 20px;
+}
+.dv-box .dv-main .dv-loader {
+  display: none;
+  padding-top: 30px;
+  padding-bottom: 80px;
+  text-align: center;
+}
+.dv-box .dv-main .dv-empty {
+  display: none;
+  text-align: center;
+  padding: 5em 0 8em 0;
+  color: #aaa;
+}
+.dv-box .dv-main .dv-videos-wrap {
+  overflow: auto;
+}
+.dv-box .dv-main .dv-videos-wrap::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+}
+.dv-box .dv-main .dv-videos-wrap::-webkit-scrollbar-thumb {
+  border: 2px solid #aaa;
+  /* should match background, can't be transparent */
+
+  background-color: #aaa;
+}
+.dv-box .dv-main .dv-videos li {
+  background: #fff;
+  position: relative;
+  margin-bottom: 20px;
+  margin-right: 20px;
+  float: left;
+  text-align: center;
+  padding: 5px;
+  border: 1px solid #eee;
+  display: block;
+}
+.dv-box .dv-main .dv-videos li.active {
+  background: orange;
+  border-color: orange;
+}
+.dv-box .dv-main .dv-videos li div {
+  width: 173px;
+  height: 100px;
+  overflow: hidden;
+  background: #000;
+}
+.dv-box .dv-main .dv-videos li div:hover img {
+  opacity: .4;
+}
+.dv-box .dv-main .dv-videos li img {
+  display: block;
+  width: 100%;
+}
+.clear {
+  clear: both;
+}
 .dv-overlay {
   display: none;
   width: 200px;

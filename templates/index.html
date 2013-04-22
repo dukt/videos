@@ -1,7 +1,6 @@
 {% extends "_layouts/cp" %}
 {% set centered = true %}
 
-{% includeCssResource "videos/etc/css/angular.css" %}
 {% includeCssResource "videos/etc/css/common.css" %}
 {% includeCssResource "videos/cp/css/cp.css" %}
 
@@ -13,8 +12,9 @@
 {% includeJs js %}
 
 {% includeJsResource "videos/etc/js/waypoints/waypoints.js" %}
-{% includeJsResource "videos/cp/js/cp.js" %}
 {% includeJsResource "videos/etc/js/angular.js" %}
+
+{% includeJsResource "videos/cp/js/cp.js" %}
 {% includeJsResource "videos/angular/js/app.js" %}
 {% includeJsResource "videos/angular/js/controllers.js" %}
 
@@ -27,7 +27,7 @@
 
 {% set content %}
 
-	{% include 'videos/modal' %}
+	{% include 'videos/_modal' %}
 
 
 {% endset %}

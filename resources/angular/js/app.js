@@ -7,11 +7,13 @@ var videos = angular.module('videos', []).
 
   config(['$routeProvider', function($routeProvider, $locationProvider) {
 
+    var emptyPartial = Craft.getResourceUrl('videos/angular/partials/empty.html');
+
   $routeProvider.
-      when('/', {templateUrl: Craft.getResourceUrl('videos/angular/partials/details.html'),   controller: ServicesListCtrl}).
-      when('/:serviceKey', {templateUrl: Craft.getResourceUrl('videos/angular/partials/details.html'), controller: ServicesListCtrl}).
-      when('/:serviceKey/:methodName', {templateUrl: Craft.getResourceUrl('videos/angular/partials/details.html'), controller: ServicesListCtrl}).
-      when('/:serviceKey/:methodName/:playlistId', {templateUrl: Craft.getResourceUrl('videos/angular/partials/details.html'), controller: ServicesListCtrl}).
+      when('/', {templateUrl: emptyPartial,   controller: ServicesListCtrl}).
+      when('/:serviceKey', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
+      when('/:serviceKey/:methodName', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
+      when('/:serviceKey/:methodName/:playlistId', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
       otherwise({redirectTo: '/'});
 }]);
 
