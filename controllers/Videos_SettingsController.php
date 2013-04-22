@@ -23,13 +23,15 @@ class Videos_SettingsController extends BaseController
 	 */
     public function actionSaveService()
     {
-        $class = craft()->request->getSegment(3);
+        $providerClass = craft()->request->getSegment(3);
 
-        $model = new Videos_ServiceModel();
+        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
+
+        $model = new $serviceModelClass();
 
         $attributes = craft()->request->getPost('service');
 
-        $attributes['providerClass'] = $class;
+        $attributes['providerClass'] = $providerClass;
 
         $model->setAttributes($attributes);
 

@@ -99,7 +99,7 @@ class VideosService extends BaseApplicationComponent
         return $expires;
     }
 
-    public function saveService(Videos_ServiceModel &$model)
+    public function saveService(&$model)
     {
         $class = $model->getAttribute('providerClass');
 
@@ -179,13 +179,14 @@ class VideosService extends BaseApplicationComponent
 
     public function getServiceRecord($providerClass)
     {
+        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
+
         // get the option
 
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
 
         if ($record) {
-
-            return Videos_ServiceModel::populateModel($record);
+            return $serviceModelClass::populateModel($record);
         }
 
         return false;
@@ -193,6 +194,7 @@ class VideosService extends BaseApplicationComponent
 
     public function getServiceByProviderClass($providerClass)
     {
+        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
 
         // get the option
 
@@ -200,10 +202,10 @@ class VideosService extends BaseApplicationComponent
 
         if ($record) {
 
-            return Videos_ServiceModel::populateModel($record);
+            return $serviceModelClass::populateModel($record);
         }
 
-        return new Videos_ServiceModel();
+        return new $serviceModelClass();
     }
 
     public function url($videoUrl)
@@ -270,6 +272,13 @@ class VideosService extends BaseApplicationComponent
                 // Retrieve token
 
                 $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $className));
+
+                if(!$record)
+                {
+                    // return service, unauthenticated
+
+                    return $service;
+                }
 
                 $token = $record->token;
                 $token = unserialize(base64_decode($token));

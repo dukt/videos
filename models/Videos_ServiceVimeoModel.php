@@ -15,16 +15,13 @@ namespace Craft;
 
 class Videos_ServiceVimeoModel extends Videos_ServiceModel
 {
-    // --------------------------------------------------------------------
-
-    /**
-     * Define Attributes
-     */
     public function defineAttributes()
     {
-        $attributes = array(
-                'id' => array(AttributeType::String, 'required' => true),
-                'secret' => array(AttributeType::String, 'required' => true),
+        $attributes = array_merge(
+                parent::defineAttributes(),
+                array(
+                    'params' => array(AttributeType::Mixed, 'model' => 'Videos_ServiceVimeoParametersModel'),
+                )
             );
 
         return $attributes;

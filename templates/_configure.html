@@ -60,15 +60,27 @@
             disabled: (service.token is defined and service.token|length > 0 ? true : false)
         }) }}
 
-        {% for parameterK, parameterV in provider.getDefaultParameters() %}
+        {% if service.params is not null %}
+            {% for extraParamKey, extraParam in service.params.defineAttributes %}
+                {{ forms.textField({
+                    label: extraParamKey|t,
+                    required: extraParam.required,
+                    name: 'service[params]['~extraParamKey~']',
+                    value: (attribute(service.params, extraParamKey) is defined ? attribute(service.params, extraParamKey) : null),
+                    disabled: (service.token is defined and service.token|length > 0 ? true : false)
+                }) }}
+            {% endfor %}
+        {% endif %}
+
+        {#% for extraParamKey, extraParam in provider.getExtraParameters() %}
             {{ forms.textField({
-                label: parameterK|t,
-                required: true,
-                name: 'service[params]['~parameterK~']',
-                value: (service.params[parameterK] is defined ? service.params[parameterK]: null),
+                label: extraParam.label|t,
+                required: extraParam.required,
+                name: 'service[params]['~extraParamKey~']',
+                value: (service.params[extraParamKey] is defined ? service.params[extraParamKey]: null),
                 disabled: (service.token is defined and service.token|length > 0 ? true : false)
             }) }}
-        {% endfor %}
+        {% endfor %#}
 
 		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;

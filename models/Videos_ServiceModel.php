@@ -16,8 +16,7 @@ class Videos_ServiceModel extends BaseModel
                 'providerClass' => array(AttributeType::String, 'required' => true),
                 'clientId' => array(AttributeType::String, 'required' => true),
                 'clientSecret' => array(AttributeType::String, 'required' => true),
-                'token' => array(AttributeType::Mixed, 'required' => false),
-                'params' => array(AttributeType::Mixed, 'required' => false),
+                'token' => array(AttributeType::Mixed)
             );
 
         return $attributes;

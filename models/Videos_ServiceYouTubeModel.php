@@ -22,15 +22,12 @@ class Videos_ServiceYouTubeModel extends Videos_ServiceModel
      */
     public function defineAttributes()
     {
-        $parentAttributes = parent::defineAttributes();
-
-        $attributes = array(
-                'id' => array(AttributeType::String, 'required' => true),
-                'secret' => array(AttributeType::String, 'required' => true),
-                'developerKey' => array(AttributeType::String, 'required' => true),
+        $attributes = array_merge(
+                parent::defineAttributes(),
+                array(
+                    'params' => array(AttributeType::Mixed, 'model' => 'Videos_ServiceYouTubeParametersModel'),
+                )
             );
-
-        $attributes = array_merge($parentAttributes, $attributes);
 
         return $attributes;
     }
