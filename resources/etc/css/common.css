@@ -65,21 +65,23 @@
   padding: 5em 0 8em 0;
   color: #aaa;
 }
-.dkv-main .dkv-videos-wrap {
+.dkv-main .dkv-videos {
   overflow: auto;
+  /* scrollbar */
+
 }
-.dkv-main .dkv-videos-wrap::-webkit-scrollbar {
+.dkv-main .dkv-videos::-webkit-scrollbar {
   -webkit-appearance: none;
   width: 11px;
   height: 11px;
 }
-.dkv-main .dkv-videos-wrap::-webkit-scrollbar-thumb {
+.dkv-main .dkv-videos::-webkit-scrollbar-thumb {
   border: 2px solid #aaa;
   /* should match background, can't be transparent */
 
   background-color: #aaa;
 }
-.dkv-main .dkv-videos li {
+.dkv-main .dkv-videos ul li {
   background: #fff;
   position: relative;
   margin-bottom: 20px;
@@ -90,20 +92,20 @@
   border: 1px solid #eee;
   display: block;
 }
-.dkv-main .dkv-videos li.active {
+.dkv-main .dkv-videos ul li.active {
   background: orange;
   border-color: orange;
 }
-.dkv-main .dkv-videos li div {
+.dkv-main .dkv-videos ul li div {
   width: 173px;
   height: 100px;
   overflow: hidden;
   background: #000;
 }
-.dkv-main .dkv-videos li div:hover img {
+.dkv-main .dkv-videos ul li div:hover img {
   opacity: .4;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb {
   display: inline-block;
   position: relative;
   float: left;
@@ -118,7 +120,7 @@
   -webkit-box-shadow: 0px 1px 0px #ffffff;
   box-shadow: 0px 1px 0px #ffffff;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb .dkv-clip-outer {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer {
   position: relative;
   display: inline-block;
   width: 173px;
@@ -126,7 +128,7 @@
   overflow: hidden;
   vertical-align: bottom;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip {
   display: block;
   position: absolute;
   bottom: -100px;
@@ -142,7 +144,7 @@
   font-size: 100%;
   background: transparent;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner {
   display: block;
   position: absolute;
   top: 0;
@@ -150,19 +152,19 @@
   width: 100%;
   height: 100%;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner img {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner img {
   width: 178px;
   display: inline-block;
   vertical-align: middle;
   border: 0;
   outline: none;
 }
-.dkv-main .dkv-videos li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner .dkv-vertical-align {
+.dkv-main .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner .dkv-vertical-align {
   height: 100%;
   display: inline-block;
   vertical-align: middle;
 }
-.dkv-main .dkv-videos li img {
+.dkv-main .dkv-videos ul li img {
   display: block;
   width: 100%;
 }

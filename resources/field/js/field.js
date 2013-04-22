@@ -139,7 +139,7 @@ dkvideos.modal = {
 
         var videosH = modalH - 80;
 
-        $('.dkv-videos-wrap').css('height', videosH);
+        $('.dkv-videos').css('height', videosH);
 
     },
 
@@ -158,18 +158,15 @@ dkvideos.modal = {
     }
 };
 
-console.log('hello modal');
-
-
 // --------------------------------------------------------------------
 
 // scroll
 
 dkvideos.scroll = {
     init: function() {
-        $('.dkv-videos-wrap').scroll(function () {
-            //console.log('scroll', $('.dkv-videos-wrap').scrollTop(), $('.dkv-videos-wrap').height(), $(document).height());
-            if ($('.dkv-videos-wrap').scrollTop() + $('.dkv-videos-wrap').height() >= $(document).height()) {
+        $('.dkv-videos').scroll(function () {
+            //console.log('scroll', $('.dkv-videos').scrollTop(), $('.dkv-videos').height(), $(document).height());
+            if ($('.dkv-videos').scrollTop() + $('.dkv-videos').height() >= $(document).height()) {
                 // Works perfect for desktop browsers
                 if($('.dkv-video-more').css('display') != "none")
                 {
@@ -249,12 +246,15 @@ dkvideos.scroll = {
             $('.change', field).css('display', 'none');
             $('.remove', field).css('display', 'none');
         }
+
+
         // add & change button
 
         $('.add, .change', field).click(function() {
             dkvideos.currentField = field;
             dkvideos.modal.show();
         });
+
 
         // remove button
 
@@ -283,6 +283,8 @@ dkvideos.scroll = {
 
 // --------------------------------------------------------------------
 
+// document ready
+
 $(document).ready(function()
 {
     console.log('Videos field on this page : ', $('.dkv-field').length);
@@ -292,6 +294,10 @@ $(document).ready(function()
     $('.dkv-field').dukt_videos_field();
 });
 
+
+// --------------------------------------------------------------------
+
+// window resize
 
 $(window).resize(function() {
     dkvideos.preview.resize();
