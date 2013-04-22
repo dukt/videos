@@ -1,15 +1,14 @@
 
-#player-overlay {
-    visibility: hidden;
-    background:#000;
-    opacity: .8;
-    width: 100%;
-    height: 100%;
-    top:0;
-    left: 0;
-    position: fixed;
-    z-index: 1;
-}
+
+@import "sidebar.less";
+@import "main.less";
+@import "player.less";
+
+
+// --------------------------------------------------------------------
+
+// basics
+
 
 #videoInfo {
     display: none;
@@ -23,6 +22,9 @@
     font-size: 1.2em;
 }
 
+.dv-clear {
+    clear: both;
+}
 
 .dv-getStarted {
     display: none;
@@ -32,6 +34,12 @@
     font-style: italic;
     font-size: 1.2em;
 }
+
+
+
+// --------------------------------------------------------------------
+
+// box
 
 .dv-box {
     margin-left: -30px;
@@ -58,232 +66,11 @@
 
         }
     }
-
-    // .dv-player {
-    //  background: #000;
-    //  width: 300px;
-    //  height: 200px;
-    //  position: absolute;
-    //  top: 300px;
-    //  left: 0;
-    // }
-
-    .dv-sidebar {
-        width: 200px;
-        float: left;
-        padding-bottom: 1em;
-
-        .select {
-            margin-left: 30px;
-            margin-bottom: 30px;
-            display: block;
-
-            select {
-                width: 100%;
-            }
-        }
-
-        h3 {
-            text-transform: uppercase;
-            font-size: 0.9em;
-            padding-left: 30px;
-        }
-
-        ul {
-            margin-bottom: 2em;
-            li {
-
-
-                a{
-                    display: block;
-                    padding: 4px;
-                    padding-left: 30px;
-                    color: #555;
-
-                    &:hover {
-                        text-decoration: none;
-                        color: #5295ff;
-                    }
-
-                    &.active {
-                        background:#555;
-                        color: #fff;
-
-                        &:hover {
-                            text-decoration: none;
-                            color: #fff;
-                            cursor: default;
-                        }
-                    }
-                }
-
-                ul li a {
-                    padding-left: 50px;
-                }
-            }
-        }
-
-        .dv-player-placeholder {
-            background: red;
-            width: 100%;
-            height: 200px;
-        }
-    }
-
-    .dv-main {
-        margin-left: 220px;
-        margin-right: 10px;
-
-        .toolbar {
-            margin-right: 30px;
-            .btngroup {
-                display: none;
-            }
-
-            .spinner {
-                float: right;
-
-            }
-
-            .search {
-                margin-right: 40px;
-            }
-        }
-
-        .dv-video-more {
-            display: none;
-            clear: both;
-            padding-bottom: 20px;
-        }
-
-        .dv-loader {
-            display: none;
-            padding-top: 30px;
-            padding-bottom: 80px;
-            text-align: center;
-        }
-
-        .dv-empty {
-            display: none;
-            text-align: center;
-            padding:5em 0 8em 0;
-            color: #aaa;
-        }
-
-        .dv-videos-wrap {
-            overflow: auto;
-
-        }
-
-
-        .dv-videos-wrap::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 11px;
-            height: 11px;
-        }
-
-        .dv-videos-wrap::-webkit-scrollbar-thumb {
-            border: 2px solid #aaa; /* should match background, can't be transparent */
-            background-color: #aaa;
-        }
-
-
-        .dv-videos {
-
-
-
-            // height: 440px;
-            // overflow: auto;
-
-            li {
-                background: #fff;
-                position: relative;
-                margin-bottom: 20px;
-                margin-right: 20px;
-                float: left;
-                text-align: center;
-                padding:5px;
-                border: 1px solid #eee;
-                display: block;
-
-                &.active {
-                    background:orange;
-                    border-color:orange;
-                }
-
-                div {
-                    width: 173px;
-                    height: 100px;
-                    overflow: hidden;
-                    background:#000;
-
-                    &:hover img {
-                        opacity: .4;
-                    }
-                }
-
-                img {
-                    display: block;
-                    width: 100%;
-                }
-            }
-        }
-    }
-
 }
 
-.clear {
-    clear: both;
-}
+// --------------------------------------------------------------------
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// overlay
 
  .dv-overlay {
     display: none;
@@ -300,122 +87,3 @@
     z-index: 1;
  }
 
-div.dv-videos-thumb
-{
-    float: left;
-    overflow: hidden;
-
-    border-color:#aaa;
-    border-width:0px;
-    /* Firefox v1.0+ */
-    -moz-border-radius:1%;
-    /* Safari v3.0+ and by Chrome v0.2+ */
-    -webkit-border-radius:0%/1%;
-    /* Firefox v4.0+ , Safari v5.0+ , Chrome v4.0+ , Opera v10.5+  and by IE v9.0+ */
-    border-radius:0%/1%;
-    border-style:solid;
-    /* Firefox v3.5+ */
-    -moz-box-shadow:0px 1px 0px rgb(255,255,255);
-    /* Safari v3.0+ and by Chrome v0.2+ */
-    -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
-    /* Firefox v4.0+ , Safari v5.1+ , Chrome v10.0+, IE v10+ and by Opera v10.5+ */
-    box-shadow:0px 1px 0px rgb(255,255,255);
-
-    display: inline-block;
-    position: relative;
-
-    .dv-clip-outer
-    {
-        position: relative;
-        display: inline-block;
-        width: 173px;
-        height: 100px;
-        overflow: hidden;
-        vertical-align: bottom;
-
-        .dv-clip
-        {
-            display: block;
-            position: absolute;
-            bottom: -100px;
-            top: -100px;
-            left: -100px;
-            right: -100px;
-            text-align: center;
-            white-space: nowrap;
-            word-break: normal;
-            margin: 0;
-            padding: 0;
-            border: 0;
-            font-size: 100%;
-            background: transparent;
-
-            .dv-clip-inner
-            {
-                display: block;
-                position: absolute;
-                top: 0;
-                left: 0;
-                width: 100%;
-                height: 100%;
-
-                img
-                {
-                    width: 178px;
-                    display: inline-block;
-                    vertical-align: middle;
-                    border: 0;
-                    outline: none;
-                }
-
-                .dv-vertical-align
-                {
-                    height: 100%;
-                    display: inline-block;
-                    vertical-align: middle;
-                }
-            }
-        }
-    }
-}
-
-
-
-#player {
-    -webkit-box-shadow:  0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-
-    box-shadow:  0px 0px 10px 0px rgba(0, 0, 0, 0.5);
-
-    .bottom {
-
-        .favorite {
-
-             // display: inline-block;
-             // border-radius: 2px;
-             // padding: 0 12px;
-             // line-height: 31px;
-             // border: none;
-
-
-             background:red url("../images/favorite.png") no-repeat;
-
-            text-align: center;
-            white-space: nowrap;
-            display: block;
-            text-indent: -100% !important;
-            overflow: hidden;
-            color:red;
-            float: left;
-            width: 23px;
-            height: 21px;
-            padding: 0;
-            margin:0;
-            margin-top: 6px;
-            margin-left: 6px;
-            &.on {
-                background-position: -23px 0;
-            }
-
-        }
-    }
-}
