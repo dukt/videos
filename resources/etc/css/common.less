@@ -9,24 +9,15 @@
 
 // basics
 
-
-#videoInfo {
-    display: none;
-}
-
-.dv-error {
-    text-align: center;
-    padding: 3em;
-    color:#333;
-    font-style: italic;
-    font-size: 1.2em;
-}
-
-.dv-clear {
+.dkv-clear {
     clear: both;
 }
 
-.dv-getStarted {
+// --------------------------------------------------------------------
+
+// Get Started
+
+.dkv-getStarted {
     display: none;
     text-align: center;
     padding: 3em;
@@ -35,22 +26,20 @@
     font-size: 1.2em;
 }
 
-
-
 // --------------------------------------------------------------------
 
-// box
+// modal
 
-.dv-box {
-    margin-left: -30px;
-    margin-right: -30px;
-    position: relative;
+.dkv-modal {
+    // margin-left: -30px;
+    // margin-right: -30px;
+    // position: relative;
 
-    .dv-box-spinner {
+    .dkv-box-spinner {
         display: none;
     }
 
-    &.dv-loading {
+    &.dkv-loading {
         height: 100px;
         position: relative;
 
@@ -58,7 +47,7 @@
             display: none;
         }
 
-        & > .dv-box-spinner {
+        & > .dkv-box-spinner {
             display: block;
             position: relative;
             left:50%;
@@ -72,7 +61,7 @@
 
 // overlay
 
- .dv-overlay {
+ .dkv-overlay {
     display: none;
     width: 200px;
     height: 200px;

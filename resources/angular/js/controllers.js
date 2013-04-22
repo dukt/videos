@@ -28,11 +28,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
         if(!$scope.isFavorite) {
             method = 'favoriteAdd';
-            //$("#player .favorite").addClass('on');
             $scope.isFavorite = true;
         } else {
             method = 'favoriteRemove';
-            //$("#player .favorite").removeClass('on');
             $scope.isFavorite = false;
         }
 
@@ -90,16 +88,12 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
         	console.log('--success', data);
 
-        	// $('#player .title').html(video.title);
-
-        	$('#player #videoDiv').html(data.embed);
+        	$('.dkv-player .dkv-embed').html(data.embed);
 
         	if(data.isFavorite) {
                 $scope.isFavorite = true;
-        		//$('#player .tools .favorite').addClass('on');
         	} else {
                 $scope.isFavorite = false;
-        		//$('#player .tools .favorite').removeClass('on');
         	}
         }).
         error(function(data, status, headers, config) {

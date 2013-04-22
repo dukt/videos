@@ -1,20 +1,20 @@
-.dv-field input.text {
+.dkv-field input.text {
   display: none;
 }
-.dv-field .btn {
+.dkv-field .btn {
   display: none;
 }
-.dv-field .dv-preview {
+.dkv-field .dkv-preview {
   display: none;
   background: #eee;
   height: 300px;
 }
-.dv-field .dv-preview iframe,
-.dv-field .dv-preview object {
+.dkv-field .dkv-preview iframe,
+.dkv-field .dkv-preview object {
   width: 100%;
   height: 100%;
 }
-.dv-modal {
+.dkv-modal {
   display: none;
   position: fixed;
   top: 20%;
@@ -27,20 +27,12 @@
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
 }
-.dv-modal .dv-box {
-  height: 400px;
-  padding: 20px;
-  overflow: hidden;
-}
-.dv-modal .top {
-  display: none;
-}
-.dv-modal .modal-bottom {
+.dkv-modal .modal-bottom {
   background: #fff;
   text-align: right;
   padding: 15px 25px;
 }
-#player {
+.dkv-player {
   display: none;
   z-index: 2;
   position: absolute;
@@ -50,29 +42,13 @@
   width: 100%;
   min-height: 100px;
 }
-#player .top,
-#player .bottom {
+.dkv-player .dkv-bottom {
   background: #fff;
-}
-#player .bottom {
   text-align: right;
   padding: 10px;
 }
-#player .title {
-  font-size: 1.4em;
-  padding: 0.9em;
-}
-#player .player-close {
-  display: none;
-  background: #777;
-  width: 30px;
-  height: 30px;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-#player iframe,
-#player object {
+.dkv-player iframe,
+.dkv-player object {
   width: 100%;
   height: 100%;
 }

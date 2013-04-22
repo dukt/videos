@@ -3,170 +3,157 @@
 
 // main
 
-.dv-box {
-    .dv-main {
-        margin-left: 220px;
-        margin-right: 10px;
+.dkv-main {
+    margin-left: 220px;
+    margin-right: 10px;
 
-        .toolbar {
-            margin-right: 30px;
+    .dkv-toolbar {
+        margin-right: 30px;
 
-            .btngroup {
-                display: none;
-            }
-
-            .spinner {
-                float: right;
-            }
-
-            .search {
-                margin-right: 40px;
-            }
+        .dkv-spinner {
+            float: right;
         }
 
-        .dv-video-more {
-            display: none;
-            clear: both;
-            padding-bottom: 20px;
+        .dkv-search {
+            margin-right: 40px;
         }
+    }
 
-        .dv-loader {
-            display: none;
-            padding-top: 30px;
-            padding-bottom: 80px;
+    .dkv-video-more {
+        display: none;
+        clear: both;
+        padding-bottom: 20px;
+    }
+
+    .dkv-empty {
+        display: none;
+        text-align: center;
+        padding:5em 0 8em 0;
+        color: #aaa;
+    }
+
+    .dkv-videos-wrap {
+        overflow: auto;
+    }
+
+    .dkv-videos-wrap::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 11px;
+        height: 11px;
+    }
+
+    .dkv-videos-wrap::-webkit-scrollbar-thumb {
+        border: 2px solid #aaa; /* should match background, can't be transparent */
+        background-color: #aaa;
+    }
+
+    .dkv-videos {
+        li {
+            background: #fff;
+            position: relative;
+            margin-bottom: 20px;
+            margin-right: 20px;
+            float: left;
             text-align: center;
-        }
+            padding:5px;
+            border: 1px solid #eee;
+            display: block;
 
-        .dv-empty {
-            display: none;
-            text-align: center;
-            padding:5em 0 8em 0;
-            color: #aaa;
-        }
+            &.active {
+                background:orange;
+                border-color:orange;
+            }
 
-        .dv-videos-wrap {
-            overflow: auto;
-        }
+            div {
+                width: 173px;
+                height: 100px;
+                overflow: hidden;
+                background:#000;
 
-        .dv-videos-wrap::-webkit-scrollbar {
-            -webkit-appearance: none;
-            width: 11px;
-            height: 11px;
-        }
-
-        .dv-videos-wrap::-webkit-scrollbar-thumb {
-            border: 2px solid #aaa; /* should match background, can't be transparent */
-            background-color: #aaa;
-        }
-
-        .dv-videos {
-            li {
-                background: #fff;
-                position: relative;
-                margin-bottom: 20px;
-                margin-right: 20px;
-                float: left;
-                text-align: center;
-                padding:5px;
-                border: 1px solid #eee;
-                display: block;
-
-                &.active {
-                    background:orange;
-                    border-color:orange;
+                &:hover img {
+                    opacity: .4;
                 }
+            }
 
-                div {
+
+            // thumb
+
+            div.dkv-videos-thumb
+            {
+                display: inline-block;
+                position: relative;
+                float: left;
+                overflow: hidden;
+
+                border-color:#aaa;
+                border-width:0px;
+                -moz-border-radius:1%;
+                -webkit-border-radius:0%/1%;
+                border-radius:0%/1%;
+                border-style:solid;
+                -moz-box-shadow:0px 1px 0px rgb(255,255,255);
+                -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
+                box-shadow:0px 1px 0px rgb(255,255,255);
+
+
+                .dkv-clip-outer
+                {
+                    position: relative;
+                    display: inline-block;
                     width: 173px;
                     height: 100px;
                     overflow: hidden;
-                    background:#000;
+                    vertical-align: bottom;
 
-                    &:hover img {
-                        opacity: .4;
-                    }
-                }
-
-
-                // thumb
-
-                div.dv-videos-thumb
-                {
-                    display: inline-block;
-                    position: relative;
-                    float: left;
-                    overflow: hidden;
-
-                    border-color:#aaa;
-                    border-width:0px;
-                    -moz-border-radius:1%;
-                    -webkit-border-radius:0%/1%;
-                    border-radius:0%/1%;
-                    border-style:solid;
-                    -moz-box-shadow:0px 1px 0px rgb(255,255,255);
-                    -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
-                    box-shadow:0px 1px 0px rgb(255,255,255);
-
-
-                    .dv-clip-outer
+                    .dkv-clip
                     {
-                        position: relative;
-                        display: inline-block;
-                        width: 173px;
-                        height: 100px;
-                        overflow: hidden;
-                        vertical-align: bottom;
+                        display: block;
+                        position: absolute;
+                        bottom: -100px;
+                        top: -100px;
+                        left: -100px;
+                        right: -100px;
+                        text-align: center;
+                        white-space: nowrap;
+                        word-break: normal;
+                        margin: 0;
+                        padding: 0;
+                        border: 0;
+                        font-size: 100%;
+                        background: transparent;
 
-                        .dv-clip
+                        .dkv-clip-inner
                         {
                             display: block;
                             position: absolute;
-                            bottom: -100px;
-                            top: -100px;
-                            left: -100px;
-                            right: -100px;
-                            text-align: center;
-                            white-space: nowrap;
-                            word-break: normal;
-                            margin: 0;
-                            padding: 0;
-                            border: 0;
-                            font-size: 100%;
-                            background: transparent;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
 
-                            .dv-clip-inner
+                            img
                             {
-                                display: block;
-                                position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
+                                width: 178px;
+                                display: inline-block;
+                                vertical-align: middle;
+                                border: 0;
+                                outline: none;
+                            }
+
+                            .dkv-vertical-align
+                            {
                                 height: 100%;
-
-                                img
-                                {
-                                    width: 178px;
-                                    display: inline-block;
-                                    vertical-align: middle;
-                                    border: 0;
-                                    outline: none;
-                                }
-
-                                .dv-vertical-align
-                                {
-                                    height: 100%;
-                                    display: inline-block;
-                                    vertical-align: middle;
-                                }
+                                display: inline-block;
+                                vertical-align: middle;
                             }
                         }
                     }
                 }
+            }
 
-                img {
-                    display: block;
-                    width: 100%;
-                }
+            img {
+                display: block;
+                width: 100%;
             }
         }
     }

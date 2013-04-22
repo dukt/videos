@@ -28,18 +28,18 @@ videos.factory("VideosService",function($rootScope, $http){
             services: false,
             loader: {
                 on: function() {
-                    $('.dv-main .toolbar .spinner').removeClass('hidden');
+                    $('.dkv-main .dkv-toolbar .dkv-spinner').removeClass('dkv-hidden');
                 },
                 off: function() {
-                    $('.dv-main .toolbar .spinner').addClass('hidden');
+                    $('.dkv-main .dkv-toolbar .dkv-spinner').addClass('dkv-hidden');
                 }
             },
             videoMore: {
                 on: function() {
-                    $('.dv-video-more').css('display', 'block');
+                    $('.dkv-video-more').css('display', 'block');
                 },
                 off: function() {
-                    $('.dv-video-more').css('display', 'none');
+                    $('.dkv-video-more').css('display', 'none');
                 }
             },
             refreshServicesTokens: function() {
@@ -79,7 +79,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
             console.log('services success');
 
-            $('.dv-box').removeClass('dv-loading');
+            $('.dkv-modal').removeClass('dkv-loading');
 
             $rootScope.services = data;
 
@@ -92,8 +92,8 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
             {
                 $rootScope.errorMessage = "Set up a video service";
 
-                $('.dv-getStarted').css('display', 'block');
-                $('.dv-box').css('display', 'none');
+                $('.dkv-getStarted').css('display', 'block');
+                $('.dkv-modal').css('display', 'none');
 
                 return false;
             }
@@ -185,7 +185,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
         // change route
 
-        $location.path($('.dv-sidebar select').val()+"/"+methodName);
+        $location.path($('.dkv-sidebar select').val()+"/"+methodName);
 
 
     }
@@ -294,9 +294,10 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
           });
     }
 
+
     // press enter triggers search
 
-    $(document).on('keypress', '.search input', function(e) {
+    $(document).on('keypress', '.dkv-search input', function(e) {
         if(e.keyCode == "13") {
             $rootScope.search();
         }

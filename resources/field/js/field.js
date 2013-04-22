@@ -12,11 +12,10 @@ dkvideos.currentField = false;
 dkvideos.preview = {
     init: function() {
         console.log('mcp.preview.init()');
-        //$('#player').appendTo('.dv-modal');
 
         // cancel
 
-        $('#player .player-close, #player .cancel').click(function() {
+        $('.dkv-player .cancel').click(function() {
             dkvideos.preview.hide();
             return false;
         });
@@ -24,7 +23,7 @@ dkvideos.preview = {
 
         // select video
 
-        $('#player .submit').click(function() {
+        $('.dkv-player .submit').click(function() {
             dkvideos.preview.hide();
             dkvideos.modal.hide();
             console.log('submit');
@@ -45,31 +44,30 @@ dkvideos.preview = {
     },
 
     resize: function() {
-        var modalH = $('.dv-modal').outerHeight();
-        var modahW = $('.dv-modal').outerWidth();
+        var modalH = $('.dkv-modal').outerHeight();
+        var modahW = $('.dkv-modal').outerWidth();
 
 
-        var modalBottomH = $('.dv-modal .modal-bottom').outerHeight();
+        var modalBottomH = $('.dkv-modal .modal-bottom').outerHeight();
 
         var playerH = modalH - modalBottomH;
 
-        var iFrameHeight = playerH - $('#player .top').outerHeight() - $('#player .bottom').outerHeight();
+        var iFrameHeight = playerH - $('.dkv-player .dkv-bottom').outerHeight();
 
 
-        $('#player').css('height', playerH);
+        $('.dkv-player').css('height', playerH);
 
-        $('#player #videoDiv').css('height', iFrameHeight);
+        $('.dkv-player .dkv-embed').css('height', iFrameHeight);
     },
 
     show : function() {
-        $('#player').css('display', 'block');
+        $('.dkv-player').css('display', 'block');
         dkvideos.preview.resize();
     },
 
     hide: function() {
-        $('#player #videoDiv').html('');
-        $('#player .title').html('Loading...');
-        $('#player').css('display', 'none');
+        $('.dkv-player .dkv-embed').html('');
+        $('.dkv-player').css('display', 'none');
     }
 };
 
@@ -83,7 +81,7 @@ dkvideos.field.preview = function(videoUrl, field) {
         console.log('fieldEmbed', videoUrl);
         // load modal body
 
-        var fieldPreview = $('.dv-preview', field);
+        var fieldPreview = $('.dkv-preview', field);
 
         fieldPreview.html('');
 
@@ -99,7 +97,7 @@ dkvideos.field.preview = function(videoUrl, field) {
 
         // manual bootstrap
 
-        //angular.bootstrap($('.dv-modal'), ['videos']);
+        //angular.bootstrap($('.dkv-modal'), ['videos']);
     });
 }
 
@@ -111,7 +109,7 @@ dkvideos.modal = {
     init: function() {
         console.log('dkvideos.modal.init()');
 
-        overlay = $('<div class="dv-overlay"></div>');
+        overlay = $('<div class="dkv-overlay"></div>');
 
         overlay.appendTo('body');
 
@@ -124,16 +122,16 @@ dkvideos.modal = {
         var winH = $(window).height();
         var winW = $(window).width();
 
-        var modalH = $('.dv-modal').outerHeight();
-        var modalW = $('.dv-modal').outerWidth();
+        var modalH = $('.dkv-modal').outerHeight();
+        var modalW = $('.dkv-modal').outerWidth();
 
         var modalT = (winH - modalH) / 2;
         var modalL = (winW - modalW) / 2;
 
-        $('.dv-modal').css('top', modalT);
-        $('.dv-modal').css('left', modalL);
+        $('.dkv-modal').css('top', modalT);
+        $('.dkv-modal').css('left', modalL);
 
-        var modalBottomH = $('.dv-modal .modal-bottom').outerHeight();
+        var modalBottomH = $('.dkv-modal .modal-bottom').outerHeight();
 
         var boxH = modalH - modalBottomH - 40;
 
@@ -141,20 +139,20 @@ dkvideos.modal = {
 
         var videosH = modalH - 80;
 
-        $('.dv-videos-wrap').css('height', videosH);
+        $('.dkv-videos-wrap').css('height', videosH);
 
     },
 
     show : function() {
-        $('.dv-overlay').css('display', 'block');
-        $('.dv-modal').css('display', 'block');
+        $('.dkv-overlay').css('display', 'block');
+        $('.dkv-modal').css('display', 'block');
 
         dkvideos.modal.resize();
     },
 
     hide: function() {
-        $('.dv-overlay').css('display', 'none');
-        $('.dv-modal').css('display', 'none');
+        $('.dkv-overlay').css('display', 'none');
+        $('.dkv-modal').css('display', 'none');
 
         dkvideos.preview.hide();
     }
@@ -169,13 +167,13 @@ console.log('hello modal');
 
 dkvideos.scroll = {
     init: function() {
-        $('.dv-videos-wrap').scroll(function () {
-            //console.log('scroll', $('.dv-videos-wrap').scrollTop(), $('.dv-videos-wrap').height(), $(document).height());
-            if ($('.dv-videos-wrap').scrollTop() + $('.dv-videos-wrap').height() >= $(document).height()) {
+        $('.dkv-videos-wrap').scroll(function () {
+            //console.log('scroll', $('.dkv-videos-wrap').scrollTop(), $('.dkv-videos-wrap').height(), $(document).height());
+            if ($('.dkv-videos-wrap').scrollTop() + $('.dkv-videos-wrap').height() >= $(document).height()) {
                 // Works perfect for desktop browsers
-                if($('.dv-video-more').css('display') != "none")
+                if($('.dkv-video-more').css('display') != "none")
                 {
-                    $('.dv-video-more a').trigger('click');
+                    $('.dkv-video-more a').trigger('click');
                 }
             }
         });
@@ -227,7 +225,7 @@ dkvideos.scroll = {
 
             console.log('angular bootstrap');
 
-            angular.bootstrap($('.dv-modal'), ['videos']);
+            angular.bootstrap($('.dkv-modal'), ['videos']);
         });
     };
 
@@ -263,8 +261,8 @@ dkvideos.scroll = {
         $('.remove', field).click(function() {
             input.val('');
 
-            $('.dv-preview', field).css('display', 'none');
-            $('.dv-preview', field).html();
+            $('.dkv-preview', field).css('display', 'none');
+            $('.dkv-preview', field).html();
 
             $('.add', field).css('display', 'inline-block');
             $('.change', field).css('display', 'none');
@@ -287,11 +285,11 @@ dkvideos.scroll = {
 
 $(document).ready(function()
 {
-    console.log('Videos field on this page : ', $('.dv-field').length);
+    console.log('Videos field on this page : ', $('.dkv-field').length);
 
     // init loop on each field
 
-    $('.dv-field').dukt_videos_field();
+    $('.dkv-field').dukt_videos_field();
 });
 
 

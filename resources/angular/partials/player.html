@@ -1,29 +1,11 @@
-<div id="player">
+<div class="dkv-player">
 
-    <div class="top">
-        <div class="title">Loading...</div>
-        <div class="player-close"></div>
-    </div>
+    <div class="dkv-embed"></div>
 
-    <div id="videoDiv"></div>
+    <div class="dkv-bottom">
+        <span ng-click="favorite()" class="dkv-favorite" ng-class="{ 'dkv-on': isFavorite }">Favorite</span>
 
-    <div id="videoInfo">
-        <p>Player state: <span id="playerState">--</span></p>
-        <p>Current Time: <span id="videoCurrentTime">--:--</span> | Duration: <span id="videoDuration">--:--</span></p>
-        <p>
-            Bytes Total: <span id="bytesTotal">--</span> |
-            Start Bytes: <span id="startBytes">--</span> |
-            Bytes Loaded: <span id="bytesLoaded">--</span>
-        </p>
-     </div>
-
-
-    <div class="bottom">
-        <div class="tools">
-            <span ng-click="favorite()" class="favorite" ng-class="{ on: isFavorite }">Favorite</span>
-
-            <a href="#" class="cancel btn">Cancel</a> &nbsp;
-            <a href="#" class="btn submit">Add Video</a>
-        </div>
+        <a href="#" class="cancel btn">Cancel</a> &nbsp;
+        <a href="#" class="btn submit">Add Video</a>
     </div>
 </div>

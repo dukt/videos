@@ -1,0 +1,17 @@
+<div class="dkv-modal dkv-loading">
+
+    <div class="spinner dkv-box-spinner"></div>
+
+    <div ng-controller="ServicesListCtrl">
+
+        <div class="dkv-getStarted">
+            Get started by <a href="{{ url('videos/settings') }}">setting up a video service</a>.
+        </div>
+
+        <div ng-include src="'{{ resourceUrl('videos/angular/partials/player.html') }}'"></div>
+        <div ng-include src="'{{ resourceUrl('videos/angular/partials/sidebar.html') }}'"></div>
+        <div ng-include src="'{{ resourceUrl('videos/angular/partials/main.html') }}'"></div>
+
+        <div class="dkv-clear"></div>
+    </div>
+</div>

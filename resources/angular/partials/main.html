@@ -1,49 +1,48 @@
+<div class="dkv-main">
 
-<div class="dv-main">
+	<!-- toolbar -->
 
-	<div class="toolbar">
-	    <div class="spinner hidden"></div>
+	<div class="dkv-toolbar">
+	    <div class="dkv-spinner dkv-hidden"></div>
 
-		<div class="btngroup">
-			<a class="btn thumbs" href="javascript:;" title="Display files as thumbnails" data-icon="⌗"></a>
-			<a class="btn list active" href="javascript:;" title="Display files in a list" data-icon="•"></a>
-		</div>
-
-		<div class="search">
+		<div class="dkv-search search">
 	        <input type="text" ng-model="searchQuery" ng-change="search()" class="text nicetext fullwidth" data-hint="Search videos" placeholder="Search videos">
 	    </div>
-
-
-	</div>
-
-	<div class="dv-empty">
-		<p>No videos</p>
 	</div>
 
 
-	<div id="dv-videos-wrap" class="dv-videos-wrap">
-		<ul class="dv-videos">
-			<li ng-repeat="video in videos" ng-class="{active: isSelected(video)}">
-				<a ng-click="play(video)">
+	<!-- content -->
+
+	<div class="dkv-content">
+
+		<div class="dkv-empty">
+			<p>No videos</p>
+		</div>
 
 
-					<div class="dv-videos-thumb">
-						<span class="dv-clip-outer">
-							<span class="dv-clip">
-								<span class="dv-clip-inner">
-									<img ng-src="{{video.thumbnails[1]}}">
-									<span class="dv-vertical-align"></span>
+		<div class="dkv-videos-wrap">
+			<ul class="dkv-videos">
+				<li ng-repeat="video in videos" ng-class="{active: isSelected(video)}">
+					<a ng-click="play(video)">
+						<div class="dkv-videos-thumb">
+							<span class="dkv-clip-outer">
+								<span class="dkv-clip">
+									<span class="dkv-clip-inner">
+										<img ng-src="{{video.thumbnails[1]}}">
+										<span class="dkv-vertical-align"></span>
+									</span>
 								</span>
 							</span>
-						</span>
-					</div>
-				</a>
+						</div>
+					</a>
 
-			</li>
-		</ul>
+				</li>
+			</ul>
 
-		<div ng-view>Loading Angular...</div>
+			<div ng-view>Loading Angular...</div>
 
-		<p class="dv-video-more"><a class="btn" ng-click="moreVideos()">Load more videos</a></p>
+			<p class="dkv-video-more"><a class="btn" ng-click="moreVideos()">Load more videos</a></p>
+		</div>
 	</div>
+
 </div>

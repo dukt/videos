@@ -31,7 +31,7 @@ input.readonly {
 
 // player
 
-#player {
+.dkv-player {
     display:none;
     z-index: 20000;
     position: fixed;
@@ -41,36 +41,14 @@ input.readonly {
 
     width: 800px;
 
-    #videoDiv {
+    .dkv-embed {
         height: 450px;
     }
 
-    .top, .bottom {
+    .dkv-bottom {
         background: #fff;
-    }
-
-    .top {
-        display: none;
-    }
-
-    .bottom {
         text-align: right;
         padding: 10px;
-    }
-
-    .title {
-        font-size: 1.4em;
-        padding: 0.9em;
-    }
-
-    .player-close {
-        display: none;
-        background:#777;
-        width:30px;
-        height: 30px;
-        position: absolute;
-        top:10px;
-        right:10px;
     }
 
     iframe, object {
