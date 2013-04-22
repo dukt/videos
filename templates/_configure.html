@@ -61,12 +61,13 @@
         }) }}
 
         {% if service.params is not null %}
-            {% for extraParamKey, extraParam in service.params.defineAttributes %}
+            {% for extraParamKey, extraParam in provider.getExtraParameters() %}
                 {{ forms.textField({
-                    label: extraParamKey|t,
+                    label: extraParam.label|t,
                     required: extraParam.required,
                     name: 'service[params]['~extraParamKey~']',
                     value: (attribute(service.params, extraParamKey) is defined ? attribute(service.params, extraParamKey) : null),
+                    errors: service ? service.params.errors(extraParamKey) : null,
                     disabled: (service.token is defined and service.token|length > 0 ? true : false)
                 }) }}
             {% endfor %}
