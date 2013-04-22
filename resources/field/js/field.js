@@ -162,6 +162,26 @@ dkvideos.modal = {
 
 console.log('hello modal');
 
+
+// --------------------------------------------------------------------
+
+// scroll
+
+dkvideos.scroll = {
+    init: function() {
+        $('.dv-videos-wrap').scroll(function () {
+            //console.log('scroll', $('.dv-videos-wrap').scrollTop(), $('.dv-videos-wrap').height(), $(document).height());
+            if ($('.dv-videos-wrap').scrollTop() + $('.dv-videos-wrap').height() >= $(document).height()) {
+                // Works perfect for desktop browsers
+                if($('.dv-video-more').css('display') != "none")
+                {
+                    $('.dv-video-more a').trigger('click');
+                }
+            }
+        });
+    }
+};
+
 // --------------------------------------------------------------------
 
 // plugin definition

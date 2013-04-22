@@ -41,7 +41,7 @@
 	.dv-box-spinner {
 		display: none;
 	}
-	
+
 	&.dv-loading {
 		height: 100px;
 		position: relative;
@@ -72,7 +72,7 @@
 		width: 200px;
 		float: left;
 		padding-bottom: 1em;
-		
+
 		.select {
 			margin-left: 30px;
 			margin-bottom: 30px;
@@ -82,7 +82,7 @@
 				width: 100%;
 			}
 		}
-		
+
 		h3 {
 			text-transform: uppercase;
 			font-size: 0.9em;
@@ -132,7 +132,8 @@
 
 	.dv-main {
 		margin-left: 220px;
-		
+		margin-right: 10px;
+
 		.toolbar {
 			margin-right: 30px;
 			.btngroup {
@@ -168,14 +169,28 @@
 			padding:5em 0 8em 0;
 			color: #aaa;
 		}
-		
+
 		.dv-videos-wrap {
 			overflow: auto;
+
 		}
-		
+
+
+		.dv-videos-wrap::-webkit-scrollbar {
+		    -webkit-appearance: none;
+		    width: 11px;
+		    height: 11px;
+		}
+
+		.dv-videos-wrap::-webkit-scrollbar-thumb {
+		    border: 2px solid #aaa; /* should match background, can't be transparent */
+		    background-color: #aaa;
+		}
+
+
 		.dv-videos {
-			
-			
+
+
 
 			// height: 440px;
 			// overflow: auto;
@@ -195,10 +210,10 @@
 					background:orange;
 					border-color:orange;
 				}
-				
+
 				div {
 					width: 173px;
-					height: 97px;
+					height: 100px;
 					overflow: hidden;
 					background:#000;
 

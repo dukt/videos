@@ -39,8 +39,8 @@ div.dv-videos-thumb {
 div.dv-videos-thumb .dv-clip-outer {
   position: relative;
   display: inline-block;
-  width: 180px;
-  height: 97px;
+  width: 173px;
+  height: 100px;
   overflow: hidden;
   vertical-align: bottom;
 }
@@ -69,7 +69,7 @@ div.dv-videos-thumb .dv-clip-outer .dv-clip .dv-clip-inner {
   height: 100%;
 }
 div.dv-videos-thumb .dv-clip-outer .dv-clip .dv-clip-inner img {
-  width: 182px;
+  width: 178px;
   display: inline-block;
   vertical-align: middle;
   border: 0;

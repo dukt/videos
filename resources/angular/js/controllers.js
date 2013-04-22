@@ -149,6 +149,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 
 
+
 	        	if(typeof(callback) == "function")
 	        	{
 	        		callback(a.data);
@@ -157,6 +158,9 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 	        	{
 	        		$rootScope.videos = a.data;
 	        	}
+
+                dkvideos.scroll.init();
+
 
                 if(a.data.length < Dukt_videos.pagination_per_page)
                 {

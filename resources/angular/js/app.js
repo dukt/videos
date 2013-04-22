@@ -273,6 +273,8 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
           {
                 $rootScope.videos = data;
 
+                dkvideos.scroll.init();
+
                 if(data.length < Dukt_videos.pagination_per_page)
                 {
                     VideosService.videoMore.off();

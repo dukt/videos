@@ -68,6 +68,30 @@ dkvideos.preview = {
     }
 };
 
+
+// --------------------------------------------------------------------
+
+// scroll
+
+dkvideos.scroll = {
+    init: function() {
+        console.log('scroll init');
+
+        $(window).scroll(function () {
+            //console.log('scroll', $(window).scrollTop(), $(window).height(), $(document).height());
+            if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
+                // Works perfect for desktop browsers
+                if($('.dv-video-more').css('display') != "none")
+                {
+                    $('.dv-video-more a').trigger('click');
+                }
+            }
+        });
+    }
+};
+
+// --------------------------------------------------------------------
+
 dkvideos.preview.init();
 
 $(document).ready(function() {
@@ -77,3 +101,4 @@ $(document).ready(function() {
 $(window).resize(function() {
     dkvideos.preview.resize();
 });
+

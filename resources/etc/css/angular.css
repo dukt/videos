@@ -98,6 +98,7 @@
 }
 .dv-box .dv-main {
   margin-left: 220px;
+  margin-right: 10px;
 }
 .dv-box .dv-main .toolbar {
   margin-right: 30px;
@@ -131,6 +132,17 @@
 .dv-box .dv-main .dv-videos-wrap {
   overflow: auto;
 }
+.dv-box .dv-main .dv-videos-wrap::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 11px;
+  height: 11px;
+}
+.dv-box .dv-main .dv-videos-wrap::-webkit-scrollbar-thumb {
+  border: 2px solid #aaa;
+  /* should match background, can't be transparent */
+
+  background-color: #aaa;
+}
 .dv-box .dv-main .dv-videos li {
   background: #fff;
   position: relative;
@@ -148,7 +160,7 @@
 }
 .dv-box .dv-main .dv-videos li div {
   width: 173px;
-  height: 97px;
+  height: 100px;
   overflow: hidden;
   background: #000;
 }
