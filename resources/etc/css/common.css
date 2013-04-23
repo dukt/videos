@@ -81,6 +81,9 @@
 
   background-color: #aaa;
 }
+.dkv-main .dkv-videos ul {
+  float: left;
+}
 .dkv-main .dkv-videos ul li {
   background: #fff;
   position: relative;
@@ -179,6 +182,9 @@
   padding: 0 10px;
   padding-bottom: 5px;
   color: #ccc;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .dkv-main .dkv-videos ul li a .dkv-subtitle .dkv-author {
   font-weight: bold;

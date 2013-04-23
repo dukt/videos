@@ -165,8 +165,8 @@ dkvideos.modal = {
 dkvideos.scroll = {
     init: function() {
         $('.dkv-videos').scroll(function () {
-            //console.log('scroll', $('.dkv-videos').scrollTop(), $('.dkv-videos').height(), $(document).height());
-            if ($('.dkv-videos').scrollTop() + $('.dkv-videos').height() >= $(document).height()) {
+            console.log('scroll', $('.dkv-videos').scrollTop(), $('.dkv-videos').height(), $('.dkv-videos ul').height());
+            if ($('.dkv-videos').scrollTop() + $('.dkv-videos').height() >= $('.dkv-videos ul').height()) {
                 // Works perfect for desktop browsers
                 if($('.dkv-video-more').css('display') != "none")
                 {
