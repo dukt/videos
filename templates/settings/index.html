@@ -22,12 +22,13 @@
 			</tr>
 		</thead>
 
-		{% for service in craft.videos.cpServices() %}
+		{% for serviceObject in craft.videos.cpServicesObjects() %}
 
-			{% set serviceRecord = craft.videos.cpGetServiceRecord(service.name) %}
+			{% set serviceRecord = craft.videos.cpServiceRecord(serviceObject.name) %}
+
 		    <tr>
 		    	<th>
-		    		{{service.name}}
+		    		{{serviceObject.name}}
 		    	</th>
 		    	<td class="col">
 					{% if serviceRecord.token is defined and serviceRecord.token is not null %}
@@ -40,14 +41,14 @@
 		    	</td>
 
 		    	<td class="col-actions">
-		    		<a class="btn small" href="{{ url('videos/settings') }}/{{ service.name }}">Configure</a>
+		    		<a class="btn small" href="{{ url('videos/settings') }}/{{ serviceObject.name }}">Configure</a>
 
-		    		{% if service.isAuthenticated() %}
+		    		{% if serviceObject.isAuthenticated() %}
 
-						{#% if service.enabled == 1 %}
-							<a class="btn small" href="{{ actionUrl('videos/settings/disableService') }}/{{ service.service_key }}">Disable</a>
+						{#% if serviceObject.enabled == 1 %}
+							<a class="btn small" href="{{ actionUrl('videos/settings/disableService') }}/{{ serviceObject.service_key }}">Disable</a>
 						{% else %}
-							<a class="btn small" href="{{ actionUrl('videos/settings/enableService') }}/{{ service.service_key }}">Enable</a>
+							<a class="btn small" href="{{ actionUrl('videos/settings/enableService') }}/{{ serviceObject.service_key }}">Enable</a>
 						{% endif %#}
 
 					{% endif %}

@@ -3,15 +3,15 @@ $(document).ready(function() {
 
     // enable expire logic ?
 
-    if($('.dv-expires').length > 0)
+    if($('.dkv-expires').length > 0)
     {
-        var providerClass = $('.dv-expires').data('providerclass');
+        var providerClass = $('.dkv-expires').data('providerclass');
 
 
         setInterval(function() {
-            var expires = $('.dv-expires').html();
+            var expires = $('.dkv-expires').html();
             expires = expires - 1;
-            $('.dv-expires').html(expires);
+            $('.dkv-expires').html(expires);
 
             if(expires <= 0)
             {
@@ -25,7 +25,7 @@ $(document).ready(function() {
 
     function refreshToken()
     {
-        var providerClass = $('.dv-expires').data('providerclass');
+        var providerClass = $('.dkv-expires').data('providerclass');
 
         // send refresh request and expect seconds in result
 
@@ -36,7 +36,7 @@ $(document).ready(function() {
         Craft.postActionRequest('videos/ajax/refreshToken', data, function(response) {
             console.log('refreshToken response', response);
 
-            $('.dv-expires').html(response);
+            $('.dkv-expires').html(response);
         });
     }
 });

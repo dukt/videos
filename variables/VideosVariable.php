@@ -13,32 +13,22 @@
 
 namespace Craft;
 
-require(CRAFT_PLUGINS_PATH."videos/config.php");
 require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosVariable
 {
     // --------------------------------------------------------------------
 
-  	public function __construct()
-  	{
-  		require(CRAFT_PLUGINS_PATH."videos/config.php");
-
-  		$this->pagination_per_page = $config['pagination_per_page'];
-  	}
-
-    // --------------------------------------------------------------------
-
     public function getService($providerClass)
     {
-        return craft()->videos->getService($providerClass);
+        return craft()->videos->getService($providerClass); // returns a service model
     }
 
     // --------------------------------------------------------------------
 
     public function url($videoUrl)
     {
-        return craft()->videos->url($videoUrl);
+        return craft()->videos->url($videoUrl); // return a video model
     }
 
     // --------------------------------------------------------------------
@@ -47,23 +37,30 @@ class VideosVariable
 
     // --------------------------------------------------------------------
 
-    public function cpServices($service = false)
+    public function cpConfig()
     {
-        return craft()->videos->services($service);
+        return craft()->videos->config(); // returns a config array
     }
 
     // --------------------------------------------------------------------
 
-    public function cpGetServiceLibrary($providerClass)
+    public function cpServiceLibrary($providerClass)
     {
-        return craft()->videos->getServiceLibrary($providerClass);
+        return craft()->videos->serviceLibrary($providerClass); // returns a service library
     }
 
     // --------------------------------------------------------------------
 
-    function cpGetServiceRecord($providerClass)
+    public function cpServicesObjects()
     {
-        return craft()->videos->getServiceRecord($providerClass);
+        return craft()->videos->servicesObjects(); // returns an initialized service library
+    }
+
+    // --------------------------------------------------------------------
+
+    public function cpServiceRecord($providerClass)
+    {
+        return craft()->videos->serviceRecord($providerClass); // returns a service record
     }
 
     // --------------------------------------------------------------------

@@ -18,7 +18,6 @@ class VideosService extends BaseApplicationComponent
 {
     protected $serviceRecord;
 
-
     // --------------------------------------------------------------------
 
     // construct (with Videos_ServiceRecord initialization)
@@ -26,9 +25,23 @@ class VideosService extends BaseApplicationComponent
     public function __construct($serviceRecord = null)
     {
         $this->serviceRecord = $serviceRecord;
+
         if (is_null($this->serviceRecord)) {
             $this->serviceRecord = Videos_ServiceRecord::model();
         }
+    }
+
+    // --------------------------------------------------------------------
+
+    // returns: config array
+
+    public function config()
+    {
+        require(CRAFT_PLUGINS_PATH."videos/config.php");
+
+        return $config;
+
+        return craft()->videos->getService($providerClass);
     }
 
     // --------------------------------------------------------------------
@@ -40,7 +53,6 @@ class VideosService extends BaseApplicationComponent
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
 
         $token = unserialize(base64_decode($record->token));
-
 
         $parameters = array();
         $parameters['id'] = $record->clientId;
@@ -54,8 +66,7 @@ class VideosService extends BaseApplicationComponent
 
         // only refresh if the provider implements access
 
-        if(method_exists($provider, 'access'))
-        {
+        if(method_exists($provider, 'access')) {
             $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
 
 
@@ -67,7 +78,6 @@ class VideosService extends BaseApplicationComponent
             $token = base64_encode(serialize($token));
 
             $record->token = $token;
-
             $record->save();
         }
 
@@ -89,7 +99,6 @@ class VideosService extends BaseApplicationComponent
         $params = $model->getAttributes();
 
         $record->setAttributes($model->getAttributes());
-
         $record->params = $model->getAttribute('params');
 
         if ($record->save()) {
@@ -102,6 +111,7 @@ class VideosService extends BaseApplicationComponent
            $this->connectService($record);
 
             return true;
+
         } else {
 
             $model->addErrors($record->getErrors());
@@ -159,7 +169,7 @@ class VideosService extends BaseApplicationComponent
 
     // returns : Videos_Service[providerClass]Model
 
-    public function getServiceRecord($providerClass)
+    public function serviceRecord($providerClass)
     {
         $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
 
@@ -178,7 +188,7 @@ class VideosService extends BaseApplicationComponent
 
     // returns: \Dukt\Videos\[providerClass]\Service
 
-    public function getServiceLibrary($providerClass)
+    public function serviceLibrary($providerClass)
     {
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
@@ -218,13 +228,9 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    /**
-     * Services
-     */
+    // returns : single or multiple *initialized* \Dukt\Videos\[providerClass]\Service
 
-    // returns : single or multiple \Dukt\Videos\[providerClass]\Service
-
-    public function services($service = false)
+    public function servicesObjects($service = false)
     {
         // if (!craft()->request->isCpRequest() )
         // {

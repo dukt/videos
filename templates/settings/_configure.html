@@ -13,7 +13,7 @@
 {% if service is not defined %}
     {% if providerClass %}
         {% set service = craft.videos.getService(providerClass) %}
-        {% set serviceLibrary = craft.videos.cpGetServiceLibrary(providerClass) %}
+        {% set serviceLibrary = craft.videos.cpServiceLibrary(providerClass) %}
 
         {% if not service %}{% exit 404 %}{% endif %}
     {% else %}
@@ -77,7 +77,7 @@
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;
 		{% else %}
 			{% if serviceLibrary.supportsRefresh() %}
-				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{service.tokenExpires()}}</strong> seconds. It will be automatically refreshed.</p>
+				<p>Token expires in <strong class="dkv-expires" data-providerclass="{{providerClass}}">{{service.tokenExpires}}</strong> seconds. It will be automatically refreshed.</p>
 
 				<a class="btn" href="{{actionUrl('videos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
 			{% endif %}

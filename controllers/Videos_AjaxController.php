@@ -255,7 +255,7 @@ class Videos_AjaxController extends BaseController
     {
         $providerClass = craft()->request->getParam('service');
 
-        $serviceRecord = craft()->videos->getServiceRecord($providerClass);
+        $serviceRecord = craft()->videos->serviceRecord($providerClass);
 
 
         // Retrieve token

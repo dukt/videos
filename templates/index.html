@@ -6,7 +6,7 @@
 
 {% set js %}
 	var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-	Dukt_videos.pagination_per_page = {{craft.videos.pagination_per_page}};
+	Dukt_videos.pagination_per_page = {{craft.videos.cpConfig().pagination_per_page}};
 {% endset %}
 
 {% includeJs js %}
