@@ -1,0 +1,1 @@
+DkvEndpoint={url:function(e,t){return Craft.getActionUrl("videos/ajax/"+e,t)}};

@@ -52,7 +52,8 @@ videos.factory("VideosService",function($rootScope, $http){
                 }
             },
             refreshServicesTokens: function() {
-                $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/refreshServicesTokens')}).
+                console.log('refreshing tokens');
+                $http({method: 'POST', url: DkvEndpoint.url('refreshServicesTokens')}).
                         success(function(data, status, headers, config) {
                             console.log(data);
                         }).
@@ -83,7 +84,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
     // get services
 
-    $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/services')}).
+    $http({method: 'POST', url: DkvEndpoint.url('services')}).
         success(function(data, status, headers, config) {
 
             console.log('services success');
@@ -120,7 +121,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
             // get playlists for this service
 
             $.each(data, function(k, el) {
-                $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/playlists', {service:el.name})}).
+                $http({method: 'POST', url: DkvEndpoint.url('playlists', {service:el.name})}).
                     success(function(data2, status2, headers2, config2) {
                         $rootScope.services[k].playlists = data2;
                     }).
@@ -279,7 +280,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
         VideosService.loader.on();
 
-        $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/search', opts), cache: true}).
+        $http({method: 'POST', url: DkvEndpoint.url('search', opts), cache: true}).
           success(function(data, status, headers, config)
           {
                 $rootScope.videos = data;

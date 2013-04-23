@@ -34,7 +34,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
             $scope.isFavorite = false;
         }
 
-        $http({method: 'POST', url: Craft.getActionUrl('videos/ajax/'+method, {id:currentVideo.id, service: $routeParams.serviceKey})}).
+        $http({method: 'POST', url: DkvEndpoint.url(method, {id:currentVideo.id, service: $routeParams.serviceKey})}).
             success(function(data, status, headers, config) {
 
             }).
@@ -83,7 +83,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		$scope.selected = video;
 
-		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
+		$http({method: 'POST', url: DkvEndpoint.url('embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
 
         	console.log('--success', data);
@@ -130,7 +130,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
 		VideosService.loader.on();
 
-		$http({method: 'POST', url: Craft.getActionUrl('videos/ajax/'+opts.method, opts)}).
+		$http({method: 'POST', url: DkvEndpoint.url(opts.method, opts)}).
 			success(function(data, status, headers, config)
 			{
 				console.log('ajax/'+opts.method+' : success');
