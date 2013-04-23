@@ -12,8 +12,8 @@
 
 {% if service is not defined %}
     {% if providerClass %}
-        {% set service = craft.videos.getServiceByProviderClass(providerClass) %}
-        {% set provider = craft.videos.getServiceProvider(providerClass) %}
+        {% set service = craft.videos.getService(providerClass) %}
+        {% set serviceLibrary = craft.videos.cpGetServiceLibrary(providerClass) %}
 
         {% if not service %}{% exit 404 %}{% endif %}
     {% else %}
@@ -61,7 +61,7 @@
         }) }}
 
         {% if service.params is not null %}
-            {% for extraParamKey, extraParam in provider.getExtraParameters() %}
+            {% for extraParamKey, extraParam in serviceLibrary.getExtraParameters() %}
                 {{ forms.textField({
                     label: extraParam.label|t,
                     required: extraParam.required,
@@ -73,22 +73,11 @@
             {% endfor %}
         {% endif %}
 
-        {#% for extraParamKey, extraParam in provider.getExtraParameters() %}
-            {{ forms.textField({
-                label: extraParam.label|t,
-                required: extraParam.required,
-                name: 'service[params]['~extraParamKey~']',
-                value: (service.params[extraParamKey] is defined ? service.params[extraParamKey]: null),
-                disabled: (service.token is defined and service.token|length > 0 ? true : false)
-            }) }}
-        {% endfor %#}
-
 		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;
 		{% else %}
-
-			{% if craft.videos.cpSupportsRefresh(providerClass) %}
-				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{craft.videos.cpTokenExpires(providerClass)}}</strong> seconds. It will be automatically refreshed.</p>
+			{% if serviceLibrary.supportsRefresh() %}
+				<p>Token expires in <strong class="dv-expires" data-providerclass="{{providerClass}}">{{service.tokenExpires()}}</strong> seconds. It will be automatically refreshed.</p>
 
 				<a class="btn" href="{{actionUrl('videos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
 			{% endif %}

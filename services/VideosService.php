@@ -78,49 +78,6 @@ class VideosService extends BaseApplicationComponent
 
     // returns : true/false
 
-    function serviceSupportsRefresh($providerClass)
-    {
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-
-        if(!$record)
-        {
-          return false;
-        }
-
-        $token = unserialize(base64_decode($record->token));
-
-        if(isset($token->refresh_token))
-        {
-          return true;
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : expires in seconds
-
-    function serviceTokenExpires($providerClass)
-    {
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-
-        if(!$record)
-        {
-          return false;
-        }
-
-        $token = unserialize(base64_decode($record->token));
-
-        $expires = ($token->expires - time());
-
-        return $expires;
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : true/false
-
     public function saveService(&$model)
     {
         $class = $model->getAttribute('providerClass');
@@ -219,9 +176,20 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
+    // returns: \Dukt\Videos\[providerClass]\Service
+
+    public function getServiceLibrary($providerClass)
+    {
+        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
+
+        return $service;
+    }
+
+    // --------------------------------------------------------------------
+
     // returns : Videos_Service[providerClass]Model
 
-    public function getServiceByProviderClass($providerClass)
+    public function getService($providerClass)
     {
         $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
 

@@ -21,4 +21,13 @@ class Videos_ServiceModel extends BaseModel
 
         return $attributes;
     }
+
+    public function tokenExpires()
+    {
+        $token = unserialize(base64_decode($this->token));
+
+        $expires = $token->expires - time();
+
+        return $expires;
+    }
 }

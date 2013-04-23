@@ -14,9 +14,7 @@
 namespace Craft;
 
 require(CRAFT_PLUGINS_PATH."videos/config.php");
-
 require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
-
 
 class VideosVariable
 {
@@ -31,18 +29,9 @@ class VideosVariable
 
     // --------------------------------------------------------------------
 
-    public function getServiceByProviderClass($providerClass)
+    public function getService($providerClass)
     {
-        return craft()->videos->getServiceByProviderClass($providerClass);
-    }
-
-    // --------------------------------------------------------------------
-
-    public function getServiceProvider($providerClass)
-    {
-        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
-
-        return $service;
+        return craft()->videos->getService($providerClass);
     }
 
     // --------------------------------------------------------------------
@@ -58,23 +47,16 @@ class VideosVariable
 
     // --------------------------------------------------------------------
 
-    public function cpTokenExpires($providerClass)
-    {
-        return craft()->videos->serviceTokenExpires($providerClass);
-    }
-
-    // --------------------------------------------------------------------
-
-    public function cpSupportsRefresh($providerClass)
-    {
-        return craft()->videos->serviceSupportsRefresh($providerClass);
-    }
-
-    // --------------------------------------------------------------------
-
     public function cpServices($service = false)
     {
         return craft()->videos->services($service);
+    }
+
+    // --------------------------------------------------------------------
+
+    public function cpGetServiceLibrary($providerClass)
+    {
+        return craft()->videos->getServiceLibrary($providerClass);
     }
 
     // --------------------------------------------------------------------
