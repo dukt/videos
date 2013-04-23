@@ -1,3 +1,21 @@
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://dukt.net/addons/craft/videos/license
+ * @link      http://dukt.net/addons/craft/videos/
+ */
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://dukt.net/addons/craft/videos/license
+ * @link      http://dukt.net/addons/craft/videos/
+ */
 .dkv-sidebar {
   width: 200px;
   float: left;
@@ -41,6 +59,15 @@
 .dkv-sidebar ul li ul li a {
   padding-left: 50px;
 }
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://dukt.net/addons/craft/videos/license
+ * @link      http://dukt.net/addons/craft/videos/
+ */
 .dkv-main {
   margin-left: 220px;
 }
@@ -192,6 +219,15 @@
 .dkv-main .dkv-videos ul li a .dkv-subtitle .dkv-author {
   font-weight: bold;
 }
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://dukt.net/addons/craft/videos/license
+ * @link      http://dukt.net/addons/craft/videos/
+ */
 .dkv-player {
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);

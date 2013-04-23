@@ -1,14 +1,13 @@
 <?php
 
 /**
- * Craft Videos
+ * Craft Videos by Dukt
  *
- * @package		Craft Videos
- * @version		Version 1.0
- * @author		Benjamin David
- * @copyright	Copyright (c) 2013 - DUKT
- * @link		http://dukt.net/add-ons/expressionengine/dukt-videos/
- *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://dukt.net/addons/craft/videos/license
+ * @link      http://dukt.net/addons/craft/videos/
  */
 
 namespace Craft;
