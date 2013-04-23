@@ -209,17 +209,12 @@ class VideosService extends BaseApplicationComponent
 
     // returns : single or multiple *initialized* \Dukt\Videos\[providerClass]\Service
 
-    public function servicesObjects($service = false)
+    public function servicesObjects()
     {
         // if (!craft()->request->isCpRequest() )
         // {
         //     return false;
         // }
-
-        if($service)
-        {
-            return \Dukt\Videos\Common\ServiceFactory::create($service);
-        }
 
         $allServices = array_map(
             function($className) {
@@ -322,7 +317,7 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    function resetService($providerClass)
+    public function resetService($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
         $record->token = NULL;
