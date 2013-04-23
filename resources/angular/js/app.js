@@ -5,20 +5,27 @@
 
 var videos = angular.module('videos', []).
 
-  config(['$routeProvider', function($routeProvider, $locationProvider) {
+    // prevent scroll to top of page
 
-    var emptyPartial = Craft.getResourceUrl('videos/angular/partials/empty.html');
-
-  $routeProvider.
-      when('/', {templateUrl: emptyPartial,   controller: ServicesListCtrl}).
-      when('/:serviceKey', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
-      when('/:serviceKey/:methodName', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
-      when('/:serviceKey/:methodName/:playlistId', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
-      otherwise({redirectTo: '/'});
-}]);
+    value('$anchorScroll', angular.noop).
 
 
-// Craft Videos Service
+    // config routes
+
+    config(['$routeProvider', function($routeProvider, $locationProvider) {
+
+        var emptyPartial = Craft.getResourceUrl('videos/angular/partials/empty.html');
+
+        $routeProvider.
+            when('/', {templateUrl: emptyPartial,   controller: ServicesListCtrl}).
+            when('/:serviceKey', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
+            when('/:serviceKey/:methodName', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
+            when('/:serviceKey/:methodName/:playlistId', {templateUrl: emptyPartial, controller: ServicesListCtrl}).
+            otherwise({redirectTo: '/'});
+    }]);
+
+
+// Angular Service
 
 videos.factory("VideosService",function($rootScope, $http){
         var ret = {
