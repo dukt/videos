@@ -18,6 +18,11 @@ class VideosService extends BaseApplicationComponent
 {
     protected $serviceRecord;
 
+
+    // --------------------------------------------------------------------
+
+    // construct (with Videos_ServiceRecord initialization)
+
     public function __construct($serviceRecord = null)
     {
         $this->serviceRecord = $serviceRecord;
@@ -25,6 +30,11 @@ class VideosService extends BaseApplicationComponent
             $this->serviceRecord = Videos_ServiceRecord::model();
         }
     }
+
+    // --------------------------------------------------------------------
+
+    // returns : Videos_ServiceRecord
+
     function refreshServiceToken($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
@@ -64,6 +74,10 @@ class VideosService extends BaseApplicationComponent
         return $record;
     }
 
+    // --------------------------------------------------------------------
+
+    // returns : true/false
+
     function serviceSupportsRefresh($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
@@ -83,6 +97,10 @@ class VideosService extends BaseApplicationComponent
         return false;
     }
 
+    // --------------------------------------------------------------------
+
+    // returns : expires in seconds
+
     function serviceTokenExpires($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
@@ -98,6 +116,10 @@ class VideosService extends BaseApplicationComponent
 
         return $expires;
     }
+
+    // --------------------------------------------------------------------
+
+    // returns : true/false
 
     public function saveService(&$model)
     {
@@ -131,7 +153,9 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
+    // --------------------------------------------------------------------
 
+    // redirects / serialized token
 
     public function connectService($record = false)
     {
@@ -165,17 +189,18 @@ class VideosService extends BaseApplicationComponent
             return unserialize(base64_decode($_SESSION['token']));
         });
 
-
         $token = $provider->token();
 
         $record->token = base64_encode(serialize($token));
-
         $record->save();
-
 
         craft()->request->redirect(UrlHelper::getUrl('videos/settings/'.$providerClass));
 
     }
+
+    // --------------------------------------------------------------------
+
+    // returns : Videos_Service[providerClass]Model
 
     public function getServiceRecord($providerClass)
     {
@@ -191,6 +216,10 @@ class VideosService extends BaseApplicationComponent
 
         return false;
     }
+
+    // --------------------------------------------------------------------
+
+    // returns : Videos_Service[providerClass]Model
 
     public function getServiceByProviderClass($providerClass)
     {
@@ -208,50 +237,25 @@ class VideosService extends BaseApplicationComponent
         return new $serviceModelClass();
     }
 
-    public function url($videoUrl)
-    {
-        $services = $this->services();
-
-        foreach($services as $s)
-        {
-
-            $params['url'] = $videoUrl;
-
-            try {
-
-                $video = $s->videoFromUrl($params);
-
-                if($video)
-                {
-
-                    $video_object = new Videos_VideoModel($video);
-
-                    return $video_object;
-                }
-
-                //return $video;
-            }
-            catch(\Exception $e)
-            {
-
-                //return $e->getMessage();
-            }
-        }
-
-
-        return false;
-    }
-
     // --------------------------------------------------------------------
+
+    // returns : single or multiple Videos_ServiceRecord
+
     public function servicesRecords()
     {
         $records = Videos_ServiceRecord::model()->findAll();
 
         return $records;
     }
+
+    // --------------------------------------------------------------------
+
     /**
      * Services
      */
+
+    // returns : single or multiple \Dukt\Videos\[providerClass]\Service
+
     public function services($service = false)
     {
         // if (!craft()->request->isCpRequest() )
@@ -365,65 +369,49 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    /**
-     * Set Option
-     */
-    function setOption($k, $v)
-    {
-        $data = array(
-            'option_name' => $k,
-            'option_value' => $v
-        );
-
-
-        // get the option
-
-        $option = Videos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $k));
-
-        if(!$option)
-        {
-            // insert
-
-            craft()->db->createCommand()->insert('videos_options', $data);
-        }
-        else
-        {
-            // update
-
-            $where = array('option_name' => $k);
-
-            craft()->db->createCommand()->update('videos_options', $data, $where);
-        }
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
-     * Get Option
-     */
-    function getOption($k)
-    {
-        $option =  Videos_OptionRecord::model()->find('option_name=:option_name', array(':option_name' => $k));
-
-        if(is_object($option))
-        {
-            return $option->option_value;
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-
-    /**
-     * Reset Service
-     */
     function resetService($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
         $record->token = NULL;
         return $record->save();
+    }
 
+    // --------------------------------------------------------------------
+
+    // returns : Videos_VideoModel
+
+    public function url($videoUrl)
+    {
+        $services = $this->services();
+
+        foreach($services as $s)
+        {
+
+            $params['url'] = $videoUrl;
+
+            try {
+
+                $video = $s->videoFromUrl($params);
+
+                if($video)
+                {
+
+                    $video_object = new Videos_VideoModel($video);
+
+                    return $video_object;
+                }
+
+                //return $video;
+            }
+            catch(\Exception $e)
+            {
+
+                //return $e->getMessage();
+            }
+        }
+
+
+        return false;
     }
 }
 

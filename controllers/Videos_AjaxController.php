@@ -17,12 +17,10 @@ require_once(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_AjaxController extends BaseController
 {
-	/**
-	 * Action Endpoint
-	 */
+    // --------------------------------------------------------------------
+
     public function actionModal()
     {
-
         $this->renderTemplate('videos/_app');
     }
 
@@ -195,9 +193,9 @@ class Videos_AjaxController extends BaseController
                     'perPage' => craft()->request->getParam('perPage')
                 );
 
-
             $videos = $service->uploads($params);
-        } catch(\Exception $e)
+        }
+        catch(\Exception $e)
         {
             $videos = $e->getMessage();
         }
@@ -271,13 +269,6 @@ class Videos_AjaxController extends BaseController
         $parameters['id'] = $serviceRecord->clientId;
         $parameters['secret'] = $serviceRecord->clientSecret;
         $parameters['redirect_url'] = \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass);
-
-        // if(isset($serviceRecord->params['developerKey']))
-        // {
-
-        //     $parameters['developerKey'] = $serviceRecord->params['developerKey'];
-
-        // }
 
         $provider = \OAuth\OAuth::provider($providerClass, $parameters);
 

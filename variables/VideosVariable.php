@@ -20,12 +20,16 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosVariable
 {
+    // --------------------------------------------------------------------
+
   	public function __construct()
   	{
   		require(CRAFT_PLUGINS_PATH."videos/config.php");
 
   		$this->pagination_per_page = $config['pagination_per_page'];
   	}
+
+    // --------------------------------------------------------------------
 
     public function getServiceByProviderClass($providerClass)
     {
@@ -34,11 +38,6 @@ class VideosVariable
 
     // --------------------------------------------------------------------
 
-    // Public variables
-
-    // --------------------------------------------------------------------
-
-
     public function getServiceProvider($providerClass)
     {
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
@@ -46,10 +45,8 @@ class VideosVariable
         return $service;
     }
 
-    /*
-    * Retrieves a video from its URL
-    *
-    */
+    // --------------------------------------------------------------------
+
     public function url($videoUrl)
     {
         return craft()->videos->url($videoUrl);
@@ -58,30 +55,6 @@ class VideosVariable
     // --------------------------------------------------------------------
 
     // CP reserved variables
-
-    // --------------------------------------------------------------------
-
-    public function cpGetOption($k)
-    {
-        return craft()->videos->getOption($k);
-    }
-
-    // --------------------------------------------------------------------
-
-    public function cpGetToken($serviceKey)
-    {
-        $option = craft()->videos->getOption($serviceKey."_token");
-
-        if(!$option)
-        {
-          return false;
-        }
-        $option = unserialize(base64_decode($option));
-
-        // $option = date(DATE_RSS, $option->expires);
-
-        return $option;
-    }
 
     // --------------------------------------------------------------------
 
@@ -104,8 +77,12 @@ class VideosVariable
         return craft()->videos->services($service);
     }
 
+    // --------------------------------------------------------------------
+
     function cpGetServiceRecord($providerClass)
     {
         return craft()->videos->getServiceRecord($providerClass);
     }
+
+    // --------------------------------------------------------------------
 }
