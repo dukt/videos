@@ -46,7 +46,7 @@ class Videos_AjaxController extends BaseController
 
     public function actionRefreshServicesTokens()
     {
-        $services = craft()->videos->services();
+        $services = craft()->videos->servicesObjects();
 
         foreach($services as $s)
         {
