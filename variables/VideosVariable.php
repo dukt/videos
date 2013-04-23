@@ -56,11 +56,4 @@ class VideosVariable
     }
 
     // --------------------------------------------------------------------
-
-    public function cpServiceRecord($providerClass)
-    {
-        return craft()->videos->serviceRecord($providerClass); // returns a service record
-    }
-
-    // --------------------------------------------------------------------
 }

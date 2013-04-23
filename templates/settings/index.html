@@ -24,14 +24,14 @@
 
 		{% for serviceObject in craft.videos.cpServicesObjects() %}
 
-			{% set serviceRecord = craft.videos.cpServiceRecord(serviceObject.name) %}
+			{% set service = craft.videos.getService(serviceObject.name) %}
 
 		    <tr>
 		    	<th>
 		    		{{serviceObject.name}}
 		    	</th>
 		    	<td class="col">
-					{% if serviceRecord.token is defined and serviceRecord.token is not null %}
+					{% if service.token is defined and service.token is not null %}
 						<div class="status on"></div>
 						Enabled
 					{% else %}

@@ -165,25 +165,6 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    // returns : Videos_Service[providerClass]Model
-
-    public function serviceRecord($providerClass)
-    {
-        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
-
-        // get the option
-
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-
-        if ($record) {
-            return $serviceModelClass::populateModel($record);
-        }
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-
     // returns: \Dukt\Videos\[providerClass]\Service
 
     public function serviceLibrary($providerClass)
