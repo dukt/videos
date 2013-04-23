@@ -17,6 +17,12 @@ input.readonly:focus {
 .dkv-modal {
   margin: 0 -30px;
 }
+.dkv-modal .dkv-sidebar {
+  width: 290px;
+}
+.dkv-modal .dkv-main {
+  margin-left: 310px;
+}
 .dkv-player {
   display: none;
   z-index: 20000;

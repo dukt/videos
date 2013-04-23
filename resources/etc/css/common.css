@@ -43,7 +43,6 @@
 }
 .dkv-main {
   margin-left: 220px;
-  margin-right: 10px;
 }
 .dkv-main .dkv-toolbar {
   margin-right: 30px;
@@ -91,7 +90,7 @@
   padding: 5px;
   border: 1px solid #eee;
   display: block;
-  width: 240px;
+  width: 200px;
   overflow: hidden;
 }
 .dkv-main .dkv-videos ul li a:hover {
@@ -117,8 +116,8 @@
   background: #000;
 }
 .dkv-main .dkv-videos ul li a div.dkv-videos-thumb .dkv-clip-outer {
-  width: 240px;
-  height: 137px;
+  width: 200px;
+  height: 115px;
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -149,7 +148,7 @@
   height: 100%;
 }
 .dkv-main .dkv-videos ul li a div.dkv-videos-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner img {
-  width: 244px;
+  width: 204px;
   display: inline-block;
   vertical-align: middle;
   border: 0;

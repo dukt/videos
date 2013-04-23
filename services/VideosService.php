@@ -356,7 +356,7 @@ class VideosService extends BaseApplicationComponent
 
     public function url($videoUrl)
     {
-        $services = $this->services();
+        $services = $this->servicesObjects();
 
         foreach($services as $s)
         {
