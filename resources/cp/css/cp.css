@@ -23,6 +23,10 @@ input.readonly:focus {
 .dkv-modal .dkv-main {
   margin-left: 310px;
 }
+.dkv-modal .btn.cancel,
+.dkv-modal .btn.submit {
+  visibility: hidden;
+}
 .dkv-player {
   display: none;
   z-index: 20000;
