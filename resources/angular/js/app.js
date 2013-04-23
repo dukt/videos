@@ -35,9 +35,11 @@ videos.factory("VideosService",function($rootScope, $http){
             services: false,
             loader: {
                 on: function() {
+                    console.log('loader on');
                     $('.dkv-main .dkv-toolbar .dkv-spinner').removeClass('dkv-hidden');
                 },
                 off: function() {
+                    console.log('loader off');
                     $('.dkv-main .dkv-toolbar .dkv-spinner').addClass('dkv-hidden');
                 }
             },

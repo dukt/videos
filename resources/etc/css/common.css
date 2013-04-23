@@ -51,6 +51,9 @@
 .dkv-main .dkv-toolbar .dkv-spinner {
   float: right;
 }
+.dkv-main .dkv-toolbar .dkv-spinner.dkv-hidden {
+  display: none;
+}
 .dkv-main .dkv-toolbar .dkv-search {
   margin-right: 40px;
 }
