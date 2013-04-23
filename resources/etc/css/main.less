@@ -9,6 +9,7 @@
 
     .dkv-toolbar {
         margin-right: 30px;
+        margin-bottom: 30px;
 
         .dkv-spinner {
             float: right;
@@ -30,10 +31,6 @@
         text-align: center;
         padding:5em 0 8em 0;
         color: #aaa;
-    }
-
-    .dkv-videos {
-
     }
 
     .dkv-videos {
@@ -60,106 +57,134 @@
                 margin-bottom: 20px;
                 margin-right: 20px;
                 float: left;
-                text-align: center;
+
                 padding:5px;
                 border: 1px solid #eee;
                 display: block;
 
-                &.active {
-                    background:orange;
-                    border-color:orange;
-                }
+                width: 240px;
 
-                div {
-                    width: 173px;
-                    height: 100px;
-                    overflow: hidden;
-                    background:#000;
+                overflow: hidden;
 
-                    &:hover img {
-                        opacity: .4;
+                // &.active {
+                //     background:orange;
+                //     border-color:orange;
+                // }
+
+                a {
+                    &:hover {
+                        text-decoration: none;
+
+                        img {
+                            opacity: .8;
+                        }
                     }
-                }
 
+                    // thumb
 
-                // thumb
-
-                div.dkv-videos-thumb
-                {
-                    display: inline-block;
-                    position: relative;
-                    float: left;
-                    overflow: hidden;
-
-                    border-color:#aaa;
-                    border-width:0px;
-                    -moz-border-radius:1%;
-                    -webkit-border-radius:0%/1%;
-                    border-radius:0%/1%;
-                    border-style:solid;
-                    -moz-box-shadow:0px 1px 0px rgb(255,255,255);
-                    -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
-                    box-shadow:0px 1px 0px rgb(255,255,255);
-
-
-                    .dkv-clip-outer
+                    div.dkv-videos-thumb
                     {
-                        position: relative;
                         display: inline-block;
-                        width: 173px;
-                        height: 100px;
+                        position: relative;
+                        float: left;
                         overflow: hidden;
-                        vertical-align: bottom;
 
-                        .dkv-clip
+                        border-color:#aaa;
+                        border-width:0px;
+                        -moz-border-radius:1%;
+                        -webkit-border-radius:0%/1%;
+                        border-radius:0%/1%;
+                        border-style:solid;
+                        -moz-box-shadow:0px 1px 0px rgb(255,255,255);
+                        -webkit-box-shadow:0px 1px 0px rgb(255,255,255);
+                        box-shadow:0px 1px 0px rgb(255,255,255);
+                        background:#000;
+
+
+                        .dkv-clip-outer
                         {
-                            display: block;
-                            position: absolute;
-                            bottom: -100px;
-                            top: -100px;
-                            left: -100px;
-                            right: -100px;
-                            text-align: center;
-                            white-space: nowrap;
-                            word-break: normal;
-                            margin: 0;
-                            padding: 0;
-                            border: 0;
-                            font-size: 100%;
-                            background: transparent;
+                            width: 240px;
+                            height: 137px;
+                            position: relative;
+                            display: inline-block;
+                            overflow: hidden;
+                            vertical-align: bottom;
 
-                            .dkv-clip-inner
+                            .dkv-clip
                             {
                                 display: block;
                                 position: absolute;
-                                top: 0;
-                                left: 0;
-                                width: 100%;
-                                height: 100%;
+                                bottom: -100px;
+                                top: -100px;
+                                left: -100px;
+                                right: -100px;
+                                text-align: center;
+                                white-space: nowrap;
+                                word-break: normal;
+                                margin: 0;
+                                padding: 0;
+                                border: 0;
+                                font-size: 100%;
+                                background: transparent;
 
-                                img
+                                .dkv-clip-inner
                                 {
-                                    width: 178px;
-                                    display: inline-block;
-                                    vertical-align: middle;
-                                    border: 0;
-                                    outline: none;
-                                }
-
-                                .dkv-vertical-align
-                                {
+                                    display: block;
+                                    position: absolute;
+                                    top: 0;
+                                    left: 0;
+                                    width: 100%;
                                     height: 100%;
-                                    display: inline-block;
-                                    vertical-align: middle;
+
+                                    img
+                                    {
+                                        width: 244px;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                        border: 0;
+                                        outline: none;
+                                    }
+
+                                    .dkv-vertical-align
+                                    {
+                                        height: 100%;
+                                        display: inline-block;
+                                        vertical-align: middle;
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
-                img {
-                    display: block;
-                    width: 100%;
+
+                    .dkv-title {
+                        clear: left;
+                        margin: 0;
+                        padding: 0 10px;
+                        padding-top: 10px;
+                        color:#555;
+
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+
+                        -webkit-margin-before: 0;
+                        -webkit-margin-after: 0;
+                        -webkit-margin-start: 0;
+                        -webkit-margin-end: 0;
+                    }
+
+                    .dkv-subtitle {
+                        font-size: 0.85em;
+                        margin: 0;
+                        padding: 0 10px;
+                        padding-bottom: 5px;
+                        color: #ccc;
+
+                        .dkv-author {
+                            font-weight: bold;
+                        }
+                    }
                 }
             }
         }
