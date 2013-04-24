@@ -1,11 +1,11 @@
-# Craft Videos for Craft
+# Craft Videos
 
 *Beta Notice : Do NOT use on production yet, we could make major changes before going out of beta, you must be able to re-install the plugin at any time.*
 
 ## Installation
 
 1. Move `videos/` folder to `/craft/plugins/`
-2. In the admin, go to the **CP / Settings / Plugins** section and enable Craft Videos plugin
+2. In the admin, go to the **CP / Settings / Plugins** section and enable the Videos plugin
 3. In the admin, go to the **CP / Craft Videos** section in order to configure YouTube & Vimeo
 
 ## Video Service Settings
@@ -16,14 +16,14 @@ For each video service, you need to get access to an API and you will need crede
 
 #### Vimeo
 
-*Required credentials : client id & secret*
+*Required credentials : clientId, clientSecret*
 
 1. [Create a new app](https://developer.vimeo.com/apps) in Vimeo Developer
-2. Copy paste client_id and client secret_values to **CP / Craft Videos / Vimeo Configuration**
+2. Copy paste clientId and clientSecret values to **CP / Videos / Vimeo Configuration**
 
 #### YouTube
 
-*Required credentials : client id, secret, developer key*
+*Required credentials : clientId, clientSecret, developerKey*
 
 1. [Create a new project](https://code.google.com/apis/console/) in Google APIs
 2. Go to **Google APIs / Your Project / API Access** and click **Create an OAuth 2.0 client ID**
@@ -32,9 +32,9 @@ For each video service, you need to get access to an API and you will need crede
 	- Application type : Web Application
 	- Authorized Redirect URIs (click more options) : **http://yourwebsite.com/index.php/admin/actions/videos/settings/callback/youtube**
 	- Authorized Javascript Origins : **http://yourwebsite.com/**
-5. Copy paste client id and client secret values to **CP / Craft Videos / YouTube Configuration**
+5. Copy paste client id and client secret values to **CP / Videos / YouTube Configuration**
 6. [Register a new Developer Key](https://code.google.com/apis/youtube/dashboard)
-7. Copy paste Developer Key to **CP / Craft Videos / YouTube Configuration**
+7. Copy paste Developer Key to **CP / Videos / YouTube Configuration**
 
 ## Field Type
 
