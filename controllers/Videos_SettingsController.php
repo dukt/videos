@@ -41,7 +41,9 @@ class Videos_SettingsController extends BaseController
 
             craft()->userSession->setError(Craft::t("Couldn't save service."));
 
-            craft()->urlManager->setRouteVariables(array('service' => $model));
+            // craft()->urlManager->setRouteVariables(array('service' => $model));
+
+            $this->redirectToPostedUrl();
         }
     }
 

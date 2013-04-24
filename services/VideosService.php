@@ -103,15 +103,9 @@ class VideosService extends BaseApplicationComponent
             $model->setAttribute('id', $record->getAttribute('id'));
 
             // Connect Service
-
-           $this->connectService($record);
-
-            return true;
+            return $this->connectService($record);
 
         } else {
-            //echo "no";
-
-            var_dump($record->getErrors());
 
             $model->addErrors($record->getErrors());
 
@@ -141,26 +135,33 @@ class VideosService extends BaseApplicationComponent
             'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/serviceCallback/', array('providerClass' => $providerClass))
         ));
 
-        $provider = $provider->process(function($url, $token = null) {
+        try {
+            $provider = $provider->process(function($url, $token = null) {
 
-            if ($token) {
-                $_SESSION['token'] = base64_encode(serialize($token));
-            }
+                if ($token) {
+                    $_SESSION['token'] = base64_encode(serialize($token));
+                }
 
-            header("Location: {$url}");
+                header("Location: {$url}");
 
-            exit;
+                exit;
 
-        }, function() {
-            return unserialize(base64_decode($_SESSION['token']));
-        });
+            }, function() {
+                return unserialize(base64_decode($_SESSION['token']));
+            });
 
-        $token = $provider->token();
 
-        $record->token = base64_encode(serialize($token));
-        $record->save();
+            $token = $provider->token();
 
-        craft()->request->redirect(UrlHelper::getUrl('videos/settings/'.$providerClass));
+            $record->token = base64_encode(serialize($token));
+            $record->save();
+            craft()->request->redirect(UrlHelper::getUrl('videos/settings/'.$providerClass));
+        }
+        catch(\Exception $e)
+        {
+            return false;
+        }
+
 
     }
 
