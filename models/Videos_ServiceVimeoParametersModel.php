@@ -12,17 +12,7 @@
 
 namespace Craft;
 
-class Videos_ServiceVimeoParametersModel extends BaseModel
+class Videos_ServiceVimeoParametersModel extends Videos_ServiceParametersModel
 {
-    // --------------------------------------------------------------------
 
-    /**
-     * Define Attributes
-     */
-    public function defineAttributes()
-    {
-        $attributes = array();
-
-        return $attributes;
-    }
 }

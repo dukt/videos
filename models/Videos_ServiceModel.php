@@ -24,8 +24,6 @@ class Videos_ServiceModel extends BaseModel
         $attributes = array(
                 'id'    => AttributeType::Number,
                 'providerClass' => array(AttributeType::String, 'required' => true),
-                'clientId' => array(AttributeType::String, 'required' => true),
-                'clientSecret' => array(AttributeType::String, 'required' => true),
                 'token' => array(AttributeType::Mixed)
             );
 

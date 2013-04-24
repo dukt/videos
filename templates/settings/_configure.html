@@ -42,11 +42,11 @@
             {{actionUrl('videos/settings/serviceCallback', {providerClass:providerClass})}}
         </p>
 
-        {{ forms.textField({
+        {#{ forms.textField({
             label: 'Client Id'|t,
             required: true,
             name: 'service[clientId]',
-            value: service ? service.clientId : null,
+            value: service ? service[clientId] : null,
             errors: service ? service.errors('clientId') : null,
             disabled: ((service.token is defined and service.token|length) > 0 ? true : false)
         }) }}
@@ -58,20 +58,24 @@
             value: service ? service.clientSecret : null,
             errors: service ? service.errors('clientSecret') : null,
             disabled: (service.token is defined and service.token|length > 0 ? true : false)
-        }) }}
+        }) }#}
 
-        {% if service.params is not null %}
-            {% for extraParamKey, extraParam in serviceLibrary.getExtraParameters() %}
-                {{ forms.textField({
-                    label: extraParam.label|t,
-                    required: extraParam.required,
-                    name: 'service[params]['~extraParamKey~']',
-                    value: (attribute(service.params, extraParamKey) is defined ? attribute(service.params, extraParamKey) : null),
-                    errors: service ? service.params.errors(extraParamKey) : null,
-                    disabled: (service.token is defined and service.token|length > 0 ? true : false)
-                }) }}
-            {% endfor %}
-        {% endif %}
+
+
+        {% for extraParamKey, extraParam in serviceLibrary.getDefaultParameters() %}
+
+            {% set paramValue = attribute(service.params, extraParamKey) %}
+
+            {{ forms.textField({
+                label: extraParam.label|t,
+                required: extraParam.required,
+                name: 'service[params]['~extraParamKey~']',
+                value: (paramValue is not null ? paramValue : null),
+                errors: service ? service.params.errors(extraParamKey) : null,
+                disabled: (service.token is defined and service.token|length > 0 ? true : false)
+            }) }}
+        {% endfor %}
+
 
 		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
 			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;

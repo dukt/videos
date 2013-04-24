@@ -31,10 +31,8 @@ class Videos_ServiceRecord extends BaseRecord
     {
         return array(
             'providerClass' => array(AttributeType::String, 'required' => true, 'unique' => true),
-            'clientId' => array(AttributeType::String, 'required' => true),
-            'clientSecret' => array(AttributeType::String, 'required' => true),
-            'token' => array(AttributeType::String, 'column' => ColumnType::Text),
             'params' => array(AttributeType::Mixed),
+            'token' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
     }
 

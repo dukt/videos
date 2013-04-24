@@ -51,9 +51,9 @@ class Videos_SettingsController extends BaseController
     {
 	    $service_key = craft()->request->getSegment(5);
 
-	    $option_key = $service_key."_enabled";
+	 //    $option_key = $service_key."_enabled";
 
-		craft()->videos->setOption($option_key, 1);
+		// craft()->videos->setOption($option_key, 1);
 
 		$this->redirect('videos');
     }
@@ -64,9 +64,9 @@ class Videos_SettingsController extends BaseController
     {
 	    $service_key = craft()->request->getSegment(5);
 
-	    $option_key = $service_key."_enabled";
+	 //    $option_key = $service_key."_enabled";
 
-		craft()->videos->setOption($option_key, 0);
+		// craft()->videos->setOption($option_key, 0);
 
 		$this->redirect('videos');
     }

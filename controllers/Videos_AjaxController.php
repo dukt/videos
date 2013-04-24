@@ -196,6 +196,7 @@ class Videos_AjaxController extends BaseController
         }
         catch(\Exception $e)
         {
+
             $videos = $e->getMessage();
         }
 
@@ -254,7 +255,7 @@ class Videos_AjaxController extends BaseController
     {
         $providerClass = craft()->request->getParam('service');
 
-        $serviceRecord = craft()->videos->serviceRecord($providerClass);
+        $serviceRecord = craft()->videos->getService($providerClass);
 
 
         // Retrieve token
@@ -265,8 +266,8 @@ class Videos_AjaxController extends BaseController
 
         // Create the OAuth provider
 
-        $parameters['id'] = $serviceRecord->clientId;
-        $parameters['secret'] = $serviceRecord->clientSecret;
+        $parameters['id'] = $serviceRecord->params['clientId'];
+        $parameters['secret'] = $serviceRecord->params['clientSecret'];
         $parameters['redirect_url'] = \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass);
 
         $provider = \OAuth\OAuth::provider($providerClass, $parameters);
@@ -277,7 +278,7 @@ class Videos_AjaxController extends BaseController
         // Create video service
 
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
-        $service->initialize($serviceRecord->params);
+        $service->initialize($serviceRecord->params->getAttributes());
         $service->setProvider($provider);
 
         return $service;

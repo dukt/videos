@@ -12,7 +12,7 @@
 
 namespace Craft;
 
-class Videos_ServiceYouTubeParametersModel extends Videos_ServiceParametersModel
+class Videos_ServiceParametersModel extends BaseModel
 {
     // --------------------------------------------------------------------
 
@@ -21,13 +21,10 @@ class Videos_ServiceYouTubeParametersModel extends Videos_ServiceParametersModel
      */
     public function defineAttributes()
     {
-        $parentAttributes = parent::defineAttributes();
-
         $attributes = array(
-                'developerKey' => array(AttributeType::String, 'required' => true)
+                'clientId' => array(AttributeType::String, 'required' => true),
+                'clientSecret' => array(AttributeType::String, 'required' => true)
             );
-
-        $attributes = array_merge($parentAttributes, $attributes);
 
         return $attributes;
     }

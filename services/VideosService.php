@@ -52,13 +52,9 @@ class VideosService extends BaseApplicationComponent
 
         $token = unserialize(base64_decode($record->token));
 
-        $parameters = array();
-        $parameters['id'] = $record->clientId;
-        $parameters['secret'] = $record->clientSecret;
-
         $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $parameters['id'],
-            'secret' => $parameters['secret'],
+            'id' => $record->params['clientId'],
+            'secret' => $record->params['clientSecret'],
             'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
         ));
 
@@ -99,6 +95,8 @@ class VideosService extends BaseApplicationComponent
         $record->setAttributes($model->getAttributes());
         $record->params = $model->getAttribute('params');
 
+        //var_dump($model->getAttribute('params'));
+
         if ($record->save()) {
             // update id on model (for new records)
 
@@ -111,6 +109,9 @@ class VideosService extends BaseApplicationComponent
             return true;
 
         } else {
+            //echo "no";
+
+            var_dump($record->getErrors());
 
             $model->addErrors($record->getErrors());
 
@@ -135,8 +136,8 @@ class VideosService extends BaseApplicationComponent
         $providerClass = $record->providerClass;
 
         $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $record->clientId,
-            'secret' => $record->clientSecret,
+            'id' => $record->params['clientId'],
+            'secret' => $record->params['clientSecret'],
             'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/serviceCallback/', array('providerClass' => $providerClass))
         ));
 
@@ -246,13 +247,9 @@ class VideosService extends BaseApplicationComponent
 
                 // Create the OAuth provider
 
-                $parameters['id'] = $record->clientId;
-                $parameters['secret'] = $record->clientSecret;
-
-
                 $providerParams = array(
-                    'id' => $parameters['id'],
-                    'secret' => $parameters['secret'],
+                    'id' => $record->params['clientId'],
+                    'secret' => $record->params['clientSecret'],
                     'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$service->getName())
                 );
 
@@ -286,11 +283,13 @@ class VideosService extends BaseApplicationComponent
                         $token->expires = $accessToken->expires;
 
 
-                        $remaining = $token->expires - time();
+                        // $remaining = $token->expires - time();
 
-                        $serializedToken = base64_encode(serialize($token));
+                        // $serializedToken = base64_encode(serialize($token));
 
-                        craft()->videos->setOption($service->getName()."_token", $serializedToken  );
+                        // craft()->videos->setOption($service->getName()."_token", $serializedToken  );
+
+                        $service->token = $token;
                     }
                 }
 
