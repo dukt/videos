@@ -20,7 +20,7 @@ dkvideos.currentField = false;
 
 dkvideos.preview = {
     init: function() {
-        console.log('mcp.preview.init()');
+        // console.log('mcp.preview.init()');
 
         // cancel
 
@@ -35,7 +35,7 @@ dkvideos.preview = {
         $('.dkv-player .submit').click(function() {
             dkvideos.preview.hide();
             dkvideos.modal.hide();
-            console.log('submit');
+            // console.log('submit');
             $('input.text', dkvideos.currentField).attr('value', dkvideos.currentVideo.url);
 
             dkvideos.field.preview(dkvideos.currentVideo.url, dkvideos.currentField);
@@ -87,7 +87,7 @@ dkvideos.field.preview = function(videoUrl, field) {
     // request field preview embed
 
     Craft.postActionRequest('videos/ajax/fieldEmbed', {videoUrl:videoUrl}, function(response) {
-        console.log('fieldEmbed', videoUrl);
+        // console.log('fieldEmbed', videoUrl);
         // load modal body
 
         var fieldPreview = $('.dkv-preview', field);
@@ -116,7 +116,7 @@ dkvideos.field.preview = function(videoUrl, field) {
 
 dkvideos.modal = {
     init: function() {
-        console.log('dkvideos.modal.init()');
+        // console.log('dkvideos.modal.init()');
 
         overlay = $('<div class="dkv-overlay"></div>');
 
@@ -174,7 +174,7 @@ dkvideos.modal = {
 dkvideos.scroll = {
     init: function() {
         $('.dkv-videos').scroll(function () {
-            console.log('scroll', $('.dkv-videos').scrollTop(), $('.dkv-videos').height(), $('.dkv-videos ul').height());
+            // console.log('scroll', $('.dkv-videos').scrollTop(), $('.dkv-videos').height(), $('.dkv-videos ul').height());
             if ($('.dkv-videos').scrollTop() + $('.dkv-videos').height() >= $('.dkv-videos ul').height()) {
                 // Works perfect for desktop browsers
                 if($('.dkv-video-more').css('display') != "none")
@@ -213,7 +213,7 @@ dkvideos.scroll = {
 
     $.fn.dukt_videos_field.init = function()
     {
-        console.log('hello', videos);
+        // console.log('hello', videos);
          dkvideos.modal.init();
 
 
@@ -229,7 +229,7 @@ dkvideos.scroll = {
 
             // manual bootstrap
 
-            console.log('angular bootstrap');
+            // console.log('angular bootstrap');
 
             angular.bootstrap($('.dkv-modal'), ['videos']);
         });
@@ -296,7 +296,7 @@ dkvideos.scroll = {
 
 $(document).ready(function()
 {
-    console.log('Videos field on this page : ', $('.dkv-field').length);
+    // console.log('Videos field on this page : ', $('.dkv-field').length);
 
     // init loop on each field
 

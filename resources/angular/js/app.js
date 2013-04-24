@@ -45,11 +45,11 @@ videos.factory("VideosService",function($rootScope, $http){
             services: false,
             loader: {
                 on: function() {
-                    console.log('loader on');
+                    // console.log('loader on');
                     $('.dkv-main .dkv-toolbar .dkv-spinner').removeClass('dkv-hidden');
                 },
                 off: function() {
-                    console.log('loader off');
+                    // console.log('loader off');
                     $('.dkv-main .dkv-toolbar .dkv-spinner').addClass('dkv-hidden');
                 }
             },
@@ -62,13 +62,13 @@ videos.factory("VideosService",function($rootScope, $http){
                 }
             },
             refreshServicesTokens: function() {
-                console.log('refreshing tokens');
+                // console.log('refreshing tokens');
                 $http({method: 'POST', url: DkvEndpoint.url('refreshServicesTokens')}).
                         success(function(data, status, headers, config) {
-                            console.log(data);
+                            // console.log(data);
                         }).
                         error(function(data, status, headers, config) {
-                          console.log('error', data, status, headers, config);
+                          // console.log('error', data, status, headers, config);
                         });
             }
         };
@@ -80,7 +80,7 @@ videos.factory("VideosService",function($rootScope, $http){
 
 videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosService) {
 
-    console.log('run', videos);
+    // console.log('run', videos);
 
     // --------------------------------------------------------------------
 
@@ -97,7 +97,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
     $http({method: 'POST', url: DkvEndpoint.url('services')}).
         success(function(data, status, headers, config) {
 
-            console.log('services success');
+            // console.log('services success');
 
             $('.dkv-modal').removeClass('dkv-loading');
 
@@ -106,7 +106,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
             // no service ? display an error
 
-            console.log('number of services detected : ', $rootScope.services.length);
+            // console.log('number of services detected : ', $rootScope.services.length);
 
             if($rootScope.services.length == 0)
             {
@@ -121,8 +121,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
             // refresh services token periodically
 
             setInterval(function() {
-                //
-                console.log('check and refresh services tokens');
+                // console.log('check and refresh services tokens');
 
                 VideosService.refreshServicesTokens();
             }, 180000);
@@ -136,7 +135,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
                         $rootScope.services[k].playlists = data2;
                     }).
                     error(function(data2, status2, headers2, config2) {
-                        console.log('error', data2, status2, headers2, config2);
+                        // console.log('error', data2, status2, headers2, config2);
                     });
             });
 
@@ -159,8 +158,8 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
             });
 
-            console.log('currentService', $rootScope.currentService);
-            console.log('$routeParams.serviceKey', $routeParams.serviceKey);
+            // console.log('currentService', $rootScope.currentService);
+            // console.log('$routeParams.serviceKey', $routeParams.serviceKey);
 
             // update selected field
 
@@ -170,14 +169,14 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
             if($location.path() == "/" || $location.path() == "")
             {
-                console.log('redirect', $rootScope.serviceKey+"/uploads");
+                // console.log('redirect', $rootScope.serviceKey+"/uploads");
 
                 $location.path($rootScope.serviceKey+"/uploads");
             }
 
         }).
         error(function(data, status, headers, config) {
-          console.log('error', data, status, headers, config);
+          // console.log('error', data, status, headers, config);
         });
 
     // --------------------------------------------------------------------
@@ -186,7 +185,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
     $rootScope.serviceChange = function()
     {
-        console.log('serviceChange', this.serviceKey);
+        // console.log('serviceChange', this.serviceKey);
 
         // define current service
 
@@ -270,7 +269,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
 
                 // perfom search request
 
-                console.log('search', $routeParams.serviceKey, searchQuery);
+                // console.log('search', $routeParams.serviceKey, searchQuery);
 
                 searchRequest($routeParams, searchQuery, VideosService);
 
@@ -310,7 +309,7 @@ videos.run(function($rootScope, $http, $location, $q, $routeParams, VideosServic
           }).
           error(function(data, status, headers, config)
           {
-            console.log('error', data, status, headers, config);
+            // console.log('error', data, status, headers, config);
           });
     }
 

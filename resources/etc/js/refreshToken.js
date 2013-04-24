@@ -10,7 +10,7 @@
  */
 
 $(document).ready(function() {
-    console.log('refreshToken.js');
+    // console.log('refreshToken.js');
 
     // enable expire logic ?
 
@@ -45,7 +45,7 @@ $(document).ready(function() {
         };
 
         Craft.postActionRequest('videos/ajax/refreshToken', data, function(response) {
-            console.log('refreshToken response', response);
+            // console.log('refreshToken response', response);
 
             $('.dkv-expires').html(response);
         });

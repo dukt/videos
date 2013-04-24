@@ -11,7 +11,7 @@
 
 function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $route, VideosService)
 {
-	console.log('controller', $routeParams.serviceKey, $routeParams.methodName);
+	// console.log('controller', $routeParams.serviceKey, $routeParams.methodName);
 
 	// --------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 
             }).
             error(function(data, status, headers, config) {
-              console.log('--error', data, status, headers, config);
+              // console.log('--error', data, status, headers, config);
             });
 	}
 
@@ -97,7 +97,7 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		$http({method: 'POST', url: DkvEndpoint.url('embed', {videoUrl:video.url, service: $routeParams.serviceKey})}).
         success(function(data, status, headers, config) {
 
-        	console.log('--success', data);
+        	// console.log('--success', data);
 
         	$('.dkv-player .dkv-embed').html(data.embed);
 
@@ -108,10 +108,10 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
         	}
         }).
         error(function(data, status, headers, config) {
-          console.log('--error', data, status, headers, config);
+          // console.log('--error', data, status, headers, config);
         });
 
-		console.log('play video', video.id);
+		// console.log('play video', video.id);
 	}
 
     // --------------------------------------------------------------------
@@ -144,13 +144,13 @@ function ServicesListCtrl($scope, $routeParams, $http, $rootScope, $location, $r
 		$http({method: 'POST', url: DkvEndpoint.url(opts.method, opts)}).
 			success(function(data, status, headers, config)
 			{
-				console.log('ajax/'+opts.method+' : success');
+				// console.log('ajax/'+opts.method+' : success');
 			}).
 			error(function(data, status, headers, config)
 			{
-				console.log('ajax/'+opts.method+' : error', data, status, headers, config);
+				// console.log('ajax/'+opts.method+' : error', data, status, headers, config);
 			}).then(function(a, b, c) {
-	        	console.log('ajax/'+opts.method+' : then');
+	        	// console.log('ajax/'+opts.method+' : then');
 
 
 

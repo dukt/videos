@@ -15,7 +15,7 @@ dkvideos.currentVideo = false;
 
 dkvideos.preview = {
     init: function() {
-        console.log('mcp.preview.init()');
+        // console.log('mcp.preview.init()');
 
 
         overlay = $('<div class="dkv-overlay"></div>');
@@ -67,10 +67,10 @@ dkvideos.preview = {
 
 dkvideos.scroll = {
     init: function() {
-        console.log('scroll init');
+        // console.log('scroll init');
 
         $(window).scroll(function () {
-            //console.log('scroll', $(window).scrollTop(), $(window).height(), $(document).height());
+            //// console.log('scroll', $(window).scrollTop(), $(window).height(), $(document).height());
             if ($(window).scrollTop() + $(window).height() >= $(document).height()) {
                 // Works perfect for desktop browsers
                 if($('.dkv-video-more').css('display') != "none")
