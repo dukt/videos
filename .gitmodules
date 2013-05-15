@@ -1,3 +1,6 @@
 [submodule "libraries/videos.plugin"]
 	path = libraries/videos.plugin
 	url = git@github.com:dukt/videos.plugin.git
+[submodule "videos.plugin"]
+	path = videos.plugin
+	url = git@github.com:dukt/videos.plugin.assets.git
