@@ -1,3 +1,0 @@
-[submodule "libraries/dukt.videos"]
-	path = libraries/dukt.videos
-	url = git@github.com:dukt/videos.git
