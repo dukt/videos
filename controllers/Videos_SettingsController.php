@@ -77,7 +77,23 @@ class Videos_SettingsController extends BaseController
 
     public function actionServiceCallback()
     {
-        craft()->videos->connectService();
+        $cms = new \Dukt\Videos\Plugin\Craft\Cms;
+
+        $providerClass = craft()->request->getParam('providerClass');
+
+        $record = $cms->videos->getServiceRecord($providerClass);
+
+        $connect = craft()->videos->connectService($record);
+
+        if(!$connect['error']) {
+            // $this->EE->session->set_flashdata('message_success', "Service saved successfully");
+        } else {
+            // $this->EE->session->set_flashdata('message_failure', "Couldn't save service");
+        }
+
+        $this->redirect($connect['redirect']);
+
+        // craft()->videos->connectService();
     }
 
     // --------------------------------------------------------------------

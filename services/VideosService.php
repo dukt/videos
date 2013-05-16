@@ -15,6 +15,7 @@ namespace Craft;
 class VideosService extends BaseApplicationComponent
 {
     protected $serviceRecord;
+    protected $_service;
 
     // --------------------------------------------------------------------
 
@@ -27,6 +28,8 @@ class VideosService extends BaseApplicationComponent
         if (is_null($this->serviceRecord)) {
             $this->serviceRecord = Videos_ServiceRecord::model();
         }
+
+        $this->_service = new \Dukt\Videos\Plugin\Craft\Service\VideosService();
     }
 
     // --------------------------------------------------------------------
@@ -40,42 +43,6 @@ class VideosService extends BaseApplicationComponent
         return $config;
 
         return craft()->videos->getService($providerClass);
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : Videos_ServiceRecord
-
-    function refreshServiceToken($providerClass)
-    {
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-
-        $token = unserialize(base64_decode($record->token));
-
-        $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $record->params['clientId'],
-            'secret' => $record->params['clientSecret'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
-        ));
-
-        // only refresh if the provider implements access
-
-        if(method_exists($provider, 'access')) {
-            $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
-
-            // save token
-
-            $token->access_token = $accessToken->access_token;
-            $token->expires = $accessToken->expires;
-
-            $token = base64_encode(serialize($token));
-
-            $record->token = $token;
-            $record->save();
-        }
-
-        return $record;
     }
 
     // --------------------------------------------------------------------
@@ -117,7 +84,12 @@ class VideosService extends BaseApplicationComponent
 
     // redirects / serialized token
 
-    public function connectService($record = false)
+    public function connectService($record)
+    {
+        return $this->_service->connectService($record);
+    }
+
+    public function connectService_deprecated($record = false)
     {
         if(!$record)
         {
@@ -161,8 +133,6 @@ class VideosService extends BaseApplicationComponent
         {
             return false;
         }
-
-
     }
 
     // --------------------------------------------------------------------
@@ -174,6 +144,7 @@ class VideosService extends BaseApplicationComponent
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
         return $service;
+
     }
 
     // --------------------------------------------------------------------
@@ -209,9 +180,334 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
+    public function resetService($providerClass)
+    {
+        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+        $record->token = NULL;
+        return $record->save();
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // --------------------------------------------------------------------
+
+    // returns : Videos_ServiceRecord
+
+    public function refreshServiceToken($providerClass)
+    {
+        return $this->_service->refreshServiceToken($providerClass);
+    }
+
+    // --------------------------------------------------------------------
+
     // returns : single or multiple *initialized* \Dukt\Videos\[providerClass]\Service
 
     public function servicesObjects()
+    {
+        return $this->_service->servicesObjects();
+    }
+
+    // --------------------------------------------------------------------
+
+    // returns : Videos_VideoModel
+
+    public function url($videoUrl)
+    {
+        return $this->_service->url($videoUrl);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // --------------------------------------------------------------------
+
+    // DEPRECATED
+
+    // --------------------------------------------------------------------
+
+    public function refreshServiceToken_depreacated($providerClass)
+    {
+        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        $token = unserialize(base64_decode($record->token));
+
+        $provider = \OAuth\OAuth::provider($providerClass, array(
+            'id' => $record->params['clientId'],
+            'secret' => $record->params['clientSecret'],
+            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
+        ));
+
+        // only refresh if the provider implements access
+
+        if(method_exists($provider, 'access')) {
+            $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+
+
+            // save token
+
+            $token->access_token = $accessToken->access_token;
+            $token->expires = $accessToken->expires;
+
+            $token = base64_encode(serialize($token));
+
+            $record->token = $token;
+            $record->save();
+        }
+
+        return $record;
+    }
+
+    // --------------------------------------------------------------------
+
+    public function url_deprecated($videoUrl)
+    {
+        $services = $this->servicesObjects();
+
+        foreach($services as $s)
+        {
+
+            $params['url'] = $videoUrl;
+
+            try {
+
+                $video = $s->videoFromUrl($params);
+
+                if($video)
+                {
+
+                    $video_object = new Videos_VideoModel($video);
+
+                    return $video_object;
+                }
+
+                //return $video;
+            }
+            catch(\Exception $e)
+            {
+
+                //return $e->getMessage();
+            }
+        }
+
+
+        return false;
+    }
+
+    // --------------------------------------------------------------------
+
+    public function servicesObjects_deprecated()
     {
         // if (!craft()->request->isCpRequest() )
         // {
@@ -315,51 +611,5 @@ class VideosService extends BaseApplicationComponent
         return $services;
     }
 
-    // --------------------------------------------------------------------
-
-    public function resetService($providerClass)
-    {
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-        $record->token = NULL;
-        return $record->save();
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : Videos_VideoModel
-
-    public function url($videoUrl)
-    {
-        $services = $this->servicesObjects();
-
-        foreach($services as $s)
-        {
-
-            $params['url'] = $videoUrl;
-
-            try {
-
-                $video = $s->videoFromUrl($params);
-
-                if($video)
-                {
-
-                    $video_object = new Videos_VideoModel($video);
-
-                    return $video_object;
-                }
-
-                //return $video;
-            }
-            catch(\Exception $e)
-            {
-
-                //return $e->getMessage();
-            }
-        }
-
-
-        return false;
-    }
 }
 

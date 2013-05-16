@@ -1,4 +1,7 @@
 {
+    "autoload": {
+        "psr-0": { "Dukt\\Videos\\Plugin" : "libraries/videos.plugin/src/" }
+    },
     "repositories": [
         {
             "type": "vcs",
