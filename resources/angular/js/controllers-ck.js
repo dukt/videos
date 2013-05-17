@@ -1,9 +1,0 @@
-/**
- * Craft Videos by Dukt
- *
- * @package   Craft Videos
- * @author    Benjamin David
- * @copyright Copyright (c) 2013, Dukt
- * @license   http://dukt.net/addons/craft/videos/license
- * @link      http://dukt.net/addons/craft/videos/
- */function ServicesListCtrl(e,t,n,r,i,s,o){function a(e,i){typeof t.playlistId!="undefined"&&(e.playlistId=t.playlistId);o.loader.on();n({method:"POST",url:DkvEndpoint.url(e.method,e)}).success(function(e,t,n,r){}).error(function(e,t,n,r){}).then(function(e,t,n){typeof i=="function"?i(e.data):r.videos=e.data;dkvideos.scroll.init();e.data.length<Dukt_videos.pagination_per_page?o.videoMore.off():o.videoMore.on();o.loader.off()})}if(typeof t.serviceKey!="undefined"&&typeof t.methodName!="undefined"){var u={service:t.serviceKey,method:t.methodName,page:1,perPage:Dukt_videos.pagination_per_page};t.methodName!="search"&&a(u)}e.favorite=function(){currentVideo=e.selected;if(!e.isFavorite){method="favoriteAdd";e.isFavorite=!0}else{method="favoriteRemove";e.isFavorite=!1}n({method:"POST",url:DkvEndpoint.url(method,{id:currentVideo.id,service:t.serviceKey})}).success(function(e,t,n,r){}).error(function(e,t,n,r){})};e.moreVideos=function(){var e=r.videos.length;o.videoMore.off();perPage=Dukt_videos.pagination_per_page;page=Math.floor(e/perPage)+1;var n={method:t.methodName,service:t.serviceKey,searchQuery:o.searchQuery,page:page,perPage:perPage};a(n,function(e){$.merge(r.videos,e)})};e.play=function(r){e.isFavorite=!1;dkvideos.preview.play(r);e.selected=r;n({method:"POST",url:DkvEndpoint.url("embed",{videoUrl:r.url,service:t.serviceKey})}).success(function(t,n,r,i){$(".dkv-player .dkv-embed").html(t.embed);t.isFavorite?e.isFavorite=!0:e.isFavorite=!1}).error(function(e,t,n,r){})};e.isFavorite=!1;e.isSelected=function(t){return e.selected===t}};
