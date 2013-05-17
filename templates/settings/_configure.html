@@ -3,7 +3,7 @@
 
 {% set centered = true %}
 
-{% includeJsResource "videos/etc/js/refreshToken.js" %}
+{% includeJsResource "videos/videos.plugin/videos/js/refreshToken.js" %}
 
 {% includeCssResource "videos/cp/css/cp.css" %}
 
@@ -62,33 +62,54 @@
 
 
 
+
+
         {% for extraParamKey, extraParam in serviceLibrary.getDefaultParameters() %}
 
-            {% set paramValue = attribute(service.params, extraParamKey) %}
+            {% if service.params is not null %}
+                {% set paramValue = attribute(service.params, extraParamKey) %}
 
-            {{ forms.textField({
-                label: extraParam.label|t,
-                required: extraParam.required,
-                name: 'service[params]['~extraParamKey~']',
-                value: (paramValue is not null ? paramValue : null),
-                errors: service ? service.params.errors(extraParamKey) : null,
-                disabled: (service.token is defined and service.token|length > 0 ? true : false)
-            }) }}
+
+                {{ forms.textField({
+                    label: extraParam.label|t,
+                    required: extraParam.required,
+                    name: 'service[params]['~extraParamKey~']',
+                    value: (paramValue is not null ? paramValue : null),
+                    errors: service ? service.params.errors(extraParamKey) : null,
+                    disabled: (service.token is defined and service.token|length > 0 ? true : false)
+                }) }}
+
+
+            {% else %}
+
+
+                {{ forms.textField({
+                    label: extraParam.label|t,
+                    required: extraParam.required,
+                    name: 'service[params]['~extraParamKey~']',
+                    value: '',
+                    disabled: (service.token is defined and service.token|length > 0 ? true : false)
+                }) }}
+
+
+            {% endif %}
+
         {% endfor %}
 
 
-		{% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
-			<input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;
-		{% else %}
-			{% if serviceLibrary.supportsRefresh() %}
-				<p>Token expires in <strong class="dkv-expires" data-providerclass="{{providerClass}}">{{service.tokenExpires}}</strong> seconds. It will be automatically refreshed.</p>
+        {% if (service.token is defined and service.token|length == 0) or service.token is not defined %}
+            <input class="btn submit" type="submit" name="connect" value="{{ 'Connect to '~providerClass|t }}">  &nbsp;
+        {% else %}
+            {% if serviceLibrary.supportsRefresh() %}
+                <p>Token expires in <strong class="dkv-expires" data-providerclass="{{providerClass}}">{{service.tokenExpires}}</strong> seconds. It will be automatically refreshed.</p>
 
-				<a class="btn" href="{{actionUrl('videos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
-			{% endif %}
+                <a class="btn" href="{{actionUrl('videos/settings/refreshServiceToken', {providerClass:providerClass})}}">Refresh Token</a>
+            {% endif %}
 
             <a class="btn" href="{{actionUrl('videos/settings/resetService', {providerClass:providerClass})}}">Reset Token</a>
 
-		{% endif %}
+        {% endif %}
+
 	</form>
 
 {% endset %}

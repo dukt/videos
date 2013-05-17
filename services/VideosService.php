@@ -14,11 +14,13 @@ namespace Craft;
 
 class VideosService extends BaseApplicationComponent
 {
+    // --------------------------------------------------------------------
+    // declare variables
+
     protected $serviceRecord;
     protected $_service;
 
     // --------------------------------------------------------------------
-
     // construct (with Videos_ServiceRecord initialization)
 
     public function __construct($serviceRecord = null)
@@ -33,7 +35,6 @@ class VideosService extends BaseApplicationComponent
     }
 
     // --------------------------------------------------------------------
-
     // returns: config array
 
     public function config()
@@ -42,7 +43,7 @@ class VideosService extends BaseApplicationComponent
 
         return $config;
 
-        return craft()->videos->getService($providerClass);
+        // return craft()->videos->getService($providerClass);
     }
 
     // --------------------------------------------------------------------
@@ -57,6 +58,8 @@ class VideosService extends BaseApplicationComponent
             $record = $this->serviceRecord->create();
         }
 
+
+
         $params = $model->getAttributes();
 
         $record->setAttributes($model->getAttributes());
@@ -65,6 +68,7 @@ class VideosService extends BaseApplicationComponent
         //var_dump($model->getAttribute('params'));
 
         if ($record->save()) {
+
             // update id on model (for new records)
 
             $model->setAttribute('id', $record->getAttribute('id'));
@@ -82,93 +86,6 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    // redirects / serialized token
-
-    public function connectService($record)
-    {
-        return $this->_service->connectService($record);
-    }
-
-    public function connectService_deprecated($record = false)
-    {
-        if(!$record)
-        {
-            $class = craft()->request->getParam('providerClass');
-
-            $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $class));
-        }
-
-
-        $providerClass = $record->providerClass;
-
-        $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $record->params['clientId'],
-            'secret' => $record->params['clientSecret'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/serviceCallback/', array('providerClass' => $providerClass))
-        ));
-
-        try {
-            $provider = $provider->process(function($url, $token = null) {
-
-                if ($token) {
-                    $_SESSION['token'] = base64_encode(serialize($token));
-                }
-
-                header("Location: {$url}");
-
-                exit;
-
-            }, function() {
-                return unserialize(base64_decode($_SESSION['token']));
-            });
-
-
-            $token = $provider->token();
-
-            $record->token = base64_encode(serialize($token));
-            $record->save();
-            craft()->request->redirect(UrlHelper::getUrl('videos/settings/'.$providerClass));
-        }
-        catch(\Exception $e)
-        {
-            return false;
-        }
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns: \Dukt\Videos\[providerClass]\Service
-
-    public function serviceLibrary($providerClass)
-    {
-        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
-
-        return $service;
-
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : Videos_Service[providerClass]Model
-
-    public function getService($providerClass)
-    {
-        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
-
-        // get the option
-
-        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
-
-        if ($record) {
-
-            return $serviceModelClass::populateModel($record);
-        }
-
-        return new $serviceModelClass();
-    }
-
-    // --------------------------------------------------------------------
-
     // returns : single or multiple Videos_ServiceRecord
 
     public function servicesRecords()
@@ -180,276 +97,176 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
+    public function getService($providerClass)
+    {
+        $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";
+
+        // get the option
+
+        $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
+        if ($record) {
+            return $serviceModelClass::populateModel($record);
+        }
+
+        $obj = new $serviceModelClass();
+
+        return $obj;
+    }
+
+    // --------------------------------------------------------------------
+    // returns: \Dukt\Videos\[providerClass]\Service
+
+    public function serviceLibrary($providerClass)
+    {
+        $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
+
+        return $service;
+    }
+
+    // --------------------------------------------------------------------
+    // redirects / serialized token
+
+    public function connectService($record)
+    {
+        $return = array(
+                'error' => false,
+                'redirect' => false
+            );
+
+        if(!isset($_SESSION))
+        {
+            session_start();
+        }
+
+        $providerClass = $record->providerClass;
+
+        $params = (array) $record->params;
+
+        $provider = \OAuth\OAuth::provider($providerClass, array(
+            'id' => $params['clientId'],
+            'secret' => $params['clientSecret'],
+            //'redirect_url' => $params['redirect_uri']
+            'redirect_url' => $this->_redirectUrl($providerClass)
+        ));
+
+
+
+
+
+        if(!isset($_SESSION['videos.referer']))
+        {
+            $_SESSION['videos.referer'] = $_SERVER['HTTP_REFERER'];
+        }
+
+
+        try {
+
+            $provider = @$provider->process(function($url, $token = null) {
+
+                if ($token) {
+                    $_SESSION['token'] = base64_encode(serialize($token));
+                }
+
+                header("Location: {$url}");
+                exit;
+
+            }, function() {
+
+                $token = unserialize(base64_decode($_SESSION['token']));
+
+
+                return $token;
+            });
+
+
+            $token = $provider->token();
+            // var_dump($token);
+            // die();
+            $record->token = base64_encode(serialize($token));
+            $record->save();
+
+            $redirectUrl = $_SESSION['videos.referer'];
+
+            unset($_SESSION['videos.referer']);
+
+            //\Dukt\Videos\Plugin\ExpressionEngine\Cms::redirect($redirectUrl);
+
+            $return['redirect'] = $redirectUrl;
+
+            return $return;
+        }
+        catch(\Exception $e)
+        {
+            $return['error'] = true;
+            $return['errorMsg'] = $e->getMessage();
+            $return['redirect'] = $_SESSION['videos.referer'];
+
+            return $return;
+        }
+    }
+
+    // --------------------------------------------------------------------
+
     public function resetService($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+
         $record->token = NULL;
+
         return $record->save();
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     // --------------------------------------------------------------------
-
     // returns : Videos_ServiceRecord
 
-    public function refreshServiceToken($providerClass)
-    {
-        return $this->_service->refreshServiceToken($providerClass);
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : single or multiple *initialized* \Dukt\Videos\[providerClass]\Service
-
-    public function servicesObjects()
-    {
-        return $this->_service->servicesObjects();
-    }
-
-    // --------------------------------------------------------------------
-
-    // returns : Videos_VideoModel
-
-    public function url($videoUrl)
-    {
-        return $this->_service->url($videoUrl);
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // --------------------------------------------------------------------
-
-    // DEPRECATED
-
-    // --------------------------------------------------------------------
-
-    public function refreshServiceToken_depreacated($providerClass)
+   function refreshServiceToken($providerClass)
     {
         $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
 
-        $token = unserialize(base64_decode($record->token));
+        // params
+
+        if(is_object($record->params)) {
+            $params = (object) $record->params;
+            $params = $params->getAttributes();
+        } else {
+            $params = $record->params;
+        }
+
+        // token
+
+        $token = $record->token;
+
+        if(is_string($token)) {
+            $token = unserialize(base64_decode($token));
+        }
+
+
+        // provider
 
         $provider = \OAuth\OAuth::provider($providerClass, array(
-            'id' => $record->params['clientId'],
-            'secret' => $record->params['clientSecret'],
-            'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$providerClass)
+            'id' => $params['clientId'],
+            'secret' => $params['clientSecret'],
+            'redirect_url' => $this->_redirectUrl($providerClass)
         ));
 
+        foreach($params as $k => $v) {
+            switch($k) {
+                case "clientId":
+                case "clientSecret";
+
+                // ignore clientId & clientSecret
+
+                break;
+
+                default:
+                $providerParams[$k] = $v;
+            }
+        }
+
         // only refresh if the provider implements access
+
+//        if(method_exists($provider, 'access')) {
 
         if(method_exists($provider, 'access')) {
             $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
@@ -470,50 +287,10 @@ class VideosService extends BaseApplicationComponent
     }
 
     // --------------------------------------------------------------------
+    // returns : single or multiple *initialized* \Dukt\Videos\[providerClass]\Service
 
-    public function url_deprecated($videoUrl)
+    public function servicesObjects()
     {
-        $services = $this->servicesObjects();
-
-        foreach($services as $s)
-        {
-
-            $params['url'] = $videoUrl;
-
-            try {
-
-                $video = $s->videoFromUrl($params);
-
-                if($video)
-                {
-
-                    $video_object = new Videos_VideoModel($video);
-
-                    return $video_object;
-                }
-
-                //return $video;
-            }
-            catch(\Exception $e)
-            {
-
-                //return $e->getMessage();
-            }
-        }
-
-
-        return false;
-    }
-
-    // --------------------------------------------------------------------
-
-    public function servicesObjects_deprecated()
-    {
-        // if (!craft()->request->isCpRequest() )
-        // {
-        //     return false;
-        // }
-
         $allServices = array_map(
             function($className) {
                 $service = \Dukt\Videos\Common\ServiceFactory::create($className);
@@ -523,68 +300,88 @@ class VideosService extends BaseApplicationComponent
 
                 $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $className));
 
-                if(!$record)
-                {
+                if(!$record) {
                     // return service, unauthenticated
 
                     return $service;
                 }
 
+
+                // let's authenticate with the token
+
                 $token = $record->token;
-                $token = unserialize(base64_decode($token));
+                // $token = unserialize(base64_decode($token));
 
-                $service->initialize($record->params);
+                // Create the OAuth provider
 
-                if(!$token)
-                {
+                if(is_object($record->params)) {
+                    $params = (object) $record->params;
+                    $params = $params->getAttributes();
+                } else {
+                    $params = $record->params;
+                }
+
+                $providerParams = array(
+                    'id' => $params['clientId'],
+                    'secret' => $params['clientSecret'],
+                    'redirect_url' => $this->_redirectUrl($className)
+                );
+
+
+                // add custom parameters such as YT.developerKey
+
+                // $providerParams = array_merge($providerParams, $record->params);
+
+
+                if ($params) {
+                    foreach($params as $k => $v) {
+                        switch($k) {
+                            case "clientId":
+                            case "clientSecret";
+
+                            // ignore clientId & clientSecret
+
+                            break;
+
+                            default:
+                            $providerParams[$k] = $v;
+                        }
+                    }
+                }
+
+                $service->initialize($params);
+
+
+                if (is_string($token)) {
+                    $token = unserialize(base64_decode($token));
+                }
+
+                if (!$token) {
                     return $service;
                 }
 
 
-
-                // Create the OAuth provider
-
-                $providerParams = array(
-                    'id' => $record->params['clientId'],
-                    'secret' => $record->params['clientSecret'],
-                    'redirect_url' => \Craft\UrlHelper::getActionUrl('videos/settings/callback/'.$service->getName())
-                );
-
-                // add custom parameters such as YT.developerKey
-
-                //$providerParams = array_merge($providerParams, $record->params);
 
 
                 // create provider
 
                 $provider = \OAuth\OAuth::provider($service->getName(), $providerParams);
 
-
                 $provider->setToken($token);
 
 
                 // refresh token
 
-                if(isset($token->expires))
-                {
+                if (isset($token->expires)) {
                     $remaining = $token->expires - time();
 
-                    if($remaining < 240)
-                    {
+                    if ($remaining < 240) {
                         $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
 
                         // save token
 
                         $token->access_token = $accessToken->access_token;
                         $token->expires = $accessToken->expires;
-
-
-                        // $remaining = $token->expires - time();
-
-                        // $serializedToken = base64_encode(serialize($token));
-
-                        // craft()->videos->setOption($service->getName()."_token", $serializedToken  );
 
                         $service->token = $token;
                     }
@@ -603,13 +400,50 @@ class VideosService extends BaseApplicationComponent
 
         $services = array();
 
-        foreach($allServices as $s)
-        {
+        foreach($allServices as $s) {
             array_push($services, $s);
         }
 
         return $services;
     }
 
+    // --------------------------------------------------------------------
+    // returns : Videos_VideoModel
+
+    public function url($videoUrl)
+    {
+
+        $services = $this->servicesObjects();
+
+        foreach($services as $s)
+        {
+            $params['url'] = $videoUrl;
+
+            try {
+
+                $video = $s->videoFromUrl($params);
+
+                if($video) {
+                    $video_object = new Videos_VideoModel($video);
+
+                    return $video_object;
+                }
+
+                //return $video;
+            } catch(\Exception $e) {
+                //return $e->getMessage();
+            }
+        }
+
+
+        return null;
+    }
+
+    // --------------------------------------------------------------------
+
+    protected function _redirectUrl($providerClass)
+    {
+        return UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass));
+    }
 }
 

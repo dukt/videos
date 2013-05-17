@@ -253,7 +253,7 @@ class Videos_AjaxController extends BaseController
 
     private function getService()
     {
-        $providerClass = craft()->request->getParam('service');
+        $providerClass = craft()->request->getParam('providerClass');
 
         $serviceRecord = craft()->videos->getService($providerClass);
 
@@ -262,6 +262,7 @@ class Videos_AjaxController extends BaseController
 
         $token = $serviceRecord->token;
         $token = unserialize(base64_decode($token));
+
 
 
         // Create the OAuth provider
@@ -282,5 +283,16 @@ class Videos_AjaxController extends BaseController
         $service->setProvider($provider);
 
         return $service;
+    }
+
+    // --------------------------------------------------------------------
+
+    public function actionUserInfos()
+    {
+        $service = $this->getService();
+
+        $userInfos = $service->userInfos();
+
+        $this->returnJson($userInfos);
     }
 }

@@ -1,23 +1,34 @@
 {% import "_includes/forms" as forms %}
 
-{% includeCssResource "videos/etc/css/common.css" %}
-{% includeCssResource "videos/field/css/field.css" %}
+{% includeCssResource "videos/css/field.css" %}
 
 {% set js %}
     var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
-    Dukt_videos.pagination_per_page = {{craft.videos.cpConfig.pagination_per_page}};
+    Dukt_videos.pagination_per_page = {{craft.videos.cpConfig().pagination_per_page}};
+    Dukt_videos.endpointUrl = "{{ actionUrl('videos/ajax/endpoint')}}";
+    Dukt_videos.resourceUrl = "{{ resourceUrl('videos') }}/";
 {% endset %}
 
 {% includeJs js %}
 
-{% includeJsResource "videos/etc/lib/angular.js" %}
-{% includeJsResource "videos/etc/lib/waypoints/waypoints.js" %}
-{% includeJsResource "videos/etc/js/endpoint.js" %}
-{% includeJsResource "videos/field/js/field.js" %}
-{% includeJsResource "videos/angular/js/app.js" %}
-{% includeJsResource "videos/angular/js/controllers.js" %}
 
-<div class="dkv-field">
+{% includeJsResource "videos/videos.plugin/angularjs/angular.js" %}
+{% includeJsResource "videos/videos.plugin/waypoints/waypoints.js" %}
+{% includeJsResource "videos/videos.plugin/phpjs/functions/url/urlencode.js" %}
+{% includeJsResource "videos/videos.plugin/phpjs/functions/url/http_build_query.js" %}
+{% includeJsResource "videos/videos.plugin/spin/spin.js" %}
+{% includeJsResource "videos/videos.plugin/spin/jquery.spin.js" %}
+
+{% includeJsResource "videos/js/cms.js" %}
+{% includeJsResource "videos/videos.plugin/videos/js/common.js" %}
+{% includeJsResource "videos/videos.plugin/videos/js/field.js" %}
+{% includeJsResource "videos/js/cp.js" %}
+
+{% includeJsResource "videos/videos.plugin/videos/angular/js/app.js" %}
+{% includeJsResource "videos/videos.plugin/videos/angular/js/controllers.js" %}
+
+
+<!-- <div class="dkv-field">
     <div class="input">
         {{ forms.text({
             name: name,
@@ -33,5 +44,24 @@
         <a class="btn change small"><span></span>Change Video</a>
         <a class="btn remove small"><span></span>Remove Video</a>
     </p>
+</div>
+ -->
+
+<div class="dkv-field">
+    <div class="dkv-input">
+        {{ forms.text({
+            name: name,
+            id: name,
+            value: videoValue
+        }) }}
+    </div>
+
+    <div class="dkv-embed"></div>
+
+    <div class="dkv-buttons">
+        <a class="dkv-btn dkv-add icon small">Add Video</a>
+         <a class="dkv-btn dkv-change small"><span></span>Change Video</a>
+         <a class="dkv-btn dkv-remove small"><span></span>Remove Video</a>
+    </div>
 </div>
 
