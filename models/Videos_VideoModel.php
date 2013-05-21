@@ -52,6 +52,7 @@ class Videos_VideoModel extends BaseModel
                 'description' => AttributeType::String,
                 'plays' => AttributeType::String,
                 'authorName' => AttributeType::String,
+                'authorId' => AttributeType::String,
                 'authorUrl' => AttributeType::String,
                 'authorUsername' => AttributeType::String,
                 'date' => AttributeType::String,

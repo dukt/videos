@@ -124,7 +124,7 @@
   position: absolute;
   top: 0px;
   left: 7px;
-  color: #5f6c74;
+  color: #555555;
   font-family: 'entypo';
   font-size: 32px;
   line-height: 0.85em;
@@ -147,7 +147,7 @@
   position: absolute;
   top: 8px;
   right: 12px;
-  color: #5f6c74;
+  color: #555555;
   font-family: 'Arial';
   font-size: 16px;
   line-height: 1em;
@@ -164,7 +164,7 @@
   border: 1px solid #9eacb8;
   padding: 7px 30px 7px 10px;
   font-size: 13px;
-  color: #5f6c74;
+  color: #555555;
   -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05), 0 0 0 rgba(55, 156, 219, 0);
   -webkit-transition: border linear 100ms, -webkit-box-shadow linear 100ms;
   -webkit-appearance: none;
@@ -178,20 +178,20 @@
   padding: 1em;
   padding-left: 15px;
   padding-bottom: 0.5em;
-  color: #5f6c74;
+  color: #555555;
   opacity: .6;
 }
 .dkv-modal .dkv-sidebar ul li a {
   display: block;
   padding: 4px;
-  color: #5f6c74;
+  color: #555555;
 }
 .dkv-modal .dkv-sidebar ul li a:hover {
   text-decoration: none;
-  color: #5f6c74;
+  color: #555555;
 }
 .dkv-modal .dkv-sidebar ul li a.active {
-  background: #5f6c74;
+  background: #555555;
   color: #fff;
 }
 .dkv-modal .dkv-sidebar ul li a.active:before {
@@ -210,7 +210,7 @@
   position: absolute;
   top: 0px;
   left: 20px;
-  color: #5f6c74;
+  color: #555555;
   font-family: 'entypo';
   font-size: 32px;
   line-height: 0.7em;
@@ -296,7 +296,7 @@
   top: 5px;
   left: 8px;
   content: "⟳";
-  color: #5f6c74;
+  color: #555555;
   font-family: 'entypo';
   font-size: 31px;
   line-height: 0.8em;
@@ -311,7 +311,7 @@
   display: none;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-buttons .dkv-reload.dkv-loading:hover {
-  background-color: #f0f4f7 !important;
+  background-color: #eeeeee !important;
   cursor: default;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-spinner {
@@ -340,8 +340,8 @@
   display: block;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-video-more .dkv-btn.dkv-loading:hover {
-  background-color: #f0f4f7 !important;
-  color: #5f6c74 !important;
+  background-color: #eeeeee !important;
+  color: #555555 !important;
   cursor: default;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-video-more .dkv-btn.dkv-loading:before {
@@ -358,7 +358,7 @@
 }
 .dkv-modal .dkv-main .dkv-content .dkv-empty {
   display: none;
-  color: #5f6c74;
+  color: #555555;
   position: absolute;
   text-align: center;
 }
@@ -367,7 +367,7 @@
   top: 0;
   left: 0;
   content: "🎬";
-  color: #f0f4f7;
+  color: #eeeeee;
   font-family: 'entypo';
   font-size: 150px;
   line-height: 0.6em;
@@ -395,19 +395,19 @@
   padding: 15px;
   width: 200px;
   display: block;
-  color: #5f6c74;
+  color: #555555;
   border: 1px solid #d0d9e1;
   border-top: 0;
   border-left: 0;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li:hover {
   text-decoration: none;
-  background: #f0f4f7;
+  background: #eeeeee;
   cursor: default;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li.active {
   color: #fff;
-  background: #5f6c74;
+  background: #555555;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li div.dkv-videos-thumb {
   display: inline-block;
@@ -542,8 +542,8 @@
 .dkv-modal .dkv-btn,
 .dkv-field .dkv-btn {
   display: inline-block;
-  background-color: #f0f4f7;
-  color: #5f6c74 !important;
+  background-color: #eeeeee;
+  color: #555555 !important;
   margin: 0;
   padding: 0 9px !important;
   font-size: 1em !important;
@@ -560,17 +560,17 @@
 .dkv-field .dkv-btn:hover {
   text-decoration: none;
   cursor: pointer;
-  color: #f0f4f7 !important;
-  background-color: #5f6c74 !important;
+  color: #eeeeee !important;
+  background-color: #555555 !important;
 }
 .dkv-modal .dkv-btn:hover:before,
 .dkv-field .dkv-btn:hover:before {
-  color: #f0f4f7 !important;
+  color: #eeeeee !important;
 }
 .dkv-modal .dkv-btn.dkv-submit,
 .dkv-field .dkv-btn.dkv-submit {
   color: #fff !important;
-  background: #e11842;
+  background: #da5a47;
 }
 .dkv-modal .dkv-btn.dkv-submit.dkv-disabled,
 .dkv-field .dkv-btn.dkv-submit.dkv-disabled {
@@ -578,7 +578,7 @@
 }
 .dkv-modal .dkv-btn.dkv-submit.dkv-disabled:hover,
 .dkv-field .dkv-btn.dkv-submit.dkv-disabled:hover {
-  background: #e11842 !important;
+  background: #da5a47 !important;
   cursor: default;
 }
 .dkv-field .dkv-btn {
@@ -601,24 +601,7 @@
   top: 0;
   left: 0;
   position: fixed;
-  z-index: 1;
-}
-.dkv-sidebar {
-  color: #6C8390;
-}
-.dkv-sidebar ul li h3 {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-.dkv-sidebar ul li a {
-  color: #6C8390;
-}
-.dkv-sidebar ul li a:hover {
-  color: #6C8390;
-  cursor: default;
-}
-.dkv-sidebar ul li a.active {
-  background: #8195A0;
+  z-index: 2000;
 }
 /**
  * Videos Plugin Assets
@@ -689,6 +672,23 @@
 .dkv-player object {
   width: 100%;
   height: 100%;
+}
+.dkv-sidebar {
+  color: #6C8390;
+}
+.dkv-sidebar ul li h3 {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.dkv-sidebar ul li a {
+  color: #6C8390;
+}
+.dkv-sidebar ul li a:hover {
+  color: #6C8390;
+  cursor: default;
+}
+.dkv-sidebar ul li a.active {
+  background: #8195A0;
 }
 .dkv-field {
   max-width: 650px;

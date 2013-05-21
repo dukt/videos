@@ -140,6 +140,7 @@ class Videos_AjaxController extends BaseController
 
         $response = array();
         $response['embed'] = $embed;
+        $response['video'] = $video;
         $response['isFavorite'] = $service->isFavorite(array('id' => $video->id));
 
         $this->returnJson($response);

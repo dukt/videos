@@ -3,9 +3,10 @@
 
 {% set centered = true %}
 
+{% includeJsResource "videos/js/cms.js" %}
 {% includeJsResource "videos/videos.plugin/videos/js/refreshToken.js" %}
 
-{% includeCssResource "videos/cp/css/cp.css" %}
+{% includeCssResource "videos/css/cp.css" %}
 
 
 {% if providerClass is not defined %}{% set providerClass = null %}{% endif %}

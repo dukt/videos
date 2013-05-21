@@ -17,21 +17,16 @@
 
 // --------------------------------------------------------------------
 
-// rewrite some colors as CP background is darker
-
-@actionColor: #e11842;
-@grey1:#d0d9e1;
-@grey2:#9EACB8;
-@grey3:#7B8A97;
-@lightGrey1:#D0D9E1;
-@darkGrey1:#5f6c74;
-
-// --------------------------------------------------------------------
-
 // cp styles
 
 .dkv-search {
     float: none !important;
+
+    input {
+        padding-top: 5px !important;
+        padding-right: 5px !important;
+        padding-bottom: 5px !important;
+    }
 }
 
 .dkv-settings-btn
@@ -53,4 +48,9 @@ h2.edit .dkv-settings-btn
     span {
         text-decoration: underline;
     }
+}
+
+
+.dkv-modal {
+    margin: -30px;
 }
