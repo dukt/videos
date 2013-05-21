@@ -395,7 +395,7 @@
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li {
   float: left;
   padding: 15px;
-  width: 200px;
+  width: 181px;
   display: block;
   color: #555555;
   border: 1px solid #eeeeee;
@@ -469,8 +469,8 @@
   border-radius: 3px;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer {
-  width: 200px;
-  height: 115px;
+  width: 180px;
+  height: 105px;
   position: relative;
   display: inline-block;
   overflow: hidden;

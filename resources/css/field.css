@@ -395,7 +395,7 @@
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li {
   float: left;
   padding: 15px;
-  width: 200px;
+  width: 181px;
   display: block;
   color: #555555;
   border: 1px solid #eeeeee;
@@ -469,8 +469,8 @@
   border-radius: 3px;
 }
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li div.dkv-videos-thumb .dkv-clip-outer {
-  width: 200px;
-  height: 115px;
+  width: 180px;
+  height: 105px;
   position: relative;
   display: inline-block;
   overflow: hidden;
@@ -648,8 +648,8 @@
   left: 20%;
   z-index: 1;
   background: #fff;
-  width: 930px;
-  height: 605px;
+  width: 837px;
+  height: 558px;
   overflow: hidden;
   -webkit-box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
   box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
