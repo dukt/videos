@@ -78,7 +78,7 @@
 }
 .dkv-modal .dkv-top {
   padding: 15px;
-  border-bottom: 1px solid #d0d9e1;
+  border-bottom: 1px solid #eeeeee;
 }
 .dkv-modal .dkv-bottom {
   border-top: 1px solid #eee;
@@ -108,7 +108,7 @@
   top: 1px;
   left: 26px;
   background: green;
-  color: #d0d9e1;
+  color: #eeeeee;
   font-family: 'Arial';
   font-size: 26px;
   line-height: 1em;
@@ -137,11 +137,12 @@
 .dkv-modal .dkv-sidebar {
   width: 200px;
   float: left;
-  border-right: 1px solid #d0d9e1;
+  border-right: 1px solid #eeeeee;
 }
 .dkv-modal .dkv-sidebar .select {
   position: relative;
   background: #fff;
+  width: 100%;
 }
 .dkv-modal .dkv-sidebar .select:before {
   display: inline-block;
@@ -162,7 +163,7 @@
   background: transparent;
   border-radius: 2px;
   position: relative;
-  border: 1px solid #9eacb8;
+  border: 1px solid #aaaaaa;
   padding: 7px 30px 7px 10px;
   font-size: 13px;
   color: #555555;
@@ -244,7 +245,7 @@
   top: 2px;
   left: 8px;
   content: "🔍";
-  color: #9eacb8;
+  color: #aaaaaa;
   font-family: 'entypo';
   font-size: 38px;
   line-height: 0.8em;
@@ -258,26 +259,26 @@
   padding-left: 27px !important;
   font-size: 0.9em;
   background: #fff;
-  border: 1px solid #9eacb8;
+  border: 1px solid #aaaaaa;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-search input:focus {
   opacity: 1;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-search input::-webkit-input-placeholder {
   /* WebKit browsers */
-  color: #9eacb8;
+  color: #aaaaaa;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-search input:-moz-placeholder {
   /* Mozilla Firefox 4 to 18 */
-  color: #9eacb8;
+  color: #aaaaaa;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-search input::-moz-placeholder {
   /* Mozilla Firefox 19+ */
-  color: #9eacb8;
+  color: #aaaaaa;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-search input:-ms-input-placeholder {
   /* Internet Explorer 10+ */
-  color: #9eacb8;
+  color: #aaaaaa;
 }
 .dkv-modal .dkv-main .dkv-top .dkv-buttons {
   float: right;
@@ -397,7 +398,7 @@
   width: 200px;
   display: block;
   color: #555555;
-  border: 1px solid #d0d9e1;
+  border: 1px solid #eeeeee;
   border-top: 0;
   border-left: 0;
 }
@@ -583,7 +584,7 @@
   cursor: default;
 }
 .dkv-field .dkv-btn {
-  background: #d0d9e1;
+  background: #eeeeee;
 }
 .dkv-spinner {
   display: inline-block;
@@ -633,7 +634,7 @@
   height: 338px;
   padding: 5px;
   background: #fff;
-  border: 1px solid #d0d9e1;
+  border: 1px solid #eeeeee;
 }
 .dkv-field .dkv-embed iframe,
 .dkv-field .dkv-embed object {
@@ -690,6 +691,14 @@
 }
 .dkv-sidebar ul li a.active {
   background: #8195A0;
+}
+.dkv-search {
+  float: none !important;
+}
+.dkv-search input {
+  padding-top: 5px !important;
+  padding-right: 5px !important;
+  padding-bottom: 5px !important;
 }
 .dkv-field {
   max-width: 650px;
