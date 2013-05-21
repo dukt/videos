@@ -58,6 +58,7 @@
 }
 .dkv-modal {
   font-size: 13px;
+  z-index: 2000000000!important;
 }
 .dkv-modal .dkv-box-spinner {
   display: none;
