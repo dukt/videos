@@ -115,6 +115,13 @@ class VideosService extends BaseApplicationComponent
     }
 
     // --------------------------------------------------------------------
+
+    public function getServiceRecord($providerClass)
+    {
+        return Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
+    }
+
+    // --------------------------------------------------------------------
     // returns: \Dukt\Videos\[providerClass]\Service
 
     public function serviceLibrary($providerClass)

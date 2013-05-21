@@ -256,14 +256,13 @@ class Videos_AjaxController extends BaseController
     {
         $providerClass = craft()->request->getParam('providerClass');
 
-        $serviceRecord = craft()->videos->getService($providerClass);
+        $serviceRecord = craft()->videos->getServiceRecord($providerClass);
 
 
         // Retrieve token
 
         $token = $serviceRecord->token;
         $token = unserialize(base64_decode($token));
-
 
 
         // Create the OAuth provider
@@ -274,13 +273,38 @@ class Videos_AjaxController extends BaseController
 
         $provider = \OAuth\OAuth::provider($providerClass, $parameters);
 
+
+        // do we need to refresh token ?
+
+        if(isset($token->expires))
+        {
+            $remaining = $token->expires - time();
+
+            if($remaining < 240)
+            {
+                $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+
+
+                // save token
+
+                $token->access_token = $accessToken->access_token;
+                $token->expires = $accessToken->expires;
+
+                $serviceRecord->token = base64_encode(serialize($token));
+                $serviceRecord->save();
+            }
+        }
+
+
+        // set the already valid, or refreshed token
+
         $provider->setToken($token);
 
 
         // Create video service
 
         $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
-        $service->initialize($serviceRecord->params->getAttributes());
+        $service->initialize($serviceRecord->params);
         $service->setProvider($provider);
 
         return $service;
