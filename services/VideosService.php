@@ -31,7 +31,7 @@ class VideosService extends BaseApplicationComponent
             $this->serviceRecord = Videos_ServiceRecord::model();
         }
 
-        $this->_service = new \Dukt\Videos\Plugin\Craft\Service\VideosService();
+        // $this->_service = new \Dukt\Videos\Plugin\Craft\Service\VideosService();
     }
 
     // --------------------------------------------------------------------
