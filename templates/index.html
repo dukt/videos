@@ -8,6 +8,7 @@
     Dukt_videos.pagination_per_page = {{craft.videos.cpConfig().pagination_per_page}};
     Dukt_videos.endpointUrl = "{{ actionUrl('videos/ajax/endpoint')}}";
     Dukt_videos.resourceUrl = "{{ resourceUrl('videos') }}/";
+    Dukt_videos.language = "{{ craft.locale|e('js') }}";
 {% endset %}
 
 {% includeJs js %}
@@ -24,6 +25,7 @@
 {% includeJsResource "videos/videos.plugin/videos/js/cp.js" %}
 {% includeJsResource "videos/js/cp.js" %}
 
+{% includeJsResource "videos/videos.plugin/videos/angular/js/localize.js" %}
 {% includeJsResource "videos/videos.plugin/videos/angular/js/app.js" %}
 {% includeJsResource "videos/videos.plugin/videos/angular/js/controllers.js" %}
 
