@@ -77,11 +77,9 @@ class Videos_SettingsController extends BaseController
 
     public function actionServiceCallback()
     {
-        $cms = new \Dukt\Videos\Plugin\Craft\Cms;
-
         $providerClass = craft()->request->getParam('providerClass');
 
-        $record = $cms->videos->getServiceRecord($providerClass);
+        $record = craft()->videos->getServiceRecord($providerClass);
 
         $connect = craft()->videos->connectService($record);
 
