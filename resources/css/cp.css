@@ -762,9 +762,6 @@ input.readonly:focus {
   width: 100%;
   height: 100%;
 }
-.status:before {
-  display: none !important;
-}
 .dkv-settings-btn {
   display: none;
 }
