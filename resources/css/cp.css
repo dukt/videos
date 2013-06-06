@@ -121,6 +121,7 @@
 .dkv-modal .dkv-sidebar .dkv-sources {
   position: relative;
   z-index: 1;
+  line-height: 15px;
 }
 .dkv-modal .dkv-sidebar .dkv-sources:hover {
   cursor: default;
@@ -392,7 +393,7 @@
 .dkv-modal .dkv-main .dkv-content .dkv-videos ul li {
   float: left;
   padding: 15px;
-  width: 181px;
+  width: 174px;
   display: block;
   color: #555555;
   border: 1px solid #eeeeee;
@@ -601,6 +602,11 @@
   left: 0;
   position: fixed;
   z-index: 2000;
+}
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .dkv-videos ul li {
+    width: 181px !important;
+  }
 }
 .dkv-sidebar {
   color: #6C8390;
