@@ -20,7 +20,7 @@ function cpResize() {
     var mainH = $('#main').outerHeight();
     var modalH = $('.dkv-modal').outerHeight();
 
-    console.log('timeout', mainH, modalH);
+    // console.log('timeout', mainH, modalH);
 
     if(modalH < mainH) {
         //$('.dkv-modal, .dkv-modal .dkv-sidebar, .dkv-modal .dkv-main').css('min-height', mainH);
