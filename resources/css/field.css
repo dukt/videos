@@ -2,13 +2,22 @@
 
 @import "../lib/fontello/css/fontello.css";
 /**
- * Dukt Videos for ExpressionEngine
+ * Craft Videos by Dukt
  *
- * @package   Dukt Videos
+ * @package   Craft Videos
  * @author    Benjamin David
  * @copyright Copyright (c) 2013, Dukt
- * @license   http://dukt.net/addons/craft/videos/license
- * @link      http://dukt.net/addons/craft/videos/
+ * @license   http://docs.dukt.net/craft/videos/license
+ * @link      http://dukt.net/craft/videos
+ */
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://docs.dukt.net/craft/videos/license
+ * @link      http://dukt.net/craft/videos
  */
 /**
  * Videos Plugin Assets
@@ -610,6 +619,15 @@
     width: 181px !important;
   }
 }
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2013, Dukt
+ * @license   http://docs.dukt.net/craft/videos/license
+ * @link      http://dukt.net/craft/videos
+ */
 .dkv-sidebar {
   color: #6C8390;
 }
