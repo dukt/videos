@@ -2,7 +2,9 @@
 
     <div class="spinner dkv-box-spinner"></div>
 
-    <div ng-controller="ServicesListCtrl">
+    {% include "videos/_noServices" %}
+
+    <div class="dkv-servicesListCtrl" ng-controller="ServicesListCtrl">
 
         <div class="dkv-getStarted">
             Get started by <a href="{{ url('videos/settings') }}">setting up a video service</a>.
