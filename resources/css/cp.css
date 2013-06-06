@@ -783,3 +783,6 @@ h2.edit .dkv-settings-btn span {
 .dkv-modal {
   margin: -30px;
 }
+.status:before {
+  display: none !important;
+}
