@@ -139,6 +139,7 @@
   opacity: .7;
 }
 .dkv-modal .dkv-sidebar .dkv-sources.open ul.dkv-list {
+  list-style: none;
   display: block;
 }
 .dkv-modal .dkv-sidebar .dkv-sources .dkv-icon-down-dir {
