@@ -16,6 +16,8 @@ require_once(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_AjaxController extends BaseController
 {
+    protected $allowAnonymous = true;
+
     // --------------------------------------------------------------------
 
     public function actionModal()
