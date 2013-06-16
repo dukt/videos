@@ -41,7 +41,10 @@ class VideosService extends BaseApplicationComponent
 
         craft()->path->setTemplatesPath($templatePath);
 
-        return craft()->templates->render($template, $variables);
+        $value = craft()->templates->render($template, $variables);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+        return new \Twig_Markup($value, $charset);
     }
     public function app()
     {
