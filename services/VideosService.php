@@ -33,6 +33,20 @@ class VideosService extends BaseApplicationComponent
 
         // $this->_service = new \Dukt\Videos\Plugin\Craft\Service\VideosService();
     }
+    public function render($template, $variables = array())
+    {
+        //return craft()->path->getSiteTemplatesPath();
+
+        $templatePath = craft()->path->getPluginsPath().'videos/templates/';
+
+        craft()->path->setTemplatesPath($templatePath);
+
+        return craft()->templates->render($template, $variables);
+    }
+    public function app()
+    {
+        return $this->render('_app');
+    }
 
     // --------------------------------------------------------------------
     // returns: config array

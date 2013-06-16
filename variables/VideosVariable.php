@@ -18,6 +18,16 @@ class VideosVariable
 {
     // --------------------------------------------------------------------
 
+    public function render($template, $variables)
+    {
+        return craft()->videos->render();
+    }
+
+    public function app()
+    {
+        return craft()->videos->app();
+    }
+
     public function getService($providerClass)
     {
         return craft()->videos->getService($providerClass); // returns a service model
