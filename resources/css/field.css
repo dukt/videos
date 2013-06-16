@@ -208,6 +208,9 @@
   color: #555555;
   opacity: .6;
 }
+.dkv-modal .dkv-sidebar ul {
+  list-style: none;
+}
 .dkv-modal .dkv-sidebar ul li a {
   display: block;
   padding: 4px;
