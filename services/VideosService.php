@@ -171,7 +171,7 @@ class VideosService extends BaseApplicationComponent
             'id' => $params['clientId'],
             'secret' => $params['clientSecret'],
             //'redirect_url' => $params['redirect_uri']
-            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
+            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass))
         ));
 
 
@@ -271,7 +271,7 @@ class VideosService extends BaseApplicationComponent
         $provider = \OAuth\OAuth::provider($providerClass, array(
             'id' => $params['clientId'],
             'secret' => $params['clientSecret'],
-            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
+            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass))
         ));
 
         foreach($params as $k => $v) {
@@ -316,13 +316,13 @@ class VideosService extends BaseApplicationComponent
     public function servicesObjects()
     {
         $allServices = array_map(
-            function($className) {
-                $service = \Dukt\Videos\Common\ServiceFactory::create($className);
+            function($providerClass) {
+                $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
 
                 // Retrieve token
 
-                $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $className));
+                $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
 
                 if(!$record) {
                     // return service, unauthenticated
@@ -348,7 +348,7 @@ class VideosService extends BaseApplicationComponent
                 $providerParams = array(
                     'id' => $params['clientId'],
                     'secret' => $params['clientSecret'],
-                    'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
+                    'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass))
                 );
 
 
