@@ -208,16 +208,13 @@
   color: #555555;
   opacity: .6;
 }
-.dkv-modal .dkv-sidebar ul {
-  list-style: none;
-}
 .dkv-modal .dkv-sidebar ul li a {
   display: block;
   padding: 4px;
   color: #555555;
 }
 .dkv-modal .dkv-sidebar ul li a:hover {
-  text-decoration: none;
+  text-decoration: none !important;
   color: #555555;
 }
 .dkv-modal .dkv-sidebar ul li a.active {
