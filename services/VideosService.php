@@ -168,7 +168,7 @@ class VideosService extends BaseApplicationComponent
             'id' => $params['clientId'],
             'secret' => $params['clientSecret'],
             //'redirect_url' => $params['redirect_uri']
-            'redirect_url' => $this->_redirectUrl($providerClass)
+            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
         ));
 
 
@@ -268,7 +268,7 @@ class VideosService extends BaseApplicationComponent
         $provider = \OAuth\OAuth::provider($providerClass, array(
             'id' => $params['clientId'],
             'secret' => $params['clientSecret'],
-            'redirect_url' => $this->_redirectUrl($providerClass)
+            'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
         ));
 
         foreach($params as $k => $v) {
@@ -345,7 +345,7 @@ class VideosService extends BaseApplicationComponent
                 $providerParams = array(
                     'id' => $params['clientId'],
                     'secret' => $params['clientSecret'],
-                    'redirect_url' => $this->_redirectUrl($className)
+                    'redirect_url' => UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className))
                 );
 
 
@@ -462,9 +462,9 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    protected function _redirectUrl($providerClass)
-    {
-        return UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass));
-    }
+    // protected function _redirectUrl($providerClass)
+    // {
+    //     return UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $className));
+    // }
 }
 
