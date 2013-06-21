@@ -312,8 +312,10 @@ class VideosService extends BaseApplicationComponent
 
     public function servicesObjects()
     {
+        $wrap = $this;
+
         $allServices = array_map(
-            function($className) {
+            function($className) use ($wrap) {
                 $service = \Dukt\Videos\Common\ServiceFactory::create($className);
 
 
@@ -345,7 +347,7 @@ class VideosService extends BaseApplicationComponent
                 $providerParams = array(
                     'id' => $params['clientId'],
                     'secret' => $params['clientSecret'],
-                    'redirect_url' => $this->_redirectUrl($className)
+                    'redirect_url' => $wrap->_redirectUrl($className)
                 );
 
 
@@ -462,7 +464,7 @@ class VideosService extends BaseApplicationComponent
 
     // --------------------------------------------------------------------
 
-    protected function _redirectUrl($providerClass)
+    public function _redirectUrl($providerClass)
     {
         return UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass));
     }
