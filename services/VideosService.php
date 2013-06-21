@@ -33,6 +33,9 @@ class VideosService extends BaseApplicationComponent
 
         // $this->_service = new \Dukt\Videos\Plugin\Craft\Service\VideosService();
     }
+
+    // --------------------------------------------------------------------
+
     public function render($template, $variables = array())
     {
         //return craft()->path->getSiteTemplatesPath();
@@ -41,8 +44,14 @@ class VideosService extends BaseApplicationComponent
 
         craft()->path->setTemplatesPath($templatePath);
 
-        return craft()->templates->render($template, $variables);
+        $value = craft()->templates->render($template, $variables);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+        return new \Twig_Markup($value, $charset);
     }
+
+    // --------------------------------------------------------------------
+
     public function app()
     {
         return $this->render('_app');
@@ -66,6 +75,8 @@ class VideosService extends BaseApplicationComponent
 
     public function saveService(&$model)
     {
+
+
         $class = $model->getAttribute('providerClass');
 
         if (null === ($record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $class)))) {
@@ -150,6 +161,7 @@ class VideosService extends BaseApplicationComponent
 
     public function connectService($record)
     {
+
         $return = array(
                 'error' => false,
                 'redirect' => false
@@ -188,6 +200,7 @@ class VideosService extends BaseApplicationComponent
                 if ($token) {
                     $_SESSION['token'] = base64_encode(serialize($token));
                 }
+
 
                 header("Location: {$url}");
                 exit;
@@ -315,13 +328,13 @@ class VideosService extends BaseApplicationComponent
         $wrap = $this;
 
         $allServices = array_map(
-            function($className) use ($wrap) {
-                $service = \Dukt\Videos\Common\ServiceFactory::create($className);
 
+            function($providerClass) use ($wrap) {
+                $service = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
                 // Retrieve token
 
-                $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $className));
+                $record = Videos_ServiceRecord::model()->find('providerClass=:providerClass', array(':providerClass' => $providerClass));
 
                 if(!$record) {
                     // return service, unauthenticated
@@ -347,7 +360,7 @@ class VideosService extends BaseApplicationComponent
                 $providerParams = array(
                     'id' => $params['clientId'],
                     'secret' => $params['clientSecret'],
-                    'redirect_url' => $wrap->_redirectUrl($className)
+                    'redirect_url' => $wrap->_redirectUrl($providerClass)
                 );
 
 
@@ -468,5 +481,6 @@ class VideosService extends BaseApplicationComponent
     {
         return UrlHelper::getActionUrl('videos/settings/serviceCallback', array('providerClass' => $providerClass));
     }
+
 }
 

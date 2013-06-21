@@ -20,6 +20,7 @@ class Videos_SettingsController extends BaseController
 
     public function actionSaveService()
     {
+
         $providerClass = craft()->request->getSegment(3);
 
         $serviceModelClass = "\Craft\Videos_Service".$providerClass."Model";

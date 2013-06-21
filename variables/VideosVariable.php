@@ -18,9 +18,9 @@ class VideosVariable
 {
     // --------------------------------------------------------------------
 
-    public function render($template, $variables)
+    public function render($template, $variables = array())
     {
-        return craft()->videos->render();
+        return craft()->videos->render($template, $variables);
     }
 
     public function app()
