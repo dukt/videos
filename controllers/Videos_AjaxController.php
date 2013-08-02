@@ -155,9 +155,9 @@ class Videos_AjaxController extends BaseController
         $video = craft()->videos->url($videoUrl);
 
         $embed = $video->embed(array('autoplay' => '0', 'controls' => 1, 'showinfo' => 1, 'iv_load_policy' => 3, 'rel' => 0));
-
+        //var_dump($embed);
         $response = array();
-        $response['embed'] = $embed;
+        $response['embed'] = (string) $embed;
 
         $this->returnJson($response);
     }

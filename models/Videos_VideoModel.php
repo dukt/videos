@@ -80,7 +80,7 @@ class Videos_VideoModel extends BaseModel
         if($this->videoComponent) {
             $embed = $this->videoComponent->getEmbed($opts);
 
-            // return $embed;
+            //return $embed;
             return new \Twig_Markup($embed, $charset);
         }
 
