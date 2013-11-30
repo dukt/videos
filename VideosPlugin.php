@@ -73,4 +73,11 @@ class VideosPlugin extends BasePlugin
             'videos\/settings\/(?P<providerClass>.*)' => 'videos/settings/_configure',
         );
     }
+
+    public function getSettingsHtml()
+    {
+       return craft()->templates->render('videos/settings', array(
+           'settings' => $this->getSettings()
+       ));
+    }
 }

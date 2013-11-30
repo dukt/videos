@@ -1,0 +1,44 @@
+{% extends "_layouts/cp" %}
+{% set centered = true %}
+
+{% includeCssResource "videos/css/cp.css" %}
+
+{% set js %}
+    var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
+    Dukt_videos.pagination_per_page = {{craft.videos.cpConfig().pagination_per_page}};
+    Dukt_videos.endpointUrl = "{{ actionUrl('videos/ajax/endpoint')}}";
+    Dukt_videos.resourceUrl = "{{ resourceUrl('videos') }}/";
+    Dukt_videos.language = "{{ craft.locale|e('js') }}";
+{% endset %}
+
+{% includeJs js %}
+
+{% includeJsResource "videos/lib/angularjs/angular.js" %}
+{% includeJsResource "videos/lib/waypoints/waypoints.js" %}
+{% includeJsResource "videos/lib/phpjs/functions/url/urlencode.js" %}
+{% includeJsResource "videos/lib/phpjs/functions/url/http_build_query.js" %}
+{% includeJsResource "videos/lib/spin/spin.js" %}
+{% includeJsResource "videos/lib/spin/jquery.spin.js" %}
+
+{% includeJsResource "videos/js/cms.js" %}
+{% includeJsResource "videos/lib/videos/js/common.js" %}
+{% includeJsResource "videos/lib/videos/js/cp.js" %}
+{% includeJsResource "videos/js/cp.js" %}
+
+{% includeJsResource "videos/lib/videos/angular/js/localize.js" %}
+{% includeJsResource "videos/lib/videos/angular/js/app.js" %}
+{% includeJsResource "videos/lib/videos/angular/js/controllers.js" %}
+
+
+{% set title = "Videos"|t %}
+
+{% set extraPageHeaderHtml %}
+	<a class="btn settings icon" href="{{ url('videos/settings') }}" title="{{ 'Settings'|t }}"></a>
+{% endset %}
+
+
+{% set content %}
+
+	{% include 'videos/_app' %}
+
+{% endset %}

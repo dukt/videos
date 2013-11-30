@@ -1,0 +1,8 @@
+{% set providerOpts = {
+	"name":"Vimeo",
+	"handle":"vimeo"
+} %}
+
+{% set provider = craft.oauth.getProvider(providerOpts.handle, 'github.system') %}
+
+{% include 'videos/settings/_oauth' %}

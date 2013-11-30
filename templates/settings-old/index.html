@@ -1,0 +1,52 @@
+{% extends "_layouts/cp" %}
+{% set centered = true %}
+
+{% includeCssResource "videos/css/cp.css" %}
+
+{% set crumbs = [
+	{ label: "Videos"|t, url: url('videos') }
+] %}
+
+{% set title = "Videos Settings"|t %}
+
+
+{% set content %}
+
+	<table class="data">
+
+		<thead>
+			<tr>
+				<th>Service</th>
+				<th class="col-status">Status</th>
+				<th class="col-actions">Actions</th>
+			</tr>
+		</thead>
+
+		{% for serviceObject in craft.videos.cpServicesObjects() %}
+
+			{% set service = craft.videos.getService(serviceObject.name) %}
+
+		    <tr>
+		    	<th>
+		    		{{serviceObject.name}}
+		    	</th>
+
+		    	<td class="col">
+					{% if service.token is defined and service.token is not null %}
+						<div class="status on"></div>
+						Enabled
+					{% else %}
+						<div class="status off"></div>
+						Disabled
+					{% endif %}
+		    	</td>
+
+		    	<td class="col-actions">
+		    		<a class="btn small" href="{{ url('videos/settings') }}/{{ serviceObject.name }}">Settings</a>
+		    	</td>
+		    </tr>
+
+		{% endfor %}
+
+	</table>
+{% endset %}

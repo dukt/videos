@@ -1,0 +1,36 @@
+{% if not provider %}
+	<p>Go to <a href="{{url('oauth/settings/'~providerOpts.handle)}}">OAuth settings</a> in order to configure this provider with your API client id &amp; secret.</p>
+
+{% else %}
+
+	{% set token = craft.oauth.getSystemToken(providerOpts.handle, 'videos.'~providerOpts.handle) %}
+
+	{% if token %}
+		{% if not token.getRealToken %}
+			{% set token = false %}
+		{% endif %}
+	{% endif %}
+
+	{% if token %}
+
+		{% set account = craft.oauth.getAccount(providerOpts.handle, 'videos.'~providerOpts.handle) %}
+
+		<ul>
+			<li><strong>UID :</strong> {{(account.uid is defined ? account.uid : '')}}</li>
+			<li><strong>Nickname :</strong> {{(account.nickname is defined ? account.nickname : '')}}</li>
+			<li><strong>Name :</strong> {{(account.name is defined ? account.name : '')}}</li>
+			<li><strong>Email :</strong> {{(account.email is defined ? account.email : '')}}</li>
+		</ul>
+
+		<div class="buttons">
+			<a class="btn small" href="{{craft.oauth.disconnect(providerOpts.handle, 'videos.'~providerOpts.handle)}}">Disconnect</a>
+		</div>
+
+	{% else %}
+
+		<p>You need to connect Craft with the video service.</p>
+		<div class="buttons">
+			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, providerOpts.scope, 'videos.'~providerOpts.handle)}}">Connect</a>
+		</div>
+	{% endif %}
+{% endif %}

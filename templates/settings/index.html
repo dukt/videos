@@ -1,52 +1,48 @@
-{% extends "_layouts/cp" %}
-{% set centered = true %}
+{% import "_includes/forms" as forms %}
 
-{% includeCssResource "videos/css/cp.css" %}
+{% includeCssResource 'github/css/disableSave.css' %}
 
-{% set crumbs = [
-	{ label: "Videos"|t, url: url('videos') }
-] %}
+{% if craft.oauth is not defined %}
 
-{% set title = "Videos Settings"|t %}
+	<h2 class="first">OAuth Not Installed</h2>
 
 
-{% set content %}
+	{% set oauth = craft.plugins.getPlugin('oauth', false) %}
 
-	<table class="data">
+	{% if oauth %}
+		{% if not oauth.isInstalled %}
+			<p>OAuth plugin is present but not installed. Please install &amp; enable it.</p>
+		{% elseif not oauth.isEnabled %}
+			<p>OAuth is installed but is disabled. Please enable it.</p>
+		{% else %}
+			OAuth READY
+		{% endif %}
 
-		<thead>
-			<tr>
-				<th>Service</th>
-				<th class="col-status">Status</th>
-				<th class="col-actions">Actions</th>
-			</tr>
-		</thead>
+		<hr />
 
-		{% for serviceObject in craft.videos.cpServicesObjects() %}
+		<div class="buttons">
+			<a class="btn" href="{{url('settings/plugins')}}">Manage plugins</a>
+		</div>
+	{% else %}
+		<p>GitHub plugin requires OAuth plugin for Craft.</p>
 
-			{% set service = craft.videos.getService(serviceObject.name) %}
+		<hr />
 
-		    <tr>
-		    	<th>
-		    		{{serviceObject.name}}
-		    	</th>
+		<div class="buttons">
+			<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">Download OAuth plugin</a>
+		</div>
+	{% endif %}
 
-		    	<td class="col">
-					{% if service.token is defined and service.token is not null %}
-						<div class="status on"></div>
-						Enabled
-					{% else %}
-						<div class="status off"></div>
-						Disabled
-					{% endif %}
-		    	</td>
+{% else %}
 
-		    	<td class="col-actions">
-		    		<a class="btn small" href="{{ url('videos/settings') }}/{{ serviceObject.name }}">Settings</a>
-		    	</td>
-		    </tr>
+	<h2 class="first">YouTube</h2>
 
-		{% endfor %}
+	{% include 'videos/settings/_youtube' %}
 
-	</table>
-{% endset %}
+	<hr>
+
+	<h2>Vimeo</h2>
+
+	{% include 'videos/settings/_vimeo' %}
+	<hr>
+{% endif %}
