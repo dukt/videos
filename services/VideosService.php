@@ -10,8 +10,8 @@ class VideosService extends BaseApplicationComponent
             'namespace' => 'videos.google'
         ),
         'vimeo' => array(
-            'handle' => 'google',
-            'namespace' => 'videos.google'
+            'handle' => 'vimeo',
+            'namespace' => 'videos.vimeo'
         )
     );
 
