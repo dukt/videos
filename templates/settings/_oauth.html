@@ -29,8 +29,14 @@
 	{% else %}
 
 		<p>You need to connect Craft with the video service.</p>
+
+		{% if providerOpts.scope is defined %}
+			{% set scope = providerOpts.scope %}
+		{% else %}
+			{% set scope = null %}
+		{% endif %}
 		<div class="buttons">
-			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, providerOpts.scope, 'videos.'~providerOpts.handle)}}">Connect</a>
+			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">Connect</a>
 		</div>
 	{% endif %}
 {% endif %}
