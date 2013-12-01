@@ -1,59 +1,75 @@
 
 /**
- * Craft Videos by Dukt
+ * EE Videos by Dukt
  *
- * @package   Craft Videos
+ * @package   EE Videos
  * @author    Benjamin David
  * @copyright Copyright (c) 2013, Dukt
- * @license   http://docs.dukt.net/craft/videos/license
- * @link      http://dukt.net/craft/videos
+ * @license   http://docs.dukt.net/ee/videos/license
+ * @link      http://dukt.net/ee/videos
  */
-
 
 // --------------------------------------------------------------------
 
+// @import "_variables.less";
 
-@import "_variables.less";
-@import "../lib/videos/css/common.less";
-@import "common.less";
-@import "../lib/videos/css/cp.less";
+// --------------------------------------------------------------------
+
+// rewrite some colors as CP background is darker
+
+// --------------------------------------------------------------------
+
+// @actionColor: #e11842;
+// @grey1:#d0d9e1;
+// @grey2:#9EACB8;
+// @grey3:#7B8A97;
+// @lightGrey1:#D0D9E1;
+// @darkGrey1:#5f6c74;
+
+// @import "../lib/videos/css/common.less";
+// @import "common.less";
+// @import "../lib/videos/css/cp.less";
+
+
 
 // --------------------------------------------------------------------
 
 // cp styles
 
+// .dkv-search {
+//     float: none !important;
+// }
 
 .dkv-settings-btn
 {
-    display: none;
+    // display: none;
+    position: absolute;
+    top:9px;
+    left:160px;
+    color:#fff !important;
 }
 
-h2.edit .dkv-settings-btn
-{
-    display: inline;
-    color: #fff;
-    font-size: 0.9em;
-    margin-left: 0.3em;
+h2.edit {
 
-    opacity: .7;
-    text-shadow: 0px 0px 0px #000000;
-    filter: dropshadow(color=#000000, offx=0, offy=0);
+    .dkv-settings-btn
+    {
+        display: inline;
+        color: #fff;
+        font-size: 0.9em;
+        margin-left: 0.3em;
 
-    span {
-        text-decoration: underline;
+        opacity: .7;
+        text-shadow: 0px 0px 0px #000000;
+        filter: dropshadow(color=#000000, offx=0, offy=0);
+
+        span {
+            text-decoration: underline;
+        }
     }
 }
 
-
-.dkv-modal {
-    margin: -30px;
+.dkv-app {
+    margin: -14px;
 }
 
-
-
-.status {
-
-    &:before {
-        display: none !important;
-    }
-}
+@import "../angular/css/app.less";

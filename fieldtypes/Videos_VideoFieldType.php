@@ -68,7 +68,9 @@ class Videos_VideoFieldType extends BaseFieldType
 	public function prepValue($videoUrl)
 	{
 		$video = craft()->videos->url($videoUrl);
+
 		return $video;
+
 		// // var_dump($video);
 		// $videoObject = new Videos_VideoModel($video);
 

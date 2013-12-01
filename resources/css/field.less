@@ -1,23 +1,18 @@
 
 /**
- * Craft Videos by Dukt
+ * EE Videos by Dukt
  *
- * @package   Craft Videos
+ * @package   EE Videos
  * @author    Benjamin David
  * @copyright Copyright (c) 2013, Dukt
- * @license   http://docs.dukt.net/craft/videos/license
- * @link      http://dukt.net/craft/videos
+ * @license   http://docs.dukt.net/ee/videos/license
+ * @link      http://dukt.net/ee/videos
  */
 
-// --------------------------------------------------------------------
 
-@import "../lib/fontello/css/fontello.css";
-@import "_variables.less";
-@import "../lib/videos/css/common.less";
-@import "common.less";
-@import "../lib/videos/css/field.less";
-
-// --------------------------------------------------------------------
+@import "variables.less";
+@import "../components/videos-common/css/app.less";
+@import "../components/videos-common/css/field.less";
 
 .dkv-field {
     max-width: 650px;
@@ -32,4 +27,9 @@
             width: 100%;
         }
     }
+}
+
+.dkv-app {
+	position: fixed;
+    z-index: 1000;
 }

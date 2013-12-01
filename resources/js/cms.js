@@ -1,21 +1,19 @@
 
 /**
- * Craft Videos by Dukt
+ * EE Videos by Dukt
  *
- * @package   Craft Videos
+ * @package   EE Videos
  * @author    Benjamin David
  * @copyright Copyright (c) 2013, Dukt
- * @license   http://docs.dukt.net/craft/videos/license
- * @link      http://dukt.net/craft/videos
+ * @license   http://docs.dukt.net/ee/videos/license
+ * @link      http://dukt.net/ee/videos
  */
 
 DuktVideosCms = {
     getActionUrl: function(method, options) {
-        // url = Dukt_videos.endpointUrl+'&method='+method+'&'+http_build_query(options);
+        url = Dukt_videos.endpointUrl+'&method='+method+'&'+http_build_query(options);
 
-        url = Craft.getActionUrl('videos/ajax/'+method, options);
-
-        // console.log('action url' + url);
+        // videosApp.log('action url' + url);
 
         return url;
     },
