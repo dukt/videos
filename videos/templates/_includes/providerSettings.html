@@ -1,0 +1,49 @@
+<?php
+
+$serviceRecord  = $this->videos_lib->getServiceRecord($providerClass);
+$serviceLibrary = $this->videos_lib->serviceLibrary($providerClass);
+$title          = "Configure ".$providerClass;
+
+?>
+
+<?php echo form_open('C=addons_modules'
+                .AMP.'M=show_module_cp'
+                .AMP.'module=dukt_videos'
+                .AMP.'method=oauthProviderSave'
+                .AMP.'providerClass='.$providerClass); ?>
+
+        <p>
+            <strong><?php echo lang('endpoint'); ?> : </strong>
+            <?php echo $callbackUrl; ?>
+        </p>
+
+        <?php
+        foreach ($serviceLibrary->getDefaultParameters() as $extraParamKey => $extraParam) {
+            $paramValue = "";
+
+            if (isset($serviceRecord->params[$extraParamKey])) {
+                $paramValue = $serviceRecord->params[$extraParamKey];
+            }
+
+            ?>
+            <p>
+                <label><?php echo lang($extraParamKey); ?></label>
+                <input type="text" name="service[params][<?php echo $extraParamKey; ?>]" value="<?php echo $paramValue; ?>" />
+            </p>
+            <?php
+        }
+        ?>
+
+        <div class="margin-form">
+            <?php
+
+            if (is_null($serviceRecord) || !is_object($serviceRecord->token)) {
+                echo '<input class="submit" type="submit" name="connect" value="'.lang('connect').'">  &nbsp;';
+            } else {
+                echo '<a class="dkv-btn" href="'.\Videos\Helper::cpUrl('settingsResetService', array('providerClass' => $providerClass)).'">'.lang('reset_token').'</a>';
+            }
+
+            ?>
+        </div>
+
+<?php echo form_close() ?>

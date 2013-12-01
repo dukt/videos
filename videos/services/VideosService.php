@@ -65,8 +65,7 @@ class VideosService extends BaseApplicationComponent
 
     public function url($videoUrl)
     {
-
-        $gateways = $this->gateways();
+        $gateways = $this->getGateways();
 
         foreach($gateways as $s)
         {
@@ -95,8 +94,7 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
-
-    private function gateways()
+    private function getGateways()
     {
         $wrap = $this;
 
@@ -178,6 +176,28 @@ class VideosService extends BaseApplicationComponent
         }
 
         return $gateways;
+    }
+
+
+    public function getGatewaysWithSections()
+    {
+        $gateways = $this->getGateways();
+
+        foreach($gateways as $gateway) {
+            $gateway->sections = array('one', 'two');
+        }
+
+        return $gateways;
+    }
+
+    public function getGatewaySectionsYouTube()
+    {
+
+    }
+
+    public function getGatewaySectionsVimeo()
+    {
+
     }
 
 }

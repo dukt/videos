@@ -12,7 +12,7 @@ $(document).ready(function()
 
         // append modal to body
 
-        $(response).appendTo('body');
+        $(response.html).appendTo('body');
 
 
         // manual bootstrap

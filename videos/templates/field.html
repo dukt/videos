@@ -5,7 +5,7 @@
 {% set js %}
     var Dukt_videos = Dukt_videos ? Dukt_videos : new Object();
     Dukt_videos.pagination_per_page = {{craft.videos.cpConfig().pagination_per_page}};
-    Dukt_videos.endpointUrl = "{{ actionUrl('videos/ajax/endpoint')}}";
+    Dukt_videos.endpointUrl = "{{ actionUrl('videos/endpoint')}}";
     Dukt_videos.resourceUrl = "{{ resourceUrl('videos') }}/";
 {% endset %}
 

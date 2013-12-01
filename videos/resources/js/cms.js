@@ -11,7 +11,7 @@
 
 DuktVideosCms = {
     getActionUrl: function(method, options) {
-        url = Dukt_videos.endpointUrl+'&method='+method+'&'+http_build_query(options);
+        url = Dukt_videos.endpointUrl+'?method='+method+'&'+http_build_query(options);
 
         // videosApp.log('action url' + url);
 
