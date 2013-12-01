@@ -16,7 +16,11 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosVariable
 {
-    // --------------------------------------------------------------------
+    public function getVideos($gateway, $uri, $params = array())
+    {
+        return craft()->videos->getVideos($gateway, $uri, $params);
+    }
+
 
     public function render($template, $variables = array())
     {
@@ -33,37 +37,31 @@ class VideosVariable
         return craft()->videos->getService($providerClass); // returns a service model
     }
 
-    // --------------------------------------------------------------------
 
     public function url($videoUrl)
     {
         return craft()->videos->url($videoUrl); // return a video model
     }
 
-    // --------------------------------------------------------------------
 
     // CP reserved variables
 
-    // --------------------------------------------------------------------
 
     public function cpConfig()
     {
         return craft()->videos->config(); // returns a config array
     }
 
-    // --------------------------------------------------------------------
 
     public function cpServiceLibrary($providerClass)
     {
         return craft()->videos->serviceLibrary($providerClass); // returns a service library
     }
 
-    // --------------------------------------------------------------------
 
     public function cpServicesObjects()
     {
         return craft()->videos->servicesObjects(); // returns an initialized service library
     }
 
-    // --------------------------------------------------------------------
 }

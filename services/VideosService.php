@@ -4,41 +4,53 @@ namespace Craft;
 
 class VideosService extends BaseApplicationComponent
 {
-    public function getProviders()
+    public $providerOpts = array(
+        'youtube' => array(
+            'handle' => 'google',
+            'namespace' => 'videos.google'
+        ),
+        'vimeo' => array(
+            'handle' => 'google',
+            'namespace' => 'videos.google'
+        )
+    );
+
+    public $gatewayOpts = array(
+        'youtube' => array(
+            'class' => "YouTube",
+            'parameters' => array(
+                'developerKey' => 'AI39si5pb7QkcLpWXy3ysZU1q3yB8jJMQTuin2kix09vDhOme53-4vU869k1SFefohY5-BXnDDYonZkNwjNwMSzAAATsm5UFAg'
+            ),
+        ),
+        'vimeo' => array(
+            'class' => "Vimeo"
+        )
+    );
+
+    public function getVideos($gatewayHandle, $uri, $params = array())
     {
+        try {
+            // provider
 
-    }
+            $token = craft()->oauth->getSystemToken($this->providerOpts[$gatewayHandle]['handle'], $this->providerOpts[$gatewayHandle]['namespace']);
 
-    public function getVideos($provider, $request, $opts)
-    {
-        return craft()->{'videos_'.$provider}->getVideos($request, $opts);
+            $provider = craft()->oauth->getProvider($this->providerOpts[$gatewayHandle]['handle']);
 
-        // craft()->videos_youtube->getVideos('favorites');
-        // craft()->videos_youtube->getVideos('playlists/123');
+            $provider->setToken($token->getDecodedToken());
 
-        // craft()->videos_vimeo->getVideos('albums', '123');
-        // craft()->videos_vimeo->getVideos('channels', '123');
 
-        // craft.videos.vimeo.videos.albums('123')
+            // gateway
 
-        // craft.videos.videos('vimeo', 'albums', '123')
-        // craft.videos.videos('vimeo', 'albums/123', opts)
-    }
+            $gateway = \Dukt\Videos\Common\ServiceFactory::create($this->gatewayOpts[$gatewayHandle]['class'], $provider->providerSource->_providerSource);
 
-    // public function getVideos($provider, $request, $options)
-    // {
-    //     $videos = craft()->{'videos_'.$provider}->api($request);
+            if(isset($this->gatewayOpts[$gatewayHandle]['parameters'])) {
+                $gateway->setParameters($this->gatewayOpts[$gatewayHandle]['parameters']);
+            }
 
-    //     $videos = craft()->{'videos_youtube'}->api('playlist/123');
+            return $gateway->getVideos($uri, $params);
 
-    //     $videos = craft()->{'videos_vimeo'}->api('', array('method' => 'vimeo.albums.getVideos'));
-    //     $videos = craft()->{'videos_vimeo'}->api('', array('method' => 'vimeo.channels.getVideos'));
-
-    //     return Videos_VideoModel::populateModels($videos);
-    // }
-
-    public function getCollection($provider, $request)
-    {
-
+        } catch(\Exception $e) {
+            return array('error' => $e->getMessage());
+        }
     }
 }

@@ -4,6 +4,20 @@
 
 {% set content %}
 
+	{% set videos = craft.videos.getVideos('vimeo', 'favorites') %}
+
+	{% if videos.error is not defined %}
+
+		{% for video in videos %}
+			<h2>{{video.title}}</h2>
+		    <hr />
+		{% endfor %}
+
+	{% else %}
+	    {{videos.error}}
+	{% endif %}
+
+	{#
 	{{craft.videos.getVideos('youtube', 'favorites')}}
 	{{craft.videos.getVideos('youtube', 'playlist')}}
 	{{craft.videos.getCollection('youtube', 'playlists')}}
@@ -11,5 +25,5 @@
 	{{craft.videos.getVideos('vimeo', 'user-likes')}}
 	{{craft.videos.getCollection('vimeo', 'albums')}}
 	{{craft.videos.getCollection('vimeo', 'channels')}}
-
+	#}
 {% endset %}
