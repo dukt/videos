@@ -4,6 +4,3 @@
 	path = videos.plugin
 	url = git@github.com:dukt/videos.plugin.assets.git
 
-[submodule "resources/lib"]
-	path = resources/lib
-	url = git@github.com:dukt/videos.plugin.assets.git
