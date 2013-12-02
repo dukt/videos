@@ -4,56 +4,70 @@ namespace Craft;
 
 class VideosService extends BaseApplicationComponent
 {
-    public $providerOpts = array(
-        'youtube' => array(
-            'handle' => 'google',
-            'namespace' => 'videos.google'
-        ),
-        'vimeo' => array(
-            'handle' => 'vimeo',
-            'namespace' => 'videos.vimeo'
-        )
-    );
-
-    public $gatewayOpts = array(
-        'youtube' => array(
-            'class' => "YouTube",
-            'parameters' => array(
-                'developerKey' => 'AI39si5pb7QkcLpWXy3ysZU1q3yB8jJMQTuin2kix09vDhOme53-4vU869k1SFefohY5-BXnDDYonZkNwjNwMSzAAATsm5UFAg'
-            ),
-        ),
-        'vimeo' => array(
-            'class' => "Vimeo"
-        )
-    );
-
     public function config()
     {
         require(CRAFT_PLUGINS_PATH."videos/config.php");
 
         return $config;
+    }
 
-        // return craft()->videos->getService($providerClass);
+    public function getGatewayOpts($gateway)
+    {
+        $plugin = craft()->plugins->getPlugin('videos');
+        $settings = $plugin->getSettings();
+
+        $gatewayOpts = array(
+            'youtube' => array(
+                'class' => "YouTube",
+                'parameters' => array(
+                    'developerKey' => $settings['youtubeParameters']['developerKey']
+                ),
+            ),
+            'vimeo' => array(
+                'class' => "Vimeo"
+            )
+        );
+
+        return $gatewayOpts[$gateway];
+    }
+
+    public function getProviderOpts($gateway)
+    {
+        $providerOpts = array(
+            'youtube' => array(
+                'handle' => 'google',
+                'namespace' => 'videos.google'
+            ),
+            'vimeo' => array(
+                'handle' => 'vimeo',
+                'namespace' => 'videos.vimeo'
+            )
+        );
+
+        return $providerOpts[$gateway];
     }
 
     public function getVideos($gatewayHandle, $uri, $params = array())
     {
+        $providerOpts = $this->getProviderOpts($gatewayHandle);
+        $gatewayOpts = $this->getGatewayOpts($gatewayHandle);
+
         try {
             // provider
 
-            $token = craft()->oauth->getSystemToken($this->providerOpts[$gatewayHandle]['handle'], $this->providerOpts[$gatewayHandle]['namespace']);
+            $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
-            $provider = craft()->oauth->getProvider($this->providerOpts[$gatewayHandle]['handle']);
+            $provider = craft()->oauth->getProvider($providerOpts['handle']);
 
             $provider->setToken($token->getDecodedToken());
 
 
             // gateway
 
-            $gateway = \Dukt\Videos\Common\ServiceFactory::create($this->gatewayOpts[$gatewayHandle]['class'], $provider->providerSource->_providerSource);
+            $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
 
-            if(isset($this->gatewayOpts[$gatewayHandle]['parameters'])) {
-                $gateway->setParameters($this->gatewayOpts[$gatewayHandle]['parameters']);
+            if(isset($gatewayOpts['parameters'])) {
+                $gateway->setParameters($gatewayOpts['parameters']);
             }
 
             return $gateway->getVideos($uri, $params);
@@ -107,19 +121,23 @@ class VideosService extends BaseApplicationComponent
                 try {
                     // provider
 
-                    $token = craft()->oauth->getSystemToken($this->providerOpts[$gatewayHandle]['handle'], $this->providerOpts[$gatewayHandle]['namespace']);
+                    $providerOpts = $this->getProviderOpts($gatewayHandle);
 
-                    $provider = craft()->oauth->getProvider($this->providerOpts[$gatewayHandle]['handle']);
+                    $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
+
+                    $provider = craft()->oauth->getProvider($providerOpts['handle']);
 
                     $provider->setToken($token->getDecodedToken());
 
 
                     // gateway
 
-                    $gateway = \Dukt\Videos\Common\ServiceFactory::create($this->gatewayOpts[$gatewayHandle]['class'], $provider->providerSource->_providerSource);
+                    $gatewayOpts = $this->getGatewayOpts($gatewayHandle);
 
-                    if(isset($this->gatewayOpts[$gatewayHandle]['parameters'])) {
-                        $gateway->setParameters($this->gatewayOpts[$gatewayHandle]['parameters']);
+                    $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
+
+                    if(isset($gatewayOpts['parameters'])) {
+                        $gateway->setParameters($gatewayOpts['parameters']);
                     }
 
                     return $gateway;
@@ -134,9 +152,9 @@ class VideosService extends BaseApplicationComponent
 
                 // $gatewayHandle = $gateway->handle;
 
-                // $token = craft()->oauth->getSystemToken($this->providerOpts[$gatewayHandle]['handle'], $this->providerOpts[$gatewayHandle]['namespace']);
+                // $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
-                // $provider = craft()->oauth->getProvider($this->providerOpts[$gatewayHandle]['handle']);
+                // $provider = craft()->oauth->getProvider($providerOpts['handle']);
 
                 // $provider->setToken($token->getDecodedToken());
 

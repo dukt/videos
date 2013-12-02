@@ -22,9 +22,9 @@
 			<li><strong>Email :</strong> {{(account.email is defined ? account.email : '')}}</li>
 		</ul>
 
-		<div class="buttons">
+		<p>
 			<a class="btn small" href="{{craft.oauth.disconnect(providerOpts.handle, 'videos.'~providerOpts.handle)}}">Disconnect</a>
-		</div>
+		</p>
 
 	{% else %}
 

@@ -74,6 +74,17 @@ class VideosPlugin extends BasePlugin
         );
     }
 
+    /**
+     * Settings
+     */
+
+    protected function defineSettings()
+    {
+        return array(
+            'youtubeParameters' => array(AttributeType::Mixed)
+        );
+    }
+
     public function getSettingsHtml()
     {
        return craft()->templates->render('videos/settings', array(

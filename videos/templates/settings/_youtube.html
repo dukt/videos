@@ -13,3 +13,14 @@
 {% set provider = craft.oauth.getProvider(providerOpts.handle, 'videos.'~providerOpts.handle) %}
 
 {% include 'videos/settings/_oauth' %}
+
+{{ forms.textField({
+    label: "Developer Key"|t,
+    name: 'youtubeParameters[developerKey]',
+    value: (settings.youtubeParameters['developerKey'] is defined ? settings.youtubeParameters['developerKey'] : '')
+}) }}
+
+
+<div class="buttons">
+	<input type="submit" class="btn small submit force" value="Save">
+</div>
