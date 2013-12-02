@@ -94,10 +94,10 @@ class Videos_EndpointController extends BaseController
 	// 	craft()->videos->getProviders();
 	// }
 
-    public function routeRequest()
-    {
-        // request payload parameters
+    // request payload parameters
 
+    private function _requestPayload()
+    {
         $post = "";
 
         $fp = fopen("php://input", "r");
@@ -111,7 +111,12 @@ class Videos_EndpointController extends BaseController
 
         $post = json_decode($post);
 
+        return $post;
+    }
 
+    public function routeRequest()
+    {
+        $post = $this->_requestPayload();
 
         $uri = $post->path;
 
@@ -121,28 +126,29 @@ class Videos_EndpointController extends BaseController
 
         $gatewayHandle = $segments[0];
 
+        $params = array();
+
+        if(!empty($segments[2])) {
+            $params['id'] = $segments[2];
+        }
+
         $request = substr($post->path, strlen("/".$gatewayHandle."/"));
 
-        $videos = craft()->videos->getVideos($gatewayHandle, $request);
+        $videos = craft()->videos->getVideos($gatewayHandle, $request, $params);
 
         $this->returnJson($videos);
     }
 
 	public function getVideos()
 	{
-        // youtube
-        // search
-        // q: peter doherty
+        $gateway = craft()->request->getParam('gateway');
 
-        // youtube
-        // playlist/123
+        $params = (array) $this->_requestPayload();
 
-		craft()->videos->getVideos($provider, $request);
+        $request = $params['request'];
+
+		$videos = craft()->videos->getVideos($gateway, $request, $params);
+
+        $this->returnJson($videos);
 	}
-
-	// public function actionGetCollection()
-	// {
-	// 	craft()->videos->getCollection($provider, $request);
-	// }
-
 }
