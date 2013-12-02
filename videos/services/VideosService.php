@@ -181,23 +181,21 @@ class VideosService extends BaseApplicationComponent
 
     public function getGatewaysWithSections()
     {
-        $gateways = $this->getGateways();
+        try {
 
-        foreach($gateways as $gateway) {
-            $gateway->sections = array('one', 'two');
+            $gateways = $this->getGateways();
+
+            foreach($gateways as $gateway) {
+
+                $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+
+                $gateway->sections = $class::getSections($gateway);
+            }
+
+            return $gateways;
+        } catch(\Exception $e) {
+            die($e->getMessage());
         }
-
-        return $gateways;
-    }
-
-    public function getGatewaySectionsYouTube()
-    {
-
-    }
-
-    public function getGatewaySectionsVimeo()
-    {
-
     }
 
 }

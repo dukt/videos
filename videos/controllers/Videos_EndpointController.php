@@ -94,10 +94,51 @@ class Videos_EndpointController extends BaseController
 	// 	craft()->videos->getProviders();
 	// }
 
-	// public function actionGetVideos()
-	// {
-	// 	craft()->videos->getVideos($provider, $request);
-	// }
+    public function routeRequest()
+    {
+        // request payload parameters
+
+        $post = "";
+
+        $fp = fopen("php://input", "r");
+
+        while (!feof($fp)) {
+           $line = fgets($fp);
+           $post .= $line;
+        }
+
+        fclose($fp);
+
+        $post = json_decode($post);
+
+
+
+        $uri = $post->path;
+
+        $uri = trim($uri, "/");
+
+        $segments = explode("/", $uri);
+
+        $gatewayHandle = $segments[0];
+
+        $request = substr($post->path, strlen("/".$gatewayHandle."/"));
+
+        $videos = craft()->videos->getVideos($gatewayHandle, $request);
+
+        $this->returnJson($videos);
+    }
+
+	public function getVideos()
+	{
+        // youtube
+        // search
+        // q: peter doherty
+
+        // youtube
+        // playlist/123
+
+		craft()->videos->getVideos($provider, $request);
+	}
 
 	// public function actionGetCollection()
 	// {
