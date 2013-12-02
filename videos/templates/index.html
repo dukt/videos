@@ -4,6 +4,8 @@
 
 {% set content %}
 
+	{{"Hello from videos"|t}}
+
 	{% set videos = craft.videos.getVideos('vimeo', 'favorites') %}
 
 	{% if videos.error is not defined %}
