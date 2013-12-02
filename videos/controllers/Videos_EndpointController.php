@@ -34,10 +34,8 @@ class Videos_EndpointController extends BaseController
         ));
     }
 
-    public function embed()
+    private function _embedOptions()
     {
-        $videoUrl = craft()->request->getPost('videoUrl');
-
         $options = array(
             'autoplay' => '0',
             'controls' => 1,
@@ -46,9 +44,20 @@ class Videos_EndpointController extends BaseController
             'rel' => 0
         );
 
-        if($embedOptions = craft()->request->getPost('embedOptions')) {
-            array_merge($options, $embedOptions);
+        $post = $this->_requestPayload();
+
+        if(!empty($post['embedOptions'])) {
+            $options = array_merge($options, $post['embedOptions']);
         }
+
+        return $options;
+    }
+
+    public function embed()
+    {
+        $videoUrl = craft()->request->getPost('videoUrl');
+
+        $options = $this->_embedOptions();
 
         $video = craft()->videos->url($videoUrl);
 
@@ -56,6 +65,31 @@ class Videos_EndpointController extends BaseController
 
         $this->returnJson(array(
         	'embed' => $embed
+        ));
+    }
+
+    public function embedUrl()
+    {
+        // video
+
+        $post = $this->_requestPayload();
+
+        $videoUrl = $post['videoUrl'];
+
+        $video = craft()->videos->url($videoUrl);
+
+
+        // embed
+
+        $options = $this->_embedOptions();
+
+        $embedUrl = $video->getEmbedUrl($options);
+
+
+        // return json
+
+        $this->returnJson(array(
+            'embedUrl' => $embedUrl
         ));
     }
 
@@ -109,7 +143,7 @@ class Videos_EndpointController extends BaseController
 
         fclose($fp);
 
-        $post = json_decode($post);
+        $post = json_decode($post, true);
 
         return $post;
     }
@@ -118,7 +152,7 @@ class Videos_EndpointController extends BaseController
     {
         $post = $this->_requestPayload();
 
-        $uri = $post->path;
+        $uri = $post['path'];
 
         $uri = trim($uri, "/");
 
@@ -132,7 +166,7 @@ class Videos_EndpointController extends BaseController
             $params['id'] = $segments[2];
         }
 
-        $request = substr($post->path, strlen("/".$gatewayHandle."/"));
+        $request = substr($post['path'], strlen("/".$gatewayHandle."/"));
 
         $videos = craft()->videos->getVideos($gatewayHandle, $request, $params);
 
@@ -143,7 +177,7 @@ class Videos_EndpointController extends BaseController
 	{
         $gateway = craft()->request->getParam('gateway');
 
-        $params = (array) $this->_requestPayload();
+        $params = $this->_requestPayload();
 
         $request = $params['request'];
 

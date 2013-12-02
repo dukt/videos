@@ -85,7 +85,7 @@ class VideosService extends BaseApplicationComponent
 
                 //return $video;
             } catch(\Exception $e) {
-                die($e->getMessage());
+                //die($e->getMessage());
                 //return $e->getMessage();
             }
         }
