@@ -89,7 +89,7 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    public function url($videoUrl)
+    public function url($videoUrl, $errorsEnabled = false)
     {
         $gateways = $this->getGateways();
 
@@ -98,27 +98,18 @@ class VideosService extends BaseApplicationComponent
             $params['url'] = $videoUrl;
 
             try {
-
                 $video = $s->videoFromUrl($params);
 
-                // var_dump($video);
-                // die();
-
                 if($video) {
-
                     return $video;
-                    // $video_object = new Videos_VideoModel($video);
-
-                    // return $video_object;
                 }
 
-                //return $video;
             } catch(\Exception $e) {
-                //die($e->getMessage());
-                //return $e->getMessage();
+                if($errorsEnabled) {
+                    throw new Exception($e->getMessage());
+                }
             }
         }
-
 
         return null;
     }

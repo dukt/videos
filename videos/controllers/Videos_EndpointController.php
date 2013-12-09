@@ -20,7 +20,11 @@ class Videos_EndpointController extends BaseController
 	{
 		$method = craft()->request->getParam('method');
 
-		$this->{$method}();
+        if(method_exists($this, $method)) {
+		  $this->{$method}();
+        } else {
+            $this->returnErrorJson("Endpoint method ".$method." doesn't exists");
+        }
 	}
 
     public function app()
@@ -60,6 +64,10 @@ class Videos_EndpointController extends BaseController
         $options = $this->_embedOptions();
 
         $video = craft()->videos->url($videoUrl);
+
+        if(!$video) {
+            $this->returnErrorJson("Video not found : ".$videoUrl);
+        }
 
         $embed = $video->getEmbedHtml($options);
 
