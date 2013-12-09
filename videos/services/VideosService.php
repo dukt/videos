@@ -57,20 +57,32 @@ class VideosService extends BaseApplicationComponent
 
             $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
-            $provider = craft()->oauth->getProvider($providerOpts['handle']);
+            if($token) {
 
-            $provider->setToken($token->getDecodedToken());
+                $realToken = $token->getDecodedToken();
+
+                if($realToken) {
+                    $provider = craft()->oauth->getProvider($providerOpts['handle']);
+
+                    $provider->setToken($realToken);
 
 
-            // gateway
+                    // gateway
 
-            $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
+                    $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
 
-            if(isset($gatewayOpts['parameters'])) {
-                $gateway->setParameters($gatewayOpts['parameters']);
+                    if(isset($gatewayOpts['parameters'])) {
+                        $gateway->setParameters($gatewayOpts['parameters']);
+                    }
+
+                    return $gateway->getVideos($uri, $params);
+                } else {
+                    throw new Exception("Couldn't get real token");
+                }
+
+            } else {
+                throw new Exception("Token doesn't exists");
             }
-
-            return $gateway->getVideos($uri, $params);
 
         } catch(\Exception $e) {
             return array('error' => $e->getMessage());
@@ -88,6 +100,9 @@ class VideosService extends BaseApplicationComponent
             try {
 
                 $video = $s->videoFromUrl($params);
+
+                // var_dump($video);
+                // die();
 
                 if($video) {
 
@@ -134,6 +149,16 @@ class VideosService extends BaseApplicationComponent
 
                     $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
+                    if(!$token) {
+                        throw new Exception("Token doesn't exists");
+                    }
+
+                    $realToken = $token->getDecodedToken();
+
+                    if(!$realToken) {
+                        throw new Exception("Couldn't get real token");
+                    }
+
                     $provider = craft()->oauth->getProvider($providerOpts['handle']);
 
                     $provider->setToken($token->getDecodedToken());
@@ -155,42 +180,42 @@ class VideosService extends BaseApplicationComponent
                     return array('error' => $e->getMessage());
                 }
 
-                // $gateway = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
+                $gateway = \Dukt\Videos\Common\ServiceFactory::create($providerClass);
 
-                // // Retrieve token
+                // Retrieve token
 
-                // $gatewayHandle = $gateway->handle;
+                $gatewayHandle = $gateway->handle;
 
-                // $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
+                $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
-                // $provider = craft()->oauth->getProvider($providerOpts['handle']);
+                $provider = craft()->oauth->getProvider($providerOpts['handle']);
 
-                // $provider->setToken($token->getDecodedToken());
-
-
-                // // refresh token
-
-                // if (isset($token->expires)) {
-                //     $remaining = $token->expires - time();
-
-                //     if ($remaining < 240) {
-                //         $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
-
-                //         // save token
-
-                //         $token->access_token = $accessToken->access_token;
-                //         $token->expires = $accessToken->expires;
-
-                //         $gateway->token = $token;
-                //     }
-                // }
+                $provider->setToken($token->getDecodedToken());
 
 
-                // // service set provider
+                // refresh token
 
-                // $gateway->setProvider($provider->providerSOurce);
+                if (isset($token->expires)) {
+                    $remaining = $token->expires - time();
 
-                // return $gateway;
+                    if ($remaining < 240) {
+                        $accessToken = $provider->access($token->refresh_token, array('grant_type' => 'refresh_token'));
+
+                        // save token
+
+                        $token->access_token = $accessToken->access_token;
+                        $token->expires = $accessToken->expires;
+
+                        $gateway->token = $token;
+                    }
+                }
+
+
+                // service set provider
+
+                $gateway->setProvider($provider->providerSOurce);
+
+                return $gateway;
             },
 
             \Dukt\Videos\Common\ServiceFactory::find()
@@ -199,7 +224,9 @@ class VideosService extends BaseApplicationComponent
         $gateways = array();
 
         foreach($allServices as $s) {
-            array_push($gateways, $s);
+            if(is_object($s)) {
+                array_push($gateways, $s);
+            }
         }
 
         return $gateways;
@@ -208,21 +235,26 @@ class VideosService extends BaseApplicationComponent
 
     public function getGatewaysWithSections()
     {
-        try {
+        // try {
+            $gatewaysWithSections = array();
 
             $gateways = $this->getGateways();
 
             foreach($gateways as $gateway) {
 
-                $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+                if($gateway) {
+                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
 
-                $gateway->sections = $class::getSections($gateway);
+                    if($gateway->sections = $class::getSections($gateway)) {
+                        array_push($gatewaysWithSections, $gateway);
+                    }
+                }
             }
 
-            return $gateways;
-        } catch(\Exception $e) {
-            die($e->getMessage());
-        }
+            return $gatewaysWithSections;
+        // } catch(\Exception $e) {
+        //     die($e->getMessage());
+        // }
     }
 
 }
