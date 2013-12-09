@@ -16,6 +16,10 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosVariable
 {
+    public function getEmbed($video, $opts) {
+        return craft()->videos->getEmbed($video, $opts);
+    }
+
     public function getVideos($gateway, $uri, $params = array())
     {
         return craft()->videos->getVideos($gateway, $uri, $params);

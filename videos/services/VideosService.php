@@ -108,6 +108,15 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
+    public function getEmbed($video, $opts)
+    {
+        $embed = $video->getEmbed($opts);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+
+        return new \Twig_Markup($embed, $charset);
+    }
+
     private function getGateways()
     {
         $wrap = $this;
