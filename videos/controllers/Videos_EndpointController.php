@@ -27,6 +27,36 @@ class Videos_EndpointController extends BaseController
         }
 	}
 
+    public function localization()
+    {
+        $locale = craft()->locale->id;
+        $path = CRAFT_PLUGINS_PATH.'videos/translations/'.$locale.'.php';
+
+        // default
+
+        if(!file_exists($path)) {
+            $locale = 'en_us';
+            $path = CRAFT_PLUGINS_PATH.'videos/translations/'.$locale.'.php';
+        }
+
+        if(!file_exists($path)) {
+            $this->returnErrorJson("Translation file not found : ".$path);
+        }
+
+        $localizationData = include($path);
+
+        $localization = array();
+
+        foreach ($localizationData as $key => $value) {
+            $item = array();
+            $item['key'] = $key;
+            $item['value'] = $value;
+            array_push($localization, $item);
+        }
+
+        $this->returnJson($localization);
+    }
+
     public function app()
     {
     	$variables = array();
