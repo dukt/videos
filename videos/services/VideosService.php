@@ -226,7 +226,7 @@ class VideosService extends BaseApplicationComponent
 
     public function getGatewaysWithSections()
     {
-        // try {
+        try {
             $gatewaysWithSections = array();
 
             $gateways = $this->getGateways();
@@ -243,9 +243,9 @@ class VideosService extends BaseApplicationComponent
             }
 
             return $gatewaysWithSections;
-        // } catch(\Exception $e) {
-        //     die($e->getMessage());
-        // }
+        } catch(\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 
 }
