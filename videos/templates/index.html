@@ -4,9 +4,7 @@
 
 {% set content %}
 
-	{{"Hello from videos"|t}}
-
-	{% set videos = craft.videos.getVideos('vimeo', 'favorites') %}
+	{% set videos = craft.videos.getVideos('youtube', 'favorites') %}
 
 	{% if videos.error is not defined %}
 
@@ -16,7 +14,7 @@
 		{% endfor %}
 
 	{% else %}
-	    {{videos.error}}
+	    <div class="error">{{videos.error}}</div>
 	{% endif %}
 
 	{#
