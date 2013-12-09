@@ -95,40 +95,17 @@ class Videos_EndpointController extends BaseController
 
     public function sources()
     {
-        $sources = craft()->videos->getGatewaysWithSections();
+        try {
+            $sources = craft()->videos->getGatewaysWithSections();
 
-        $this->returnJson(array(
-            'sources' => $sources
-        ));
+            $this->returnJson(array(
+                'sources' => $sources
+            ));
 
-        // // get providers
-
-        // $sources = ee()->videos_lib->getSources();
-
-        // foreach($sources as $k => $source) {
-
-        //     $source->supportsOwnVideoLike = $source->supportsOwnVideoLike();
-
-        //     // $source->sections =  $source->getSections();
-
-        //     $class = '\\Videos\\Section\\'.$source->providerClass;
-
-        //     $source->sections =  $class::getSections($source);
-
-        //     $sources[$k] = $source;
-        // }
-
-        // $result = array('result' => $sources);
-
-        // return Helper::returnJson($result);
+        } catch(\Exception $e) {
+            $this->returnErrorJson($e->getMessage());
+        }
     }
-
-	// public function actionGetProviders()
-	// {
-	// 	craft()->videos->getProviders();
-	// }
-
-    // request payload parameters
 
     private function _requestPayload()
     {
