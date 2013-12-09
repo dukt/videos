@@ -45,13 +45,8 @@ class Videos_VideoFieldType extends BaseFieldType
 	 */
 	public function getInputHtml($name, $value)
 	{
-		if(isset($value->url))
-		{
+		if(is_object($value)) {
 			$value = $value->url;
-		}
-		else
-		{
-			$value = "";
 		}
 
 		return craft()->templates->render('videos/field', array(
@@ -69,21 +64,10 @@ class Videos_VideoFieldType extends BaseFieldType
 	{
 		$video = craft()->videos->url($videoUrl);
 
-		return $video;
+		if($video) {
+			return $video->url;
+		}
 
-		// // var_dump($video);
-		// $videoObject = new Videos_VideoModel($video);
-
-		// if($video)
-		// {
-		// 	foreach($video as $k => $v)
-		// 	{
-		// 		$videoObject->{$k} = $video[$k];
-		// 	}
-
-		// 	return $videoObject;
-		// }
-
-		// return false;
+		return null;
 	}
 }
