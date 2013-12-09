@@ -87,8 +87,12 @@ class VideosPlugin extends BasePlugin
 
     public function getSettingsHtml()
     {
-       return craft()->templates->render('videos/settings', array(
-           'settings' => $this->getSettings()
-       ));
+        if(craft()->request->getPath() == 'settings/plugins') {
+            return true;
+        }
+
+        return craft()->templates->render('videos/settings', array(
+            'settings' => $this->getSettings()
+        ));
     }
 }
