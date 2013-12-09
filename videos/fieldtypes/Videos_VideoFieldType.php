@@ -64,10 +64,14 @@ class Videos_VideoFieldType extends BaseFieldType
 	{
 		$video = craft()->videos->url($videoUrl);
 
-		if($video) {
-			return $video->url;
-		}
+		return $video;
+	}
 
-		return null;
+	/**
+	 * Search Keywords
+	 */
+	public function getSearchKeywords($value)
+	{
+		return '';
 	}
 }
