@@ -25,9 +25,9 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "dukt/videos": "dev-develop",
+        "dukt/videos": "dev-develop-guzzleless",
         "dukt/videos-app": "dev-master",
         "dukt/vimeo": "dev-master",
-        "chrisnharvey/oauth": "dev-dukt"
+        "chrisnharvey/oauth": "dev-dukt-guzzleless"
     }
 }
