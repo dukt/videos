@@ -151,6 +151,14 @@ class Videos_EndpointController extends BaseController
             $params['id'] = $segments[2];
         }
 
+        if(!empty($post['page'])) {
+            $params['page'] = $post['page'];
+        }
+
+        if(!empty($post['perPage'])) {
+            $params['perPage'] = $post['perPage'];
+        }
+
         $request = substr($post['path'], strlen("/".$gatewayHandle."/"));
 
         $videos = craft()->videos->getVideos($gatewayHandle, $request, $params);
@@ -163,6 +171,14 @@ class Videos_EndpointController extends BaseController
         $gateway = craft()->request->getParam('gateway');
 
         $params = $this->_requestPayload();
+
+        if(!empty($post['page'])) {
+            $params['page'] = $post['page'];
+        }
+
+        if(!empty($post['perPage'])) {
+            $params['perPage'] = $post['perPage'];
+        }
 
         $request = $params['request'];
 
