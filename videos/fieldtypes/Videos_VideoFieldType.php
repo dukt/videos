@@ -18,17 +18,11 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_VideoFieldType extends BaseFieldType
 {
-
-	/**
-	 * Block type name
-	 */
 	public function getName()
 	{
 
 		return Craft::t('Videos');
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Save it
@@ -37,8 +31,6 @@ class Videos_VideoFieldType extends BaseFieldType
 	{
 		return AttributeType::String;
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Show field
@@ -54,8 +46,6 @@ class Videos_VideoFieldType extends BaseFieldType
 			'videoValue'  => $value
 		));
 	}
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Prep value
