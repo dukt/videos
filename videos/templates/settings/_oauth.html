@@ -16,10 +16,21 @@
 		{% set account = craft.oauth.getAccount(providerOpts.handle, 'videos.'~providerOpts.handle) %}
 
 		<ul>
-			<li><strong>UID :</strong> {{(account.uid is defined ? account.uid : '')}}</li>
-			<li><strong>Nickname :</strong> {{(account.nickname is defined ? account.nickname : '')}}</li>
-			<li><strong>Name :</strong> {{(account.name is defined ? account.name : '')}}</li>
-			<li><strong>Email :</strong> {{(account.email is defined ? account.email : '')}}</li>
+			{% if account.uid is defined %}
+				<li><strong>UID :</strong> {{account.uid}}</li>
+			{% endif %}
+
+			{% if account.nickname is defined %}
+				<li><strong>Nickname :</strong> {{account.nickname}}</li>
+			{% endif %}
+
+			{% if account.name is defined %}
+				<li><strong>Name :</strong> {{account.name}}</li>
+			{% endif %}
+
+			{% if account.email is defined %}
+				<li><strong>Email :</strong> {{account.email}}</li>
+			{% endif %}
 		</ul>
 
 		<p>
