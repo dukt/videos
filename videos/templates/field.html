@@ -10,7 +10,7 @@
     Dukt_videos.language = "{{craft.locale}}";
 {% endset %}
 
-{% includeJs js %}
+{% includeJs js first %}
 
 {% includeJsResource 'videos/components/bower_components/phpjs/functions/url/urlencode.js' %}
 {% includeJsResource 'videos/components/bower_components/phpjs/functions/url/http_build_query.js' %}
@@ -32,15 +32,14 @@
 {% includeJsResource 'videos/components/videos-common/js/angular/services.js' %}
 {% includeJsResource 'videos/components/videos-common/js/angular/app.js' %}
 
-<div class="dkv-field">
+<div class="dkv-field" id="{{id}}">
     <div class="error">
 
     </div>
     <div class="dkv-input">
         {{ forms.text({
             name: name,
-            id: name,
-            value: videoValue
+            value: value
         }) }}
     </div>
 
