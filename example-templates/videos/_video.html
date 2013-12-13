@@ -1,0 +1,30 @@
+{% if video %}
+    {{video.embed({width:550, height:310})}}
+
+    <h3>Video Details</h3>
+
+    <ul>
+        <li><strong>id :</strong> {{ video.id }}</li>
+        <li><strong>url :</strong> {{ video.url }}</li>
+        <li><strong>title :</strong> {{ video.title }}</li>
+        <li><strong>date :</strong> {{ video.date.format('F d, Y') }}</li>
+        <li><strong>description :</strong> {{ video.description }}</li>
+        <li><strong>plays :</strong> {{ video.plays }}</li>
+
+        <li><strong>gatewayHandle :</strong> {{ video.gatewayHandle }}</li>
+        <li><strong>gatewayName :</strong> {{ video.gatewayName }}</li>
+
+        <li><strong>duration :</strong> {{ video.duration }}</li>
+        <li><strong>durationSeconds :</strong> {{ video.durationSeconds }}</li>
+
+        <li><strong>authorName :</strong> {{ video.authorName }}</li>
+        <li><strong>authorUrl :</strong> {{ video.authorUrl }}</li>
+        <li><strong>authorUsername :</strong> {{ video.authorUsername }}</li>
+
+        <li><strong>thumbnail :</strong> {{ video.thumbnail }}</li>
+        <li><strong>thumbnailLarge :</strong> {{ video.thumbnailLarge }}</li>
+        <li><strong>thumbnails :</strong> {{ dump(video.thumbnails) }}</li>
+    </ul>
+{% else %}
+    <p>Video not defined</p>
+{% endif %}
