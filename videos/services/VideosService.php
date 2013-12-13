@@ -89,7 +89,56 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    public function getVideoObjectFromUrl($videoUrl, $errorsEnabled = false)
+    public function url($videoUrl, $errorsEnabled = false)
+    {
+        try {
+            $video = $this->getVideoObjectFromUrl($videoUrl);
+
+            if($video) {
+
+                $video = (array) $video;
+
+                return Videos_VideoModel::populateModel($video);
+            }
+        } catch(\Exception $e) {
+            if($errorsEnabled) {
+                throw new Exception($e->getMessage());
+            }
+        }
+    }
+
+    public function getEmbed($videoUrl, $opts)
+    {
+        $video = $this->getVideoObjectFromUrl($videoUrl);
+
+        return $video->getEmbed($opts);
+    }
+
+    public function getGatewaysWithSections()
+    {
+        try {
+            $gatewaysWithSections = array();
+
+            $gateways = $this->getGateways();
+
+            foreach($gateways as $gateway) {
+
+                if($gateway) {
+                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+
+                    if($gateway->sections = $class::getSections($gateway)) {
+                        array_push($gatewaysWithSections, $gateway);
+                    }
+                }
+            }
+
+            return $gatewaysWithSections;
+        } catch(\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    private function getVideoObjectFromUrl($videoUrl)
     {
         $gateways = $this->getGateways();
 
@@ -105,38 +154,9 @@ class VideosService extends BaseApplicationComponent
                 }
 
             } catch(\Exception $e) {
-                if($errorsEnabled) {
-                    throw new Exception($e->getMessage());
-                }
-            }
-        }
-    }
-
-    public function url($videoUrl, $errorsEnabled = false)
-    {
-        try {
-            $video = $this->getVideoObjectFromUrl($videoUrl, $errorsEnabled);
-
-            if($video) {
-
-                $video = (array) $video;
-
-                return Videos_VideoModel::populateModel($video);
-            }
-        } catch(\Exception $e) {
-            if($errorsEnabled) {
                 throw new Exception($e->getMessage());
             }
         }
-    }
-
-    public function getEmbed($video, $opts)
-    {
-        $embed = $video->getEmbed($opts);
-
-        $charset = craft()->templates->getTwig()->getCharset();
-
-        return new \Twig_Markup($embed, $charset);
     }
 
     private function getGateways()
@@ -238,30 +258,4 @@ class VideosService extends BaseApplicationComponent
 
         return $gateways;
     }
-
-
-    public function getGatewaysWithSections()
-    {
-        try {
-            $gatewaysWithSections = array();
-
-            $gateways = $this->getGateways();
-
-            foreach($gateways as $gateway) {
-
-                if($gateway) {
-                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
-
-                    if($gateway->sections = $class::getSections($gateway)) {
-                        array_push($gatewaysWithSections, $gateway);
-                    }
-                }
-            }
-
-            return $gatewaysWithSections;
-        } catch(\Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
 }

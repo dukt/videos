@@ -36,22 +36,13 @@ class Videos_VideoModel extends BaseModel
         return $this->_video;
     }
 
-    public function getEmbed($opts, $raw = true)
+    public function getEmbed($opts)
     {
-        $video = $this->getVideo();
+        $embed = craft()->videos->getEmbed($this->url, $opts);
 
-        if($video) {
+        $charset = craft()->templates->getTwig()->getCharset();
 
-            $embed = $video->getEmbed($opts);
-
-            if($raw) {
-                $charset = craft()->templates->getTwig()->getCharset();
-
-                return new \Twig_Markup($embed, $charset);
-            } else {
-                return $embed;
-            }
-        }
+        return new \Twig_Markup($embed, $charset);
     }
 
     public function getEmbedUrl($opts)
