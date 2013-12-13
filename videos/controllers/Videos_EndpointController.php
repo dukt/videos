@@ -146,24 +146,6 @@ class Videos_EndpointController extends BaseController
         }
     }
 
-    private function _requestPayload()
-    {
-        $post = "";
-
-        $fp = fopen("php://input", "r");
-
-        while (!feof($fp)) {
-           $line = fgets($fp);
-           $post .= $line;
-        }
-
-        fclose($fp);
-
-        $post = json_decode($post, true);
-
-        return $post;
-    }
-
     public function routeRequest()
     {
         $post = $this->_requestPayload();
@@ -213,8 +195,29 @@ class Videos_EndpointController extends BaseController
 
         $request = $params['request'];
 
-		$videos = craft()->videos->getVideos($gateway, $request, $params);
-
-        $this->returnJson($videos);
+        try {
+            $videos = craft()->videos->getVideos($gateway, $request, $params);
+            $this->returnJson($videos);
+        } catch(\Exception $e) {
+            $this->returnErrorJson($e->getMessage());
+        }
 	}
+
+    private function _requestPayload()
+    {
+        $post = "";
+
+        $fp = fopen("php://input", "r");
+
+        while (!feof($fp)) {
+           $line = fgets($fp);
+           $post .= $line;
+        }
+
+        fclose($fp);
+
+        $post = json_decode($post, true);
+
+        return $post;
+    }
 }
