@@ -14,7 +14,10 @@
 
 {% include 'videos/settings/_oauth' %}
 
+<h3>Settings</h3>
+
 {{ forms.textField({
+    first:true,
     label: "Developer Key"|t,
     name: 'youtubeParameters[developerKey]',
     value: (settings.youtubeParameters['developerKey'] is defined ? settings.youtubeParameters['developerKey'] : '')
