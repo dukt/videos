@@ -89,16 +89,16 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    public function url($videoUrl, $errorsEnabled = false)
+    public function getVideoObjectFromUrl($videoUrl, $errorsEnabled = false)
     {
         $gateways = $this->getGateways();
 
-        foreach($gateways as $s)
+        foreach($gateways as $gateway)
         {
             $params['url'] = $videoUrl;
 
             try {
-                $video = $s->videoFromUrl($params);
+                $video = $gateway->videoFromUrl($params);
 
                 if($video) {
                     return $video;
@@ -110,8 +110,24 @@ class VideosService extends BaseApplicationComponent
                 }
             }
         }
+    }
 
-        return null;
+    public function url($videoUrl, $errorsEnabled = false)
+    {
+        try {
+            $video = $this->getVideoObjectFromUrl($videoUrl, $errorsEnabled);
+
+            if($video) {
+
+                $video = (array) $video;
+
+                return Videos_VideoModel::populateModel($video);
+            }
+        } catch(\Exception $e) {
+            if($errorsEnabled) {
+                throw new Exception($e->getMessage());
+            }
+        }
     }
 
     public function getEmbed($video, $opts)
