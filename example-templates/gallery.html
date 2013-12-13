@@ -1,0 +1,31 @@
+{% extends "videos/_layout" %}
+
+{% block main %}
+
+    {% set entries = craft.entries.section('videos') %}
+
+    {% if entries|length > 0 %}
+
+        {% for entry in entries %}
+            {% set embedParams = { width: 300, height: 200 } %}
+
+            {% set video = entry.video %}
+
+            <article>
+
+                <h1>{{ entry.title }}</h1>
+
+                <p>Posted on {{ entry.postDate.format('F d, Y') }}</p>
+
+                {% include 'videos/_video' %}
+
+            </article>
+        {% endfor %}
+
+    {% else %}
+
+        <p>No video entries yet</p>
+
+    {% endif %}
+
+{% endblock main %}
