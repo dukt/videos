@@ -99,7 +99,7 @@ class Videos_EndpointController extends BaseController
             $this->returnErrorJson("Video not found : ".$videoUrl);
         }
 
-        $embed = $video->getEmbedHtml($options);
+        $embed = $video->getEmbed($options, false);
 
         $this->returnJson(array(
         	'embed' => $embed
@@ -115,7 +115,6 @@ class Videos_EndpointController extends BaseController
         $videoUrl = $post['videoUrl'];
 
         $video = craft()->videos->url($videoUrl);
-
 
         // embed
 
