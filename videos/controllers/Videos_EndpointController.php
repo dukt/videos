@@ -93,17 +93,22 @@ class Videos_EndpointController extends BaseController
 
         $options = $this->_embedOptions();
 
-        $video = craft()->videos->url($videoUrl);
+        try {
+            $video = craft()->videos->url($videoUrl, true);
 
-        if(!$video) {
-            $this->returnErrorJson("Video not found : ".$videoUrl);
+            if(!$video) {
+                throw new Exception("Video not found : ".$videoUrl);
+
+            }
+
+            $embed = $video->getEmbed($options, false);
+
+            $this->returnJson(array(
+            	'embed' => $embed
+            ));
+        } catch(\Exception $e) {
+            $this->returnErrorJson("Couldn't load video : ".$e->getMessage());
         }
-
-        $embed = $video->getEmbed($options, false);
-
-        $this->returnJson(array(
-        	'embed' => $embed
-        ));
     }
 
     public function embedUrl()
