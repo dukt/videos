@@ -22,8 +22,6 @@ class VideosPlugin extends BasePlugin
         return Craft::t('Videos');
     }
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Get Version
 	 */
@@ -31,8 +29,6 @@ class VideosPlugin extends BasePlugin
     {
         return '0.9.6';
     }
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Get Developer
@@ -42,8 +38,6 @@ class VideosPlugin extends BasePlugin
         return 'Dukt';
     }
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Get Developer URL
 	 */
@@ -52,8 +46,6 @@ class VideosPlugin extends BasePlugin
         return 'http://dukt.net/';
     }
 
-	// --------------------------------------------------------------------
-
 	/**
 	 * Has CP Section
 	 */
@@ -61,8 +53,6 @@ class VideosPlugin extends BasePlugin
     {
         return false;
     }
-
-	// --------------------------------------------------------------------
 
 	/**
 	 * Hook Register CP Routes
@@ -77,7 +67,6 @@ class VideosPlugin extends BasePlugin
     /**
      * Settings
      */
-
     protected function defineSettings()
     {
         return array(

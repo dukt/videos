@@ -37,7 +37,7 @@ class Videos_VideoFieldType extends BaseFieldType
 	 */
 	public function getInputHtml($name, $value)
 	{
-		// get video url from object
+		// Get video url from object
 
 		if(is_object($value)) {
 			$value = $value->url;
@@ -59,11 +59,11 @@ class Videos_VideoFieldType extends BaseFieldType
 	    craft()->templates->includeJs("$('#{$namespacedId}').videosField();");
 
 
-	    // render HTML
+	    // Render HTML
 
 		return craft()->templates->render('videos/field', array(
-			'name'  => $name,
 			'id'    => $id,
+			'name'  => $name,
 			'value' => $value
 		));
 	}
