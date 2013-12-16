@@ -172,7 +172,7 @@ class VideosService extends BaseApplicationComponent
                 try {
                     // provider
 
-                    $providerOpts = $this->getProviderOpts($gatewayHandle);
+                    $providerOpts = $wrap->getProviderOpts($gatewayHandle);
 
                     $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
 
@@ -193,7 +193,7 @@ class VideosService extends BaseApplicationComponent
 
                     // gateway
 
-                    $gatewayOpts = $this->getGatewayOpts($gatewayHandle);
+                    $gatewayOpts = $wrap->getGatewayOpts($gatewayHandle);
 
                     $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
 
