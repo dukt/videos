@@ -12,15 +12,12 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH."videos/config.php");
-
 require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_VideoFieldType extends BaseFieldType
 {
 	public function getName()
 	{
-
 		return Craft::t('Videos');
 	}
 
@@ -103,7 +100,7 @@ class Videos_VideoFieldType extends BaseFieldType
 	 */
 	public function prepValue($videoUrl)
 	{
-		$video = craft()->videos->url($videoUrl);
+		$video = craft()->videos->getVideoByUrl($videoUrl);
 
 		return $video;
 	}
