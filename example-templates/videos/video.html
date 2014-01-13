@@ -1,0 +1,18 @@
+{% extends "videos/_layout" %}
+
+
+{% block main %}
+
+    <div class="col-md-12">
+
+        <h1>Video</h1>
+
+        <hr />
+
+        {% set video = craft.videos.url('http://youtu.be/14pRmb5LAhU') %}
+
+        {% include 'videos/_video' with { video: video } %}
+
+    </div>
+
+{% endblock main %}
