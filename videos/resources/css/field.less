@@ -1,23 +1,35 @@
-@import "variables.less";
-@import "../components/videos-common/css/app.less";
-@import "../components/videos-common/css/field.less";
+.dkv-video-preview {
+    margin-top: 1em;
 
-.dkv-field {
-    max-width: 650px;
-
-    .dkv-buttons {
-        margin-top: 10px;
+    img {
+        max-width: 140px;
+        border: 1px solid #ddd;
+        padding: 4px;
+        float: left;
     }
 
-    .dkv-embed {
+    .dkv-text {
+        margin-left: 160px;
 
-        iframe, object {
-            width: 100%;
+        .dkv-title {
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+            cursor: default;
+            margin-bottom: 0;
         }
     }
 }
 
-.dkv-app {
-	position: fixed;
-    z-index: 1000;
+@media (max-width:400px) {
+    .dkv-video-preview {
+        img {
+            float: none;
+        }
+
+        .dkv-text {
+            margin-left: 0;
+            margin-top: 0.5em;
+        }
+    }
 }

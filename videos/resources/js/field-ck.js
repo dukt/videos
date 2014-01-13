@@ -1,2 +1,1 @@
-// document ready
-$(document).ready(function(){videosApp.log("Videos field on this page : ",$(".dkv-field").length);DuktVideosCms.postActionRequest("app",{},function(e){videosApp.loaded.app=!0;$(e.html).appendTo("body");videosApp.log("angular bootstrap");angular.bootstrap($(".dkv-app"),["videosapp"]);$(".dkv-field").videosField();typeof Matrix!="undefined"&&Matrix.bind("dukt_videos","display",function(e){if(e.row.isNew){var t=$("> .dkv-field",e.dom.$td);videosApp.field.init(t)}})})});
+;
