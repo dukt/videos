@@ -1,4 +1,15 @@
 <?php
+
+/**
+ * Videos plugin for Craft CMS
+ *
+ * @package   Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2014, Dukt
+ * @link      https://dukt.net/craft/videos/
+ * @license   https://dukt.net/craft/videos/docs/license
+ */
+
 namespace Craft;
 
 class Videos_VideoModel extends BaseModel

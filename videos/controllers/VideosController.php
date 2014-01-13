@@ -3,7 +3,7 @@
 /**
  * Videos plugin for Craft CMS
  *
- * @package   Twitter
+ * @package   Videos
  * @author    Benjamin David
  * @copyright Copyright (c) 2014, Dukt
  * @link      https://dukt.net/craft/videos/

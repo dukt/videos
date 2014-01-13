@@ -1,13 +1,13 @@
 <?php
 
 /**
- * Craft Videos by Dukt
+ * Videos plugin for Craft CMS
  *
- * @package   Craft Videos
+ * @package   Videos
  * @author    Benjamin David
- * @copyright Copyright (c) 2013, Dukt
+ * @copyright Copyright (c) 2014, Dukt
+ * @link      https://dukt.net/craft/videos/
  * @license   https://dukt.net/craft/videos/docs/license
- * @link      https://dukt.net/craft/videos
  */
 
 namespace Craft;
