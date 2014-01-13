@@ -39,9 +39,6 @@ class Videos_VideoFieldType extends BaseFieldType
 	{
 		// Get video url from object
 
-		if(is_object($value)) {
-			$value = $value->url;
-		}
 
 
 	    // Reformat the input name into something that looks more like an ID
@@ -54,17 +51,50 @@ class Videos_VideoFieldType extends BaseFieldType
 	    $namespacedId = craft()->templates->namespaceInputId($id);
 
 
-	    // Include our Javascript
+	    // Resources
 
-	    craft()->templates->includeJs("$('#{$namespacedId}').videosField();");
+		craft()->templates->includeCssResource('videos/css/field.css');
+		craft()->templates->includeJsResource('videos/js/VideoInput.js');
+		craft()->templates->includeJs('new VideoInput("'.craft()->templates->namespaceInputId($id).'");');
 
+
+		// Preview
+
+		$preview = '<div class="dkv-video-preview"></div>';
+
+		if(!empty($value->url)) {
+
+		    $preview = '
+		    <div class="dkv-video-preview">
+
+		    	<img src="'.$value['thumbnail'].'" alt="'.$value['title'].'" title="'.$value['title'].'" />
+
+		    	<div class="dkv-text">
+		    		<p class="dkv-title"><strong title="'.$value['title'].'">'.$value['title'].'</strong></p>
+
+		    		<ul class="light">
+						<li><strong>Duration:</strong> '.$value['duration'].'</li>
+						<li><strong>By</strong> <a href="'.$value['authorUrl'].'">'.$value['authorName'].'</a></li>
+						<li>'.$value['plays'].' views</li>
+		    		</ul>
+		    	</div>
+		    </div>';
+	    }
+
+
+	    // value
+
+		if(is_object($value)) {
+			$value = $value->url;
+		}
 
 	    // Render HTML
 
 		return craft()->templates->render('videos/field', array(
 			'id'    => $id,
 			'name'  => $name,
-			'value' => $value
+			'value' => $value,
+			'preview' => $preview
 		));
 	}
 

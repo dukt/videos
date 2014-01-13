@@ -2,8 +2,17 @@
 
 namespace Craft;
 
+require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
+
 class VideosService extends BaseApplicationComponent
 {
+
+    public function getVideoByUrl($url)
+    {
+        return $this->getVideoObjectFromUrl($url);
+    }
+
+
     public function config()
     {
         require(CRAFT_PLUGINS_PATH."videos/config.php");
