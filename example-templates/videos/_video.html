@@ -1,7 +1,6 @@
 {% if video %}
-    {{video.embed({width:550, height:310})}}
 
-    <h3>Video Details</h3>
+    <h3>Data</h3>
 
     <ul>
         <li><strong>id :</strong> {{ video.id }}</li>
@@ -20,11 +19,30 @@
         <li><strong>authorName :</strong> {{ video.authorName }}</li>
         <li><strong>authorUrl :</strong> {{ video.authorUrl }}</li>
         <li><strong>authorUsername :</strong> {{ video.authorUsername }}</li>
-
-        <li><strong>thumbnail :</strong> {{ video.thumbnail }}</li>
-        <li><strong>thumbnailLarge :</strong> {{ video.thumbnailLarge }}</li>
-        <li><strong>thumbnails :</strong> {{ dump(video.thumbnails) }}</li>
     </ul>
+
+
+    <h3>Embed</h3>
+    {{video.embed({width:550, height:310})}}
+
+    {% if video.thumbnails|length > 0 %}
+        <h3>Thumbnails</h3>
+
+
+        <h5>thumbnail</h5>
+        <img src="{{ video.thumbnail }}" />
+
+        <h5>thumbnailLarge</h5>
+        <img src="{{ video.thumbnailLarge }}" />
+
+        {% for thumbnail in video.thumbnails %}
+
+            <h5>thumbnails[{{loop.index0}}]</h5>
+
+            <img src="{{ thumbnail }}" />
+        {% endfor %}
+    {% endif %}
+
 {% else %}
-    <p>Video not defined</p>
+    <p>Couldn't find video</p>
 {% endif %}

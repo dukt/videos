@@ -36,10 +36,9 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <ul class="nav navbar-nav">
-                <li{{(craft.request.segment(2) == false or craft.request.segment(2) == 'single' ? ' class="active"' : '')}}><a href="{{ url('videos/single') }}">Single Video</a></li>
+                <li{{(craft.request.segment(2) == false or craft.request.segment(2) == 'video' ? ' class="active"' : '')}}><a href="{{ url('videos/video') }}">Video Details</a></li>
                 <li{{(craft.request.segment(2) == 'field' ? ' class="active"' : '')}}><a href="{{ url('videos/field') }}">Video Field</a></li>
                 <li{{(craft.request.segment(2) == 'field-matrix' ? ' class="active"' : '')}}><a href="{{ url('videos/field-matrix') }}">Video Field with Matrix</a></li>
-                <li{{(craft.request.segment(2) == 'gallery' ? ' class="active"' : '')}}><a href="{{ url('videos/gallery') }}">Video Gallery</a></li>
             </ul>
 
         </div>

@@ -2,28 +2,28 @@
 
 {% block main %}
 
-    {% set entry = craft.entries.section('videos')|first %}
+    <h1>Video Field with Matrix</h1>
 
-    {% if entry %}
+    <hr>
 
-        <article>
+    <div class="row">
+        {% for videoRow in videosDemo.videos %}
 
-            <h1>{{ entry.title }}</h1>
+            {% set video = videoRow.video %}
 
-            <p>Posted on {{ entry.postDate.format('F d, Y') }}</p>
+            {% if video %}
 
-            {% for video in entry.videos %}
-                <h3>{{video.video.title}}</h3>
+                <div class="col-md-4">
 
-                {{video.video.embed({width:550, height:310})}}
-            {% endfor %}
+                    {{video.embed({width:370, height:208})}}
 
-        </article>
+                </div>
 
-    {% else %}
+            {% endif %}
 
-        <p>Entry not found</p>
+        {% endfor %}
+    </div>
 
-    {% endif %}
+
 
 {% endblock main %}

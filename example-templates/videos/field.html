@@ -2,28 +2,12 @@
 
 {% block main %}
 
-    {% set entry = craft.entries.section('videos')|first %}
+    <h1>Video Field</h1>
 
-    {% if entry %}
+    <hr>
 
-        {% set embedParams = { width: 300, height: 200 } %}
+    {% set video = videosDemo.video %}
 
-        {% set video = entry.video %}
-
-        <article>
-
-            <h1>{{ entry.title }}</h1>
-
-            <p>Posted on {{ entry.postDate.format('F d, Y') }}</p>
-
-            {% include 'videos/_video' %}
-
-        </article>
-
-    {% else %}
-
-        <p>Entry not found</p>
-
-    {% endif %}
+    {% include 'videos/_video' with { video: video } %}
 
 {% endblock main %}
