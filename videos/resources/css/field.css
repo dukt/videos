@@ -47,7 +47,7 @@
     display: block;
   }
   .dkv-video-preview .dkv-image img {
-    width: 96%;
+    width: 100%;
     height: auto;
   }
   .dkv-video-preview .dkv-text {
