@@ -1,8 +1,12 @@
 /**
- * Tweet field input class
+ * Instantiate player modal
  */
 
 var $playerModal = new PlayerModal();
+
+/**
+ * Tweet field input class
+ */
 
 VideoInput = Garnish.Base.extend({
 
@@ -17,11 +21,8 @@ VideoInput = Garnish.Base.extend({
         this.$input = $('#'+inputId);
         this.$container = this.$input.parents('.dkv-video');
 
-
         this.$spinner = this.$input.next();
         this.$preview = this.$spinner.next();
-
-        //$(this.$container).on('click', 'img', this.playVideo);
 
         this.addPreviewListeners();
 
