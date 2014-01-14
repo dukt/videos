@@ -28,7 +28,13 @@ class VideosController extends BaseController
 
         try {
             $video = craft()->videos->getVideoByUrl($url);
-            $this->returnJson($video);
+
+            $this->returnJson(
+                array(
+                    'video' => $video,
+                    'preview' => craft()->templates->render('videos/field/preview', array('video' => $video))
+                )
+            );
         } catch(\Exception $e) {
             $this->returnErrorJson($e->getMessage());
         }
