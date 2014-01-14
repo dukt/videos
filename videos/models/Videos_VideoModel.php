@@ -30,12 +30,17 @@ class Videos_VideoModel extends BaseModel
             'authorName' => array(AttributeType::String),
             'authorUrl' => array(AttributeType::String),
             'authorUsername' => array(AttributeType::String),
-            'thumbnail' => array(AttributeType::String),
-            'thumbnailLarge' => array(AttributeType::String),
-            'thumbnails' => array(AttributeType::String),
+            'thumbnailSource' => array(AttributeType::String),
+            'thumbnailSourceLarge' => array(AttributeType::String),
+            'thumbnails' => array(AttributeType::Mixed),
             'title' => array(AttributeType::String),
             'description' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
+    }
+
+    public function getThumbnail($w = 340, $h = null)
+    {
+        return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
     }
 
     private function getVideo()
@@ -47,7 +52,7 @@ class Videos_VideoModel extends BaseModel
         return $this->_video;
     }
 
-    public function getEmbed($opts)
+    public function getEmbed($opts = array())
     {
         $embed = craft()->videos->getEmbed($this->url, $opts);
 
