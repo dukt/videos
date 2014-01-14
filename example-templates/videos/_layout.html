@@ -10,6 +10,10 @@
 
     <!-- Bootstrap -->
     <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css" rel="stylesheet">
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+
 
     <style>
 
@@ -36,7 +40,7 @@
         <div class="collapse navbar-collapse navbar-ex1-collapse">
 
             <ul class="nav navbar-nav">
-                <li{{(craft.request.segment(2) == false or craft.request.segment(2) == 'video' ? ' class="active"' : '')}}><a href="{{ url('videos/video') }}">Video Details</a></li>
+                <li{{(craft.request.segment(2) == 'video' ? ' class="active"' : '')}}><a href="{{ url('videos/video') }}">Video Details</a></li>
                 <li{{(craft.request.segment(2) == 'field' ? ' class="active"' : '')}}><a href="{{ url('videos/field') }}">Video Field</a></li>
                 <li{{(craft.request.segment(2) == 'field-matrix' ? ' class="active"' : '')}}><a href="{{ url('videos/field-matrix') }}">Video Field with Matrix</a></li>
             </ul>
@@ -49,46 +53,48 @@
         <div class="row">
             <div class="span12">
 
-                {% if title is defined and title %}
-                    <h1>{{ title|raw }}</h1>
-                {% endif %}
+                <div class="container">
 
-                {% if extraPageHeaderHtml is defined %}
-                    <div id="extra-headers">
-                        {{ extraPageHeaderHtml }}
-                    </div>
-                {% endif %}
+                    {% if title is defined and title %}
+                        <h1>{{ title|raw }}</h1>
+                    {% endif %}
 
-
-                {% if tabs is defined and tabs %}
-
-                <ul class="nav nav-tabs">
-                    {% for tabId, tab in tabs %}
-                        {% if tab %}
-                            {% set tabIsSelected = ((selectedTab is not defined and loop.first) or (selectedTab is defined and selectedTab == tabId)) -%}
-
-                            {% if tabIsSelected and title != tab.label %}
-                                {% set title = title~' - '~tab.label %}
-                            {%endif -%}
-
-                            <li class="{% if tabIsSelected %}active{% endif %}"><a id="tab-{{ tabId }}" class="{% if tab.class is defined %} {{ tab.class }}{% endif %}" href="{{ tab.url }}">{{ tab.label }}</a></li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
-
-                {% endif %}
+                    {% if extraPageHeaderHtml is defined %}
+                        <div id="extra-headers">
+                            {{ extraPageHeaderHtml }}
+                        </div>
+                    {% endif %}
 
 
-                <header>
-                    {% block extraHead %}
-                    {% endblock %}
-                </header>
+                    {% if tabs is defined and tabs %}
 
-                <main role="main">
-                    {% block main %}
-                    {% endblock %}
-                </main>
+                    <ul class="nav nav-tabs">
+                        {% for tabId, tab in tabs %}
+                            {% if tab %}
+                                {% set tabIsSelected = ((selectedTab is not defined and loop.first) or (selectedTab is defined and selectedTab == tabId)) -%}
 
+                                {% if tabIsSelected and title != tab.label %}
+                                    {% set title = title~' - '~tab.label %}
+                                {%endif -%}
+
+                                <li class="{% if tabIsSelected %}active{% endif %}"><a id="tab-{{ tabId }}" class="{% if tab.class is defined %} {{ tab.class }}{% endif %}" href="{{ tab.url }}">{{ tab.label }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+
+                    {% endif %}
+
+
+                    <header>
+                        {% block extraHead %}
+                        {% endblock %}
+                    </header>
+
+                    <main role="main">
+                        {% block main %}
+                        {% endblock %}
+                    </main>
+                </div>
             </div>
         </div>
     </div>

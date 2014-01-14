@@ -3,16 +3,12 @@
 
 {% block main %}
 
-    <div class="col-md-12">
+    <h1>Video Details</h1>
 
-        <h1>Video</h1>
+    <hr />
 
-        <hr />
+    {% set video = craft.videos.videoByUrl('http://youtu.be/14pRmb5LAhU') %}
 
-        {% set video = craft.videos.videoByUrl('http://youtu.be/14pRmb5LAhU') %}
-
-        {% include 'videos/_video' with { video: video } %}
-
-    </div>
+    {% include 'videos/_video' with { video: video } %}
 
 {% endblock main %}

@@ -32,15 +32,13 @@
         <h5>thumbnail</h5>
         <img src="{{ video.thumbnail }}" />
 
-        <h5>thumbnailLarge</h5>
-        <img src="{{ video.thumbnailLarge }}" />
+        <h5>thumbnail (custom width)</h5>
 
-        {% for thumbnail in video.thumbnails %}
+        <img src="{{ video.thumbnail(180) }}" />
 
-            <h5>thumbnails[{{loop.index0}}]</h5>
+        <h5>thumbnail (custom width &amp; height)</h5>
 
-            <img src="{{ thumbnail }}" />
-        {% endfor %}
+        <img src="{{ video.thumbnail(100, 100) }}" />
     {% endif %}
 
 {% else %}

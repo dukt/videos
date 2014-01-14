@@ -2,6 +2,7 @@
 
 {% block main %}
 
+
     <h1>Video Field with Matrix</h1>
 
     <hr>
@@ -13,9 +14,11 @@
 
             {% if video %}
 
-                <div class="col-md-4">
+                <div class="col-xs-6 col-md-4">
 
-                    {{video.embed({width:370, height:208})}}
+                    <a href="{{ video.url }}" data-toggle="lightbox">
+                        <img class="thumbnail" src="{{ video.thumbnail }}" />
+                    </a>
 
                 </div>
 
@@ -24,6 +27,28 @@
         {% endfor %}
     </div>
 
+    <hr />
 
+    <p>This example uses <a href="https://github.com/ashleydw/lightbox">lightbox module</a> for Bootstrap by <a href="https://github.com/ashleydw">@ashleydw</a></p>
+
+
+    <script src="//rawgithub.com/ashleydw/lightbox/master/ekko-lightbox.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function ($) {
+
+            // delegate calls to data-toggle="lightbox"
+            $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
+                event.preventDefault();
+                return $(this).ekkoLightbox({
+                    onShown: function() {
+                        if (window.console) {
+                            return console.log('Checking our the events huh?');
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 
 {% endblock main %}
