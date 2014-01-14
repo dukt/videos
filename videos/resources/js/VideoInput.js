@@ -2,6 +2,8 @@
  * Tweet field input class
  */
 
+var $playerModal = new PlayerModal();
+
 VideoInput = Garnish.Base.extend({
 
     $input: null,
@@ -13,10 +15,28 @@ VideoInput = Garnish.Base.extend({
     init: function(inputId)
     {
         this.$input = $('#'+inputId);
+        this.$container = this.$input.parents('.dkv-video');
+
+
         this.$spinner = this.$input.next();
         this.$preview = this.$spinner.next();
 
+        //$(this.$container).on('click', 'img', this.playVideo);
+
+        this.addPreviewListeners();
+
         this.addListener(this.$input, 'textchange', 'lookupVideo');
+    },
+
+    addPreviewListeners: function()
+    {
+        this.$image = $('img', this.$container);
+
+        this.addListener(this.$image, 'click', 'playVideo');
+    },
+
+    playVideo: function() {
+        $playerModal.play(this.$input.val());
     },
 
     lookupVideo: function()
@@ -37,29 +57,16 @@ VideoInput = Garnish.Base.extend({
                     {
                         if (!this.$preview.length)
                         {
-                            this.$preview = $('<div class="dkv-video-preview"/>').insertAfter(this.$spinner);
+                            this.$preview = $('<div class="dkv-preview-inject"/>').insertAfter(this.$spinner);
                         }
                         else
                         {
                             this.$preview.show();
                         }
 
-                        this.$preview.html(
-                        '<div class="dkv-video-preview">' +
+                        this.$preview.html(response.preview);
 
-                        '    <img src="' + response.thumbnail + '" />' +
-
-                        '    <div class="dkv-text">' +
-                        '        <p class="dkv-title"><strong>' + response.title + '</strong></p>' +
-
-                        '        <ul class="light">' +
-                        '            <li><strong>Duration:</strong> ' + response.duration + '</li>' +
-                        '            <li><strong>By</strong> <a href="' + response.authorUrl + '">' + response.authorName + '</a></li>' +
-                        '            <li>' + response.plays + ' views</li>' +
-                        '        </ul>' +
-                        '    </div>' +
-                        '</div>'
-                        );
+                        this.addPreviewListeners();
                     }
                     else
                     {

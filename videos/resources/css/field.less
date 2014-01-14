@@ -1,15 +1,53 @@
 .dkv-video-preview {
     margin-top: 1em;
 
-    img {
-        max-width: 140px;
+
+    .dkv-image {
+
+        float: left;
+        position: relative;
+        line-height: 0;
         border: 1px solid #ddd;
         padding: 4px;
-        float: left;
+
+
+        span.dkv-duration {
+            position: absolute;
+            background: #333;
+            display: block;
+            bottom: 4px;
+            right: 4px;
+            line-height: 1em;
+            padding: 3px 4px;
+            font-size: 0.8em;
+            color: #fff;
+            opacity: .8;
+            font-weight: bold;
+        }
+
+
+        &:hover {
+
+            .dkv-duration {
+                background:  rgb(218, 90, 71);
+
+            }
+        }
+
+        img {
+
+            width: 150px;
+            height: 84px;
+
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
     }
 
     .dkv-text {
-        margin-left: 160px;
+        margin-left: 170px;
 
         .dkv-title {
             text-overflow: ellipsis;
@@ -23,13 +61,31 @@
 
 @media (max-width:400px) {
     .dkv-video-preview {
-        img {
+        .dkv-image {
+
             float: none;
+            display: block;
+
+            img {
+                width: 96%;
+                height: auto;
+            }
         }
 
         .dkv-text {
             margin-left: 0;
             margin-top: 0.5em;
         }
+    }
+}
+
+.dkv-modal {
+
+    width: 400px;
+    height: 225px;
+
+    iframe {
+        width: 400px;
+        height: 225px;
     }
 }
