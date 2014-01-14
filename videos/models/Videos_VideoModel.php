@@ -30,6 +30,7 @@ class Videos_VideoModel extends BaseModel
             'authorName' => array(AttributeType::String),
             'authorUrl' => array(AttributeType::String),
             'authorUsername' => array(AttributeType::String),
+            'thumbnail' => array(AttributeType::String),
             'thumbnailSource' => array(AttributeType::String),
             'thumbnailSourceLarge' => array(AttributeType::String),
             'thumbnails' => array(AttributeType::Mixed),
@@ -38,18 +39,9 @@ class Videos_VideoModel extends BaseModel
         );
     }
 
-    public function getThumbnail($w = 340, $h = null)
+    public function getThumbnail($w = 350, $h = null)
     {
         return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
-    }
-
-    private function getVideo()
-    {
-        if(!$this->_video) {
-            $this->_video = craft()->videos->getVideoObjectFromUrl($this->url);
-        }
-
-        return $this->_video;
     }
 
     public function getEmbed($opts = array())
@@ -71,5 +63,14 @@ class Videos_VideoModel extends BaseModel
 
             return $embedUrl;
         }
+    }
+
+    private function getVideo()
+    {
+        if(!$this->_video) {
+            $this->_video = craft()->videos->getVideoObjectFromUrl($this->url);
+        }
+
+        return $this->_video;
     }
 }

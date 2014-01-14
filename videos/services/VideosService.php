@@ -40,9 +40,11 @@ class VideosService extends BaseApplicationComponent
 
         if($video) {
 
-            $video = (array) $video;
+            $attributes = (array) $video;
 
-            $response = Videos_VideoModel::populateModel($video);
+            $response = Videos_VideoModel::populateModel($attributes);
+
+            $response['thumbnail'] = $response->getThumbnail();
 
             return $response;
         }
@@ -57,6 +59,8 @@ class VideosService extends BaseApplicationComponent
             $video = (array) $video;
 
             $response = Videos_VideoModel::populateModel($video);
+
+            $response['thumbnail'] = $response->getThumbnail();
 
             return $response;
         }
