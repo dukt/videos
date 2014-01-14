@@ -87,14 +87,14 @@ class VideosPlugin extends BasePlugin
 
 
     /**
-     * Adds support for Twitter user photo resource paths.
+     * Adds support for video thumbnail resource paths.
      *
      * @param string $path
      * @return string|null
      */
     public function getResourcePath($path)
     {
-        // Are they requesting a Twitter user image?
+        // Are they requesting a video thumbnail?
         if (strncmp($path, 'videosthumbnails/', 17) === 0)
         {
 
@@ -165,5 +165,18 @@ class VideosPlugin extends BasePlugin
                 return $sizedPath;
             }
         }
+    }
+
+
+    /**
+     * Adds craft/storage/runtime/videos/ to the list of things the Clear Caches tool can delete.
+     *
+     * @return array
+     */
+    public function registerCachePaths()
+    {
+        return array(
+            craft()->path->getRuntimePath().'videos/' => Craft::t('Videos resources'),
+        );
     }
 }
