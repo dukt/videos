@@ -1,0 +1,19 @@
+{% if video %}
+    <div class="dkv-video-preview">
+
+        <div class="dkv-image">
+            <span class="dkv-play"></span>
+            <span class="dkv-duration">{{ video.duration }}</span>
+            <img src="{{ video.thumbnail }}" alt="{{ video.title }}" title="{{ video.title }}" />
+        </div>
+
+        <div class="dkv-text">
+            <p class="dkv-title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
+
+            <ul class="light">
+                <li><strong>By</strong> <a href="{{ video.authorUrl }}">{{ video.authorName }}</a></li>
+                <li>{{ video.plays }} views</li>
+            </ul>
+        </div>
+    </div>
+{% endif %}
