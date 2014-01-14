@@ -84,4 +84,86 @@ class VideosPlugin extends BasePlugin
             'settings' => $this->getSettings()
         ));
     }
+
+
+    /**
+     * Adds support for Twitter user photo resource paths.
+     *
+     * @param string $path
+     * @return string|null
+     */
+    public function getResourcePath($path)
+    {
+        // Are they requesting a Twitter user image?
+        if (strncmp($path, 'videosthumbnails/', 17) === 0)
+        {
+
+            $parts = array_merge(array_filter(explode('/', $path)));
+
+            if (count($parts) != 4 && count($parts) != 5)
+            {
+                return;
+            }
+
+            $gateway = $parts[1];
+            $videoId = $parts[2];
+            $width = $parts[3];
+            $height = null;
+
+            $size = $width;
+
+            if(isset($parts[4])) {
+                $height = $parts[4];
+                $size .= "x".$height;
+            }
+
+            $baseThumbnailsPath = craft()->path->getRuntimePath().'videos/thumbnails/'.$gateway.'/'.$videoId.'/';
+
+            $sizedFolderPath = $baseThumbnailsPath.$size.'/';
+
+            $originalFolderPath = $baseThumbnailsPath.'original/';
+
+            // Have we already downloaded this user's image at this size?
+            $contents = IOHelper::getFolderContents($sizedFolderPath, false);
+
+            if ($contents)
+            {
+                return $contents[0];
+            }
+            else
+            {
+                $video = craft()->videos->getVideoById($gateway, $videoId);
+
+                IOHelper::ensureFolderExists($sizedFolderPath);
+                IOHelper::ensureFolderExists($originalFolderPath);
+
+                $url = $video['thumbnailSourceLarge'];
+
+
+
+                $fileName = pathinfo($url, PATHINFO_BASENAME);
+                $originalPath = $originalFolderPath.$fileName;
+
+                $response = \Guzzle\Http\StaticClient::get($url, array(
+                    'save_to' => $originalPath
+                ));
+
+                if (!$response->isSuccessful())
+                {
+                    return;
+                }
+
+
+                // Resize it to the requested size
+                $fileName = pathinfo($originalPath, PATHINFO_BASENAME);
+                $sizedPath = $sizedFolderPath.$fileName;
+
+                craft()->images->loadImage($originalPath)
+                    ->scaleAndCrop($width, $height)
+                    ->saveAs($sizedPath);
+
+                return $sizedPath;
+            }
+        }
+    }
 }
