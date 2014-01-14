@@ -16,27 +16,131 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosService extends BaseApplicationComponent
 {
-    public function getVideoByUrl($videoUrl, $errorsEnabled = false)
+    public function getVideoThumbnail($gateway, $id, $w = 340, $h = null)
     {
-        try {
-            $video = $this->getVideoObjectFromUrl($videoUrl);
+        $uri = 'videosthumbnails/'.$gateway.'/'.$id.'/';
 
-            if($video) {
+        $uri .= $w;
 
-                $video = (array) $video;
+        if(!$h) {
+            // calculate hd ratio (1,280×720)
 
-                return Videos_VideoModel::populateModel($video);
+            $h = floor($w * 720 / 1280);
+        }
+
+        $uri .= '/'.$h;
+
+
+        return UrlHelper::getResourceUrl($uri);
+    }
+
+    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    {
+        $video = $this->_getVideoObjectByUrl($videoUrl, $enableCache, $cacheExpiry);
+
+        if($video) {
+
+            $video = (array) $video;
+
+            $response = Videos_VideoModel::populateModel($video);
+
+            return $response;
+        }
+    }
+
+    public function getVideoById($gateway, $id)
+    {
+        $video = $this->_getVideoObjectById($gateway, $id);
+
+        if($video) {
+
+            $video = (array) $video;
+
+            $response = Videos_VideoModel::populateModel($video);
+
+            return $response;
+        }
+    }
+
+    public function getEmbed($videoUrl, $opts)
+    {
+        $video = $this->_getVideoObjectByUrl($videoUrl);
+
+        return $video->getEmbed($opts);
+    }
+
+    private function _getVideoObjectById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    {
+        if($enableCache) {
+            $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
+
+            $response = craft()->fileCache->get($key);
+
+            if($response) {
+                return $response;
             }
+        }
+
+        try {
+
+            $gateways = $this->getGateways();
+
+            foreach($gateways as $gateway)
+            {
+                if($gateway->handle == $gatewayHandle) {
+
+                    $response = $gateway->getVideo($id);
+
+                    if($response) {
+                        craft()->fileCache->set($key, $response, $cacheExpiry);
+
+                        return $response;
+                    }
+                }
+            }
+
         } catch(\Exception $e) {
-            if($errorsEnabled) {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    private function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    {
+        if($enableCache) {
+            $key = 'videos.video.'.md5($videoUrl);
+
+            $response = craft()->fileCache->get($key);
+
+            if($response) {
+                return $response;
+            }
+        }
+
+        $gateways = $this->getGateways();
+
+        foreach($gateways as $gateway)
+        {
+            $params['url'] = $videoUrl;
+
+            try {
+                $response = $gateway->videoFromUrl($params);
+
+                if($response) {
+                    craft()->fileCache->set($key, $response, $cacheExpiry);
+
+                    return $response;
+                }
+
+            } catch(\Exception $e) {
                 throw new Exception($e->getMessage());
             }
         }
     }
 
-    public function getGatewayOpts($gateway)
+    private function getGatewayOpts($gateway)
     {
         $plugin = craft()->plugins->getPlugin('videos');
+
         $settings = $plugin->getSettings();
 
         $gatewayOpts = array(
@@ -52,34 +156,6 @@ class VideosService extends BaseApplicationComponent
         );
 
         return $gatewayOpts[$gateway];
-    }
-
-    public function getEmbed($videoUrl, $opts)
-    {
-        $video = $this->getVideoObjectFromUrl($videoUrl);
-
-        return $video->getEmbed($opts);
-    }
-
-    private function getVideoObjectFromUrl($videoUrl)
-    {
-        $gateways = $this->getGateways();
-
-        foreach($gateways as $gateway)
-        {
-            $params['url'] = $videoUrl;
-
-            try {
-                $video = $gateway->videoFromUrl($params);
-
-                if($video) {
-                    return $video;
-                }
-
-            } catch(\Exception $e) {
-                throw new Exception($e->getMessage());
-            }
-        }
     }
 
     private function getProviderOpts($gateway)
