@@ -178,7 +178,7 @@ class VideosService extends BaseApplicationComponent
         return $providerOpts[$gateway];
     }
 
-    private function getGateways()
+    public function getGateways()
     {
         $wrap = $this;
 
@@ -234,10 +234,34 @@ class VideosService extends BaseApplicationComponent
 
         foreach($allGateways as $g) {
             if(is_object($g)) {
-                array_push($gateways, $g);
+                $gateways[$g->handle] = $g;
             }
         }
 
         return $gateways;
+    }
+
+    public function getGatewaysWithSections()
+    {
+        try {
+            $gatewaysWithSections = array();
+
+            $gateways = $this->getGateways();
+
+            foreach($gateways as $gateway) {
+
+                if($gateway) {
+                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+
+                    if($gateway->sections = $class::getSections($gateway)) {
+                        array_push($gatewaysWithSections, $gateway);
+                    }
+                }
+            }
+
+            return $gatewaysWithSections;
+        } catch(\Exception $e) {
+            throw new Exception($e->getMessage());
+        }
     }
 }
