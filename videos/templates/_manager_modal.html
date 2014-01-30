@@ -1,0 +1,117 @@
+<div class="videos-manager">
+
+    <div class="videos-manager-player hidden"></div>
+
+    <!-- ko if: ($root.gateways().length == 0) -->
+        <div class="videos-no-gateway dk-center hidden">
+            <p class="light">Connect to a video gateway in <a href="{{ url('settings/plugins/videos') }}">Videos settings</a>.</p>
+        </div>
+    <!-- /ko -->
+
+    <!-- ko if: ($root.gateways().length > 0) -->
+
+        <div class="videos-sidebar">
+
+            <!-- Video Gateways Switch -->
+
+            <div class="dk-top">
+                <div class="input">
+                    <div class="select">
+                        <select data-bind="
+                            options: gateways,
+                            value: selectedGateway,
+                            optionsText: 'name',
+                            optionsValue: 'handle'">
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Sections -->
+
+            <div class="dk-middle">
+                <div data-bind="foreach: gateways">
+                    <!-- ko if: (handle == $root.selectedGateway()) -->
+
+                        <!-- ko if: $data.sections -->
+
+                            <div data-bind="foreach: $data.sections">
+
+                                <div class="dk-section">
+                                    <h2 data-bind="text: name"></h2>
+
+                                    <!-- ko if: $data.childs -->
+
+                                        <ul data-bind="foreach: $data.childs">
+                                            <li data-bind="text: name,
+                                                           css: { selected: url == $root.selectedSectionItem() },
+                                                           click: $root.goToSectionItem"></li>
+                                        </ul>
+
+                                    <!-- /ko -->
+                                </div>
+                            </div>
+
+                        <!-- /ko -->
+
+                    <!-- /ko -->
+                </div>
+            </div>
+        </div>
+
+        <div class="videos-main">
+
+            <div class="dk-top">
+                <form data-bind="submit: function(data, event) { $root.doSearch(true, data, event) }" class="search">
+                    <input class="text fullwidth" placeholder="Search videos" data-bind="value: searchQuery, valueUpdate: 'keyup', event:{keyup:doSearch}" />
+                </form>
+
+                <div class="dk-spinner spinner hidden"></div>
+            </div>
+
+            <div class="dk-middle">
+                <div class="dk-videos">
+
+                    <ul data-bind="foreach: videos">
+                        <li data-bind="css: { selected: $index() == $root.selectedVideoIndex() },
+                                       click: function(data, event) { $root.selectVideo($index(), data, event) }">
+                            {# <div class="dk-thumb"><img src="http://placehold.it/300x169"></div> #}
+
+                            <div class="dk-thumb">
+                                <img data-bind="attr: {src: thumbnailSource}">
+
+                                <div class="dk-play" data-bind="click: function(data, event) { $root.play($data, data, event) }"></div>
+                            </div>
+
+                            <h4 class="dk-title" data-bind="text: title"></h4>
+
+
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="dk-more hidden">
+                    <a href="#" data-bind="click: more">More</a>
+                </div>
+
+
+                <p class="dk-error error hidden">An error occured</p>
+            </div>
+        </div>
+
+        <div class="dk-bottom">
+
+            <div class="dk-left">
+                <a data-bind="click: back" href="#" class="dk-back btn hidden">&laquo; Back to videos</a>
+            </div>
+
+            <div class="dk-right">
+                <a data-bind="click: cancel" href="#" class="btn">Cancel</a>
+                <a data-bind="click: submit" href="#" class="btn submit">Select</a>
+            </div>
+
+        </div>
+
+    <!-- /ko -->
+</div>

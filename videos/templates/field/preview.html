@@ -11,8 +11,10 @@
             <p class="dkv-title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
 
             <ul class="light">
-                <li><strong>By</strong> <a href="{{ video.authorUrl }}">{{ video.authorName }}</a></li>
+                <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>
+                <li>By <strong><a href="{{ video.authorUrl }}" class="light">{{ video.authorName }}</a></strong></li>
                 <li>{{ video.plays }} views</li>
+                <li><a href="#" class="icon delete dk-remove"></a></li>
             </ul>
         </div>
     </div>
