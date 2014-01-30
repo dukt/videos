@@ -117,7 +117,7 @@ var Player = Modal.extend({
             url: url
         };
 
-        $.post(Craft.getUrl('videos/_player_modal'), data, $.proxy(function(response, textStatus, jqXHR)
+        $.post(Craft.getUrl('videos/modals/player'), data, $.proxy(function(response, textStatus, jqXHR)
         {
             if (textStatus == 'success')
             {

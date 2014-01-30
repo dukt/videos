@@ -9,7 +9,7 @@ var Manager = Modal.extend({
     {
         this.base();
 
-        $.post(Craft.getUrl('videos/_manager_modal'), {}, $.proxy(function(response, textStatus, jqXHR)
+        $.post(Craft.getUrl('videos/modals/manager'), {}, $.proxy(function(response, textStatus, jqXHR)
         {
             if (textStatus == 'success')
             {
