@@ -29,13 +29,6 @@ class Videos_VideoFieldType extends BaseFieldType
 		return AttributeType::String;
 	}
 
-	protected function defineSettings()
-    {
-        return array(
-            'mode' => array(AttributeType::Enum, 'required' => true, 'values' => array('url', 'manager'), 'default' => 'url'),
-        );
-    }
-
     public function getSettingsHtml()
     {
         return craft()->templates->render('videos/field/settings', array(
@@ -84,7 +77,7 @@ class Videos_VideoFieldType extends BaseFieldType
 
 	    // Render HTML
 
-		return craft()->templates->render('videos/field/'.$settings['mode'], array(
+		return craft()->templates->render('videos/field/index', array(
 			'id'    => $id,
 			'name'  => $name,
 			'value' => $value,
