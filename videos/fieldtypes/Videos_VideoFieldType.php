@@ -29,6 +29,20 @@ class Videos_VideoFieldType extends BaseFieldType
 		return AttributeType::String;
 	}
 
+	protected function defineSettings()
+    {
+        return array(
+            'mode' => array(AttributeType::Enum, 'required' => true, 'values' => array('url', 'manager'), 'default' => 'url'),
+        );
+    }
+
+    public function getSettingsHtml()
+    {
+        return craft()->templates->render('videos/field/settings', array(
+            'settings' => $this->getSettings()
+        ));
+    }
+
 	/**
 	 * Show field
 	 */
@@ -43,13 +57,20 @@ class Videos_VideoFieldType extends BaseFieldType
 
 	    $namespacedId = craft()->templates->namespaceInputId($id);
 
+	    $settings = $this->getSettings();
+
 
 	    // Resources
 
 		craft()->templates->includeCssResource('videos/css/field.css');
-		craft()->templates->includeJsResource('videos/js/PlayerModal.js');
-		craft()->templates->includeJsResource('videos/js/VideoInput.js');
-		craft()->templates->includeJs('new VideoInput("'.craft()->templates->namespaceInputId($id).'");');
+
+		craft()->templates->includeJsResource('videos/js/knockout-3.0.0.js');
+		craft()->templates->includeJsResource('videos/js/dukt.js');
+		craft()->templates->includeJsResource('videos/js/field.js');
+		craft()->templates->includeJsResource('videos/js/manager.js');
+		craft()->templates->includeJsResource('videos/js/manager.ko.js');
+
+		craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
 
 
 		$preview = craft()->templates->render('videos/field/preview', array('video' => $value));
@@ -63,7 +84,7 @@ class Videos_VideoFieldType extends BaseFieldType
 
 	    // Render HTML
 
-		return craft()->templates->render('videos/field', array(
+		return craft()->templates->render('videos/field/'.$settings['mode'], array(
 			'id'    => $id,
 			'name'  => $name,
 			'value' => $value,
