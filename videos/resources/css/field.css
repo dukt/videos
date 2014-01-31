@@ -282,7 +282,7 @@
   height: 100%;
 }
 .videos-manager .dk-videos ul li div.dk-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner img {
-  width: auto;
+  width: 180px;
   display: inline-block;
   vertical-align: middle;
   border: 0;
