@@ -41,6 +41,14 @@ class Videos_VideoFieldType extends BaseFieldType
 	 */
 	public function getInputHtml($name, $value)
 	{
+		$video = false;
+
+		if(is_object($value))
+		{
+			$video = $value;
+			$value = $video->url;
+		}
+
 	    // Reformat the input name into something that looks more like an ID
 
 	    $id = craft()->templates->formatInputId($name);
@@ -65,15 +73,8 @@ class Videos_VideoFieldType extends BaseFieldType
 
 		craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
 
+		$preview = craft()->templates->render('videos/field/preview', array('video' => $video));
 
-		$preview = craft()->templates->render('videos/field/preview', array('video' => $value));
-
-
-	    // Set video url as value
-
-		if(is_object($value)) {
-			$value = $value->url;
-		}
 
 	    // Render HTML
 
@@ -90,9 +91,15 @@ class Videos_VideoFieldType extends BaseFieldType
 	 */
 	public function prepValue($videoUrl)
 	{
-		$video = craft()->videos->getVideoByUrl($videoUrl);
+		try {
+			$video = craft()->videos->getVideoByUrl($videoUrl);
 
-		return $video;
+			return $video;
+		}
+		catch(\Exception $e)
+		{
+			return $videoUrl;
+		}
 	}
 
 	/**

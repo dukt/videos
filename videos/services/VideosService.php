@@ -110,6 +110,7 @@ class VideosService extends BaseApplicationComponent
 
     private function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
+
         if($enableCache) {
             $key = 'videos.video.'.md5($videoUrl);
 
