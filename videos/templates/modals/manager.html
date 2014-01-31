@@ -79,7 +79,16 @@
                             {# <div class="dk-thumb"><img src="http://placehold.it/300x169"></div> #}
 
                             <div class="dk-thumb">
-                                <img data-bind="attr: {src: thumbnailSource}">
+
+                                <span class="dkv-clip-outer">
+                                    <span class="dkv-clip">
+                                        <span class="dkv-clip-inner">
+                                            <img data-bind="attr: {src: thumbnailSource}">
+                                            <span class="dkv-vertical-align"></span>
+                                        </span>
+                                    </span>
+                                </span>
+
 
                                 <div class="dk-play" data-bind="click: function(data, event) { $root.play($data, data, event) }"></div>
                             </div>
