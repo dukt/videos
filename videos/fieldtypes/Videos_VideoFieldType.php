@@ -29,13 +29,6 @@ class Videos_VideoFieldType extends BaseFieldType
 		return AttributeType::String;
 	}
 
-    public function getSettingsHtml()
-    {
-        return craft()->templates->render('videos/field/settings', array(
-            'settings' => $this->getSettings()
-        ));
-    }
-
 	/**
 	 * Show field
 	 */
