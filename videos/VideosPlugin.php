@@ -5,7 +5,7 @@
  *
  * @package   Craft Videos
  * @author    Benjamin David
- * @copyright Copyright (c) 2013, Dukt
+ * @copyright Copyright (c) 2014, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
  * @link      https://dukt.net/craft/videos
  */
@@ -27,7 +27,7 @@ class VideosPlugin extends BasePlugin
 	 */
     function getVersion()
     {
-        return '0.9.8';
+        return '0.9.9';
     }
 
 	/**
