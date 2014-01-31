@@ -297,7 +297,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
-  padding: 0.5em 5px;
+  padding: 0.5em 8px;
+  margin-top: -0.3em;
+  font-size: 0.9em;
 }
 .videos-manager .dk-videos ul li .dk-title:hover {
   cursor: default;
