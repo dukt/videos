@@ -73,7 +73,7 @@ class VideosService extends BaseApplicationComponent
         return $video->getEmbed($opts);
     }
 
-    private function _getVideoObjectById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    public function _getVideoObjectById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
         if($enableCache) {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);

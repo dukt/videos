@@ -132,14 +132,18 @@ class VideosPlugin extends BasePlugin
             }
             else
             {
-                $video = craft()->videos->getVideoById($gateway, $videoId);
+                // get video from its id,
+                // but we don't want a Videos_VideoModel object
+                // otherwise it's gonna loops forever with thumbnail generation
+
+                $video = craft()->videos->_getVideoObjectById($gateway, $videoId);
+                $video = (array) $video;
+
 
                 IOHelper::ensureFolderExists($sizedFolderPath);
                 IOHelper::ensureFolderExists($originalFolderPath);
 
                 $url = $video['thumbnailSourceLarge'];
-
-
 
                 $fileName = pathinfo($url, PATHINFO_BASENAME);
                 $originalPath = $originalFolderPath.$fileName;

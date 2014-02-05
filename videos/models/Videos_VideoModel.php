@@ -39,6 +39,18 @@ class Videos_VideoModel extends BaseModel
         );
     }
 
+    public function getAttributes($names = null, $flattenValues = false)
+    {
+        $attributes = parent::getAttributes($names, $flattenValues);
+
+        if ($flattenValues)
+        {
+            $attributes['thumbnail'] = $this->getThumbnail();
+        }
+
+        return $attributes;
+    }
+
     public function getThumbnail($w = 350, $h = null)
     {
         return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
