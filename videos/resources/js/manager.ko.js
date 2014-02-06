@@ -18,6 +18,18 @@ function KoManager() {
             {
                 $this.gateways(response.gateways);
 
+
+
+                //init some stuff
+
+                var videosContainer = $('.videos-main .dk-middle');
+                var noVideos = $('.dk-no-videos', videosContainer);
+
+                Dukt.Utils.positionCenter(noVideos, videosContainer);
+
+
+
+
                 if($this.gateways().length == 0)
                 {
                     $('.videos-no-gateway', this.$container).removeClass('hidden')
@@ -136,6 +148,15 @@ function KoManager() {
                     else
                     {
                         $this.videos($this.videos().concat(response.videos));
+                    }
+
+                    if($this.videos().length == 0)
+                    {
+                        $('.dk-no-videos', $manager.$container).removeClass('hidden');
+                    }
+                    else
+                    {
+                        $('.dk-no-videos', $manager.$container).addClass('hidden');
                     }
 
                     if(typeof response.videos != 'undefined')

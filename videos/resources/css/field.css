@@ -150,6 +150,10 @@
   opacity: .7 !important;
   cursor: pointer;
 }
+.videos-manager .dk-no-videos {
+  position: absolute;
+  color: #ccc;
+}
 .videos-manager .dk-top {
   padding: 24px;
   height: 30px;
