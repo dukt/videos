@@ -14,8 +14,20 @@ namespace Craft;
 
 require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
+use Symfony\Component\Finder\Finder;
+
 class VideosService extends BaseApplicationComponent
 {
+    private $_gateways = array();
+    private $_gatewaysLoaded = false;
+
+    public function init()
+    {
+        $this->loadGateways();
+
+        parent::init();
+    }
+
     public function getVideoThumbnail($gateway, $id, $w = 340, $h = null)
     {
         $uri = 'videosthumbnails/'.$gateway.'/'.$id.'/';
@@ -108,7 +120,7 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    private function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    private function _getVideoObjectByUrl($videoUrl, $enableCache = false, $cacheExpiry = 3600)
     {
 
         if($enableCache) {
@@ -179,7 +191,29 @@ class VideosService extends BaseApplicationComponent
         return $providerOpts[$gateway];
     }
 
+
+
     public function getGateways()
+    {
+        return $this->_gateways;
+    }
+
+    public function getGateway($gatewayHandle)
+    {
+        foreach($this->_gateways as $g)
+        {
+            if($g->handle == $gatewayHandle)
+            {
+                return $g;
+            }
+        }
+
+        return null;
+    }
+
+
+
+    public function deprecated_getGateways()
     {
         $wrap = $this;
 
@@ -263,6 +297,64 @@ class VideosService extends BaseApplicationComponent
             return $gatewaysWithSections;
         } catch(\Exception $e) {
             throw new Exception($e->getMessage());
+        }
+    }
+
+    private function loadGateways()
+    {
+        if(!$this->_gatewaysLoaded)
+        {
+            $this->_gatewaysLoaded = true;
+
+            $finder = new Finder();
+
+            $directories = $finder->directories()->depth(0)->in(CRAFT_PLUGINS_PATH.'videos/vendor/dukt/videos/src/Dukt/Videos/');
+
+            foreach($directories as $directory)
+            {
+
+                $pathName = $directory->getRelativePathName();
+
+                if($pathName == 'Common')
+                {
+                    continue;
+                }
+
+                $nsClass = '\\Dukt\\Videos\\'.$pathName.'\\Service';
+                $gateway = new $nsClass;
+
+                // load gateway settings
+
+
+                //$token = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
+
+                $oauthProvider = craft()->oauth->getProvider($gateway->oauthProvider);
+                $accessToken = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
+
+
+                // $gatewayRecord = $this->getGatewayRecord($gateway->handle);
+
+                if($oauthProvider)
+                {
+
+                   if(!empty($oauthProvider->clientId))
+                   {
+                        $gateway->clientId = $oauthProvider->clientId;
+                   }
+
+                   if(!empty($oauthProvider->clientSecret))
+                   {
+                        $gateway->clientSecret = $oauthProvider->clientSecret;
+                   }
+
+                   if(!empty($accessToken))
+                   {
+                        $gateway->accessToken = $accessToken->getRealToken();
+                   }
+                }
+
+                $this->_gateways[] = $gateway;
+            }
         }
     }
 }

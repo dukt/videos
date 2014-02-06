@@ -110,12 +110,10 @@ class VideosController extends BaseController
 
             // perform request
 
-            $gateways = craft()->videos->getGateways();
+            $gateway = craft()->videos->getGateway($gatewayHandle);
 
-            if(!empty($gateways[$gatewayHandle]))
+            if(!empty($gateway))
             {
-                $gateway = $gateways[$gatewayHandle];
-
                 $realMethod = 'getVideos'.ucwords($method);
                 $options = craft()->request->getPost('options');
 
