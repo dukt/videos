@@ -91,6 +91,11 @@
 }
 .dkv-video:hover .dk-play {
   opacity: .7;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 .videos-overlay {
   background: #000;
@@ -312,6 +317,11 @@
 }
 .videos-manager .dk-videos ul li:hover .dk-thumb .dk-play {
   opacity: .7;
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;
+  -ms-transition: all 0.5s ease;
+  -o-transition: all 0.5s ease;
+  transition: all 0.5s ease;
 }
 .videos-manager-player {
   position: absolute;
