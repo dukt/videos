@@ -144,6 +144,24 @@ class VideosController extends BaseController
         {
             $gateways = craft()->videos->getGatewaysWithSections();
 
+
+            // filter gateway sections with childs only
+
+            foreach($gateways as $k => $g)
+            {
+                foreach($g->sections as $k2 => $s)
+                {
+                    if(count($s['childs']) == 0)
+                    {
+                        unset($g->sections[$k2]);
+                    }
+                }
+
+                $gateways[$k] = $g;
+            }
+
+            // return json
+
             $this->returnJson(array(
                 'gateways' => $gateways
             ));

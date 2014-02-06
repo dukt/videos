@@ -22,7 +22,7 @@ function KoManager() {
 
                 //init some stuff
 
-                var videosContainer = $('.videos-main .dk-middle');
+                var videosContainer = $('.videos-main .dk-middle', $manager.$container);
                 var noVideos = $('.dk-no-videos', videosContainer);
 
                 Dukt.Utils.positionCenter(noVideos, videosContainer);
