@@ -305,7 +305,10 @@
   cursor: default;
 }
 .videos-manager .dk-videos ul li.selected {
-  background: #ddd;
+  background: rgba(221, 221, 221, 0.5);
+}
+.videos-manager .dk-videos ul li.selected .dk-title {
+  color: #555;
 }
 .videos-manager .dk-videos ul li:hover .dk-thumb .dk-play {
   opacity: .7;
