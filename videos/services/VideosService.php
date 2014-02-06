@@ -105,7 +105,7 @@ class VideosService extends BaseApplicationComponent
             {
                 if($gateway->handle == $gatewayHandle) {
 
-                    $response = $gateway->getVideo($id);
+                    $response = $gateway->getVideo(array('id' => $id));
 
                     if($response) {
                         craft()->fileCache->set($key, $response, $cacheExpiry);
@@ -120,7 +120,7 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    private function _getVideoObjectByUrl($videoUrl, $enableCache = false, $cacheExpiry = 3600)
+    private function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
 
         if($enableCache) {
@@ -149,7 +149,7 @@ class VideosService extends BaseApplicationComponent
                 }
 
             } catch(\Exception $e) {
-                throw new Exception($e->getMessage());
+                // throw new Exception($e->getMessage());
             }
         }
     }

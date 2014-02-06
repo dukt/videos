@@ -114,7 +114,6 @@ function KoManager() {
         Craft.postActionRequest('videos/getVideosFromUrl', data, $.proxy(function(response, textStatus)
         {
             $manager.spinner('off');
-            $this.selectedVideoIndex(null);
 
             if (response && textStatus == 'success')
             {
@@ -126,6 +125,10 @@ function KoManager() {
 
                     if(!more)
                     {
+
+                        $this.selectedVideoIndex(null);
+                        $('.submit', $manager.$container).addClass('disabled');
+
                         $('.videos-main .dk-middle', $manager.$container).get(0).scrollTop = 0;
 
                         $this.videos(response.videos);
@@ -163,7 +166,6 @@ function KoManager() {
                             $manager.getVideosError("Couldn't get videos.");
                         }
                     }
-
                 }
                 else
                 {
@@ -258,18 +260,23 @@ function KoManager() {
 
     // submit
 
-    $this.submit = function()
+    $this.submit = function(a, b, c, d)
     {
-        var index = $this.selectedVideoIndex();
-        var videos = $this.videos();
-        var video = videos[index];
+        $target = $(b.target);
 
-        var field = $manager.$field;
+        if(!$target.hasClass('disabled'))
+        {
+            var index = $this.selectedVideoIndex();
+            var videos = $this.videos();
+            var video = videos[index];
 
-        field.$input.val(video.url);
-        field.lookupVideo();
+            var field = $manager.$field;
 
-        $manager.close();
+            field.$input.val(video.url);
+            field.lookupVideo();
+
+            $manager.close();
+        }
     };
 
     // selectVideo
@@ -277,6 +284,7 @@ function KoManager() {
     $this.selectVideo = function(index, video)
     {
         $this.selectedVideoIndex(index);
-        // $manager.close();
+
+        $('.submit', $manager.$container).removeClass('disabled');
     };
 }
