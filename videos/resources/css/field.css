@@ -97,6 +97,9 @@
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
+.dkv-video img {
+  background: url(../img/spinner.gif) center center no-repeat;
+}
 .videos-overlay {
   background: #000;
   opacity: .5;
@@ -149,6 +152,9 @@
 .dk-play:hover {
   opacity: .7 !important;
   cursor: pointer;
+}
+.videos-manager .videos-gateways-loading {
+  position: absolute;
 }
 .videos-manager .dk-no-videos {
   position: absolute;
@@ -255,7 +261,7 @@
 .videos-manager .dk-videos ul li div.dk-thumb {
   display: inline-block;
   position: relative;
-  background: #fafafa;
+  background: url(../img/spinner.gif) center center no-repeat;
   overflow: hidden;
 }
 .videos-manager .dk-videos ul li div.dk-thumb .dkv-clip-outer {

@@ -32,7 +32,8 @@ function KoManager() {
 
                 if($this.gateways().length == 0)
                 {
-                    $('.videos-no-gateway', this.$container).removeClass('hidden')
+                    $('.videos-no-gateway', this.$container).removeClass('hidden');
+                    $('.videos-gateways-loading', this.$container).addClass('hidden');
                 }
 
                 $('.videos-sidebar .dk-section:first-child li:first-child', $manager.$container).trigger('click');

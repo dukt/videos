@@ -15,9 +15,17 @@ var Manager = Modal.extend({
             {
                 this.$inject.html(response);
 
+                $container = this.$container;
 
                 // Activates Knockout
-                ko.applyBindings(new KoManager(), $('.videos-manager', this.$container).get(0));
+                ko.applyBindings(new KoManager(), $('.videos-manager', $container).get(0));
+
+                // init stuff very early
+
+                var gatewaysLoadingContainer = $container;
+                var gatewaysLoading = $('.videos-gateways-loading', gatewaysLoadingContainer);
+
+                Dukt.Utils.positionCenter(gatewaysLoading, gatewaysLoadingContainer);
             }
 
         }, this));

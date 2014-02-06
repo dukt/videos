@@ -163,7 +163,11 @@
 
 
 
-
+.dkv-video {
+    img {
+        background: url(../img/spinner.gif) center center no-repeat;
+    }
+}
 
 
 
@@ -237,6 +241,10 @@
 }
 
 .videos-manager {
+
+    .videos-gateways-loading {
+        position: absolute;
+    }
 
     .dk-no-videos
     {
@@ -385,7 +393,7 @@
                 {
                     display: inline-block;
                     position: relative;
-                    background: #fafafa;
+                    background: url(../img/spinner.gif) center center no-repeat;
                     overflow: hidden;
 
                     .dkv-clip-outer {
