@@ -22,14 +22,6 @@ function KoManager() {
 
                 //init some stuff
 
-                var videosContainer = $('.videos-main .dk-middle', $manager.$container);
-                var noVideos = $('.dk-no-videos', videosContainer);
-
-                Dukt.Utils.positionCenter(noVideos, videosContainer);
-
-
-
-
                 if($this.gateways().length == 0)
                 {
                     $('.videos-no-gateway', this.$container).removeClass('hidden');
@@ -37,6 +29,12 @@ function KoManager() {
                 }
 
                 $('.videos-sidebar .dk-section:first-child li:first-child', $manager.$container).trigger('click');
+
+
+                var videosContainer = $('.videos-main .dk-middle', $manager.$container);
+                var noVideos = $('.dk-no-videos', videosContainer);
+
+                Dukt.Utils.positionCenter(noVideos, videosContainer);
             }
             else
             {
@@ -78,45 +76,59 @@ function KoManager() {
 
     $this.searchQuery = "";
     $this.previousSearchQuery = "";
-
     $this.searchTimeout = false;
 
-    $this.pagination = {
-        page:1,
-        perPage: 36
-    };
 
-    $this.getVideosData = {};
+    $this.lastRequestData = {};
+
+    $this.defaultPagination = function()
+    {
+        return {
+            page:1,
+            perPage: 36,
+            nextPageToken: null
+        };
+    }
+
+    $this.pagination = $this.defaultPagination();
 
     $this.getVideos = function(data)
     {
         var more = false;
 
+        console.log('init data', data);
+
         if(typeof data == 'undefined')
         {
+            // no data ? try to use last request for more
             more = true;
-            data = $this.getVideosData;
+            data = $this.lastRequestData;
         }
         else
         {
-            $this.getVideosData = data;
-
-            // reset pagination
-            $this.pagination = {
-                page:1,
-                perPage: 36
-            };
+            // data ? let's remember about it
+            $this.lastRequestData = data;
         }
 
         if(typeof data.options == 'undefined')
         {
+            console.log('no existing options', data);
+            // no existing options ? use the defaults
             data.options = {};
+            $this.pagination = $this.defaultPagination();
+        }
+        else
+        {
+            // make pagination move
+            console.log('existing options', data);
         }
 
+
         data.options.page = $this.pagination.page;
-
         data.options.perPage = $this.pagination.perPage;
+        data.options.nextPageToken = $this.pagination.nextPageToken;
 
+        console.log('used data', data);
 
         $manager.spinner('on');
 
@@ -130,6 +142,12 @@ function KoManager() {
 
             if (response && textStatus == 'success')
             {
+                if (response.hasOwnProperty('nextPageToken'))
+                {
+                    $this.pagination.nextPageToken = response.nextPageToken;
+                    console.log('nextPageToken', response.nextPageToken);
+                }
+
                 if (!response.hasOwnProperty('error'))
                 {
                     // success
@@ -160,16 +178,20 @@ function KoManager() {
                         $('.dk-no-videos', $manager.$container).addClass('hidden');
                     }
 
+                    console.log('response.videos', data.options.perPage, response.videos);
+
                     if(typeof response.videos != 'undefined')
                     {
                         if(response.videos.length == data.options.perPage)
                         {
+                            console.log('show');
                             // show load more
                             $manager.more('show');
                         }
                         else
                         {
                             $manager.more('hide');
+                            console.log('hide');
                         }
                     }
                     else

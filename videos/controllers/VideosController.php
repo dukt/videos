@@ -84,8 +84,6 @@ class VideosController extends BaseController
             $gatewayHandle = false;
             $method = false;
             $id = false;
-            $videos = array();
-
 
             // explode url
 
@@ -111,6 +109,7 @@ class VideosController extends BaseController
             // perform request
 
             $gateway = craft()->videos->getGateway($gatewayHandle);
+            $response = array();
 
             if(!empty($gateway))
             {
@@ -122,12 +121,10 @@ class VideosController extends BaseController
                     $options['id'] = $id;
                 }
 
-                $videos = $gateway->{$realMethod}($options);
+                $response = $gateway->{$realMethod}($options);
             }
 
-            $this->returnJson(array(
-                'videos' => $videos
-            ));
+            $this->returnJson($response);
         }
         catch(\Exception $e)
         {
