@@ -62,6 +62,12 @@ function KoManager() {
     {
         $manager.spinner('on');
 
+        $this.pagination = {
+            page:1,
+            nextPage: null,
+            nextPageToken: null
+        };
+
         var data = {
             url: item.url
         };
@@ -79,29 +85,27 @@ function KoManager() {
     $this.searchTimeout = false;
 
 
+    // get videos
+
     $this.lastRequestData = {};
 
-    $this.defaultPagination = function()
-    {
-        return {
-            page:1,
-            perPage: 36,
-            nextPageToken: null
-        };
-    }
-
-    $this.pagination = $this.defaultPagination();
+    $this.pagination = {
+        page:1,
+        nextPage: null,
+        nextPageToken: null
+    };
 
     $this.getVideos = function(data)
     {
-        var more = false;
+        var isNewRequest = true;
 
         console.log('init data', data);
+        console.log('last request data', $this.lastRequestData);
 
         if(typeof data == 'undefined')
         {
             // no data ? try to use last request for more
-            more = true;
+            isNewRequest = false;
             data = $this.lastRequestData;
         }
         else
@@ -112,20 +116,10 @@ function KoManager() {
 
         if(typeof data.options == 'undefined')
         {
-            console.log('no existing options', data);
-            // no existing options ? use the defaults
             data.options = {};
-            $this.pagination = $this.defaultPagination();
-        }
-        else
-        {
-            // make pagination move
-            console.log('existing options', data);
         }
 
-
-        data.options.page = $this.pagination.page;
-        data.options.perPage = $this.pagination.perPage;
+        data.options.nextPage = $this.pagination.nextPage;
         data.options.nextPageToken = $this.pagination.nextPageToken;
 
         console.log('used data', data);
@@ -140,80 +134,69 @@ function KoManager() {
         {
             $manager.spinner('off');
 
-            if (response && textStatus == 'success')
+            if (response && textStatus == 'success' && !response.hasOwnProperty('error') && typeof response.videos != 'undefined')
             {
+                // pagination
+
+                if (response.hasOwnProperty('nextPage'))
+                {
+                    $this.pagination.nextPage = response.nextPage;
+                }
+
                 if (response.hasOwnProperty('nextPageToken'))
                 {
                     $this.pagination.nextPageToken = response.nextPageToken;
-                    console.log('nextPageToken', response.nextPageToken);
                 }
 
-                if (!response.hasOwnProperty('error'))
+                if (response.hasOwnProperty('more') && response.more == true)
                 {
-                    // success
+                    $manager.more('show');
+                }
 
-                    $('.dk-videos', $manager.$container).removeClass('hidden');
+                // handle response
 
-                    if(!more)
-                    {
+                $('.dk-videos', $manager.$container).removeClass('hidden');
 
-                        $this.selectedVideoIndex(null);
-                        $('.submit', $manager.$container).addClass('disabled');
+                if (isNewRequest)
+                {
+                    $this.selectedVideoIndex(null);
+                    $('.submit', $manager.$container).addClass('disabled');
 
-                        $('.videos-main .dk-middle', $manager.$container).get(0).scrollTop = 0;
+                    $('.videos-main .dk-middle', $manager.$container).get(0).scrollTop = 0;
 
-                        $this.videos(response.videos);
-                    }
-                    else
-                    {
-                        $this.videos($this.videos().concat(response.videos));
-                    }
-
-                    if($this.videos().length == 0)
-                    {
-                        $('.dk-no-videos', $manager.$container).removeClass('hidden');
-                    }
-                    else
-                    {
-                        $('.dk-no-videos', $manager.$container).addClass('hidden');
-                    }
-
-                    console.log('response.videos', data.options.perPage, response.videos);
-
-                    if(typeof response.videos != 'undefined')
-                    {
-                        if(response.videos.length == data.options.perPage)
-                        {
-                            console.log('show');
-                            // show load more
-                            $manager.more('show');
-                        }
-                        else
-                        {
-                            $manager.more('hide');
-                            console.log('hide');
-                        }
-                    }
-                    else
-                    {
-                        if(!more)
-                        {
-                            // hide videos
-                            $('.dk-videos', $manager.$container).addClass('hidden');
-
-                            // error
-                            $manager.getVideosError("Couldn't get videos.", true);
-                        }
-                        else
-                        {
-                            // error
-                            $manager.getVideosError("Couldn't get videos.");
-                        }
-                    }
+                    $this.videos(response.videos);
                 }
                 else
                 {
-                    if(!more)
+                    $this.videos($this.videos().concat(response.videos));
+                }
+
+
+                // no videos
+
+                if($this.videos().length == 0)
+                {
+                    $('.dk-no-videos', $manager.$container).removeClass('hidden');
+                }
+                else
+                {
+                    $('.dk-no-videos', $manager.$container).addClass('hidden');
+                }
+            }
+            else
+            {
+                //error
+
+                if(response.hasOwnProperty('error'))
+                {
+                    // handle errors
+
+                    if (isNewRequest)
+                    {
+                        // inline error
+                        $manager.getVideosError(response.error);
+                    }
+                    else
                     {
                         // hide videos
 
@@ -222,23 +205,28 @@ function KoManager() {
                         // error
                         $manager.getVideosError(response.error, true);
                     }
+                }
+                else if(typeof response.videos == 'undefined')
+                {
+                    if(isNewRequest)
+                    {
+                        // hide videos
+                        $('.dk-videos', $manager.$container).addClass('hidden');
+
+                        // error
+                        $manager.getVideosError("Couldn't get videos.", true);
+                    }
                     else
                     {
-                        // error
-                        $manager.getVideosError(response.error);
+                        $manager.getVideosError("Couldn't get videos.");
                     }
                 }
-            }
-            else
-            {
-
             }
         }, this));
     };
 
     $this.more = function()
     {
-        $this.pagination.page = $this.pagination.page + 1;
         $this.getVideos();
     }
 
