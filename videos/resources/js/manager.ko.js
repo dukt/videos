@@ -62,11 +62,7 @@ function KoManager() {
     {
         $manager.spinner('on');
 
-        $this.pagination = {
-            page:1,
-            nextPage: null,
-            nextPageToken: null
-        };
+        $this.resetVideosRequest();
 
         var data = {
             url: item.url
@@ -85,15 +81,21 @@ function KoManager() {
     $this.searchTimeout = false;
 
 
+    // reset videos request
+
+    $this.resetVideosRequest = function()
+    {
+        $this.lastRequestData = {};
+
+        $this.pagination = {
+            page:1,
+            nextPage: null,
+            nextPageToken: null
+        };
+    }
+
+
     // get videos
-
-    $this.lastRequestData = {};
-
-    $this.pagination = {
-        page:1,
-        nextPage: null,
-        nextPageToken: null
-    };
 
     $this.getVideos = function(data)
     {
@@ -129,6 +131,9 @@ function KoManager() {
         $manager.getVideosErrorReset();
 
         $manager.more('hide');
+
+
+        // perform request
 
         Craft.postActionRequest('videos/getVideosFromUrl', data, $.proxy(function(response, textStatus)
         {
