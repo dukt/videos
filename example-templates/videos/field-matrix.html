@@ -14,10 +14,10 @@
 
             {% if video %}
 
-                <div class="col-xs-6 col-md-4">
+                <div class="col-xs-6 col-md-2">
 
-                    <a href="{{ video.url }}" data-toggle="lightbox">
-                        <img class="thumbnail" src="{{ video.thumbnail }}" />
+                    <a href="{{ video.url }}" data-remote="{{ video.embedUrl({autoplay:1}) }}" data-toggle="lightbox">
+                        <img class="img-responsive" src="{{ video.thumbnail }}" />
                     </a>
 
                 </div>

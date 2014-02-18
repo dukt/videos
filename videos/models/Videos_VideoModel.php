@@ -68,7 +68,7 @@ class Videos_VideoModel extends BaseModel
         return new \Twig_Markup($embed, $charset);
     }
 
-    public function getEmbedUrl($opts)
+    public function getEmbedUrl($opts = array())
     {
         $video = $this->getVideo();
 
@@ -83,7 +83,7 @@ class Videos_VideoModel extends BaseModel
     private function getVideo()
     {
         if(!$this->_video) {
-            $this->_video = craft()->videos->getVideoObjectFromUrl($this->url);
+            $this->_video = craft()->videos->_getVideoObjectByUrl($this->url);
         }
 
         return $this->_video;
