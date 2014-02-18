@@ -103,12 +103,17 @@ class VideosService extends BaseApplicationComponent
 
             foreach($gateways as $gateway)
             {
-                if($gateway->handle == $gatewayHandle) {
+                if($gateway->handle == $gatewayHandle)
+                {
 
                     $response = $gateway->getVideo(array('id' => $id));
 
-                    if($response) {
-                        craft()->fileCache->set($key, $response, $cacheExpiry);
+                    if($response)
+                    {
+                        if($enableCache)
+                        {
+                            craft()->fileCache->set($key, $response, $cacheExpiry);
+                        }
 
                         return $response;
                     }
@@ -139,16 +144,23 @@ class VideosService extends BaseApplicationComponent
         {
             $params['url'] = $videoUrl;
 
-            try {
+            try
+            {
                 $response = $gateway->videoFromUrl($params);
 
-                if($response) {
-                    craft()->fileCache->set($key, $response, $cacheExpiry);
+                if($response)
+                {
+                    if($enableCache)
+                    {
+                        craft()->fileCache->set($key, $response, $cacheExpiry);
+                    }
 
                     return $response;
                 }
 
-            } catch(\Exception $e) {
+            }
+            catch(\Exception $e)
+            {
                 // throw new Exception($e->getMessage());
             }
         }
