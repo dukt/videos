@@ -22,10 +22,19 @@
     </ul>
 
 
+    <h3>Thumbnails</h3>
+
+    <ul>
+        <li><img src="{{video.thumbnailSource}}" /></li>
+        <li><img src="{{video.thumbnailSourceLarge}}" /></li>
+    </ul>
+
+
+
     <h3>Embed</h3>
     {{video.embed({width:550, height:310})}}
 
-    {% if video.thumbnails|length > 0 %}
+    {#% if video.thumbnails|length > 0 %}
         <h3>Thumbnails</h3>
 
 
@@ -39,7 +48,7 @@
         <h5>thumbnail (custom width &amp; height)</h5>
 
         <img src="{{ video.thumbnail(100, 100) }}" />
-    {% endif %}
+    {% endif %#}
 
 {% else %}
     <p>Couldn't find video</p>

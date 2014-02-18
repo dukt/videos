@@ -41,6 +41,8 @@
 
             <ul class="nav navbar-nav">
                 <li{{(craft.request.segment(2) == 'video' ? ' class="active"' : '')}}><a href="{{ url('videos/video') }}">Video Details</a></li>
+                <li{{(craft.request.segment(2) == 'vimeo' ? ' class="active"' : '')}}><a href="{{ url('videos/vimeo') }}">Vimeo Video</a></li>
+                <li{{(craft.request.segment(2) == 'youtube' ? ' class="active"' : '')}}><a href="{{ url('videos/youtube') }}">YouTube Video</a></li>
                 <li{{(craft.request.segment(2) == 'field' ? ' class="active"' : '')}}><a href="{{ url('videos/field') }}">Video Field</a></li>
                 <li{{(craft.request.segment(2) == 'field-matrix' ? ' class="active"' : '')}}><a href="{{ url('videos/field-matrix') }}">Video Field with Matrix</a></li>
             </ul>
