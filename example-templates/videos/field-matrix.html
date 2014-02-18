@@ -32,7 +32,7 @@
     <p>This example uses <a href="https://github.com/ashleydw/lightbox">lightbox module</a> for Bootstrap by <a href="https://github.com/ashleydw">@ashleydw</a></p>
 
 
-    <script src="//rawgithub.com/ashleydw/lightbox/master/ekko-lightbox.js"></script>
+    <script src="//rawgithub.com/ashleydw/lightbox/master/dist/ekko-lightbox.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function ($) {
@@ -41,6 +41,7 @@
             $(document).delegate('*[data-toggle="lightbox"]', 'click', function(event) {
                 event.preventDefault();
                 return $(this).ekkoLightbox({
+                    always_show_close: false,
                     onShown: function() {
                         if (window.console) {
                             return console.log('Checking our the events huh?');
