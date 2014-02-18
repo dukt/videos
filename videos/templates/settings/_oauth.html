@@ -1,5 +1,6 @@
 {% if not provider %}
-	<p>Go to <a href="{{url('oauth/settings/'~providerOpts.handle)}}">OAuth settings</a> in order to configure this provider with your API client id &amp; secret.</p>
+
+	<p>{{ "Go to {link} in order to configure this provider with your API client id & secret."|t({link:'<a href="'~url('oauth/settings/'~providerOpts.handle)~'">'~'OAuth settings'|t~'</a>'})|raw }}</p>
 
 {% else %}
 
@@ -17,29 +18,29 @@
 
 		<ul>
 			{% if account.uid is defined %}
-				<li><strong>UID :</strong> {{account.uid}}</li>
+				<li><strong>{{"UID"|t}}:</strong> {{account.uid}}</li>
 			{% endif %}
 
 			{% if account.nickname is defined %}
-				<li><strong>Nickname :</strong> {{account.nickname}}</li>
+				<li><strong>{{"Nickname"|t}}:</strong> {{account.nickname}}</li>
 			{% endif %}
 
 			{% if account.name is defined %}
-				<li><strong>Name :</strong> {{account.name}}</li>
+				<li><strong>{{"Name"|t}}:</strong> {{account.name}}</li>
 			{% endif %}
 
 			{% if account.email is defined %}
-				<li><strong>Email :</strong> {{account.email}}</li>
+				<li><strong>{{"Email"|t}}:</strong> {{account.email}}</li>
 			{% endif %}
 		</ul>
 
 		<p>
-			<a class="btn small" href="{{craft.oauth.disconnect(providerOpts.handle, 'videos.'~providerOpts.handle)}}">Disconnect</a>
+			<a class="btn small" href="{{craft.oauth.disconnect(providerOpts.handle, 'videos.'~providerOpts.handle)}}">{{"Disconnect"|t}}</a>
 		</p>
 
 	{% else %}
 
-		<p>You need to connect Craft with the video service.</p>
+		<p>{{"You need to connect Craft with the video service."|t}}</p>
 
 		{% if providerOpts.scope is defined %}
 			{% set scope = providerOpts.scope %}
@@ -47,7 +48,7 @@
 			{% set scope = null %}
 		{% endif %}
 		<div class="buttons">
-			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">Connect</a>
+			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">{{"Connect"|t}}</a>
 		</div>
 	{% endif %}
 {% endif %}

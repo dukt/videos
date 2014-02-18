@@ -66,7 +66,7 @@
 
             <div class="dk-top">
                 <form data-bind="submit: function(data, event) { $root.doSearch(true, data, event) }" class="search">
-                    <input class="text fullwidth" placeholder="Search videos" data-bind="value: searchQuery, valueUpdate: 'keyup', event:{keyup:doSearch}" />
+                    <input class="text fullwidth" placeholder="{{"Search videos"|t}}" data-bind="value: searchQuery, valueUpdate: 'keyup', event:{keyup:doSearch}" />
                 </form>
 
                 <div class="dk-spinner spinner hidden"></div>
@@ -84,7 +84,7 @@
                                 <span class="dkv-clip-outer">
                                     <span class="dkv-clip">
                                         <span class="dkv-clip-inner">
-                                            <img data-bind="attr: {src: thumbnailSource}">
+                                            <img data-bind="attr: {src: thumbnail}">
                                             <span class="dkv-vertical-align"></span>
                                         </span>
                                     </span>
@@ -103,13 +103,13 @@
                 </div>
 
                 <div class="dk-more hidden">
-                    <a href="#" data-bind="click: more">More</a>
+                    <a href="#" data-bind="click: more">{{"More"|t}}</a>
                 </div>
 
 
-                <p class="dk-error error hidden">An error occured</p>
+                <p class="dk-error error hidden">{{"An error occured"|t}}</p>
 
-                <p class="dk-no-videos">No videos</p>
+                <p class="dk-no-videos">{{"No videos"|t}}</p>
 
             </div>
         </div>
@@ -117,12 +117,12 @@
         <div class="dk-bottom">
 
             <div class="dk-left">
-                <a data-bind="click: back" href="#" class="dk-back btn hidden">&laquo; Back to videos</a>
+                <a data-bind="click: back" href="#" class="dk-back btn hidden">&laquo; {{"Back to videos"|t}}</a>
             </div>
 
             <div class="dk-right">
-                <a data-bind="click: cancel" href="#" class="btn">Cancel</a>
-                <a data-bind="click: submit" href="#" class="btn submit disabled">Select</a>
+                <a data-bind="click: cancel" href="#" class="btn">{{"Cancel"|t}}</a>
+                <a data-bind="click: submit" href="#" class="btn submit disabled">{{"Select"|t}}</a>
             </div>
 
         </div>

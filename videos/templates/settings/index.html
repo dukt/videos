@@ -4,32 +4,32 @@
 
 {% if craft.oauth is not defined %}
 
-	<h2 class="first">OAuth Not Installed</h2>
+	<h2 class="first">{{"OAuth Not Installed"|t}}</h2>
 
 
 	{% set oauth = craft.plugins.getPlugin('oauth', false) %}
 
 	{% if oauth %}
 		{% if not oauth.isInstalled %}
-			<p>OAuth plugin is present but not installed. Please install &amp; enable it.</p>
+			<p>{{"OAuth plugin is present but not installed. Please install &amp; enable it."|t}}</p>
 		{% elseif not oauth.isEnabled %}
-			<p>OAuth is installed but is disabled. Please enable it.</p>
+			<p>{{"OAuth is installed but is disabled. Please enable it."|t}}</p>
 		{% else %}
-			OAuth READY
+			{# OAuth READY #}
 		{% endif %}
 
 		<hr />
 
 		<div class="buttons">
-			<a class="btn" href="{{url('settings/plugins')}}">Manage plugins</a>
+			<a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
 		</div>
 	{% else %}
-		<p>GitHub plugin requires OAuth plugin for Craft.</p>
+		<p>{{"GitHub plugin requires OAuth plugin for Craft."|t}}</p>
 
 		<hr />
 
 		<div class="buttons">
-			<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">Download OAuth plugin</a>
+			<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
 		</div>
 	{% endif %}
 

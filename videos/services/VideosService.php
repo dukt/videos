@@ -46,7 +46,7 @@ class VideosService extends BaseApplicationComponent
         return UrlHelper::getResourceUrl($uri);
     }
 
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, $enableCache = false, $cacheExpiry = 3600)
     {
         $video = $this->_getVideoObjectByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -125,7 +125,7 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    private function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
 
         if($enableCache) {
