@@ -56,7 +56,7 @@ class VideosService extends BaseApplicationComponent
 
             $response = Videos_VideoModel::populateModel($attributes);
 
-            $response['thumbnail'] = $response->getThumbnail();
+            // $response['thumbnail'] = $response->getThumbnail();
 
             return $response;
         }
@@ -72,7 +72,7 @@ class VideosService extends BaseApplicationComponent
 
             $response = Videos_VideoModel::populateModel($video);
 
-            $response['thumbnail'] = $response->getThumbnail();
+            // $response['thumbnail'] = $response->getThumbnail();
 
             return $response;
         }

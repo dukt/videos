@@ -31,30 +31,33 @@ class Videos_VideoModel extends BaseModel
             'authorUrl' => array(AttributeType::String),
             'authorUsername' => array(AttributeType::String),
             'thumbnail' => array(AttributeType::String),
-            'thumbnailSource' => array(AttributeType::String),
-            'thumbnailSourceLarge' => array(AttributeType::String),
-            'thumbnails' => array(AttributeType::Mixed),
+            'thumbnailLarge' => array(AttributeType::String),
+            // 'thumbnailSource' => array(AttributeType::String),
+            // 'thumbnailSourceLarge' => array(AttributeType::String),
+            // 'thumbnails' => array(AttributeType::Mixed),
             'title' => array(AttributeType::String),
             'description' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
     }
 
-    public function getAttributes($names = null, $flattenValues = false)
-    {
-        $attributes = parent::getAttributes($names, $flattenValues);
+    // TODO : support custom size thumbnails
 
-        if ($flattenValues)
-        {
-            $attributes['thumbnail'] = $this->getThumbnail();
-        }
+    // public function getAttributes($names = null, $flattenValues = false)
+    // {
+    //     $attributes = parent::getAttributes($names, $flattenValues);
 
-        return $attributes;
-    }
+    //     if ($flattenValues)
+    //     {
+    //         $attributes['thumbnail'] = $this->getThumbnail();
+    //     }
 
-    public function getThumbnail($w = 350, $h = null)
-    {
-        return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
-    }
+    //     return $attributes;
+    // }
+
+    // public function getThumbnail($w = 350, $h = null)
+    // {
+    //     return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
+    // }
 
     public function getEmbed($opts = array())
     {
