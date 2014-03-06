@@ -8,4 +8,4 @@ Connect to YouTube & Vimeo and publish social videos on your website.
 - [Videos License](http://dukt.net/craft/videos/docs/license)
 
 
-[Dukt.net](http://dukt.net/) © 2014 - All rights reserved
+[Dukt.net](https://dukt.net/) © 2014 - All rights reserved

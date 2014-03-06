@@ -33,7 +33,7 @@
             <!-- Sections -->
 
             <div class="dk-middle">
-                <div data-bind="foreach: gateways">
+                <div data-bind="foreach: gateways, updateVideos: true">
                     <!-- ko if: (handle == $root.selectedGateway()) -->
 
                         <!-- ko if: $data.sections -->
@@ -75,7 +75,7 @@
             <div class="dk-middle">
                 <div class="dk-videos">
 
-                    <ul data-bind="foreach: videos">
+                    <ul data-bind="foreach: videos, updateVideos: true">
                         <li data-bind="css: { selected: $index() == $root.selectedVideoIndex() },
                                        click: function(data, event) { $root.selectVideo($index(), data, event) }">
 
