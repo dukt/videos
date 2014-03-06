@@ -19,6 +19,7 @@ use Symfony\Component\Finder\Finder;
 class VideosService extends BaseApplicationComponent
 {
     private $_gateways = array();
+    private $_allGateways = array();
     private $_gatewaysLoaded = false;
 
     public function init()
@@ -205,14 +206,83 @@ class VideosService extends BaseApplicationComponent
 
 
 
-    public function getGateways()
+
+    public function getGatewaysWithSections()
     {
-        return $this->_gateways;
+        // try {
+            $gatewaysWithSections = array();
+
+            $gateways = $this->getGateways();
+
+            foreach($gateways as $gateway)
+            {
+
+                if($gateway)
+                {
+                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+
+                    if($gateway->sections = $class::getSections($gateway))
+                    {
+                        array_push($gatewaysWithSections, $gateway);
+
+                    }
+                }
+            }
+
+            foreach($gatewaysWithSections as $k => $g)
+            {
+                foreach($g->sections as $k2 => $s)
+                {
+                    $g->sections[$k2]['name'] = Craft::t($s['name']);
+
+                    if(count($s['childs']) == 0)
+                    {
+                        unset($g->sections[$k2]);
+                    }
+                    else
+                    {
+                        foreach($s['childs'] as $k3 => $c)
+                        {
+                            $g->sections[$k2]['childs'][$k3]['name'] = Craft::t($c['name']);
+                        }
+                    }
+                }
+
+                $gatewaysWithSections[$k] = $g;
+            }
+
+            return $gatewaysWithSections;
+        // }
+        // catch(\Exception $e)
+        // {
+        //     throw new \Exception($e->getMessage());
+        // }
     }
 
-    public function getGateway($gatewayHandle)
+    public function getGateways($enabledOnly = true)
     {
-        foreach($this->_gateways as $g)
+        if($enabledOnly)
+        {
+            return $this->_gateways;
+        }
+        else
+        {
+            return $this->_allGateways;
+        }
+    }
+
+    public function getGateway($gatewayHandle, $enabledOnly = true)
+    {
+        if($enabledOnly)
+        {
+            $gateways = $this->_gateways;
+        }
+        else
+        {
+            $gateways = $this->_allGateways;
+        }
+
+        foreach($gateways as $g)
         {
             if($g->handle == $gatewayHandle)
             {
@@ -222,6 +292,7 @@ class VideosService extends BaseApplicationComponent
 
         return null;
     }
+
 
 
 
@@ -288,30 +359,6 @@ class VideosService extends BaseApplicationComponent
         return $gateways;
     }
 
-    public function getGatewaysWithSections()
-    {
-        try {
-            $gatewaysWithSections = array();
-
-            $gateways = $this->getGateways();
-
-            foreach($gateways as $gateway) {
-
-                if($gateway) {
-                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
-
-                    if($gateway->sections = $class::getSections($gateway)) {
-                        array_push($gatewaysWithSections, $gateway);
-                    }
-                }
-            }
-
-            return $gatewaysWithSections;
-        } catch(\Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
     private function loadGateways()
     {
         if(!$this->_gatewaysLoaded)
@@ -332,22 +379,15 @@ class VideosService extends BaseApplicationComponent
                     continue;
                 }
 
+
                 $nsClass = '\\Dukt\\Videos\\'.$pathName.'\\Service';
                 $gateway = new $nsClass;
 
                 // load gateway settings
 
-
-                //$token = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
-
                 $oauthProvider = craft()->oauth->getProvider($gateway->oauthProvider);
                 $accessToken = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
 
-
-                // $gatewayRecord = $this->getGatewayRecord($gateway->handle);
-
-                if($oauthProvider)
-                {
 
                    if(!empty($oauthProvider->clientId))
                    {
@@ -359,13 +399,26 @@ class VideosService extends BaseApplicationComponent
                         $gateway->clientSecret = $oauthProvider->clientSecret;
                    }
 
+
+
                    if(!empty($accessToken))
                    {
-                        $gateway->accessToken = $accessToken->getRealToken();
-                   }
-                }
+                        $token = $accessToken->getRealToken();
 
-                $this->_gateways[] = $gateway;
+                        if($token)
+                        {
+                            $gateway->accessToken = $token;
+                        }
+
+                   }
+
+                   if(is_object($gateway->accessToken))
+                   {
+                        $this->_gateways[] = $gateway;
+                   }
+
+
+                $this->_allGateways[] = $gateway;
             }
         }
     }
