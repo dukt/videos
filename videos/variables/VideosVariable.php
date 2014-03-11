@@ -23,4 +23,13 @@ class VideosVariable
             }
         }
     }
+
+    public function getEmbed($videoUrl, $options = array())
+    {
+        $embed = craft()->videos->getEmbed($videoUrl, $options);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+
+        return new \Twig_Markup($embed, $charset);
+    }
 }
