@@ -57,7 +57,7 @@ class VideosPlugin extends BasePlugin
 	/**
 	 * Hook Register CP Routes
 	 */
-    public function hookRegisterCpRoutes()
+    public function registerCpRoutes()
     {
         return array(
             'videos\/settings\/(?P<providerClass>.*)' => 'videos/settings/_configure',
