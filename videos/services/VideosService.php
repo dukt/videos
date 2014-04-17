@@ -174,7 +174,7 @@ class VideosService extends BaseApplicationComponent
         return false;
     }
 
-    private function getGatewayOpts($gateway)
+    public function getGatewayOpts($gateway)
     {
         $plugin = craft()->plugins->getPlugin('videos');
 
@@ -195,7 +195,7 @@ class VideosService extends BaseApplicationComponent
         return $gatewayOpts[$gateway];
     }
 
-    private function getProviderOpts($gateway)
+    public function getProviderOpts($gateway)
     {
         $providerOpts = array(
             'youtube' => array(
