@@ -1,3 +1,4 @@
+
 {% if not provider %}
 
 	<p>{{ "Go to {link} in order to configure this provider with your API client id & secret."|t({link:'<a href="'~url('oauth/settings/'~providerOpts.handle)~'">'~'OAuth settings'|t~'</a>'})|raw }}</p>
@@ -16,21 +17,20 @@
 
 		{% set account = craft.oauth.getAccount(providerOpts.handle, 'videos.'~providerOpts.handle) %}
 
-		<ul>
-			{% if account.uid is defined %}
-				<li><strong>{{"UID"|t}}:</strong> {{account.uid}}</li>
-			{% endif %}
 
-			{% if account.nickname is defined %}
-				<li><strong>{{"Nickname"|t}}:</strong> {{account.nickname}}</li>
-			{% endif %}
+		{% if account.image is defined %}
+			<img height="100" src="{{ account.image }}" alt="">
+		{% endif %}
+
+		<ul>
+
 
 			{% if account.name is defined %}
-				<li><strong>{{"Name"|t}}:</strong> {{account.name}}</li>
+				<li><span>{{account.name}}</span></li>
 			{% endif %}
 
-			{% if account.email is defined %}
-				<li><strong>{{"Email"|t}}:</strong> {{account.email}}</li>
+			{% if account.uid is defined %}
+				<li class="light">{{account.uid}}</li>
 			{% endif %}
 		</ul>
 
@@ -47,8 +47,9 @@
 		{% else %}
 			{% set scope = null %}
 		{% endif %}
-		<div class="buttons">
-			<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">{{"Connect"|t}}</a>
-		</div>
+
+
+		<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">{{"Connect"|t}}</a>
+
 	{% endif %}
 {% endif %}

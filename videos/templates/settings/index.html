@@ -1,6 +1,7 @@
 {% import "_includes/forms" as forms %}
 
 {% includeCssResource 'videos/css/disableSave.css' %}
+{% includeCssResource 'videos/css/settings.css' %}
 
 {% if craft.oauth is not defined %}
 
@@ -20,29 +21,35 @@
 
 		<hr />
 
-		<div class="buttons">
-			<a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
-		</div>
+		<a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
+
 	{% else %}
 		<p>{{"GitHub plugin requires OAuth plugin for Craft."|t}}</p>
 
 		<hr />
 
-		<div class="buttons">
-			<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
-		</div>
+		<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
+
 	{% endif %}
 
 {% else %}
 
-	<h2 class="first">YouTube</h2>
+	<div class="videos-providers">
+		<div class="provider">
+			<div class="youtube">
+				<h2 class="first">YouTube</h2>
+				{% include 'videos/settings/_youtube' %}
+			</div>
+		</div>
 
-	{% include 'videos/settings/_youtube' %}
+		<hr>
 
-	<hr>
+		<div class="provider">
+			<div class="vimeo">
+				<h2>Vimeo</h2>
+				{% include 'videos/settings/_vimeo' %}
+			</div>
+		</div>
+	</div>
 
-	<h2>Vimeo</h2>
-
-	{% include 'videos/settings/_vimeo' %}
-	<hr>
 {% endif %}
