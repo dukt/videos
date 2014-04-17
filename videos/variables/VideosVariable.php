@@ -4,6 +4,15 @@ namespace Craft;
 
 class VideosVariable
 {
+    public function getEmbed($videoUrl, $options = array())
+    {
+        $embed = craft()->videos->getEmbed($videoUrl, $options);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+
+        return new \Twig_Markup($embed, $charset);
+    }
+
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         try {
@@ -24,12 +33,11 @@ class VideosVariable
         }
     }
 
-    public function getEmbed($videoUrl, $options = array())
+
+    // alias for getVideoByUrl
+
+    public function url($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        $embed = craft()->videos->getEmbed($videoUrl, $options);
-
-        $charset = craft()->templates->getTwig()->getCharset();
-
-        return new \Twig_Markup($embed, $charset);
+        $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }
 }
