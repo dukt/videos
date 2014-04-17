@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * Craft Videos by Dukt
+ *
+ * @package   Craft Videos
+ * @author    Benjamin David
+ * @copyright Copyright (c) 2014, Dukt
+ * @license   https://dukt.net/craft/videos/docs/license
+ * @link      https://dukt.net/craft/videos
+ */
+ 
 namespace Craft;
 
 class VideosVariable
