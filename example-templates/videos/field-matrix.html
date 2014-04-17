@@ -2,34 +2,36 @@
 
 {% block main %}
 
-
-    <h1>Video Field with Matrix</h1>
-
-    <hr>
-
     <div class="row">
-        {% for videoRow in videosDemo.videos %}
+        <div class="col-md-8 col-md-offset-2">
 
-            {% set video = videoRow.video %}
 
-            {% if video %}
+            <h1>Video Field with Matrix</h1>
 
-                <div class="col-md-2">
+            <hr>
 
-                    <a href="{{ video.url }}" data-remote="{{ video.embedUrl({autoplay:1}) }}" data-toggle="lightbox">
-                        <img class="img-responsive" src="{{ video.thumbnail }}" />
-                    </a>
+            <div class="row">
+                {% for videoRow in videosDemo.videos %}
+                    {% set video = videoRow.video %}
 
-                </div>
+                    {% if video %}
 
-            {% endif %}
+                        <div class="col-md-4">
+                            <a href="{{ video.url }}" data-remote="{{ video.embedUrl({autoplay:1}) }}" data-toggle="lightbox">
+                                <img class="img-responsive" src="{{ video.thumbnail }}" />
+                            </a>
+                        </div>
 
-        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <hr />
+
+            <p>This example uses <a href="https://github.com/ashleydw/lightbox">lightbox module</a> for Bootstrap by <a href="https://github.com/ashleydw">@ashleydw</a>.</p>
+
+        </div>
     </div>
-
-    <hr />
-
-    <p>This example uses <a href="https://github.com/ashleydw/lightbox">lightbox module</a> for Bootstrap by <a href="https://github.com/ashleydw">@ashleydw</a>.</p>
 
 
     <script src="//rawgithub.com/ashleydw/lightbox/master/dist/ekko-lightbox.js"></script>
