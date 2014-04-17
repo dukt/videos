@@ -47,11 +47,12 @@ class VideosService extends BaseApplicationComponent
         return UrlHelper::getResourceUrl($uri);
     }
 
-    public function getVideoByUrl($videoUrl, $enableCache = false, $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         $video = $this->_getVideoObjectByUrl($videoUrl, $enableCache, $cacheExpiry);
 
-        if($video) {
+        if($video)
+        {
 
             $attributes = (array) $video;
 
@@ -128,6 +129,10 @@ class VideosService extends BaseApplicationComponent
 
     public function _getVideoObjectByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
+        if(craft()->config->get('disableCache', 'videos') == true)
+        {
+            $enableCache = false;
+        }
 
         if($enableCache) {
             $key = 'videos.video.'.md5($videoUrl);
@@ -165,6 +170,8 @@ class VideosService extends BaseApplicationComponent
                 // throw new Exception($e->getMessage());
             }
         }
+
+        return false;
     }
 
     private function getGatewayOpts($gateway)
@@ -203,9 +210,6 @@ class VideosService extends BaseApplicationComponent
 
         return $providerOpts[$gateway];
     }
-
-
-
 
     public function getGatewaysWithSections()
     {
@@ -292,9 +296,6 @@ class VideosService extends BaseApplicationComponent
 
         return null;
     }
-
-
-
 
     public function deprecated_getGateways()
     {
@@ -388,35 +389,31 @@ class VideosService extends BaseApplicationComponent
                 $oauthProvider = craft()->oauth->getProvider($gateway->oauthProvider);
                 $accessToken = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
 
+               if(!empty($oauthProvider->clientId))
+               {
+                    $gateway->clientId = $oauthProvider->clientId;
+               }
 
-                   if(!empty($oauthProvider->clientId))
-                   {
-                        $gateway->clientId = $oauthProvider->clientId;
-                   }
+               if(!empty($oauthProvider->clientSecret))
+               {
+                    $gateway->clientSecret = $oauthProvider->clientSecret;
+               }
 
-                   if(!empty($oauthProvider->clientSecret))
-                   {
-                        $gateway->clientSecret = $oauthProvider->clientSecret;
-                   }
+               if(!empty($accessToken))
+               {
+                    $token = $accessToken->getRealToken();
 
+                    if($token)
+                    {
+                        $gateway->accessToken = $token;
+                    }
 
+               }
 
-                   if(!empty($accessToken))
-                   {
-                        $token = $accessToken->getRealToken();
-
-                        if($token)
-                        {
-                            $gateway->accessToken = $token;
-                        }
-
-                   }
-
-                   if(is_object($gateway->accessToken))
-                   {
-                        $this->_gateways[] = $gateway;
-                   }
-
+               if(is_object($gateway->accessToken))
+               {
+                    $this->_gateways[] = $gateway;
+               }
 
                 $this->_allGateways[] = $gateway;
             }
