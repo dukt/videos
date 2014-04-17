@@ -36,14 +36,20 @@ class Videos_VideoFieldType extends BaseFieldType
 	{
 		$video = false;
 
+		// get the prepped value (the video object)
 		if(is_object($value))
 		{
 			$video = $value;
-			$value = $video->url;
 		}
 
-	    // Reformat the input name into something that looks more like an ID
+		// get the unprepped value (the video url)
+		if($this->element)
+		{
+			$value = $this->element->getContent()->getAttribute($this->model->handle);
+		}
 
+
+	    // Reformat the input name into something that looks more like an ID
 	    $id = craft()->templates->formatInputId($name);
 
 
@@ -83,24 +89,20 @@ class Videos_VideoFieldType extends BaseFieldType
 	/**
 	 * Prep value
 	 */
+
 	public function prepValue($videoUrl)
 	{
 		try {
 			$video = craft()->videos->getVideoByUrl($videoUrl);
 
-			return $video;
+			if($video)
+			{
+				return $video;
+			}
 		}
 		catch(\Exception $e)
 		{
-			return $videoUrl;
+			return null;
 		}
-	}
-
-	/**
-	 * Search Keywords
-	 */
-	public function getSearchKeywords($value)
-	{
-		return '';
 	}
 }
