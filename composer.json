@@ -12,6 +12,10 @@
         },
         {
             "type": "vcs",
+            "url": "https://github.com/dukt/videos"
+        },
+        {
+            "type": "vcs",
             "url": "https://github.com/dukt/videos-app"
         },
         {
