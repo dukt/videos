@@ -213,25 +213,31 @@ class VideosService extends BaseApplicationComponent
 
     public function getGatewaysWithSections()
     {
-        try {
+        try
+        {
+            // get gateways with sections
+
             $gatewaysWithSections = array();
 
             $gateways = $this->getGateways();
 
             foreach($gateways as $gateway)
             {
-
                 if($gateway)
                 {
                     $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
 
+                    $sections = $class::getSections($gateway);
+
                     if($gateway->sections = $class::getSections($gateway))
                     {
                         array_push($gatewaysWithSections, $gateway);
-
                     }
                 }
             }
+
+
+            // i18n
 
             foreach($gatewaysWithSections as $k => $g)
             {
@@ -239,22 +245,16 @@ class VideosService extends BaseApplicationComponent
                 {
                     $g->sections[$k2]['name'] = Craft::t($s['name']);
 
-                    if(count($s['childs']) == 0)
+                    foreach($s['childs'] as $k3 => $c)
                     {
-                        unset($g->sections[$k2]);
-                    }
-                    else
-                    {
-                        foreach($s['childs'] as $k3 => $c)
-                        {
-                            $g->sections[$k2]['childs'][$k3]['name'] = Craft::t($c['name']);
-                        }
+                        $g->sections[$k2]['childs'][$k3]['name'] = Craft::t($c['name']);
                     }
                 }
 
                 $gatewaysWithSections[$k] = $g;
             }
 
+            // return
             return $gatewaysWithSections;
         }
         catch(\Exception $e)
