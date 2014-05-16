@@ -20,6 +20,7 @@ class Videos_VideoModel extends BaseModel
     {
         return array(
             'id'      => AttributeType::Number,
+            'raw'    => array(AttributeType::Mixed),
             'url'    => array(AttributeType::String),
             'gatewayHandle' => array(AttributeType::String),
             'gatewayName' => array(AttributeType::String),
