@@ -11,4 +11,18 @@
 
     {% include 'videos/_video' with { video: video } %}
 
+    {% if video.raw.download is defined %}
+        <h3>Downloads</h3>
+        <ul>
+            {% set downloads = video.raw.download %}
+            {% for download in downloads %}
+                <li>
+                    <a href="{{ download.link }}">
+                        Download {{ download.type }} ({{ download.width }} x {{ download.height }})
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
 {% endblock main %}
