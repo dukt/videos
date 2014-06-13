@@ -18,6 +18,46 @@ namespace Craft;
 class VideosController extends BaseController
 {
     /**
+     * Connect
+     */
+    public function actionConnect()
+    {
+        $gateway = craft()->request->getParam('gateway');
+        $gateway = craft()->videos->getGatewayOpts($gateway);
+
+        $scopes = craft()->videos->getScopes($gateway['oauth']['handle']);
+        $params = craft()->videos->getParams($gateway['oauth']['handle']);
+
+        craft()->oauth->connect(array(
+            'plugin' => 'videos',
+            'provider' => $gateway['oauth']['handle'],
+            'scopes' => $scopes,
+            'params' => $params
+        ));
+    }
+
+    /**
+     * Disconnect
+     */
+    public function actionDisconnect()
+    {
+        // handle
+        $gateway = craft()->request->getParam('gateway');
+        $gateway = craft()->videos->getGatewayOpts($gateway);
+        $handle = $gateway['oauth']['handle'];
+
+        // save token
+        craft()->videos->saveToken($handle, null);
+
+        // set notice
+        craft()->userSession->setNotice(Craft::t("Disconnected."));
+
+        // redirect
+        $redirect = craft()->request->getUrlReferrer();
+        $this->redirect($redirect);
+    }
+
+    /**
      * Returns a video by its URL.
      */
     public function actionLookupVideo()
@@ -26,7 +66,8 @@ class VideosController extends BaseController
 
         $url = craft()->request->getParam('url');
 
-        try {
+        try
+        {
             $video = craft()->videos->getVideoByUrl($url);
 
             if(!$video)
@@ -40,7 +81,9 @@ class VideosController extends BaseController
                     'preview' => craft()->templates->render('videos/field/preview', array('video' => $video))
                 )
             );
-        } catch(\Exception $e) {
+        }
+        catch(\Exception $e)
+        {
             $this->returnErrorJson($e->getMessage());
         }
     }
@@ -87,7 +130,7 @@ class VideosController extends BaseController
 
             // explode url
 
-            $url = craft()->request->getPost('url');
+            $url = craft()->request->getParam('url');
             $url = trim($url, "/");
             $url = explode("/", $url);
 
@@ -114,7 +157,7 @@ class VideosController extends BaseController
             if(!empty($gateway))
             {
                 $realMethod = 'getVideos'.ucwords($method);
-                $options = craft()->request->getPost('options');
+                $options = craft()->request->getParam('options');
 
                 if($id)
                 {

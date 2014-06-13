@@ -1,55 +1,26 @@
+<h2 class="first">{{"OAuth Not Installed"|t}}</h2>
 
-{% if not provider %}
 
-	<p>{{ "Go to {link} in order to configure this provider with your API client id & secret."|t({link:'<a href="'~url('oauth/settings/'~providerOpts.handle)~'">'~'OAuth settings'|t~'</a>'})|raw }}</p>
+{% set oauth = craft.plugins.getPlugin('oauth', false) %}
+
+{% if oauth %}
+
+    {% if not oauth.isInstalled %}
+        <p>{{"OAuth plugin is present but not installed. Please install &amp; enable it."|t}}</p>
+    {% elseif not oauth.isEnabled %}
+        <p>{{"OAuth is installed but is disabled. Please enable it."|t}}</p>
+    {% else %}
+        {# OAuth READY #}
+    {% endif %}
+
+    <hr />
+
+    <a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
 
 {% else %}
 
-	{% set token = craft.oauth.getSystemToken(providerOpts.handle, 'videos.'~providerOpts.handle) %}
+    <p>{{"GitHub plugin requires OAuth plugin for Craft."|t}}</p>
+    <hr />
+    <a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
 
-	{% if token %}
-		{% if not token.getRealToken %}
-			{% set token = false %}
-		{% endif %}
-	{% endif %}
-
-	{% if token %}
-
-		{% set account = craft.oauth.getAccount(providerOpts.handle, 'videos.'~providerOpts.handle) %}
-
-
-		{% if account.image is defined %}
-			<img height="100" src="{{ account.image }}" alt="">
-		{% endif %}
-
-		<ul>
-
-
-			{% if account.name is defined %}
-				<li><span>{{account.name}}</span></li>
-			{% endif %}
-
-			{% if account.uid is defined %}
-				<li class="light">{{account.uid}}</li>
-			{% endif %}
-		</ul>
-
-		<p>
-			<a class="btn small" href="{{craft.oauth.disconnect(providerOpts.handle, 'videos.'~providerOpts.handle)}}">{{"Disconnect"|t}}</a>
-		</p>
-
-	{% else %}
-
-		<p>{{"You need to connect Craft with the video service."|t}}</p>
-
-		{% if providerOpts.scope is defined %}
-			{% set scope = providerOpts.scope %}
-		{% else %}
-			{% set scope = null %}
-		{% endif %}
-
-
-		<a class="btn submit" href="{{craft.oauth.connect(providerOpts.handle, scope, 'videos.'~providerOpts.handle)}}">{{"Connect"|t}}</a>
-
-	{% endif %}
 {% endif %}

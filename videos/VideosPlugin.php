@@ -14,49 +14,62 @@ namespace Craft;
 
 class VideosPlugin extends BasePlugin
 {
-	/**
-	 * Get Name
-	 */
+    public function registerOauthConnect($variables)
+    {
+        $provider = $variables['provider'];
+        $handle = $provider->getHandle();
+        $token = $variables['token'];
+
+        // save token
+        craft()->videos->saveToken($handle, $token);
+
+        // session notice
+        craft()->userSession->setNotice(Craft::t("Connected."));
+    }
+
+    /**
+     * Get Name
+     */
     function getName()
     {
         return Craft::t('Videos');
     }
 
-	/**
-	 * Get Version
-	 */
+    /**
+     * Get Version
+     */
     function getVersion()
     {
         return '1.0.13';
     }
 
-	/**
-	 * Get Developer
-	 */
+    /**
+     * Get Developer
+     */
     function getDeveloper()
     {
         return 'Dukt';
     }
 
-	/**
-	 * Get Developer URL
-	 */
+    /**
+     * Get Developer URL
+     */
     function getDeveloperUrl()
     {
-        return 'http://dukt.net/';
+        return 'https://dukt.net/';
     }
 
-	/**
-	 * Has CP Section
-	 */
+    /**
+     * Has CP Section
+     */
     public function hasCpSection()
     {
         return false;
     }
 
-	/**
-	 * Hook Register CP Routes
-	 */
+    /**
+     * Hook Register CP Routes
+     */
     public function registerCpRoutes()
     {
         return array(
@@ -70,13 +83,15 @@ class VideosPlugin extends BasePlugin
     protected function defineSettings()
     {
         return array(
-            'youtubeParameters' => array(AttributeType::Mixed)
+            'youtubeParameters' => array(AttributeType::Mixed),
+            'tokens' => array(AttributeType::Mixed),
         );
     }
 
     public function getSettingsHtml()
     {
-        if(craft()->request->getPath() == 'settings/plugins') {
+        if(craft()->request->getPath() == 'settings/plugins')
+        {
             return true;
         }
 
@@ -84,7 +99,6 @@ class VideosPlugin extends BasePlugin
             'settings' => $this->getSettings()
         ));
     }
-
 
     /**
      * Adds support for video thumbnail resource paths.
@@ -112,7 +126,8 @@ class VideosPlugin extends BasePlugin
 
             $size = $width;
 
-            if(isset($parts[4])) {
+            if(isset($parts[4]))
+            {
                 $height = $parts[4];
                 $size .= "x".$height;
             }
@@ -170,7 +185,6 @@ class VideosPlugin extends BasePlugin
             }
         }
     }
-
 
     /**
      * Adds craft/storage/runtime/videos/ to the list of things the Clear Caches tool can delete.

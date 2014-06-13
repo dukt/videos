@@ -9,11 +9,21 @@
  * @license   https://dukt.net/craft/videos/docs/license
  * @link      https://dukt.net/craft/videos
  */
- 
+
 namespace Craft;
 
 class VideosVariable
 {
+    public function getGatewayOpts($handle)
+    {
+        return craft()->videos->getGatewayOpts($handle);
+    }
+
+    public function getToken($handle)
+    {
+        return craft()->videos->getToken($handle);
+    }
+
     public function getEmbed($videoUrl, $options = array())
     {
         $embed = craft()->videos->getEmbed($videoUrl, $options);
@@ -25,10 +35,9 @@ class VideosVariable
 
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        try {
-            $video = craft()->videos->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
-
-            return $video;
+        try
+        {
+            return craft()->videos->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
         }
         catch(\Exception $e)
         {
@@ -42,7 +51,6 @@ class VideosVariable
             }
         }
     }
-
 
     // alias for getVideoByUrl
 
