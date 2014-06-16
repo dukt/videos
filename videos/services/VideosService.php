@@ -123,27 +123,15 @@ class VideosService extends BaseApplicationComponent
                 // get token from settings
                 $token = craft()->oauth->decodeToken($settings['tokens'][$handle]);
 
-                // will refresh token if needed
-                if($token->getRefreshToken())
-                {
-                    $token = craft()->oauth->refreshToken($handle, $token);
-                }
-
-                if($token)
+                // refresh token if needed
+                if(craft()->oauth->refreshToken($handle, $token))
                 {
                     // save token
-                    $plugin = craft()->plugins->getPlugin('videos');
-                    $settings = $plugin->getSettings();
-                    $tokens = $settings->tokens;
-
-                    $tokens[$handle] = craft()->oauth->encodeToken($token);
-
-                    $settings->tokens = $tokens;
-
-                    craft()->plugins->savePluginSettings($plugin, $settings);
-
-                    return $token;
+                    $this->saveToken($token);
                 }
+
+                // return token
+                return $token;
             }
         }
         catch(\Exception $e)
@@ -159,9 +147,9 @@ class VideosService extends BaseApplicationComponent
 
         $uri .= $w;
 
-        if(!$h) {
+        if(!$h)
+        {
             // calculate hd ratio (1,280×720)
-
             $h = floor($w * 720 / 1280);
         }
 
@@ -264,12 +252,14 @@ class VideosService extends BaseApplicationComponent
             $enableCache = false;
         }
 
-        if($enableCache) {
+        if($enableCache)
+        {
             $key = 'videos.video.'.md5($videoUrl);
 
             $response = craft()->fileCache->get($key);
 
-            if($response) {
+            if($response)
+            {
                 return $response;
             }
         }
@@ -413,19 +403,18 @@ class VideosService extends BaseApplicationComponent
                     continue;
                 }
 
+                // instantiate videos service
+
                 $nsClass = '\\Dukt\\Videos\\'.$pathName.'\\Service';
                 $gateway = new $nsClass;
                 $handle = strtolower($gateway->oauthProvider);
-
-
-                // load gateway settings
 
                 $provider = craft()->oauth->getProvider($gateway->oauthProvider);
                 $token = $this->getToken($handle);
 
                 if($token)
                 {
-                    $provider->setRealToken($token);
+                    $provider->source->setToken($token);
 
                     $gateway->init($provider->providerSource->service);
 
