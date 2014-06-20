@@ -14,6 +14,16 @@ namespace Craft;
 
 class VideosVariable
 {
+    public function getGateways()
+    {
+        return craft()->videos->getGateways();
+    }
+
+    public function getGateway($handle)
+    {
+        return craft()->videos->getGateway($handle);
+    }
+
     public function getGatewayOpts($handle)
     {
         return craft()->videos->getGatewayOpts($handle);
@@ -21,7 +31,14 @@ class VideosVariable
 
     public function getToken($handle)
     {
-        return craft()->videos->getToken($handle);
+        // try
+        // {
+            return craft()->videos->getToken($handle);
+        // }
+        // catch(\Exception $e)
+        // {
+        //     return null;
+        // }
     }
 
     public function getEmbed($videoUrl, $options = array())

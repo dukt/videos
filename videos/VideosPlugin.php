@@ -14,19 +14,6 @@ namespace Craft;
 
 class VideosPlugin extends BasePlugin
 {
-    public function registerOauthConnect($variables)
-    {
-        $provider = $variables['provider'];
-        $handle = $provider->getHandle();
-        $token = $variables['token'];
-
-        // save token
-        craft()->videos->saveToken($handle, $token);
-
-        // session notice
-        craft()->userSession->setNotice(Craft::t("Connected."));
-    }
-
     /**
      * Get Name
      */

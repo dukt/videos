@@ -127,7 +127,7 @@ class VideosService extends BaseApplicationComponent
                 if(craft()->oauth->refreshToken($handle, $token))
                 {
                     // save token
-                    $this->saveToken($token);
+                    $this->saveToken($handle, $token);
                 }
 
                 // return token
@@ -396,6 +396,7 @@ class VideosService extends BaseApplicationComponent
 
             foreach($directories as $directory)
             {
+
                 $pathName = $directory->getRelativePathName();
 
                 if($pathName == 'Common')
@@ -414,11 +415,12 @@ class VideosService extends BaseApplicationComponent
 
                 if($token)
                 {
+
                     $provider->source->setToken($token);
 
-                    $gateway->init($provider->providerSource->service);
+                    $gateway->setService($provider->source->service);
 
-                    if($provider->providerSource->hasAccessToken())
+                    if($provider->source->hasAccessToken())
                     {
                         $this->_gateways[] = $gateway;
                     }

@@ -22,18 +22,40 @@ class VideosController extends BaseController
      */
     public function actionConnect()
     {
-        $gateway = craft()->request->getParam('gateway');
-        $gateway = craft()->videos->getGatewayOpts($gateway);
+        $gatewayHandle = craft()->request->getParam('gateway');
+        $gateway = craft()->videos->getGatewayOpts($gatewayHandle);
 
         $scopes = craft()->videos->getScopes($gateway['oauth']['handle']);
         $params = craft()->videos->getParams($gateway['oauth']['handle']);
 
-        craft()->oauth->connect(array(
+        $providerHandle = $gateway['oauth']['handle'];
+
+        if($response = craft()->oauth->connect(array(
             'plugin' => 'videos',
-            'provider' => $gateway['oauth']['handle'],
+            'provider' => $providerHandle,
             'scopes' => $scopes,
             'params' => $params
-        ));
+        )))
+        {
+            if($response['success'])
+            {
+                // token
+                $token = $response['token'];
+
+                // save token
+                craft()->videos->saveToken($providerHandle, $token);
+
+                // session notice
+                craft()->userSession->setNotice(Craft::t("Connected."));
+            }
+            else
+            {
+                // session notice
+                craft()->userSession->setError(Craft::t($response['errorMsg']));
+            }
+
+            $this->redirect($response['redirect']);
+        }
     }
 
     /**
