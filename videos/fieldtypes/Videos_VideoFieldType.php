@@ -16,95 +16,110 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_VideoFieldType extends BaseFieldType
 {
-	public function getName()
-	{
-		return Craft::t('Videos');
-	}
+    public function getName()
+    {
+        return Craft::t('Videos');
+    }
 
-	/**
-	 * Save it
-	 */
-	public function defineContentAttribute()
-	{
-		return AttributeType::String;
-	}
+    /**
+     * Save it
+     */
+    public function defineContentAttribute()
+    {
+        return AttributeType::String;
+    }
 
-	/**
-	 * Show field
-	 */
-	public function getInputHtml($name, $value)
-	{
-		$video = false;
+    /**
+     * Show field
+     */
+    public function getInputHtml($name, $value)
+    {
+        $video = false;
 
-		// get the prepped value (the video object)
-		if(is_object($value))
-		{
-			$video = $value;
-		}
+        // get the prepped value (the video object)
+        if(is_object($value))
+        {
+            $video = $value;
+        }
 
-		// get the unprepped value (the video url)
-		if($this->element)
-		{
-			$value = $this->element->getContent()->getAttribute($this->model->handle);
-		}
-
-
-	    // Reformat the input name into something that looks more like an ID
-	    $id = craft()->templates->formatInputId($name);
+        // get the unprepped value (the video url)
+        if($this->element)
+        {
+            $value = $this->element->getContent()->getAttribute($this->model->handle);
+        }
 
 
-	    // Figure out what that ID is going to look like once it has been namespaced
-
-	    $namespacedId = craft()->templates->namespaceInputId($id);
-
-	    $settings = $this->getSettings();
+        // Reformat the input name into something that looks more like an ID
+        $id = craft()->templates->formatInputId($name);
 
 
-	    // Resources
+        // Figure out what that ID is going to look like once it has been namespaced
 
-		craft()->templates->includeCssResource('videos/common/css/field.css');
+        $namespacedId = craft()->templates->namespaceInputId($id);
 
-		craft()->templates->includeJsResource('videos/common/js/knockout-3.0.0.js');
-		craft()->templates->includeJsResource('videos/js/dukt.base.js');
-		craft()->templates->includeJsResource('videos/common/js/dukt.js');
-		craft()->templates->includeJsResource('videos/common/js/field.js');
-		craft()->templates->includeJsResource('videos/common/js/manager.js');
-		craft()->templates->includeJsResource('videos/common/js/manager.ko.js');
-
-		craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
-
-		$preview = craft()->templates->render('videos/field/preview', array('video' => $video));
+        $settings = $this->getSettings();
 
 
-	    // Render HTML
+        // Resources
 
-		return craft()->templates->render('videos/field/index', array(
-			'id'    => $id,
-			'name'  => $name,
-			'value' => $value,
-			'preview' => $preview
-		));
-	}
+        craft()->templates->includeCssResource('videos/common/css/field.css');
 
-	/**
-	 * Prep value
-	 */
+        craft()->templates->includeJsResource('videos/common/js/knockout-3.0.0.js');
+        craft()->templates->includeJsResource('videos/js/dukt.base.js');
+        craft()->templates->includeJsResource('videos/common/js/dukt.js');
+        craft()->templates->includeJsResource('videos/common/js/field.js');
+        craft()->templates->includeJsResource('videos/common/js/manager.js');
+        craft()->templates->includeJsResource('videos/common/js/manager.ko.js');
 
-	public function prepValue($videoUrl)
-	{
-		try {
-			$video = craft()->videos->getVideoByUrl($videoUrl);
+        craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
 
-			if($video)
-			{
-				return $video;
-			}
-		}
-		catch(\Exception $e)
-		{
-			Craft::log("Couldn't get video in field prepValue: ".$e->getMessage(), LogLevel::Info, true);
+        $preview = craft()->templates->render('videos/field/preview', array('video' => $video));
 
-			return null;
-		}
-	}
+
+        // Render HTML
+
+        return craft()->templates->render('videos/field/index', array(
+            'id'    => $id,
+            'name'  => $name,
+            'value' => $value,
+            'preview' => $preview
+        ));
+    }
+
+    /**
+     * Prep value
+     */
+    public function prepValue($videoUrl)
+    {
+        try {
+            $video = craft()->videos->getVideoByUrl($videoUrl);
+
+            if($video)
+            {
+                return $video;
+            }
+        }
+        catch(\Exception $e)
+        {
+            Craft::log("Couldn't get video in field prepValue: ".$e->getMessage(), LogLevel::Info, true);
+
+            return null;
+        }
+    }
+
+
+    /**
+     * Get Search Keywords
+     */
+    public function getSearchKeywords($value)
+    {
+        // ignore "raw" attribute
+        if(!empty($value->raw))
+        {
+            $value->setAttribute('raw', null);
+        }
+
+        return StringHelper::arrayToString($value, ' ');
+    }
+
 }

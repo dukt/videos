@@ -16,6 +16,7 @@ class Videos_VideoModel extends BaseModel
 {
     private $_video = false;
 
+
     protected function defineAttributes()
     {
         return array(
