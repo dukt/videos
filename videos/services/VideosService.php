@@ -21,6 +21,7 @@ class VideosService extends BaseApplicationComponent
     private $_gateways = array();
     private $_allGateways = array();
     private $_gatewaysLoaded = false;
+    private $tokens;
 
     private $videoGateways = array(
         'youtube' => array(
@@ -93,52 +94,93 @@ class VideosService extends BaseApplicationComponent
         return array();
     }
 
-    public function saveToken($providerHandle, $token)
-    {
-        // token
-        $token = craft()->oauth->encodeToken($token);
-
-        // get plugin settings
-        $plugin = craft()->plugins->getPlugin('videos');
-        $settings = $plugin->getSettings();
-        $tokens = $settings->tokens;
-
-        $tokens[$providerHandle] = $token;
-
-        // save token to plugin settings
-        $settings->tokens = $tokens;
-        craft()->plugins->savePluginSettings($plugin, $settings);
-
-    }
-
+    /**
+     * Get OAuth Token
+     */
     public function getToken($handle)
     {
-        try
+        if(!empty($this->tokens[$handle]))
         {
+            return $this->tokens[$handle];
+        }
+        else
+        {
+            // get plugin
             $plugin = craft()->plugins->getPlugin('videos');
+
+            // get settings
             $settings = $plugin->getSettings();
+
+            // get tokens
+            $tokens = $settings['tokens'];
 
             if(!empty($settings['tokens'][$handle]))
             {
-                // get token from settings
-                $token = craft()->oauth->decodeToken($settings['tokens'][$handle]);
+                // get tokenId
+                $tokenId = $tokens[$handle];
 
-                // refresh token if needed
-                if(craft()->oauth->refreshToken($handle, $token))
+                // get token
+                $token = craft()->oauth->getTokenById($tokenId);
+
+                if($token && $token->token)
                 {
-                    // save token
-                    $this->saveToken($handle, $token);
+                    $this->tokens[$handle] = $token;
+                    return $token;
                 }
-
-                // return token
-                return $token;
             }
+
         }
-        catch(\Exception $e)
+    }
+
+    /**
+     * Save OAuth Token
+     */
+    public function saveToken($handle, $token)
+    {
+        // get plugin
+        $plugin = craft()->plugins->getPlugin('videos');
+
+        // get settings
+        $settings = $plugin->getSettings();
+
+        // get tokens
+        $tokens = $settings['tokens'];
+
+
+        // get token
+
+        $model = null;
+
+        if(!empty($tokens[$handle]))
         {
-            // todo
-            throw new Exception($e, 1);
+            // get tokenId
+            $tokenId = $tokens[$handle];
+
+            // get token
+            $model = craft()->oauth->getTokenById($tokenId);
         }
+
+
+        // populate token model
+
+        if(!$model)
+        {
+            $model = new Oauth_TokenModel;
+        }
+
+        $model->providerHandle = $handle;
+        $model->pluginHandle = 'videos';
+        $model->encodedToken = craft()->oauth->encodeToken($token);
+
+        // save token
+        craft()->oauth->saveToken($model);
+
+        // set token ID
+        $tokens[$handle] = $model->id;
+
+        // save plugin settings
+        $settings['tokens'] = $tokens;
+        craft()->plugins->savePluginSettings($plugin, $settings);
     }
 
     public function getVideoThumbnail($gateway, $id, $w = 340, $h = null)
