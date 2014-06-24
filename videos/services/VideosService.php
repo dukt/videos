@@ -407,10 +407,9 @@ class VideosService extends BaseApplicationComponent
                     {
                         $gateway->accessToken = $token;
                     }
-
                }
 
-               if(is_object($gateway->accessToken))
+               if(isset($gateway->accessToken) && is_object($gateway->accessToken))
                {
                     $this->_gateways[] = $gateway;
                }
