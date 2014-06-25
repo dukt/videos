@@ -5,51 +5,10 @@
 
 {% if craft.oauth is not defined %}
 
-	<h2 class="first">{{"OAuth Not Installed"|t}}</h2>
-
-
-	{% set oauth = craft.plugins.getPlugin('oauth', false) %}
-
-	{% if oauth %}
-		{% if not oauth.isInstalled %}
-			<p>{{"OAuth plugin is present but not installed. Please install &amp; enable it."|t}}</p>
-		{% elseif not oauth.isEnabled %}
-			<p>{{"OAuth is installed but is disabled. Please enable it."|t}}</p>
-		{% else %}
-			{# OAuth READY #}
-		{% endif %}
-
-		<hr />
-
-		<a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
-
-	{% else %}
-		<p>{{"GitHub plugin requires OAuth plugin for Craft."|t}}</p>
-
-		<hr />
-
-		<a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
-
-	{% endif %}
+    {% include 'videos/settings/_oauth' %}
 
 {% else %}
 
-	<div class="videos-providers">
-		<div class="provider">
-			<div class="youtube">
-				<h2 class="first">YouTube</h2>
-				{% include 'videos/settings/_youtube' %}
-			</div>
-		</div>
-
-		<hr>
-
-		<div class="provider">
-			<div class="vimeo">
-				<h2>Vimeo</h2>
-				{% include 'videos/settings/_vimeo' %}
-			</div>
-		</div>
-	</div>
+    {% include 'videos/settings/_gateways' %}
 
 {% endif %}

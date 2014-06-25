@@ -48,7 +48,6 @@ class Videos_VideoFieldType extends BaseFieldType
             $value = $this->element->getContent()->getAttribute($this->model->handle);
         }
 
-
         // Reformat the input name into something that looks more like an ID
         $id = craft()->templates->formatInputId($name);
 
@@ -61,7 +60,6 @@ class Videos_VideoFieldType extends BaseFieldType
 
 
         // Resources
-
         craft()->templates->includeCssResource('videos/common/css/field.css');
 
         craft()->templates->includeJsResource('videos/common/js/knockout-3.0.0.js');
@@ -77,7 +75,12 @@ class Videos_VideoFieldType extends BaseFieldType
 
 
         // Render HTML
+        craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
 
+        // preview
+        $preview = craft()->templates->render('videos/field/preview', array('video' => $video));
+
+        // Render HTML
         return craft()->templates->render('videos/field/index', array(
             'id'    => $id,
             'name'  => $name,
@@ -89,9 +92,11 @@ class Videos_VideoFieldType extends BaseFieldType
     /**
      * Prep value
      */
+
     public function prepValue($videoUrl)
     {
-        try {
+        try
+        {
             $video = craft()->videos->getVideoByUrl($videoUrl);
 
             if($video)
@@ -107,7 +112,6 @@ class Videos_VideoFieldType extends BaseFieldType
         }
     }
 
-
     /**
      * Get Search Keywords
      */
@@ -121,5 +125,4 @@ class Videos_VideoFieldType extends BaseFieldType
 
         return StringHelper::arrayToString($value, ' ');
     }
-
 }

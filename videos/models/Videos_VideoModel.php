@@ -74,17 +74,17 @@ class Videos_VideoModel extends BaseModel
     {
         $video = $this->getVideo();
 
-        if($video) {
-
+        if($video)
+        {
             $embedUrl = $video->getEmbedUrl($opts);
-
             return $embedUrl;
         }
     }
 
     private function getVideo()
     {
-        if(!$this->_video) {
+        if(!$this->_video)
+        {
             $this->_video = craft()->videos->_getVideoObjectByUrl($this->url);
         }
 

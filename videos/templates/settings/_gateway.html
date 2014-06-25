@@ -1,0 +1,68 @@
+{% set gateway = craft.videos.gatewayOpts(gateway) %}
+
+{% set providerHandle = gateway.oauth.handle %}
+{% set providerName = gateway.oauth.name %}
+
+{% set connectUrl = actionUrl('videos/connect', { gateway: gateway.handle }) %}
+{% set disconnectUrl = actionUrl('videos/disconnect', { gateway: gateway.handle }) %}
+{% set settingsUrl = url('oauth/provider/'~providerHandle) %}
+
+{% set provider = craft.oauth.getProvider(providerHandle, false) %}
+
+<div class="provider">
+    <div class="{{ gateway.handle }}">
+        <h2>{{ gateway.name }}</h2>
+
+        {% if provider %}
+
+            {% if provider.isConfigured %}
+
+                {% set token = craft.videos.token(providerHandle) %}
+
+                {% if token %}
+
+                    {# Connected #}
+
+                    {% set void = provider.setToken(token) %}
+                    {% set account = provider.source.account %}
+
+                    <input type="hidden" name="token" value="{{ craft.oauth.encodeToken(token) }}" />
+
+                    <p>{{ 'You are authenticated to {provider} with the following account'|t({ provider: providerName }) }} :</p>
+
+                    <ul>
+                        <li><strong>{{ 'UID'|t }} : </strong> {{account.uid}}</li>
+                        <li><strong>{{ 'Name'|t }} : </strong> {{account.name}}</li>
+                    </ul>
+
+
+                     <p><a class="btn small" href="{{ disconnectUrl }}">{{ 'Disconnect'|t }}</a></p>
+
+                {% else %}
+
+                    {# Not Connected #}
+
+                    <p>{{ 'You need to connect Craft to a {provider} account in order to get started.'|t({ provider: providerName })}}</p>
+
+                    <p>{{"Getting errors trying to connect ?"|t }} <a href="{{ settingsUrl }}">{{"Check {provider} API key & secret in OAuth settings"|t({ provider: providerName })}}</a>.</p>
+
+                    <p>
+                        <a class="btn submit" href="{{ connectUrl }}">{{"Connect to {provider}"|t({provider: gateway.oauth.name})}}</a>
+                    </p>
+
+                {% endif %}
+
+            {% else %}
+
+                {# OAuth provider not configured #}
+
+                <p>{{ '{provider} provider not configured. Please fill API client id & secret for {provider} provider.'|t({ provider: providerName })}}</p>
+                <p><a class="btn" href="{{ settingsUrl }}">{{ '{provider} OAuth settings'|t({ provider: providerName })}}</a></p>
+
+            {% endif %}
+        {% else %}
+            <p>{{ '{provider} provider doesn’t exist.'|t({ provider: providerName })}}</p>
+        {% endif %}
+
+    </div>
+</div>

@@ -21,12 +21,166 @@ class VideosService extends BaseApplicationComponent
     private $_gateways = array();
     private $_allGateways = array();
     private $_gatewaysLoaded = false;
+    private $tokens;
 
-    public function init()
+    private $videoGateways = array(
+        'youtube' => array(
+            'name' => "YouTube",
+            'handle' => 'youtube',
+            'oauth' => array(
+                'name' => "Google",
+                'handle' => 'google',
+                'scopes' => array(
+                    'https://www.googleapis.com/auth/userinfo.profile',
+                    'https://www.googleapis.com/auth/userinfo.email',
+                    'https://www.googleapis.com/auth/youtube',
+                    'https://www.googleapis.com/auth/youtube.readonly'
+                ),
+                'params' => array(
+                    'access_type' => 'offline',
+                    'approval_prompt' => 'force'
+                )
+            )
+        ),
+
+        'vimeo' => array(
+            'name' => "Vimeo",
+            'handle' => 'vimeo',
+            'oauth' => array(
+                'name' => "Vimeo",
+                'handle' => 'vimeo'
+            )
+        )
+    );
+
+    public function getGatewayOpts($handle)
     {
-        $this->loadGateways();
+        return $this->videoGateways[$handle];
+    }
 
-        parent::init();
+    public function getScopes($handle)
+    {
+        foreach($this->videoGateways as $gateway)
+        {
+            if($gateway['oauth']['handle'] == $handle)
+            {
+                if(!empty($gateway['oauth']['scopes']))
+                {
+                    return $gateway['oauth']['scopes'];
+                }
+
+                break;
+            }
+        }
+
+        return array();
+    }
+
+    public function getParams($handle)
+    {
+        foreach($this->videoGateways as $gateway)
+        {
+            if($gateway['oauth']['handle'] == $handle)
+            {
+                if(!empty($gateway['oauth']['params']))
+                {
+                    return $gateway['oauth']['params'];
+                }
+
+                break;
+            }
+        }
+
+        return array();
+    }
+
+    /**
+     * Get OAuth Token
+     */
+    public function getToken($handle)
+    {
+        if(!empty($this->tokens[$handle]))
+        {
+            return $this->tokens[$handle];
+        }
+        else
+        {
+            // get plugin
+            $plugin = craft()->plugins->getPlugin('videos');
+
+            // get settings
+            $settings = $plugin->getSettings();
+
+            // get tokens
+            $tokens = $settings['tokens'];
+
+            if(!empty($settings['tokens'][$handle]))
+            {
+                // get tokenId
+                $tokenId = $tokens[$handle];
+
+                // get token
+                $token = craft()->oauth->getTokenById($tokenId);
+
+                if($token && $token->token)
+                {
+                    $this->tokens[$handle] = $token;
+                    return $token;
+                }
+            }
+
+        }
+    }
+
+    /**
+     * Save OAuth Token
+     */
+    public function saveToken($handle, $token)
+    {
+        // get plugin
+        $plugin = craft()->plugins->getPlugin('videos');
+
+        // get settings
+        $settings = $plugin->getSettings();
+
+        // get tokens
+        $tokens = $settings['tokens'];
+
+
+        // get token
+
+        $model = null;
+
+        if(!empty($tokens[$handle]))
+        {
+            // get tokenId
+            $tokenId = $tokens[$handle];
+
+            // get token
+            $model = craft()->oauth->getTokenById($tokenId);
+        }
+
+
+        // populate token model
+
+        if(!$model)
+        {
+            $model = new Oauth_TokenModel;
+        }
+
+        $model->providerHandle = $handle;
+        $model->pluginHandle = 'videos';
+        $model->encodedToken = craft()->oauth->encodeToken($token);
+
+        // save token
+        craft()->oauth->saveToken($model);
+
+        // set token ID
+        $tokens[$handle] = $model->id;
+
+        // save plugin settings
+        $settings['tokens'] = $tokens;
+        craft()->plugins->savePluginSettings($plugin, $settings);
     }
 
     public function getVideoThumbnail($gateway, $id, $w = 340, $h = null)
@@ -35,9 +189,9 @@ class VideosService extends BaseApplicationComponent
 
         $uri .= $w;
 
-        if(!$h) {
+        if(!$h)
+        {
             // calculate hd ratio (1,280×720)
-
             $h = floor($w * 720 / 1280);
         }
 
@@ -68,7 +222,8 @@ class VideosService extends BaseApplicationComponent
     {
         $video = $this->_getVideoObjectById($gateway, $id);
 
-        if($video) {
+        if($video)
+        {
 
             $video = (array) $video;
 
@@ -89,17 +244,20 @@ class VideosService extends BaseApplicationComponent
 
     public function _getVideoObjectById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
-        if($enableCache) {
+        if($enableCache)
+        {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
             $response = craft()->fileCache->get($key);
 
-            if($response) {
+            if($response)
+            {
                 return $response;
             }
         }
 
-        try {
+        try
+        {
 
             $gateways = $this->getGateways();
 
@@ -122,7 +280,9 @@ class VideosService extends BaseApplicationComponent
                 }
             }
 
-        } catch(\Exception $e) {
+        }
+        catch(\Exception $e)
+        {
             throw new Exception($e->getMessage());
         }
     }
@@ -134,12 +294,14 @@ class VideosService extends BaseApplicationComponent
             $enableCache = false;
         }
 
-        if($enableCache) {
+        if($enableCache)
+        {
             $key = 'videos.video.'.md5($videoUrl);
 
             $response = craft()->fileCache->get($key);
 
-            if($response) {
+            if($response)
+            {
                 return $response;
             }
         }
@@ -172,43 +334,6 @@ class VideosService extends BaseApplicationComponent
         }
 
         return false;
-    }
-
-    public function getGatewayOpts($gateway)
-    {
-        $plugin = craft()->plugins->getPlugin('videos');
-
-        $settings = $plugin->getSettings();
-
-        $gatewayOpts = array(
-            'youtube' => array(
-                'class' => "YouTube",
-                'parameters' => array(
-                    'developerKey' => $settings['youtubeParameters']['developerKey']
-                ),
-            ),
-            'vimeo' => array(
-                'class' => "Vimeo"
-            )
-        );
-
-        return $gatewayOpts[$gateway];
-    }
-
-    public function getProviderOpts($gateway)
-    {
-        $providerOpts = array(
-            'youtube' => array(
-                'handle' => 'google',
-                'namespace' => 'videos.google'
-            ),
-            'vimeo' => array(
-                'handle' => 'vimeo',
-                'namespace' => 'videos.vimeo'
-            )
-        );
-
-        return $providerOpts[$gateway];
     }
 
     public function getGatewaysWithSections()
@@ -265,6 +390,8 @@ class VideosService extends BaseApplicationComponent
 
     public function getGateways($enabledOnly = true)
     {
+        $this->loadGateways();
+
         if($enabledOnly)
         {
             return $this->_gateways;
@@ -277,6 +404,8 @@ class VideosService extends BaseApplicationComponent
 
     public function getGateway($gatewayHandle, $enabledOnly = true)
     {
+        $this->loadGateways();
+
         if($enabledOnly)
         {
             $gateways = $this->_gateways;
@@ -297,70 +426,7 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
-    public function deprecated_getGateways()
-    {
-        $wrap = $this;
-
-        $allGateways = array_map(
-
-            function($providerClass) use ($wrap) {
-
-                $gatewayHandle = strtolower($providerClass);
-
-                try {
-                    // provider
-
-                    $providerOpts = $wrap->getProviderOpts($gatewayHandle);
-
-                    $token = craft()->oauth->getSystemToken($providerOpts['handle'], $providerOpts['namespace']);
-
-                    if(!$token) {
-                        throw new Exception("Token doesn't exists");
-                    }
-
-                    $realToken = $token->getDecodedToken();
-
-                    if(!$realToken) {
-                        throw new Exception("Couldn't get real token");
-                    }
-
-                    $provider = craft()->oauth->getProvider($providerOpts['handle']);
-
-                    $provider->setToken($token->getDecodedToken());
-
-
-                    // gateway
-
-                    $gatewayOpts = $wrap->getGatewayOpts($gatewayHandle);
-
-                    $gateway = \Dukt\Videos\Common\ServiceFactory::create($gatewayOpts['class'], $provider->providerSource->_providerSource);
-
-                    if(isset($gatewayOpts['parameters'])) {
-                        $gateway->setParameters($gatewayOpts['parameters']);
-                    }
-
-                    return $gateway;
-
-                } catch(\Exception $e) {
-                    return array('error' => $e->getMessage());
-                }
-            },
-
-            \Dukt\Videos\Common\ServiceFactory::find()
-        );
-
-        $gateways = array();
-
-        foreach($allGateways as $g) {
-            if(is_object($g)) {
-                $gateways[$g->handle] = $g;
-            }
-        }
-
-        return $gateways;
-    }
-
-    private function loadGateways()
+    public function loadGateways()
     {
         if(!$this->_gatewaysLoaded)
         {
@@ -380,39 +446,32 @@ class VideosService extends BaseApplicationComponent
                     continue;
                 }
 
+                // instantiate videos service
 
                 $nsClass = '\\Dukt\\Videos\\'.$pathName.'\\Service';
                 $gateway = new $nsClass;
+                $handle = strtolower($gateway->oauthProvider);
 
-                // load gateway settings
+                $provider = craft()->oauth->getProvider($gateway->oauthProvider);
+                $token = $this->getToken($handle);
 
-                $oauthProvider = craft()->oauth->getProvider($gateway->oauthProvider);
-                $accessToken = craft()->oauth->getSystemToken($gateway->oauthProvider, 'videos.'.strtolower($gateway->oauthProvider));
+                if($token)
+                {
 
-               if(!empty($oauthProvider->clientId))
-               {
-                    $gateway->clientId = $oauthProvider->clientId;
-               }
+                    $provider->source->setToken($token);
 
-               if(!empty($oauthProvider->clientSecret))
-               {
-                    $gateway->clientSecret = $oauthProvider->clientSecret;
-               }
+                    $gateway->setService($provider->source->service);
 
-               if(!empty($accessToken))
-               {
-                    $token = $accessToken->getRealToken();
-
-                    if($token)
+                    if($provider->source->hasAccessToken())
                     {
-                        $gateway->accessToken = $token;
+                        $this->_gateways[] = $gateway;
                     }
-               }
+                }
 
-               if(isset($gateway->accessToken) && is_object($gateway->accessToken))
-               {
+                if(isset($gateway->accessToken) && is_object($gateway->accessToken))
+                {
                     $this->_gateways[] = $gateway;
-               }
+                }
 
                 $this->_allGateways[] = $gateway;
             }
