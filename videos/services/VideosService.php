@@ -124,7 +124,7 @@ class VideosService extends BaseApplicationComponent
 
                 if($token && $token->token)
                 {
-                    $this->tokens[$handle] = $token->token;
+                    $this->tokens[$handle] = $token;
                     return $this->tokens[$handle];
                 }
             }
@@ -452,18 +452,22 @@ class VideosService extends BaseApplicationComponent
                 $handle = strtolower($gateway->oauthProvider);
 
                 $provider = craft()->oauth->getProvider($gateway->oauthProvider);
-                $token = $this->getToken($handle);
+                $tokenModel = $this->getToken($handle);
 
-                if($token)
+                if($tokenModel)
                 {
+                    $token = $tokenModel->token;
 
-                    $provider->source->setToken($token);
-
-                    $gateway->setService($provider->source->service);
-
-                    if($provider->source->hasAccessToken())
+                    if($token)
                     {
-                        $this->_gateways[] = $gateway;
+                        $provider->source->setToken($token);
+
+                        $gateway->setService($provider->source->service);
+
+                        if($provider->source->hasAccessToken())
+                        {
+                            $this->_gateways[] = $gateway;
+                        }
                     }
                 }
 
