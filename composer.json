@@ -25,7 +25,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "dukt/videos": "1.0.*",
+        "dukt/videos": "2.0.*",
         "dukt/videos-app": "dev-master",
         "dukt/vimeo": "dev-master",
         "symfony/finder": "2.2.*@dev",
