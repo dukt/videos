@@ -124,11 +124,10 @@ class VideosService extends BaseApplicationComponent
 
                 if($token && $token->token)
                 {
-                    $this->tokens[$handle] = $token;
-                    return $token;
+                    $this->tokens[$handle] = $token->token;
+                    return $this->tokens[$handle];
                 }
             }
-
         }
     }
 
