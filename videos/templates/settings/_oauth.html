@@ -13,14 +13,14 @@
         {# OAuth READY #}
     {% endif %}
 
-    <hr />
-
-    <a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a>
+    <p><a class="btn" href="{{url('settings/plugins')}}">{{"Manage plugins"|t}}</a></p>
 
 {% else %}
 
     <p>{{"Videos plugin requires OAuth plugin for Craft."|t}}</p>
-    <hr />
-    <a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
+
+    <p>
+        <a class="btn" target="_blank" href="https://dukt.net/craft/oauth/">{{"Download OAuth plugin"|t}}</a>
+    </p>
 
 {% endif %}

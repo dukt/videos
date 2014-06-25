@@ -5,7 +5,7 @@
 
 {% set connectUrl = actionUrl('videos/connect', { gateway: gateway.handle }) %}
 {% set disconnectUrl = actionUrl('videos/disconnect', { gateway: gateway.handle }) %}
-{% set settingsUrl = url('oauth/provider/'~providerHandle) %}
+{% set settingsUrl = url('oauth/'~providerHandle) %}
 
 {% set provider = craft.oauth.getProvider(providerHandle, false) %}
 
