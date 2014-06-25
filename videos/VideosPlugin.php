@@ -27,7 +27,7 @@ class VideosPlugin extends BasePlugin
      */
     function getVersion()
     {
-        return '1.0.16';
+        return '1.0.17';
     }
 
     /**
@@ -183,5 +183,13 @@ class VideosPlugin extends BasePlugin
         return array(
             craft()->path->getRuntimePath().'videos/' => Craft::t('Videos resources'),
         );
+    }
+
+    /**
+     * On Before Uninstall
+     */
+    public function onBeforeUninstall()
+    {
+        craft()->oauth->deleteTokensByPlugin('videos');
     }
 }
