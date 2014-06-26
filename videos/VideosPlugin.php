@@ -190,6 +190,9 @@ class VideosPlugin extends BasePlugin
      */
     public function onBeforeUninstall()
     {
-        craft()->oauth->deleteTokensByPlugin('videos');
+        if(isset(craft()->oauth))
+        {
+            craft()->oauth->deleteTokensByPlugin('videos');
+        }
     }
 }
