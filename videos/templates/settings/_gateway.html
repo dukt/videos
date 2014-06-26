@@ -24,17 +24,22 @@
                     {# Connected #}
 
                     {% set void = provider.setToken(token) %}
-                    {% set account = provider.source.account %}
+                    {% set account = provider.account %}
 
-                    <input type="hidden" name="token" value="{{ craft.oauth.encodeToken(token) }}" />
+                    {% if account %}
 
-                    <p>{{ 'You are authenticated to {provider} with the following account'|t({ provider: providerName }) }} :</p>
+                        <input type="hidden" name="token" value="{{ craft.oauth.encodeToken(token) }}" />
 
-                    <ul>
-                        <li><strong>{{ 'UID'|t }} : </strong> {{account.uid}}</li>
-                        <li><strong>{{ 'Name'|t }} : </strong> {{account.name}}</li>
-                    </ul>
+                        <p>{{ 'You are authenticated to {provider} with the following account'|t({ provider: providerName }) }} :</p>
 
+                        <ul>
+                            <li><strong>{{ 'UID'|t }} : </strong> {{account.uid}}</li>
+                            <li><strong>{{ 'Name'|t }} : </strong> {{account.name}}</li>
+                        </ul>
+
+                    {% else %}
+                        <p class="error">{{ "Couldn't retrieve account"|t }}</p>
+                    {% endif %}
 
                      <p><a class="btn small" href="{{ disconnectUrl }}">{{ 'Disconnect'|t }}</a></p>
 
