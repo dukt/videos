@@ -215,4 +215,20 @@ class VideosController extends BaseController
             $this->returnErrorJson("Couldn't get gateways: ".$e->getMessage());
         }
     }
+
+    /**
+     * Manager modal
+     */
+    public function actionManager()
+    {
+        $this->renderTemplate('videos/modals/manager');
+    }
+
+    /**
+     * Player Modal
+     */
+    public function actionPlayer()
+    {
+        $this->renderTemplate('videos/modals/player');
+    }
 }
