@@ -28,7 +28,6 @@
         "dukt/videos": "2.0.*",
         "dukt/videos-app": "dev-master",
         "dukt/vimeo": "dev-master",
-        "symfony/finder": "2.2.*@dev",
         "google/apiclient": "dev-master"
     }
 }

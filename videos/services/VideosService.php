@@ -14,8 +14,6 @@ namespace Craft;
 
 require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
-use Symfony\Component\Finder\Finder;
-
 class VideosService extends BaseApplicationComponent
 {
     private $_gateways = array();
@@ -431,14 +429,11 @@ class VideosService extends BaseApplicationComponent
         {
             $this->_gatewaysLoaded = true;
 
-            $finder = new Finder();
+            $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/vendor/dukt/videos/src/Dukt/Videos/');
 
-            $directories = $finder->directories()->depth(0)->in(CRAFT_PLUGINS_PATH.'videos/vendor/dukt/videos/src/Dukt/Videos/');
-
-            foreach($directories as $directory)
+            foreach($folders as $folder)
             {
-
-                $pathName = $directory->getRelativePathName();
+                $pathName = IOHelper::getFolderName($folder, false);
 
                 if($pathName == 'Common')
                 {
