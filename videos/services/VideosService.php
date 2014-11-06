@@ -347,7 +347,7 @@ class VideosService extends BaseApplicationComponent
             {
                 if($gateway)
                 {
-                    $class = '\Dukt\Videos\App\\'.$gateway->providerClass;
+                    $class = '\\Craft\\Dukt\\Videos\\App\\'.$gateway->providerClass;
 
                     $sections = $class::getSections($gateway);
 
