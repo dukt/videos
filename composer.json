@@ -8,10 +8,6 @@
     "repositories": [
         {
             "type": "vcs",
-            "url": "https://github.com/dukt/oauth"
-        },
-        {
-            "type": "vcs",
             "url": "https://github.com/dukt/videos"
         },
         {
@@ -25,7 +21,7 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "dukt/videos": "2.0.*",
+        "dukt/videos": "dev-develop-guzzleless",
         "dukt/videos-app": "dev-master",
         "dukt/vimeo": "dev-master",
         "google/apiclient": "dev-master"
