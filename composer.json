@@ -3,14 +3,11 @@
         "vendor-dir": "videos/vendor/"
     },
     "autoload": {
-        "psr-0": { "Dukt\\Videos\\Plugin" : "videos/libraries/videos.plugin/src/" },
-        "psr-4": { "Craft\\Dukt\\Videos\\": ["videos/src/"] }
+        "psr-4": {
+            "Dukt\\Videos\\": ["videos/src/"]
+        }
     },
     "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/dukt/videos"
-        },
         {
             "type": "vcs",
             "url": "https://github.com/dukt/vimeo"
@@ -18,7 +15,6 @@
     ],
     "require": {
         "php": ">=5.3.2",
-        "dukt/videos": "dev-develop-guzzleless",
         "dukt/vimeo": "dev-master",
         "google/apiclient": "dev-master"
     }
