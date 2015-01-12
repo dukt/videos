@@ -423,7 +423,50 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
+
     public function loadGateways()
+    {
+        if(!$this->_gatewaysLoaded)
+        {
+            $this->_gatewaysLoaded = true;
+
+            $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/vendor/dukt/videos/src/Dukt/Videos/');
+
+            foreach($folders as $folder)
+            {
+                $gatewayName = IOHelper::getFolderName($folder, false);
+
+                if($gatewayName == 'Common')
+                {
+                    continue;
+                }
+
+                $nsClass = '\\Dukt\\Videos\\'.$gatewayName.'\\Service';
+
+                $gateway = new $nsClass;
+
+                $handle = strtolower($gateway->oauthProvider);
+
+                $provider = craft()->oauth->getProvider($gateway->oauthProvider);
+
+                $token = $this->getToken($handle);
+
+                if($token)
+                {
+                    $providerSource = craft()->oauth->getProviderSource($handle);
+                    $providerSource->setToken($token);
+
+                    $gateway->setProviderSource($providerSource);
+
+                    $this->_gateways[] = $gateway;
+                }
+
+                $this->_allGateways[] = $gateway;
+            }
+        }
+    }
+
+    public function loadGateways_deprecated()
     {
         if(!$this->_gatewaysLoaded)
         {
@@ -447,6 +490,7 @@ class VideosService extends BaseApplicationComponent
                 $handle = strtolower($gateway->oauthProvider);
 
                 $provider = craft()->oauth->getProvider($gateway->oauthProvider);
+
                 $tokenModel = $this->getToken($handle);
 
                 if($tokenModel)
@@ -455,14 +499,22 @@ class VideosService extends BaseApplicationComponent
 
                     if($token)
                     {
-                        $provider->source->setToken($token);
+                        $providerSource = craft()->oauth->getProviderSource($handle);
+                        $providerSource->setToken($token);
 
-                        $gateway->setService($provider->source->service);
-
-                        if($provider->source->hasAccessToken())
+                        if($providerSource->hasAccessToken())
                         {
                             $this->_gateways[] = $gateway;
                         }
+
+                        // $provider->source->setToken($token);
+
+                        // $gateway->setService($provider->source->service);
+
+                        // if($provider->source->hasAccessToken())
+                        // {
+                        //     $this->_gateways[] = $gateway;
+                        // }
                     }
                 }
 
