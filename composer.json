@@ -1,6 +1,8 @@
 {
+    "config": {
+        "vendor-dir": "videos/vendor/"
+    },
     "autoload": {
-        "psr-0": { "Dukt\\Videos\\Plugin" : "videos/libraries/videos.plugin/src/" },
         "psr-4": {
             "Dukt\\Videos\\": ["videos/src/Gateways/"],
             "Craft\\Dukt\\Videos\\App\\": ["videos/src/App/"]
