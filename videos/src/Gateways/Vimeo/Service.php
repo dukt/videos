@@ -1,9 +1,9 @@
 <?php
 
-namespace Dukt\Videos\Vimeo;
+namespace Dukt\Videos\Gateways\Vimeo;
 
 use Dukt\Vimeo;
-use Dukt\Videos\Common\AbstractService;
+use Dukt\Videos\Gateways\Common\AbstractService;
 
 class Service extends AbstractService
 {

@@ -1,11 +1,11 @@
 <?php
 
-namespace Dukt\Videos\YouTube;
+namespace Dukt\Videos\Gateways\YouTube;
 
 use \Google_Client;
 use \Google_Service_YouTube;
 
-use Dukt\Videos\Common\AbstractService;
+use Dukt\Videos\Gateways\Common\AbstractService;
 use Guzzle\Http\Client;
 
 class Service extends AbstractService

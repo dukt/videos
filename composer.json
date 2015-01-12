@@ -4,8 +4,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Dukt\\Videos\\": ["videos/src/Gateways/"],
-            "Craft\\Dukt\\Videos\\App\\": ["videos/src/App/"]
+            "Dukt\\Videos\\": ["videos/src/"]
         }
     },
     "repositories": [

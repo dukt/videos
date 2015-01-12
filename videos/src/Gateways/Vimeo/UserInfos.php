@@ -1,8 +1,8 @@
 <?php
 
-namespace Dukt\Videos\Vimeo;
+namespace Dukt\Videos\Gateways\Vimeo;
 
-use Dukt\Videos\Common\AbstractUserInfos;
+use Dukt\Videos\Gateways\Common\AbstractUserInfos;
 
 class UserInfos extends AbstractUserInfos
 {

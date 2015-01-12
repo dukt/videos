@@ -1,8 +1,8 @@
 <?php
 
-namespace Dukt\Videos\Vimeo;
+namespace Dukt\Videos\Gateways\Vimeo;
 
-use Dukt\Videos\Common\AbstractCollection;
+use Dukt\Videos\Gateways\Common\AbstractCollection;
 
 class Collection extends AbstractCollection
 {

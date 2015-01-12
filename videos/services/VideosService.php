@@ -347,7 +347,7 @@ class VideosService extends BaseApplicationComponent
             {
                 if($gateway)
                 {
-                    $class = '\\Craft\\Dukt\\Videos\\App\\'.$gateway->providerClass;
+                    $class = '\\Dukt\\Videos\\App\\'.$gateway->providerClass;
 
                     $sections = $class::getSections($gateway);
 
@@ -442,7 +442,7 @@ class VideosService extends BaseApplicationComponent
 
                 // instantiate videos service
 
-                $nsClass = '\\Dukt\\Videos\\'.$pathName.'\\Service';
+                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$pathName.'\\Service';
                 $gateway = new $nsClass;
                 $handle = strtolower($gateway->oauthProvider);
 

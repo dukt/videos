@@ -1,6 +1,6 @@
 <?php
 
-namespace Craft\Dukt\Videos\App;
+namespace Dukt\Videos\App;
 
 class YouTube {
 

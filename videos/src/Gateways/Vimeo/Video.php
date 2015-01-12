@@ -1,8 +1,8 @@
 <?php
 
-namespace Dukt\Videos\Vimeo;
+namespace Dukt\Videos\Gateways\Vimeo;
 
-use Dukt\Videos\Common\AbstractVideo;
+use Dukt\Videos\Gateways\Common\AbstractVideo;
 
 class Video extends AbstractVideo
 {

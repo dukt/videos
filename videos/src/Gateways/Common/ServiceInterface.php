@@ -1,6 +1,6 @@
 <?php
 
-namespace Dukt\Videos\Common;
+namespace Dukt\Videos\Gateways\Common;
 
 /**
  * Video Service interface
