@@ -429,7 +429,7 @@ class VideosService extends BaseApplicationComponent
         {
             $this->_gatewaysLoaded = true;
 
-            $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/vendor/dukt/videos/src/Dukt/Videos/');
+            $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/src/Gateways/');
 
             foreach($folders as $folder)
             {
