@@ -8,7 +8,7 @@
     <hr />
 
 
-    {% set video = craft.videos.videoByUrl('http://youtu.be/14pRmb5LAhU') %}
+    {% set video = craft.videos.getVideoByUrl('http://youtu.be/14pRmb5LAhU') %}
 
     {% include 'videos/_video' with { video: video } %}
 
