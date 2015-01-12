@@ -441,7 +441,7 @@ class VideosService extends BaseApplicationComponent
                     continue;
                 }
 
-                $nsClass = '\\Dukt\\Videos\\'.$gatewayName.'\\Service';
+                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName.'\\Service';
 
                 $gateway = new $nsClass;
 

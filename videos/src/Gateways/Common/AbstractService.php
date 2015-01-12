@@ -32,7 +32,7 @@ abstract class AbstractService implements ServiceInterface
     {
         if(!$this->token)
         {
-            $storage = $this->service->getStorage();
+            $storage = $this->providerSource->storage;
             $token = $storage->retrieveAccessToken($this->oauthProvider);
             $this->token = $token;
         }

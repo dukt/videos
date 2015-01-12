@@ -23,7 +23,7 @@ class Service extends AbstractService
 
     public function getClient()
     {
-        $storage = $this->service->getStorage();
+        $storage = $this->providerSource->storage;
         $token = $storage->retrieveAccessToken($this->oauthProvider);
 
         // make token compatible with Google library
