@@ -68,8 +68,9 @@ class VideosController extends BaseController
         $gateway = craft()->videos->getGatewayOpts($gateway);
         $handle = $gateway['oauth']['handle'];
 
-        // save token
-        craft()->videos->saveToken($handle, null);
+
+        // delete token
+        craft()->videos->deleteToken($handle);
 
         // set notice
         craft()->userSession->setNotice(Craft::t("Disconnected."));
