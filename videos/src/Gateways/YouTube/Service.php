@@ -29,8 +29,9 @@ class Service extends AbstractService
         // make token compatible with Google library
         $arrayToken = array();
         $arrayToken['created'] = 0;
-        $arrayToken['access_token'] = $token->getAccessToken();
-        $arrayToken['expires_in'] = $token->getEndOfLife();
+        $arrayToken['access_token'] = $this->providerSource->token->accessToken;
+        $arrayToken['expires_in'] = $this->providerSource->token->endOfLife;
+
         $arrayToken = json_encode($arrayToken);
 
 

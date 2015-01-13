@@ -120,12 +120,46 @@ class VideosService extends BaseApplicationComponent
                 // get token
                 $token = craft()->oauth->getTokenById($tokenId);
 
-                if($token && $token->token)
+                if($token)
                 {
                     $this->tokens[$handle] = $token;
                     return $this->tokens[$handle];
                 }
             }
+        }
+    }
+
+    public function deleteToken($handle)
+    {
+        // get plugin
+        $plugin = craft()->plugins->getPlugin('videos');
+
+        // get settings
+        $settings = $plugin->getSettings();
+
+        // get tokens
+        $tokens = $settings['tokens'];
+
+        // get token
+
+        if(!empty($tokens[$handle]))
+        {
+            // get tokenId
+            $tokenId = $tokens[$handle];
+
+            // get token
+            $token = craft()->oauth->getTokenById($tokenId);
+
+            if($token)
+            {
+                craft()->oauth->deleteToken($token);
+            }
+
+            unset($tokens[$handle]);
+
+            // save plugin settings
+            $settings['tokens'] = $tokens;
+            craft()->plugins->savePluginSettings($plugin, $settings);
         }
     }
 
@@ -143,10 +177,7 @@ class VideosService extends BaseApplicationComponent
         // get tokens
         $tokens = $settings['tokens'];
 
-
         // get token
-
-        $model = null;
 
         if(!empty($tokens[$handle]))
         {
@@ -154,26 +185,31 @@ class VideosService extends BaseApplicationComponent
             $tokenId = $tokens[$handle];
 
             // get token
-            $model = craft()->oauth->getTokenById($tokenId);
+            // $model = craft()->oauth->getTokenById($tokenId);
+            // $token->id = $tokenId;
+            $existingToken = craft()->oauth->getTokenById($tokenId);
         }
 
 
-        // populate token model
-
-        if(!$model)
+        if(!$token)
         {
-            $model = new Oauth_TokenModel;
+            $token = new Oauth_TokenModel;
         }
 
-        $model->providerHandle = $handle;
-        $model->pluginHandle = 'videos';
-        $model->encodedToken = craft()->oauth->encodeToken($token);
+        if(isset($existingToken))
+        {
+            $token->id = $existingToken->id;
+        }
+
+        $token->providerHandle = $handle;
+        $token->pluginHandle = 'videos';
+
 
         // save token
-        craft()->oauth->saveToken($model);
+        craft()->oauth->saveToken($token);
 
         // set token ID
-        $tokens[$handle] = $model->id;
+        $tokens[$handle] = $token->id;
 
         // save plugin settings
         $settings['tokens'] = $tokens;
@@ -291,8 +327,11 @@ class VideosService extends BaseApplicationComponent
             $enableCache = false;
         }
 
+
+
         if($enableCache)
         {
+
             $key = 'videos.video.'.md5($videoUrl);
 
             $response = craft()->fileCache->get($key);
@@ -326,7 +365,7 @@ class VideosService extends BaseApplicationComponent
             }
             catch(\Exception $e)
             {
-                // throw new Exception($e->getMessage());
+                // throw new Exception($e);
             }
         }
 
@@ -454,6 +493,7 @@ class VideosService extends BaseApplicationComponent
                 if($token)
                 {
                     $providerSource = craft()->oauth->getProviderSource($handle);
+                    $providerSource->setProvider($provider);
                     $providerSource->setToken($token);
 
                     $gateway->setProviderSource($providerSource);
@@ -506,15 +546,6 @@ class VideosService extends BaseApplicationComponent
                         {
                             $this->_gateways[] = $gateway;
                         }
-
-                        // $provider->source->setToken($token);
-
-                        // $gateway->setService($provider->source->service);
-
-                        // if($provider->source->hasAccessToken())
-                        // {
-                        //     $this->_gateways[] = $gateway;
-                        // }
                     }
                 }
 

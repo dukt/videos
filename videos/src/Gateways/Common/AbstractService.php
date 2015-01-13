@@ -7,7 +7,6 @@ abstract class AbstractService implements ServiceInterface
     public $provider;
     public $name;
     public $handle;
-    protected $service;
     private $token;
     protected $providerSource;
 
@@ -38,16 +37,6 @@ abstract class AbstractService implements ServiceInterface
         }
 
         return $this->token;
-    }
-
-    public function setService($service)
-    {
-        $this->service = $service;
-    }
-
-    public function getService()
-    {
-        return $this->service;
     }
 
     public function getName()
