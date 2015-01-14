@@ -23,12 +23,9 @@
 
                     {# Connected #}
 
-                    {% set providerSource = craft.oauth.getProviderSource(providerHandle) %}
+                    {% set void = provider.setToken(token) %}
 
-                    {% set void = providerSource.setProvider(provider) %}
-                    {% set void = providerSource.setToken(token) %}
-
-                    {% set account = providerSource.getUserDetails() %}
+                    {% set account = provider.getUserDetails() %}
 
                     {% if account %}
 

@@ -462,13 +462,10 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
-
     public function loadGateways()
     {
         if(!$this->_gatewaysLoaded)
         {
-            $this->_gatewaysLoaded = true;
-
             $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/src/Gateways/');
 
             foreach($folders as $folder)
@@ -492,15 +489,17 @@ class VideosService extends BaseApplicationComponent
 
                 if($token)
                 {
-                    $provider->source->setToken($token);
+                    $provider->setToken($token);
 
-                    $gateway->setProviderSource($provider->source);
+                    $gateway->setProviderSource($provider);
 
                     $this->_gateways[] = $gateway;
                 }
 
                 $this->_allGateways[] = $gateway;
             }
+
+            $this->_gatewaysLoaded = true;
         }
     }
 }
