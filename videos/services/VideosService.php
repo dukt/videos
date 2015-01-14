@@ -492,11 +492,9 @@ class VideosService extends BaseApplicationComponent
 
                 if($token)
                 {
-                    $providerSource = craft()->oauth->getProviderSource($handle);
-                    $providerSource->setProvider($provider);
-                    $providerSource->setToken($token);
+                    $provider->source->setToken($token);
 
-                    $gateway->setProviderSource($providerSource);
+                    $gateway->setProviderSource($provider->source);
 
                     $this->_gateways[] = $gateway;
                 }
