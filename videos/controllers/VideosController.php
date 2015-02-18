@@ -22,6 +22,20 @@ class VideosController extends BaseController
      */
     public function actionConnect()
     {
+        // referer
+
+        $referer = craft()->httpSession->get('videos.referer');
+
+        if(!$referer)
+        {
+            $referer = craft()->request->getUrlReferrer();
+
+            craft()->httpSession->add('videos.referer', $referer);
+        }
+
+
+        // connect
+
         $gatewayHandle = craft()->request->getParam('gateway');
         $gateway = craft()->videos->getGatewayOpts($gatewayHandle);
 
@@ -53,9 +67,19 @@ class VideosController extends BaseController
                 // session notice
                 craft()->userSession->setError(Craft::t($response['errorMsg']));
             }
-
-            $this->redirect($response['redirect']);
         }
+        else
+        {
+            // session error
+            craft()->userSession->setError(Craft::t("Couldn’t connect"));
+        }
+
+
+        // redirect
+
+        craft()->httpSession->remove('videos.referer');
+
+        $this->redirect($referer);
     }
 
     /**
