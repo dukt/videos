@@ -29,7 +29,7 @@
 
                     {% if account %}
 
-                        <input type="hidden" name="token" value="{{ craft.oauth.encodeToken(token) }}" />
+                        {# <input type="hidden" name="token" value="{{ craft.oauth.encodeToken(token) }}" /> #}
 
                         <p>{{ 'You are authenticated to {provider} with the following account'|t({ provider: providerName }) }} :</p>
 
@@ -66,8 +66,11 @@
                 <p><a class="btn" href="{{ settingsUrl }}">{{ '{provider} OAuth settings'|t({ provider: providerName })}}</a></p>
 
             {% endif %}
+
         {% else %}
+
             <p>{{ '{provider} provider doesn’t exist.'|t({ provider: providerName })}}</p>
+
         {% endif %}
 
     </div>
