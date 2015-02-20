@@ -7,20 +7,14 @@ abstract class AbstractService implements ServiceInterface
     public $provider;
     public $name;
     public $handle;
-    private $token;
-    protected $providerSource;
-
-    protected $parameters;
 
     public $paginationDefaults = array(
         'page' => 1,
         'perPage' => 30
     );
 
-    public function setProviderSource($providerSource)
-    {
-        $this->providerSource = $providerSource;
-    }
+    protected $token;
+    protected $parameters;
 
     public function setToken($token)
     {
@@ -29,13 +23,6 @@ abstract class AbstractService implements ServiceInterface
 
     public function getToken()
     {
-        if(!$this->token)
-        {
-            $storage = $this->providerSource->storage;
-            $token = $storage->retrieveAccessToken($this->oauthProvider);
-            $this->token = $token;
-        }
-
         return $this->token;
     }
 

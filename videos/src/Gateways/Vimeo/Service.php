@@ -15,13 +15,12 @@ class Service extends AbstractService
 
     protected function api($method, $params = array())
     {
-        $token = $this->getToken();
-
+        $token = $this->token;
         // client id & secret are fake because we already have a valid token
         $vimeo = new Vimeo(
             "clientId",
             "clientSecret",
-            $token->getAccessToken()
+            $token->accessToken
         );
 
         $return = array();
