@@ -479,11 +479,20 @@ class VideosService extends BaseApplicationComponent
 
                 $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName.'\\Service';
 
+
+                // gateway
+
                 $gateway = new $nsClass;
+
+
+                // provider
 
                 $handle = strtolower($gateway->oauthProvider);
 
                 $provider = craft()->oauth->getProvider($gateway->oauthProvider);
+
+
+                // token
 
                 $token = $this->getToken($handle);
 
@@ -493,9 +502,12 @@ class VideosService extends BaseApplicationComponent
 
                     $gateway->setProviderSource($provider);
 
+                    // add to loaded gateways
                     $this->_gateways[] = $gateway;
                 }
 
+
+                // add to all gateways
                 $this->_allGateways[] = $gateway;
             }
 
