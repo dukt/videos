@@ -3,9 +3,10 @@
 {% includeCssResource 'videos/css/disableSave.css' %}
 {% includeCssResource 'videos/css/settings.css' %}
 
-{% if craft.oauth is not defined %}
 
-    {% include 'videos/settings/_oauth' %}
+{% if pluginDependencies|length > 0 %}
+
+    {% include 'videos/settings/_dependencies' %}
 
 {% else %}
 

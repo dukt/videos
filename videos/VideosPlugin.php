@@ -31,6 +31,21 @@ class VideosPlugin extends BasePlugin
     }
 
     /**
+     * Get Required Plugins
+     */
+    function getRequiredPlugins()
+    {
+        return array(
+            array(
+                'name' => "OAuth",
+                'handle' => 'oauth',
+                'url' => 'https://dukt.net/craft/oauth',
+                'version' => '0.9.62'
+            )
+        );
+    }
+
+    /**
      * Get Developer
      */
     function getDeveloper()
@@ -82,8 +97,11 @@ class VideosPlugin extends BasePlugin
             return true;
         }
 
+        $pluginDependencies = $this->getPluginDependencies();
+
         return craft()->templates->render('videos/settings', array(
-            'settings' => $this->getSettings()
+            'settings' => $this->getSettings(),
+            'pluginDependencies' => $pluginDependencies
         ));
     }
 
@@ -194,5 +212,79 @@ class VideosPlugin extends BasePlugin
         {
             craft()->oauth->deleteTokensByPlugin('videos');
         }
+    }
+
+
+    /* ------------------------------------------------------------------------- */
+
+    /**
+     * Get Plugin Dependencies
+     */
+    public function getPluginDependencies($missingOnly = true)
+    {
+        $dependencies = array();
+
+        $plugins = $this->getRequiredPlugins();
+
+        foreach($plugins as $key => $plugin)
+        {
+            $dependency = $this->getPluginDependency($plugin);
+
+            if($missingOnly)
+            {
+                if($dependency['isMissing'])
+                {
+                    $dependencies[] = $dependency;
+                }
+            }
+            else
+            {
+                $dependencies[] = $dependency;
+            }
+        }
+
+        return $dependencies;
+    }
+
+    /**
+     * Get Plugin Dependency
+     */
+    private function getPluginDependency($dependency)
+    {
+        $isMissing = true;
+        $isInstalled = true;
+
+        $plugin = craft()->plugins->getPlugin($dependency['handle'], false);
+
+        if($plugin)
+        {
+            $currentVersion = $plugin->version;
+
+
+            // requires update ?
+
+            if(version_compare($currentVersion, $dependency['version']) >= 0)
+            {
+                // no (requirements OK)
+
+                if($plugin->isInstalled && $plugin->isEnabled)
+                {
+                    $isMissing = false;
+                }
+            }
+            else
+            {
+                // yes (requirement not OK)
+            }
+        }
+        else
+        {
+            // not installed
+        }
+
+        $dependency['isMissing'] = $isMissing;
+        $dependency['plugin'] = $plugin;
+
+        return $dependency;
     }
 }

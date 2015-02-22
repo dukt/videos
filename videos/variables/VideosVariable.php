@@ -58,14 +58,15 @@ class VideosVariable
         }
         catch(\Exception $e)
         {
-            if(craft()->config->get('devMode'))
-            {
-                throw $e;
-            }
-            else
-            {
-                Craft::log("Couldn't get video from URL : ".$videoUrl.'. '.$e->getMessage(), LogLevel::Info, true);
-            }
+            return null;
+            // if(craft()->config->get('devMode'))
+            // {
+            //     throw $e;
+            // }
+            // else
+            // {
+            //     Craft::log("Couldn't get video from URL : ".$videoUrl.'. '.$e->getMessage(), LogLevel::Info, true);
+            // }
         }
     }
 
