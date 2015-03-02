@@ -174,8 +174,22 @@ class Service extends AbstractService
 
     public function getVideosFavorites($params = array())
     {
-        return $this->_getVideosRequest('favorites', $params);
+        // if the account has no playlist or favorites, an exception is thrown.
+        // catch the exception and return response with no videos
+
+        try
+        {
+            return $this->_getVideosRequest('favorites', $params);
+        }
+        catch(\Exception $e)
+        {
+           return array(
+                    'videos' => array(),
+                    'more' => false
+                );
+        }
     }
+
     public function getVideosUploads($params = array())
     {
         return $this->_getVideosRequest('uploads', $params);
