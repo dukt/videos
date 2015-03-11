@@ -306,21 +306,13 @@ class Service extends AbstractService
 
     public function getCollectionsPlaylists($params = array())
     {
-        try {
-            $client = $this->getClient();
+        $client = $this->getClient();
 
-            $channelsResponse = $client->playlists->listPlaylists('snippet', array(
-              'mine' => 'true',
-            ));
+        $channelsResponse = $client->playlists->listPlaylists('snippet', array(
+          'mine' => 'true',
+        ));
 
-            return $this->extractCollections($channelsResponse['items']);
-        }
-        catch(\Exception $e)
-        {
-            // todo: log error
-            // throw new \Exception("Coudln't get collections playlists");
-            return false;
-        }
+        return $this->extractCollections($channelsResponse['items']);
     }
 
     public function userInfos()

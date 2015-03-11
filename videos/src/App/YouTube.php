@@ -48,7 +48,15 @@ class YouTube {
 
         // playlists section
 
-        $playlists = $source->getCollectionsPlaylists();
+        try {
+            $playlists = $source->getCollectionsPlaylists();
+        }
+        catch(\Exception $e)
+        {
+            // todo: log error
+            // throw new \Exception("Coudln't get collections playlists");
+            $playlists = false;
+        }
 
         if(is_array($playlists))
         {
