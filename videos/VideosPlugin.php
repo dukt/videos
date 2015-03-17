@@ -27,7 +27,7 @@ class VideosPlugin extends BasePlugin
      */
     function getVersion()
     {
-        return '1.0.21';
+        return '1.0.22';
     }
 
     /**
@@ -40,7 +40,7 @@ class VideosPlugin extends BasePlugin
                 'name' => "OAuth",
                 'handle' => 'oauth',
                 'url' => 'https://dukt.net/craft/oauth',
-                'version' => '0.9.62'
+                'version' => '0.9.63'
             )
         );
     }
