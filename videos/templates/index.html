@@ -2,6 +2,13 @@
 
 {% import "_includes/forms" as forms %}
 
+
+{% set js %}
+    window.csrfTokenName = "{{ craft.config.csrfTokenName|e('js') }}";
+    window.csrfTokenValue = "{{ craft.request.csrfToken|e('js') }}";
+{% endset %}
+
+{% includeJs js %}
 {% includeJsResource 'videos/js/knockout-3.0.0.js' %}
 {% includeJsResource 'videos/js/manager.js' %}
 {% includeCssResource 'videos/css/manager.css' %}
@@ -9,6 +16,7 @@
 {% set title = "Videos" %}
 
 {% set content %}
+
 
 <div class="videos-manager">
 

@@ -124,6 +124,9 @@ var Player = Modal.extend({
             url: url
         };
 
+        // Add the CSRF Token
+        data[csrfTokenName] = csrfTokenValue;
+        
         $.post(Dukt.getActionUrl('videos/player'), data, $.proxy(function(response, textStatus, jqXHR)
         {
             if (textStatus == 'success')

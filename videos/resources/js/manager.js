@@ -9,7 +9,12 @@ var Manager = Modal.extend({
     {
         this.base();
 
-        $.post(Dukt.getActionUrl('videos/manager'), {}, $.proxy(function(response, textStatus, jqXHR)
+        var data = {};
+
+        // Add the CSRF Token
+        data[csrfTokenName] = csrfTokenValue;
+
+        $.post(Dukt.getActionUrl('videos/manager'), data, $.proxy(function(response, textStatus, jqXHR)
         {
             if (textStatus == 'success')
             {

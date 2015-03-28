@@ -58,10 +58,15 @@ class Videos_VideoFieldType extends BaseFieldType
 
         $settings = $this->getSettings();
 
-
+        // Init CSRF Token
+        craft()->templates->includeHeadHtml('
+            <script type="text/javascript">
+                window.csrfTokenName ="'.craft()->config->get('csrfTokenName').'";
+                window.csrfTokenValue = "'.craft()->request->csrfToken.'";
+            </script>');
+        
         // Resources
         craft()->templates->includeCssResource('videos/css/field.css');
-
         craft()->templates->includeJsResource('videos/js/knockout-3.0.0.js');
         craft()->templates->includeJsResource('videos/js/dukt.base.js');
         craft()->templates->includeJsResource('videos/js/dukt.js');
@@ -69,12 +74,7 @@ class Videos_VideoFieldType extends BaseFieldType
         craft()->templates->includeJsResource('videos/js/manager.js');
         craft()->templates->includeJsResource('videos/js/manager.ko.js');
 
-        craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
-
-        $preview = craft()->templates->render('videos/field/preview', array('video' => $video));
-
-
-        // Render HTML
+        // JS Field
         craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
 
         // preview

@@ -65,8 +65,11 @@
         <div class="videos-main">
 
             <div class="dk-top">
+
                 <form data-bind="submit: function(data, event) { $root.doSearch(true, data, event) }" class="search">
+
                     <input class="text fullwidth" placeholder="{{"Search videos"|t}}" data-bind="value: searchQuery, valueUpdate: 'keyup', event:{keyup:doSearch}" />
+
                 </form>
 
                 <div class="dk-spinner spinner hidden"></div>
