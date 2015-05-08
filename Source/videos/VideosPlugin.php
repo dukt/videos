@@ -12,6 +12,8 @@
 
 namespace Craft;
 
+require_once(CRAFT_PLUGINS_PATH.'videos/Info.php');
+
 class VideosPlugin extends BasePlugin
 {
     /**
@@ -27,7 +29,7 @@ class VideosPlugin extends BasePlugin
      */
     function getVersion()
     {
-        return '1.0.24';
+        return VIDEOS_VERSION;
     }
 
     /**
