@@ -1,6 +1,4 @@
 *.log
 .DS_Store
-videos/vendor
-composer.lock
-composer.phar
-phpunit.xml
+Source/videos/vendor
+Source/composer.lock
