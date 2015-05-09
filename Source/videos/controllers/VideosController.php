@@ -256,4 +256,86 @@ class VideosController extends BaseController
     {
         $this->renderTemplate('videos/modals/player');
     }
+
+    /**
+     * Settings
+     *
+     * @return null
+     */
+    public function actionSettings()
+    {
+        $plugin = craft()->plugins->getPlugin('videos');
+        $pluginDependencies = $plugin->getPluginDependencies();
+
+        if (count($pluginDependencies) > 0)
+        {
+            $this->renderTemplate('videos/settings/_dependencies', ['pluginDependencies' => $pluginDependencies]);
+        }
+        else
+        {
+            if (isset(craft()->oauth))
+            {
+                // ----------------------------------------------------------
+
+                $gateways = craft()->videos->getGateways(false);
+                $variables['gateways'] = array();
+
+                foreach($gateways as $gateway)
+                {
+                    $response = array(
+                        'gateway' => $gateway,
+                        'provider' => false,
+                        'account' => false,
+                        'token' => false,
+                        'error' => false
+                    );
+
+                    $gatewayOpts = craft()->videos->getGatewayOpts($gateway->handle);
+                    $providerHandle = $gatewayOpts['oauth']['handle'];
+                    $providerName = $gatewayOpts['oauth']['name'];
+
+                    $provider = craft()->oauth->getProvider($providerHandle);
+
+                    if ($provider && $provider->isConfigured())
+                    {
+                        $token = craft()->videos->getToken($providerHandle);
+
+                        if ($token)
+                        {
+                            $provider->setToken($token);
+
+                            try
+                            {
+                                $account = $provider->getAccount();
+
+                                if ($account)
+                                {
+                                    $response['account'] = $account;
+                                    $response['settings'] = $plugin->getSettings();
+                                }
+                            }
+                            catch(\Exception $e)
+                            {
+                                $response['error'] = $e->getMessage();
+                            }
+                        }
+
+                        $response['token'] = $token;
+                    }
+
+                    $response['provider'] = $provider;
+
+                    $variables['gateways'][$gateway->handle] = $response;
+                }
+
+                $this->renderTemplate('videos/settings', $variables);
+
+                // ----------------------------------------------------------
+            }
+            else
+            {
+                $this->renderTemplate('videos/settings/_oauthNotInstalled');
+            }
+        }
+    }
 }

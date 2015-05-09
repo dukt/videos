@@ -77,7 +77,7 @@ class VideosPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
-            'videos\/settings\/(?P<providerClass>.*)' => 'videos/settings/_configure',
+            'videos\/settings' => array('action' => "videos/settings")
         );
     }
 
@@ -92,6 +92,9 @@ class VideosPlugin extends BasePlugin
         );
     }
 
+    /**
+     * Settings Html
+     */
     public function getSettingsHtml()
     {
         if(craft()->request->getPath() == 'settings/plugins')
@@ -99,12 +102,7 @@ class VideosPlugin extends BasePlugin
             return true;
         }
 
-        $pluginDependencies = $this->getPluginDependencies();
-
-        return craft()->templates->render('videos/settings', array(
-            'settings' => $this->getSettings(),
-            'pluginDependencies' => $pluginDependencies
-        ));
+        return craft()->templates->render('videos/settings/_redirect');
     }
 
     /**

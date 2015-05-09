@@ -1,15 +1,14 @@
-{% import "_includes/forms" as forms %}
+{% extends "videos/settings/_layout" %}
 
-{% includeCssResource 'videos/css/disableSave.css' %}
-{% includeCssResource 'videos/css/settings.css' %}
+{% set content %}
 
+    {% for gateway in gateways %}
+        {% include 'videos/settings/_gateway' with gateway %}
 
-{% if pluginDependencies|length > 0 %}
+        {% if not loop.last %}
+            <hr />
+        {% endif %}
+    {% endfor %}
 
-    {% include 'videos/settings/_dependencies' %}
+{% endset %}
 
-{% else %}
-
-    {% include 'videos/settings/_gateways' %}
-
-{% endif %}
