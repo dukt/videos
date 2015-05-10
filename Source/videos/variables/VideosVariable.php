@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Craft Videos by Dukt
- *
- * @package   Craft Videos
- * @author    Benjamin David
+ * @link      https://dukt.net/craft/videos/
  * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
- * @link      https://dukt.net/craft/videos
  */
 
 namespace Craft;
 
 class VideosVariable
 {
+    // Public Methods
+    // =========================================================================
+
     public function getGateways()
     {
         return craft()->videos->getGateways();
@@ -31,14 +29,7 @@ class VideosVariable
 
     public function getToken($handle)
     {
-        // try
-        // {
-            return craft()->videos->getToken($handle);
-        // }
-        // catch(\Exception $e)
-        // {
-        //     return null;
-        // }
+        return craft()->videos->getToken($handle);
     }
 
     public function getEmbed($videoUrl, $options = array())
@@ -59,6 +50,7 @@ class VideosVariable
         catch(\Exception $e)
         {
             return null;
+
             // if(craft()->config->get('devMode'))
             // {
             //     throw $e;

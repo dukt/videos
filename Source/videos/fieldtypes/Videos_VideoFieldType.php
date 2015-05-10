@@ -1,12 +1,7 @@
 <?php
-
 /**
- * Videos plugin for Craft CMS
- *
- * @package   Videos
- * @author    Benjamin David
- * @copyright Copyright (c) 2015, Dukt
  * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
  */
 
@@ -16,6 +11,12 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class Videos_VideoFieldType extends BaseFieldType
 {
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * Get name
+     */
     public function getName()
     {
         return Craft::t('Videos');
@@ -64,7 +65,7 @@ class Videos_VideoFieldType extends BaseFieldType
                 window.csrfTokenName ="'.craft()->config->get('csrfTokenName').'";
                 window.csrfTokenValue = "'.craft()->request->csrfToken.'";
             </script>');
-        
+
         // Resources
         craft()->templates->includeCssResource('videos/css/field.css');
         craft()->templates->includeJsResource('videos/js/knockout-3.0.0.js');
@@ -92,7 +93,6 @@ class Videos_VideoFieldType extends BaseFieldType
     /**
      * Prep value
      */
-
     public function prepValue($videoUrl)
     {
         try

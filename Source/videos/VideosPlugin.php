@@ -1,13 +1,8 @@
 <?php
-
 /**
- * Craft Videos by Dukt
- *
- * @package   Craft Videos
- * @author    Benjamin David
+ * @link      https://dukt.net/craft/videos/
  * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
- * @link      https://dukt.net/craft/videos
  */
 
 namespace Craft;
@@ -16,10 +11,13 @@ require_once(CRAFT_PLUGINS_PATH.'videos/Info.php');
 
 class VideosPlugin extends BasePlugin
 {
+    // Public Methods
+    // =========================================================================
+
     /**
      * Get Name
      */
-    function getName()
+    public function getName()
     {
         return Craft::t('Videos');
     }
@@ -27,7 +25,7 @@ class VideosPlugin extends BasePlugin
     /**
      * Get Version
      */
-    function getVersion()
+    public function getVersion()
     {
         return VIDEOS_VERSION;
     }
@@ -35,7 +33,7 @@ class VideosPlugin extends BasePlugin
     /**
      * Get Required Plugins
      */
-    function getRequiredPlugins()
+    public function getRequiredPlugins()
     {
         return array(
             array(
@@ -50,7 +48,7 @@ class VideosPlugin extends BasePlugin
     /**
      * Get Developer
      */
-    function getDeveloper()
+    public function getDeveloper()
     {
         return 'Dukt';
     }
@@ -58,7 +56,7 @@ class VideosPlugin extends BasePlugin
     /**
      * Get Developer URL
      */
-    function getDeveloperUrl()
+    public function getDeveloperUrl()
     {
         return 'https://dukt.net/';
     }
@@ -78,17 +76,6 @@ class VideosPlugin extends BasePlugin
     {
         return array(
             'videos\/settings' => array('action' => "videos/settings")
-        );
-    }
-
-    /**
-     * Settings
-     */
-    protected function defineSettings()
-    {
-        return array(
-            'youtubeParameters' => array(AttributeType::Mixed),
-            'tokens' => array(AttributeType::Mixed),
         );
     }
 
@@ -214,9 +201,6 @@ class VideosPlugin extends BasePlugin
         }
     }
 
-
-    /* ------------------------------------------------------------------------- */
-
     /**
      * Get Plugin Dependencies
      */
@@ -245,6 +229,23 @@ class VideosPlugin extends BasePlugin
 
         return $dependencies;
     }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Settings
+     */
+    protected function defineSettings()
+    {
+        return array(
+            'youtubeParameters' => array(AttributeType::Mixed),
+            'tokens' => array(AttributeType::Mixed),
+        );
+    }
+
+    // Private Methods
+    // =========================================================================
 
     /**
      * Get Plugin Dependency

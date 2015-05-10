@@ -1,19 +1,17 @@
 <?php
-
 /**
- * Craft Videos by Dukt
- *
- * @package   Craft Videos
- * @author    Benjamin David
+ * @link      https://dukt.net/craft/videos/
  * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
- * @link      https://dukt.net/craft/videos/
  */
 
 namespace Craft;
 
 class Videos_PluginController extends BaseController
 {
+    // Properties Methods
+    // =========================================================================
+
     private $pluginHandle = 'videos';
     private $pluginService;
 

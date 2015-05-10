@@ -1,12 +1,7 @@
 <?php
-
 /**
- * Videos plugin for Craft CMS
- *
- * @package   Videos
- * @author    Benjamin David
- * @copyright Copyright (c) 2015, Dukt
  * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
  */
 
@@ -14,8 +9,36 @@ namespace Craft;
 
 class Videos_VideoModel extends BaseModel
 {
+    // Properties
+    // =========================================================================
+
     private $_video = false;
 
+    // Public Methods
+    // =========================================================================
+
+    public function getEmbed($opts = array())
+    {
+        $embed = craft()->videos->getEmbed($this->url, $opts);
+
+        $charset = craft()->templates->getTwig()->getCharset();
+
+        return new \Twig_Markup($embed, $charset);
+    }
+
+    public function getEmbedUrl($opts = array())
+    {
+        $video = $this->getVideo();
+
+        if($video)
+        {
+            $embedUrl = $video->getEmbedUrl($opts);
+            return $embedUrl;
+        }
+    }
+
+    // Protected Methods
+    // =========================================================================
 
     protected function defineAttributes()
     {
@@ -42,7 +65,22 @@ class Videos_VideoModel extends BaseModel
         );
     }
 
+    // Private Methods
+    // =========================================================================
+
+    private function getVideo()
+    {
+        if(!$this->_video)
+        {
+            $this->_video = craft()->videos->_getVideoObjectByUrl($this->url);
+        }
+
+        return $this->_video;
+    }
+
+
     // TODO : support custom size thumbnails
+    // =========================================================================
 
     // public function getAttributes($names = null, $flattenValues = false)
     // {
@@ -60,34 +98,4 @@ class Videos_VideoModel extends BaseModel
     // {
     //     return craft()->videos->getVideoThumbnail($this->gatewayHandle, $this->id, $w, $h);
     // }
-
-    public function getEmbed($opts = array())
-    {
-        $embed = craft()->videos->getEmbed($this->url, $opts);
-
-        $charset = craft()->templates->getTwig()->getCharset();
-
-        return new \Twig_Markup($embed, $charset);
-    }
-
-    public function getEmbedUrl($opts = array())
-    {
-        $video = $this->getVideo();
-
-        if($video)
-        {
-            $embedUrl = $video->getEmbedUrl($opts);
-            return $embedUrl;
-        }
-    }
-
-    private function getVideo()
-    {
-        if(!$this->_video)
-        {
-            $this->_video = craft()->videos->_getVideoObjectByUrl($this->url);
-        }
-
-        return $this->_video;
-    }
 }

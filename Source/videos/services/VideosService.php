@@ -1,12 +1,7 @@
 <?php
-
 /**
- * Videos plugin for Craft CMS
- *
- * @package   Videos
- * @author    Benjamin David
- * @copyright Copyright (c) 2015, Dukt
  * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2015, Dukt
  * @license   https://dukt.net/craft/videos/docs/license
  */
 
@@ -16,11 +11,13 @@ require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosService extends BaseApplicationComponent
 {
+    // Properties
+    // =========================================================================
+
     private $_gateways = array();
     private $_allGateways = array();
     private $_gatewaysLoaded = false;
     private $tokens;
-
     private $videoGateways = array(
         'youtube' => array(
             'name' => "YouTube",
@@ -50,6 +47,9 @@ class VideosService extends BaseApplicationComponent
             )
         )
     );
+
+    // Public Methods
+    // =========================================================================
 
     public function getGatewayOpts($handle)
     {
