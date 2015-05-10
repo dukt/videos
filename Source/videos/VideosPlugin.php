@@ -40,7 +40,7 @@ class VideosPlugin extends BasePlugin
                 'name' => "OAuth",
                 'handle' => 'oauth',
                 'url' => 'https://dukt.net/craft/oauth',
-                'version' => '0.9.69'
+                'version' => '0.9.70'
             )
         );
     }
