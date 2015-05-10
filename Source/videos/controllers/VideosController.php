@@ -316,6 +316,8 @@ class VideosController extends BaseController
                             }
                             catch(\Exception $e)
                             {
+                                Craft::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+
                                 $response['error'] = $e->getMessage();
                             }
                         }
