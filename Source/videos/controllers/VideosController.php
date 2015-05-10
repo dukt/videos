@@ -137,36 +137,36 @@ class VideosController extends BaseController
 
     /**
      * Get Videos from ko URL
+     *
+     *
+     * {gatewayHandle}/{method}/{id}
+     *
+     * youtube/favorites
+     * - gatewayHandle : youtube
+     * - method : favorites
+     * - params : {page:2}
+     *
+     * youtube/uploaded
+     * - gatewayHandle : youtube
+     * - method : favorites
+     * - params : {page:2}
+     *
+     *
+     * youtube/search
+     * - gatewayHandle : youtube
+     * - method : search
+     * - params : {q:"peter doherty"}
+     *
+     * youtube/playlist/1
+     * - gatewayHandle : youtube
+     * - method : playlist
+     * - params : {id:"1234"}
+     *
+     * vimeo/album/1
+     * - gatewayHandle : youtube
+     * - method : playlist
+     * - params : {id:"1234"}
      */
-
-        // {gatewayHandle}/{method}/{id}
-
-        // youtube/favorites
-        // - gatewayHandle : youtube
-        // - method : favorites
-        // - params : {page:2}
-
-        // youtube/uploaded
-        // - gatewayHandle : youtube
-        // - method : favorites
-        // - params : {page:2}
-
-
-        // youtube/search
-        // - gatewayHandle : youtube
-        // - method : search
-        // - params : {q:"peter doherty"}
-
-        // youtube/playlist/1
-        // - gatewayHandle : youtube
-        // - method : playlist
-        // - params : {id:"1234"}
-
-        // vimeo/album/1
-        // - gatewayHandle : youtube
-        // - method : playlist
-        // - params : {id:"1234"}
-
     public function actionGetVideosFromUrl()
     {
         try
