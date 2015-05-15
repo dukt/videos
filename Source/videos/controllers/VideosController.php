@@ -273,8 +273,6 @@ class VideosController extends BaseController
         {
             if (isset(craft()->oauth))
             {
-                // ----------------------------------------------------------
-
                 $gateways = craft()->videos->getGateways(false);
                 $variables['gateways'] = array();
 
@@ -292,45 +290,46 @@ class VideosController extends BaseController
                     $providerHandle = $gatewayOpts['oauth']['handle'];
                     $providerName = $gatewayOpts['oauth']['name'];
 
-                    $provider = craft()->oauth->getProvider($providerHandle);
+                    $provider = craft()->oauth->getProvider($providerHandle, false);
 
-                    if ($provider && $provider->isConfigured())
+                    if ($provider)
                     {
-                        $token = craft()->videos->getToken($providerHandle);
-
-                        if ($token)
+                        if($provider->isConfigured())
                         {
-                            $provider->setToken($token);
+                            $token = craft()->videos->getToken($providerHandle);
 
-                            try
+                            if ($token)
                             {
-                                $account = $provider->getAccount();
+                                $provider->setToken($token);
 
-                                if ($account)
+                                try
                                 {
-                                    $response['account'] = $account;
-                                    $response['settings'] = $plugin->getSettings();
+                                    $account = $provider->getAccount();
+
+                                    if ($account)
+                                    {
+                                        $response['account'] = $account;
+                                        $response['settings'] = $plugin->getSettings();
+                                    }
+                                }
+                                catch(\Exception $e)
+                                {
+                                    Craft::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+
+                                    $response['error'] = $e->getMessage();
                                 }
                             }
-                            catch(\Exception $e)
-                            {
-                                Craft::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
-                                $response['error'] = $e->getMessage();
-                            }
+                            $response['token'] = $token;
                         }
 
-                        $response['token'] = $token;
+                        $response['provider'] = $provider;
                     }
-
-                    $response['provider'] = $provider;
 
                     $variables['gateways'][$gateway->handle] = $response;
                 }
 
                 $this->renderTemplate('videos/settings', $variables);
-
-                // ----------------------------------------------------------
             }
             else
             {
