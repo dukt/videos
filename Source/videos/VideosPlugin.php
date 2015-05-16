@@ -80,16 +80,11 @@ class VideosPlugin extends BasePlugin
     }
 
     /**
-     * Settings Html
+     * Get Settings URL
      */
-    public function getSettingsHtml()
+    public function getSettingsUrl()
     {
-        if(craft()->request->getPath() == 'settings/plugins')
-        {
-            return true;
-        }
-
-        return craft()->templates->render('videos/settings/_redirect');
+        return 'videos/settings';
     }
 
     /**
