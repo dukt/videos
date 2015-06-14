@@ -26,6 +26,70 @@ class Service extends AbstractService
             'https://www.googleapis.com/auth/youtube.readonly'
         );
 
+    public function getSections()
+    {
+        $sections = array();
+        $sections['Library'] = array(
+            array(
+                'name' => "Uploads",
+                'method' => 'uploads'
+            ),
+            array(
+                'name' => "Favorites",
+                'method' => 'favorites'
+            )
+        );
+
+
+        // playlists
+
+        try {
+            $playlists = $this->getCollectionsPlaylists();
+        }
+        catch(\Exception $e)
+        {
+            // todo: log error
+
+            $playlists = false;
+        }
+
+        if(is_array($playlists))
+        {
+            $items = array();
+
+            foreach($playlists as $playlist)
+            {
+                $item = array(
+                    'name' => $playlist->title,
+                    'method' => 'playlist',
+                    'options' => array('id' => $playlist->id)
+                );
+
+                $items[] = $item;
+            }
+
+            if(count($items) > 0)
+            {
+                $sections['Playlists'] = $items;
+            }
+        }
+
+        return $sections;
+    }
+
+    public function api($uri, $query = array())
+    {
+        $query['access_token'] = $this->token->accessToken;
+        $queryString = http_build_query($query);
+
+        $url = 'https://www.googleapis.com/youtube/v3/'.$uri.'?'.$queryString;
+        $client = new \Guzzle\Http\Client();
+        $request = $client->get($url);
+        $response = $request->send()->json();
+
+        return $response;
+    }
+
     public function getClient()
     {
         // make token compatible with Google library

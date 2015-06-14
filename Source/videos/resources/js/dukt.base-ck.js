@@ -1,1 +1,0 @@
-var Dukt={},Dukt={ajaxEndpoint:!1,getUrl:function(e){return Craft.getUrl(e)},postActionRequest:function(e,t,n,r){return Craft.postActionRequest(e,t,n,r)}};Dukt.Base=Garnish.Base;

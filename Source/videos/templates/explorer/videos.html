@@ -1,0 +1,14 @@
+<div class="videos">
+    {% for key, video in videos %}
+        <div class="video">
+
+            <div class="image">
+                <img src="{{ video.thumbnail }}" />
+                <a class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}">Play</a>
+            </div>
+
+            <div class="title">{{ video.title }}</div>
+
+        </div>
+    {% endfor %}
+</div>

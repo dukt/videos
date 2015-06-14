@@ -51,6 +51,13 @@ class VideosService extends BaseApplicationComponent
     // Public Methods
     // =========================================================================
 
+    public function sendRequest(Videos_RequestCriteriaModel $criteria)
+    {
+        $gateway = $this->getGateway($criteria->gateway);
+
+        return $gateway->api($criteria->method, $criteria->query);
+    }
+
     public function getGatewayOpts($handle)
     {
         return $this->videoGateways[$handle];

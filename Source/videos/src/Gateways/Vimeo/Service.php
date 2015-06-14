@@ -18,7 +18,89 @@ class Service extends AbstractService
     public $oauthProvider = 'Vimeo';
     public $oauthScope    = array();
 
-    protected function api($method, $params = array())
+    public function api($uri, $query = array())
+    {
+        $query['access_token'] = $this->token->accessToken;
+        $queryString = http_build_query($query);
+
+        $url = 'https://api.vimeo.com/'.$uri.'?'.$queryString;
+        $client = new \Guzzle\Http\Client();
+        $request = $client->get($url);
+        $response = $request->send()->json();
+
+        return $response;
+    }
+
+    public function getSections()
+    {
+        $sections = array();
+        $sections['Library'] = array(
+            array(
+                'name' => "Uploads",
+                'method' => 'uploads'
+            ),
+            array(
+                'name' => "Favorites",
+                'method' => 'favorites'
+            )
+        );
+
+
+        // albums
+
+        $albums = $this->getCollectionsAlbums();
+
+        if(is_array($albums))
+        {
+            $items = array();
+
+            foreach($albums as $album)
+            {
+                $item = array(
+                    'name' => $album->title,
+                    'method' => 'album',
+                    'options' => array('id' => $album->id)
+                );
+
+                $items[] = $item;
+            }
+
+            if(count($items) > 0)
+            {
+                $sections['Albums'] = $items;
+            }
+        }
+
+
+        // channels
+
+        $channels = $this->getCollectionsChannels();
+
+        if(is_array($channels))
+        {
+            $items = array();
+
+            foreach($channels as $channel)
+            {
+                $item = array(
+                    'name' => $channel->title,
+                    'method' => 'channel',
+                    'options' => array('id' => $channel->id)
+                );
+
+                $items[] = $item;
+            }
+
+            if(count($items) > 0)
+            {
+                $sections['Channels'] = $items;
+            }
+        }
+
+        return $sections;
+    }
+
+    protected function _api($method, $params = array())
     {
         $token = $this->token;
         // client id & secret are fake because we already have a valid token
@@ -48,7 +130,7 @@ class Service extends AbstractService
     public function getVideo($opts)
     {
         $method = '/videos/'.$opts['id'];
-        $response = $this->api($method);
+        $response = $this->_api($method);
 
         if(!empty($response['body']))
         {
@@ -134,7 +216,7 @@ class Service extends AbstractService
     {
         $query = $this->_queryFromParams($params);
 
-        $response = $this->api($uri, $query);
+        $response = $this->_api($uri, $query);
 
         $videosRaw = $response['body']['data'];
         $videos = $this->extractVideos($videosRaw);
@@ -155,7 +237,7 @@ class Service extends AbstractService
 
     public function getVideosSearch($params = array())
     {
-        return $this->_getVideosRequest('vimeo.videos.search', $params);
+        return $this->_getVideosRequest('/videos', $params);
     }
 
     public function getVideosFavorites($params = array())
@@ -189,7 +271,7 @@ class Service extends AbstractService
     {
         $query = $this->_queryFromParams();
 
-        $response = $this->api('/me/albums', $query);
+        $response = $this->_api('/me/albums', $query);
 
         return $this->extractCollections($response['body']['data'], 'album');
     }
@@ -198,14 +280,14 @@ class Service extends AbstractService
     {
         $query = $this->_queryFromParams();
 
-        $response = $this->api('/me/channels', $query);
+        $response = $this->_api('/me/channels', $query);
 
         return $this->extractCollections($response['body']['data'], 'channel');
     }
 
     public function userInfos()
     {
-        $api = $this->api();
+        $api = $this->_api();
 
         $method = 'vimeo.people.getInfo';
 

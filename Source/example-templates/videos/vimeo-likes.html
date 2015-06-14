@@ -1,0 +1,37 @@
+{% extends "videos/_layout" %}
+
+
+{% block main %}
+
+    <h1>Vimeo Likes</h1>
+
+    <hr />
+
+    {% set videosResponse = craft.videos.api({
+        gateway: 'vimeo',
+        method: 'me/likes'
+    }).send() %}
+
+    {% set videosResponse = craft.videos.api('vimeo', 'me/likes').send() %}
+
+    {% set videos = videosResponse.data.data %}
+
+    {% for video in videos %}
+
+        {% set title = video.name %}
+        {% set imgUrl = video.pictures[3].link %}
+        {% set url = video.link %}
+
+        <h2>{{ title }}</h2>
+
+        <p><a href="{{ url }}">{{ url }}</a></p>
+
+        <a href="{{ url }}">
+            <img src="{{ imgUrl }}" alt="">
+        </a>
+
+        <hr>
+
+    {% endfor %}
+
+{% endblock main %}

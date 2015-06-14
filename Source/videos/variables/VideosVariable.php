@@ -12,6 +12,28 @@ class VideosVariable
     // Public Methods
     // =========================================================================
 
+    /**
+     * Request the API.
+     */
+    public function api($attributes = null)
+    {
+        return new Videos_RequestCriteriaModel($attributes);
+    }
+
+    public function nav()
+    {
+        $nav = array();
+
+        $gateways = craft()->videos->getGateways();
+
+        foreach ($gateways as $gateway)
+        {
+            $nav[] = $gateway;
+        }
+
+        return $nav;
+    }
+
     public function getGateways()
     {
         return craft()->videos->getGateways();

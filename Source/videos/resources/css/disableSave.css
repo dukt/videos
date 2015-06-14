@@ -1,7 +1,6 @@
 #content div.buttons {
-    display: none;
+  display: none;
 }
-
 .force {
-    display: inline !important;
+  display: inline !important;
 }

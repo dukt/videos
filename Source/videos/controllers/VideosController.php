@@ -221,6 +221,77 @@ class VideosController extends BaseController
     }
 
     /**
+     * Preview
+     */
+    public function actionPreview()
+    {
+        try
+        {
+            $gatewayHandle = craft()->request->getParam('gateway');
+            $gatewayHandle = strtolower($gatewayHandle);
+
+            $id = craft()->request->getParam('videoId');
+
+            $video = craft()->videos->getVideoById($gatewayHandle, $id);
+
+            if($video)
+            {
+                $response['html'] = craft()->templates->render('videos/explorer/preview', array(
+                    'video' => $video
+                ));
+
+                $this->returnJson($response);
+            }
+            else
+            {
+                throw new Exception("Gateway not available");
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            $this->returnErrorJson($e->getMessage());
+        }
+    }
+
+    /**
+     * Get videos
+     */
+    public function actionGetVideos()
+    {
+        try
+        {
+            $gatewayHandle = craft()->request->getParam('gateway');
+            $gatewayHandle = strtolower($gatewayHandle);
+
+            $method = craft()->request->getParam('method');
+            $options = craft()->request->getParam('options');
+
+            $gateway = craft()->videos->getGateway($gatewayHandle);
+
+            if($gateway)
+            {
+                $videosResponse = $gateway->getVideos($method, $options);
+
+                $response['html'] = craft()->templates->render('videos/explorer/videos', array(
+                    'videos' => $videosResponse['videos']
+                ));
+
+                $this->returnJson($response);
+            }
+            else
+            {
+                throw new Exception("Gateway not available");
+            }
+
+        }
+        catch(\Exception $e)
+        {
+            $this->returnErrorJson($e->getMessage());
+        }
+    }
+
+    /**
      * Get gateways with sections
      */
     public function actionGetGatewaysWithSections()

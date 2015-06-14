@@ -21,6 +21,25 @@ abstract class AbstractService implements ServiceInterface
     protected $token;
     protected $parameters;
 
+    public function getVideos($method, $options)
+    {
+        $realMethod = 'getVideos'.ucwords($method);
+
+        if(method_exists($this, $realMethod))
+        {
+            return $this->{$realMethod}($options);
+        }
+        else
+        {
+            throw new \Exception("Method not found");
+        }
+    }
+
+    public function getSections()
+    {
+        return null;
+    }
+
     public function setToken($token)
     {
         $this->token = $token;

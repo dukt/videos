@@ -1,0 +1,19 @@
+/*.videos-explorer .sidebar,
+.videos-explorer .body { height: 500px; overflow: auto; }*/
+
+.videos-explorer .sidebar nav li ul { display: block; }
+body.ltr .videos-explorer .sidebar nav li a { padding-left: 24px; }
+
+.videos-explorer .gateways { margin-bottom: 24px; }
+.videos-explorer .gateways .select { display: block; }
+.videos-explorer .gateways .select select { width: 100%; }
+
+.videos { margin: 14px -7px 0 -7px; }
+.video { display: inline-block; overflow: hidden; width: 230px; height: 180px; margin: 0 7px; text-align: center; }
+.video .image { position: relative; }
+.video .image img { height: 130px; }
+.video .play { display: none; position: absolute; z-index: 1; top: 50%; left: 50%; width: 40px; height: 40px; margin-left: -22px; margin-top: -22px; background: #000; border-radius: 100%; font-size: 0; border: 2px solid #fff; opacity: .3; }
+.video .play:hover { opacity: .5; }
+.video:hover .play { display: block; }
+#videos-preview-form .body { min-width: 500px; height: 370px; }
+.videos-preview .embed iframe { width: 100%; height: 240px; }
