@@ -1,8 +1,7 @@
 <div class="dkv-player-modal">
-    {% set url = craft.request.getPost('url') %}
 
-    {% set video = craft.videos.getVideoByUrl(url) %}
-
-    {{video.embed({autoplay:1})}}
+        {{ video.embed({
+            autoplay:1
+        }) }}
 
 </div>

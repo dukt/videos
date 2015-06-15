@@ -323,7 +323,36 @@ class VideosController extends BaseController
      */
     public function actionPlayer()
     {
-        $this->renderTemplate('videos/modals/player');
+        $gatewayHandle = craft()->request->getParam('gateway');
+        $gatewayHandle = strtolower($gatewayHandle);
+
+        $videoId = craft()->request->getParam('videoId');
+
+        $video = craft()->videos->getVideoById($gatewayHandle, $videoId);
+
+        if($video)
+        {
+            $html = craft()->templates->render('videos/modals/player', array(
+                'video' => $video
+            ));
+
+            $this->returnJson(array(
+                'html' => $html
+            ));
+        }
+        else
+        {
+            $this->returnErrorJson("Video not found.");
+        }
+    }
+
+    public function actionExplorer()
+    {
+        $html = craft()->templates->render('videos/modals/explorer');
+
+        $this->returnJson(array(
+            'html' => $html
+        ));
     }
 
     /**

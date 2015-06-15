@@ -67,16 +67,13 @@ class Videos_VideoFieldType extends BaseFieldType
             </script>');
 
         // Resources
-        craft()->templates->includeCssResource('videos/css/field.css');
-        craft()->templates->includeJsResource('videos/js/knockout-3.0.0.js');
-        craft()->templates->includeJsResource('videos/js/dukt.base.js');
-        craft()->templates->includeJsResource('videos/js/dukt.js');
-        craft()->templates->includeJsResource('videos/js/field.js');
-        craft()->templates->includeJsResource('videos/js/manager.js');
-        craft()->templates->includeJsResource('videos/js/manager.ko.js');
+        craft()->templates->includeCssResource('videos/css/VideosExplorer.css');
+        craft()->templates->includeCssResource('videos/css/VideosField.css');
+        craft()->templates->includeJsResource('videos/js/VideosExplorer.js');
+        craft()->templates->includeJsResource('videos/js/VideosField.js');
 
         // JS Field
-        craft()->templates->includeJs('new VideoField("'.craft()->templates->namespaceInputId($id).'");');
+        craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'");');
 
         // preview
         $preview = craft()->templates->render('videos/field/preview', array('video' => $video));

@@ -1,14 +1,24 @@
-<div class="videos">
-    {% for key, video in videos %}
-        <div class="video">
+<div class="content">
+    {% if videos %}
 
-            <div class="image">
-                <img src="{{ video.thumbnail }}" />
-                <a class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}">Play</a>
-            </div>
+        <div class="videos">
+            {% for key, video in videos %}
+                <div class="video">
 
-            <div class="title">{{ video.title }}</div>
+                    <div class="image">
+                        <img src="{{ video.thumbnail }}" />
+                        <a class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}">Play</a>
+                    </div>
 
+                    <div class="title">{{ video.title }}</div>
+
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+
+    {% else %}
+
+        <p class="no-videos light">{{ "No Videos"|t }}</p>
+
+    {% endif %}
 </div>

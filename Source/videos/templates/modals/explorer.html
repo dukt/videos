@@ -1,0 +1,69 @@
+{% import "_includes/forms" as forms %}
+
+<div class="videos-explorer">
+    <div class="body has-sidebar">
+        <div id="content" class="content has-sidebar">
+            <div id="sidebar" class="sidebar">
+
+                {% set gatewayOptions = {
+                    youtube:"youtube",
+                    vimeo:"vimeo",
+                } %}
+
+                {% set gatewayOptions = [] %}
+                {% for gateway in craft.videos.nav() %}
+                    {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t, value: gateway.handle }]) %}
+                {% endfor %}
+
+                <div class="gateways first">
+                    {{ forms.select({
+                        name: 'gateway',
+                        options: gatewayOptions,
+                        toggle: true,
+                        targetPrefix: 'gateway'
+                    }) }}
+                </div>
+
+                <nav>
+                    {% for gateway in craft.videos.nav() %}
+                        {% set showGateway = (loop.first ? true : false) %}
+                        <div id="gateway{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
+                            {% if gateway.sections %}
+                                <ul>
+                                    {% for sectionName, items in gateway.sections %}
+                                        <li class="heading"><span>{{ sectionName }}</span></li>
+
+                                        {% for itemKey, item in items %}
+                                            <li>
+                                                <a href="#" data-gateway="{{ gateway.handle }}" data-method="{{ item.method }}"{% if item.options is defined %} data-options="{{ item.options|json_encode }}"{% endif %}>{{ item.name }}</a>
+
+
+                                            </li>
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p>No sections</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </nav>
+
+            </div>
+
+            <div class="main">
+                <div class="toolbar">
+                    {{ forms.text({
+                        class: 'search',
+                        name: 'search',
+                        placeholder: 'Search videos'
+                    }) }}
+                </div>
+
+                <div class="spinner right hidden"></div>
+                <div class="error hidden"></div>
+                <div class="inject"></div>
+            </div>
+        </div>
+    </div>
+</div>
