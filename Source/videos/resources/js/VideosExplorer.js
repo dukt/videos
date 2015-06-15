@@ -1,4 +1,7 @@
-Videos = {};
+if (typeof Videos == 'undefined')
+{
+    Videos = {};
+}
 
 Videos.Explorer = Garnish.Base.extend({
 
@@ -6,9 +9,9 @@ Videos.Explorer = Garnish.Base.extend({
     previewInject: null,
     searchTimeout: null,
 
-    init: function()
+    init: function(explorer)
     {
-        this.$explorer = $('.videos-explorer');
+        this.$explorer = explorer;
         this.$nav = $('nav', this.$explorer);
         this.$gatewaysSelect = $('.gateways select', this.$explorer);
         this.$inject = $('.inject', this.$explorer);
@@ -60,15 +63,22 @@ Videos.Explorer = Garnish.Base.extend({
 
     search: function(ev)
     {
-        gateway = this.$gatewaysSelect.val();
-        method = 'search';
-        options = {
-            q: $(ev.currentTarget).val()
-        };
+        q = $(ev.currentTarget).val();
 
-        console.log('search', options);
+        if(q.length > 0)
+        {
+            gateway = this.$gatewaysSelect.val();
+            method = 'search';
+            options = {
+                q: q
+            };
 
-        this.getVideos(gateway, method, options);
+            this.getVideos(gateway, method, options);
+        }
+        else
+        {
+            this.$inject.html('');
+        }
     },
 
     showPreview: function(ev)

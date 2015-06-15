@@ -1,173 +1,33 @@
 
+.dkv-video-preview { margin-top: 1em; }
+.dkv-video-preview .dkv-image { float: left; }
+.dkv-video-preview .dkv-text { margin-left: 170px; }
+.dkv-video-preview .dkv-text .dkv-title { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; cursor: default; margin: 0 !important; max-width: 200px; }
+.dkv-video-preview .dkv-text ul li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
-.dkv-video-preview {
-    margin-top: 1em;
+span.dkv-duration { position: absolute; background: #333; display: block; bottom: 4px; right: 4px; line-height: 1em; padding: 3px 4px; font-size: 0.8em; color: #fff; opacity: .8; font-weight: bold; }
 
+.dk-buttons { padding-top: 10px; display: none; }
 
-    .dkv-image {
-
-        float: left;
-        // position: relative;
-        // line-height: 0;
-        // border: 1px solid #ddd;
-        // padding: 4px;
-
-
-        // &:hover {
-
-        //     .dkv-duration {
-        //         background:  rgb(218, 90, 71);
-
-        //     }
-        // }
-
-        // img {
-
-        //     width: 150px;
-        //     height: 84px;
-
-
-        //     &:hover {
-        //         cursor: pointer;
-        //     }
-        // }
-    }
-
-    .dkv-text {
-        margin-left: 170px;
-
-        .dkv-title {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            cursor: default;
-            margin: 0 !important;
-            max-width: 200px;
-        }
-
-        ul {
-            li {
-                text-overflow: ellipsis;
-                white-space: nowrap;
-                overflow: hidden;
-            }
-        }
-    }
+@media (max-width:400px){
+    .dkv-video-preview .dkv-image { float: none; display: block; }
+    .dkv-video-preview .dkv-image img { width: 100%; height: auto; }
+    .dkv-video-preview .dkv-text { margin-left: 0; margin-top: 0.5em; }
 }
-
-span.dkv-duration {
-    position: absolute;
-    background: #333;
-    display: block;
-    bottom: 4px;
-    right: 4px;
-    line-height: 1em;
-    padding: 3px 4px;
-    font-size: 0.8em;
-    color: #fff;
-    opacity: .8;
-    font-weight: bold;
-}
-
-
-.dk-buttons {
-    padding-top: 10px;
-    display: none;
-}
-
-@media (max-width:400px) {
-    .dkv-video-preview {
-        .dkv-image {
-
-            float: none;
-            display: block;
-
-            img {
-                width: 100%;
-                height: auto;
-            }
-        }
-
-        .dkv-text {
-            margin-left: 0;
-            margin-top: 0.5em;
-        }
-    }
-
-
-}
-
 
 @media (max-width:500px) {
-    .dk-add-input {
-        display: none;
-    }
-
-    .dk-buttons {
-        display: block;
-    }
+    .dk-add-input { display: none; }
+    .dk-buttons { display: block; }
 }
 
-.dkv-modal {
+.player { width: 800px; height: 200px; background: #000; }
+.dkv-player-modal { height: 100%; }
+.dkv-player-modal iframe { width: 100%; height: 100%; position: absolute; }
 
-    width: 400px;
-    height: 225px;
-
-    iframe {
-        width: 400px;
-        height: 225px;
-    }
-}
-
-.dkv-video {
-    position: relative;
-
-    .dk-add-input {
-        font-size: .9em;
-        position: absolute;
-        top: 7px;
-        right: 10px;
-    }
-
-    .dk-error {
-        margin-bottom: 0
-    }
-
-
-    &:hover {
-
-        .dk-play {
-            opacity: .7;
-
-
-            -webkit-transition: all 0.3s ease;
-            -moz-transition: all 0.3s ease;
-            -ms-transition: all 0.3s ease;
-            -o-transition: all 0.3s ease;
-            transition: all 0.3s ease;
-        }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-.dkv-video {
-    img {
-        background: url(../img/spinner.gif) center center no-repeat;
-    }
-}
+.dkv-video { position: relative; }
+.dkv-video .dk-add-input { font-size: .9em; position: absolute; top: 7px; right: 10px; }
+.dkv-video:hover .dk-play { opacity: .7; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; -ms-transition: all 0.3s ease; -o-transition: all 0.3s ease; transition: all 0.3s ease; }
+.dkv-video img { background: url(../img/spinner.gif) center center no-repeat; }
 
 
 
