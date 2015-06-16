@@ -9,11 +9,10 @@ Videos.Field = Garnish.Base.extend({
     $spinner: null,
     $preview: null,
     $player: null,
-    $explorer: null,
 
     explorer: null,
     playerModal: null,
-    explorerModal: null,
+    videoSelectorModal: null,
 
     lookupVideoTimeout: null,
 
@@ -29,7 +28,7 @@ Videos.Field = Garnish.Base.extend({
 
         this.addListener(this.$input, 'textchange', 'lookupVideo');
         this.addListener(this.$play, 'click', 'playVideo');
-        this.addListener(this.$addBtn, 'click', 'openExplorer');
+        this.addListener(this.$addBtn, 'click', 'openSelectorModal');
 
         this.addListener(this.$removeBtn, 'click', $.proxy(function(ev) {
 
@@ -39,28 +38,38 @@ Videos.Field = Garnish.Base.extend({
         }));
     },
 
-    openExplorer: function(ev)
+    openSelectorModal: function(ev)
     {
-        if(!this.explorerModal)
+        if(!this.videoSelectorModal)
         {
-            this.$explorer = $('<div class="explorer modal"></div>').appendTo(Garnish.$bod);
+            $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
+            $wrap = $('<div class="wrap"/>').appendTo($videoSelectorModal),
+            $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
+            $buttons = $('<div class="buttons right"/>').appendTo($footer),
+            $cancelBtn = $('<div class="btn">'+Craft.t('Cancel')+'</div>').appendTo($buttons),
+            $selectBtn = $('<input type="submit" class="btn submit" value="'+Craft.t('Select')+'" />').appendTo($buttons);
 
-            this.explorerModal = new Garnish.Modal(this.$explorer, {
+            this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                 visible: false,
                 resizable: true
             });
 
+            this.addListener($cancelBtn, 'click', function() {
+                this.videoSelectorModal.hide();
+            });
+
             Craft.postActionRequest('videos/explorer', {}, $.proxy(function(response, textStatus)
             {
-                this.$explorer.html(response.html);
-                this.explorer = new Videos.Explorer(this.$explorer);
-                this.explorerModal.updateSizeAndPosition();
+                $wrap.html(response.html);
+                this.explorer = new Videos.Explorer($videoSelectorModal);
+                this.videoSelectorModal.updateSizeAndPosition();
                 Craft.initUiElements();
+                console.log('Craft.initUiElements();');
             }, this));
         }
         else
         {
-            this.explorerModal.show();
+            this.videoSelectorModal.show();
         }
     },
 
