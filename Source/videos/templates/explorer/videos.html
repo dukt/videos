@@ -1,25 +1,19 @@
-<div class="content">
-    {% if videos %}
+{% if videos %}
 
-        <div class="videos">
-            {% for key, video in videos %}
-                <div class="video">
+    {% for key, video in videos %}
+        <div class="video">
 
-                    <div class="thumb">
-                        <img src="{{ video.thumbnail }}" />
-                        <div class="duration">{{ video.duration }}</div>
-                        <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
-                    </div>
+            <div class="thumb">
+                <img src="{{ video.thumbnail }}" />
+                <div class="duration">{{ video.duration }}</div>
+                <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+            </div>
 
-                    <div class="title">{{ video.title }}</div>
+            <div class="title">{{ video.title }}</div>
 
-                </div>
-            {% endfor %}
         </div>
+    {% endfor %}
 
-    {% else %}
-
-        <p class="no-videos light">{{ "No Videos"|t }}</p>
-
-    {% endif %}
-</div>
+{% else %}
+    <p class="no-videos light">{{ "No Videos"|t }}</p>
+{% endif %}

@@ -9,20 +9,22 @@ Videos.Explorer = Garnish.Base.extend({
     previewInject: null,
     searchTimeout: null,
 
-    init: function(explorer)
+    init: function($container)
     {
-        this.$explorer = explorer;
-        this.$nav = $('nav', this.$explorer);
-        this.$gatewaysSelect = $('.gateways select', this.$explorer);
-        this.$inject = $('.inject', this.$explorer);
-        this.$error = $('.error', this.$explorer);
-        this.$spinner = $('.spinner', this.$explorer);
-        this.$search = $('.search', this.$explorer);
-        this.$links = $('a', this.$nav);
+        this.$container = $container;
+        this.$error = $('.error', this.$container);
+        this.$spinner = $('.spinner', this.$container);
+        this.$gateways = $('.gateways select', this.$container);
+        this.$sectionLinks = $('nav a', this.$container);
+        this.$search = $('.search', this.$container);
+        this.$videos = $('.videos', this.$container);
 
-        this.addListener(this.$links, 'click', $.proxy(function(ev) {
 
-            this.$links.filter('.sel').removeClass('sel');
+        // Section Links
+
+        this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
+
+            this.$sectionLinks.filter('.sel').removeClass('sel');
 
             $(ev.currentTarget).addClass('sel');
 
@@ -35,6 +37,8 @@ Videos.Explorer = Garnish.Base.extend({
             ev.preventDefault();
         }));
 
+
+        // Search
 
         this.addListener(this.$search, 'textchange', $.proxy(function(ev)
         {
@@ -56,9 +60,10 @@ Videos.Explorer = Garnish.Base.extend({
             }
         });
 
-        // trigger first click
 
-        $('div:not(.hidden) a:first', this.$nav).trigger('click');
+        // Trigger first click
+
+        $('nav div:not(.hidden) a:first', this.$container).trigger('click');
     },
 
     search: function(ev)
@@ -67,7 +72,7 @@ Videos.Explorer = Garnish.Base.extend({
 
         if(q.length > 0)
         {
-            gateway = this.$gatewaysSelect.val();
+            gateway = this.$gateways.val();
             method = 'search';
             options = {
                 q: q
@@ -77,7 +82,7 @@ Videos.Explorer = Garnish.Base.extend({
         }
         else
         {
-            this.$inject.html('');
+            this.$videos.html('');
         }
     },
 
@@ -133,22 +138,20 @@ Videos.Explorer = Garnish.Base.extend({
             options: options
         };
 
-        console.log('Videos.Explorer.getVideos() request', data);
-
         this.$error.addClass('hidden');
         this.$spinner.removeClass('hidden');
 
         Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
         {
             this.$spinner.addClass('hidden');
-            this.$inject.html('');
+            this.$videos.html('');
             this.$error.html('');
 
             if(textStatus == 'success')
             {
                 if(typeof(response.error) == 'undefined')
                 {
-                    this.$inject.html(response.html);
+                    this.$videos.html(response.html);
                 }
                 else
                 {
@@ -156,11 +159,8 @@ Videos.Explorer = Garnish.Base.extend({
                     this.$error.removeClass('hidden');
                 }
 
-                this.$videos = $('.video', this.$explorer);
                 this.$playBtns = $('.play', this.$videos);
                 this.addListener(this.$playBtns, 'click', 'showPreview');
-
-                console.log('Videos.Explorer.getVideos() response', response);
             }
 
         }, this));
