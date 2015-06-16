@@ -13,32 +13,34 @@ Videos.Field = Garnish.Base.extend({
     explorer: null,
     playerModal: null,
     videoSelectorModal: null,
-
     lookupVideoTimeout: null,
 
     init: function(inputId)
     {
         this.$input = $('#'+inputId);
-        this.$container = this.$input.parents('.dkv-video');
-        this.$play = $('.play', this.$container);
-        this.$spinner = $('.dk-spinner', this.$container);
-        this.$preview = $('.dkv-preview-inject', this.$container);
-        this.$addBtn = $('.dk-add, .dk-edit', this.$container);
+        this.$container = this.$input.parents('.videos-field');
+
+        this.$spinner = $('.spinner', this.$container);
+        this.$preview = $('.preview-inject', this.$container);
+
+        this.$playBtn = $('.play', this.$container);
+        this.$addBtn = $('.videos-add', this.$container);
         this.$removeBtn = $('.delete', this.$container);
 
         this.addListener(this.$input, 'textchange', 'lookupVideo');
-        this.addListener(this.$play, 'click', 'playVideo');
-        this.addListener(this.$addBtn, 'click', 'openSelectorModal');
-
-        this.addListener(this.$removeBtn, 'click', $.proxy(function(ev) {
-
-            this.$input.val('');
-            this.lookupVideo();
-            ev.preventDefault();
-        }));
+        this.addListener(this.$playBtn, 'click', 'playVideo');
+        this.addListener(this.$addBtn, 'click', 'addVideo');
+        this.addListener(this.$removeBtn, 'click', 'removeVideo');
     },
 
-    openSelectorModal: function(ev)
+    removeVideo: function(ev)
+    {
+        this.$input.val('');
+        this.lookupVideo();
+        ev.preventDefault();
+    },
+
+    addVideo: function(ev)
     {
         if(!this.videoSelectorModal)
         {
@@ -114,7 +116,7 @@ Videos.Field = Garnish.Base.extend({
         if (val)
         {
             this.$spinner.removeClass('hidden');
-            $('.dk-error', this.$container).addClass('hidden');
+            $('.error', this.$container).addClass('hidden');
 
             Craft.postActionRequest('videos/lookupVideo', { url: val }, $.proxy(function(response, textStatus)
             {
@@ -129,8 +131,8 @@ Videos.Field = Garnish.Base.extend({
                     }
                     else
                     {
-                        $('.dk-error', this.$container).html(response.error);
-                        $('.dk-error', this.$container).removeClass('hidden');
+                        $('.error', this.$container).html(response.error);
+                        $('.error', this.$container).removeClass('hidden');
                         this.$preview.hide();
                     }
                 }
@@ -156,7 +158,7 @@ $(document).ready(function() {
     {
         Matrix.bind("dukt_videos", "display", function(cell) {
 
-            var $field = $('.dkv-input', this);
+            var $field = $('.input', this);
 
             // ignore if we can't find that field
             if (! $field.length) return;
