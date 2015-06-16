@@ -37,28 +37,6 @@ span.dkv-duration {
   padding-top: 10px;
   display: none;
 }
-@media (max-width: 400px) {
-  .dkv-video-preview .dkv-image {
-    float: none;
-    display: block;
-  }
-  .dkv-video-preview .dkv-image img {
-    width: 100%;
-    height: auto;
-  }
-  .dkv-video-preview .dkv-text {
-    margin-left: 0;
-    margin-top: 0.5em;
-  }
-}
-@media (max-width: 500px) {
-  .dk-add-input {
-    display: none;
-  }
-  .dk-buttons {
-    display: block;
-  }
-}
 .player {
   width: 800px;
   height: 200px;
@@ -92,41 +70,22 @@ span.dkv-duration {
 .dkv-video img {
   background: url(../img/spinner.gif) center center no-repeat;
 }
-.videos-overlay {
-  background: #000;
-  opacity: .5;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
+.videoselectormodal {
+  min-width: 951px;
+  min-height: 400px;
+}
+.videoselectormodal .wrap {
   height: 100%;
-  z-index: 100;
 }
-.videos-modal {
-  background: #fff;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 800px;
-  margin-left: -400px;
-  height: 500px;
-  margin-top: -250px;
-  z-index: 200;
-  -webkit-box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 10px 50px -10px rgba(0, 0, 0, 0.25);
-  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 10px 50px -10px rgba(0, 0, 0, 0.25);
+.videoselectormodal .videos-explorer {
+  height: 100%;
 }
-.videos-modal-error {
+.videoselectormodal .footer {
   position: absolute;
-  top: 0;
+  bottom: 0;
   left: 0;
-  z-index: 200;
-  padding: 10px 15px;
-  width: 50%;
-  text-align: center;
-}
-.videos-player iframe {
   width: 100%;
-  height: 100%;
+  margin: 0;
 }
 .dk-play {
   border-radius: 100%;
@@ -144,127 +103,6 @@ span.dkv-duration {
 .dk-play:hover {
   opacity: .7 !important;
   cursor: pointer;
-}
-.videos-manager .videos-gateways-loading {
-  position: absolute;
-}
-.videos-manager .dk-no-videos {
-  position: absolute;
-  color: #ccc;
-  top: 0;
-  left: 0;
-}
-.videos-manager .dk-top {
-  padding: 24px;
-  height: 30px;
-  border-bottom: 1px solid #fafafa;
-}
-.videos-manager .dk-middle {
-  background: #fff;
-  padding: 24px;
-  height: 310px;
-  overflow: auto;
-}
-.videos-manager .dk-bottom {
-  padding: 15px 30px;
-  border-top: 1px solid #fafafa;
-}
-.videos-manager .dk-bottom .dk-left {
-  float: left;
-}
-.videos-manager .dk-bottom .dk-right {
-  text-align: right;
-}
-.videos-manager .videos-sidebar {
-  width: 200px;
-  border-right: 1px solid #fafafa;
-  float: left;
-}
-.videos-manager .videos-sidebar .select {
-  width: 100%;
-  margin-bottom: 15px;
-}
-.videos-manager .videos-sidebar .select select {
-  width: 100%;
-}
-.videos-manager .videos-sidebar ul {
-  margin-left: -24px;
-  margin-right: -24px;
-}
-.videos-manager .videos-sidebar ul li {
-  padding: 4px;
-  padding-left: 24px;
-}
-.videos-manager .videos-sidebar ul li:hover {
-  cursor: pointer;
-  background: #fafafa;
-}
-.videos-manager .videos-sidebar ul li.selected {
-  background: #333f4d;
-  color: #fff;
-}
-.videos-manager .videos-sidebar .dk-section {
-  margin-bottom: 15px;
-}
-.videos-manager .videos-main {
-  margin-left: 200px;
-}
-.videos-manager .videos-main .dk-middle {
-  position: relative;
-}
-.videos-manager .videos-main .dk-top {
-  position: relative;
-}
-.videos-manager .videos-main .dk-top .search {
-  margin-right: 15px;
-}
-.videos-manager .videos-main .dk-top .dk-spinner {
-  position: absolute;
-  right: 0;
-  top: 23px;
-  right: 10px;
-}
-.videos-manager .dk-error.dk-absolute {
-  text-align: center;
-  position: absolute;
-  z-index: 100;
-}
-.videos-manager .dk-videos {
-  margin-left: -15px;
-}
-.videos-manager .dk-videos ul li {
-  border-radius: 3px;
-  margin-left: 15px;
-  margin-bottom: 15px;
-  width: 173px;
-  overflow: hidden;
-  float: left;
-  text-align: center;
-}
-.videos-manager .dk-videos ul li .dk-title {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  padding: 0.5em 8px;
-  margin-top: -0.3em;
-  font-size: 0.9em;
-}
-.videos-manager .dk-videos ul li .dk-title:hover {
-  cursor: default;
-}
-.videos-manager .dk-videos ul li.selected .dk-title {
-  color: #555;
-}
-.videos-manager .dk-videos ul li.selected .dk-thumb {
-  border-color: #da5a47;
-}
-.videos-manager .dk-videos ul li:hover .dk-thumb .dk-play {
-  opacity: .7;
-  -webkit-transition: all 0.3s ease;
-  -moz-transition: all 0.3s ease;
-  -ms-transition: all 0.3s ease;
-  -o-transition: all 0.3s ease;
-  transition: all 0.3s ease;
 }
 .dk-thumb {
   border-radius: 6px;
@@ -328,13 +166,25 @@ div.dk-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner .dkv-vertical-align {
   display: inline-block;
   vertical-align: middle;
 }
-.videos-manager-player {
-  position: absolute;
-  z-index: 100;
-  background: #000;
-  width: 100%;
-  height: 437px;
+@media (max-width: 400px) {
+  .dkv-video-preview .dkv-image {
+    float: none;
+    display: block;
+  }
+  .dkv-video-preview .dkv-image img {
+    width: 100%;
+    height: auto;
+  }
+  .dkv-video-preview .dkv-text {
+    margin-left: 0;
+    margin-top: 0.5em;
+  }
 }
-.dk-center {
-  position: absolute;
+@media (max-width: 500px) {
+  .dk-add-input {
+    display: none;
+  }
+  .dk-buttons {
+    display: block;
+  }
 }
