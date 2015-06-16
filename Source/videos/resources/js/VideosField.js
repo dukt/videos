@@ -21,7 +21,7 @@ Videos.Field = Garnish.Base.extend({
         this.$container = this.$input.parents('.videos-field');
 
         this.$spinner = $('.spinner', this.$container);
-        this.$preview = $('.preview-inject', this.$container);
+        this.$preview = $('.preview', this.$container);
 
         this.$playBtn = $('.play', this.$container);
         this.$addBtn = $('.videos-add', this.$container);
