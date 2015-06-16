@@ -1,26 +1,13 @@
 {% if video %}
-    <div class="dkv-video-preview">
-
-        <div class="play dkv-image" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}">
-            <div class="dk-thumb">
-
-                <span class="dkv-clip-outer">
-                    <span class="dkv-clip">
-                        <span class="dkv-clip-inner">
-                            <img src="{{ video.thumbnail }}" />
-                            <span class="dkv-vertical-align"></span>
-                        </span>
-                    </span>
-                </span>
-
-                <span class="dkv-duration">{{ video.duration }}</span>
-
-                <div class="dk-play"></div>
-            </div>
+    <div class="videos-preview">
+        <div class="thumb">
+            <img src="{{ video.thumbnail }}" />
+            <div class="duration">{{ video.duration }}</div>
+            <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
         </div>
 
-        <div class="dkv-text">
-            <p class="dkv-title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
+        <div class="description">
+            <p class="title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
 
             <ul class="light">
                 <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>

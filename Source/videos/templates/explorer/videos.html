@@ -5,9 +5,10 @@
             {% for key, video in videos %}
                 <div class="video">
 
-                    <div class="image">
+                    <div class="thumb">
                         <img src="{{ video.thumbnail }}" />
-                        <a class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}">Play</a>
+                        <div class="duration">{{ video.duration }}</div>
+                        <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
                     </div>
 
                     <div class="title">{{ video.title }}</div>

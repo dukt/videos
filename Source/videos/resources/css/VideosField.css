@@ -1,65 +1,13 @@
-.dkv-video-preview {
-  margin-top: 1em;
-}
-.dkv-video-preview .dkv-image {
-  float: left;
-}
-.dkv-video-preview .dkv-text {
-  margin-left: 170px;
-}
-.dkv-video-preview .dkv-text .dkv-title {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-  cursor: default;
-  margin: 0 !important;
-  max-width: 200px;
-}
-.dkv-video-preview .dkv-text ul li {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
-}
-span.dkv-duration {
-  position: absolute;
-  background: #333;
-  display: block;
-  bottom: 4px;
-  right: 4px;
-  line-height: 1em;
-  padding: 3px 4px;
-  font-size: 0.8em;
-  color: #fff;
-  opacity: .8;
-  font-weight: bold;
-}
-.dk-buttons {
-  padding-top: 10px;
-  display: none;
-}
-.player {
-  width: 800px;
-  height: 200px;
-  background: #000;
-}
-.dkv-player-modal {
-  height: 100%;
-}
-.dkv-player-modal iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-}
-.dkv-video {
+.videos-field {
   position: relative;
 }
-.dkv-video .dk-add-input {
+.videos-field .add-input {
   font-size: .9em;
   position: absolute;
   top: 7px;
   right: 10px;
 }
-.dkv-video:hover .dk-play {
+.videos-field:hover .play {
   opacity: .7;
   -webkit-transition: all 0.3s ease;
   -moz-transition: all 0.3s ease;
@@ -67,7 +15,7 @@ span.dkv-duration {
   -o-transition: all 0.3s ease;
   transition: all 0.3s ease;
 }
-.dkv-video img {
+.videos-field img {
   background: url(../img/spinner.gif) center center no-repeat;
 }
 .videoselectormodal {
@@ -87,104 +35,59 @@ span.dkv-duration {
   width: 100%;
   margin: 0;
 }
-.dk-play {
-  border-radius: 100%;
-  opacity: .0;
-  border: 2px solid #fff;
-  width: 28px;
-  height: 28px;
-  margin-left: -14px;
-  margin-top: -14px;
-  background: #000000 url('../img/play.png') center center no-repeat;
-  position: absolute;
-  top: 50%;
-  left: 50%;
+.videos-preview {
+  margin-top: 1em;
 }
-.dk-play:hover {
-  opacity: .7 !important;
-  cursor: pointer;
-}
-.dk-thumb {
-  border-radius: 6px;
-  -webkit-box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  box-shadow: inset 0 0 1px 1px rgba(0, 0, 0, 0.1);
-  padding: 0;
-  line-height: 0;
+.videos-preview .thumb {
   position: relative;
-  border: 3px solid transparent;
-}
-.dk-thumb img {
-  width: 100%;
-}
-div.dk-thumb {
-  display: inline-block;
-  position: relative;
-  background: url(../img/spinner.gif) center center no-repeat;
-  overflow: hidden;
-}
-div.dk-thumb .dkv-clip-outer {
+  float: left;
   width: 160px;
-  height: 93px;
-  position: relative;
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: bottom;
 }
-div.dk-thumb .dkv-clip-outer .dkv-clip {
-  display: block;
-  position: absolute;
-  bottom: -50%;
-  top: -50%;
-  left: -50%;
-  right: -50%;
-  text-align: center;
+.videos-preview .description {
+  margin-left: 170px;
+}
+.videos-preview .description .title {
+  text-overflow: ellipsis;
   white-space: nowrap;
-  word-break: normal;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  background: transparent;
+  overflow: hidden;
+  cursor: default;
+  margin: 0 !important;
+  max-width: 200px;
 }
-div.dk-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
+.videos-preview .description ul li {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.player {
+  width: 800px;
+  height: 200px;
+  background: #000;
+}
+.player-modal {
+  height: 100%;
+}
+.player-modal iframe {
   width: 100%;
   height: 100%;
-}
-div.dk-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner img {
-  width: 168px;
-  display: inline-block;
-  vertical-align: middle;
-  border: 0;
-  outline: none;
-}
-div.dk-thumb .dkv-clip-outer .dkv-clip .dkv-clip-inner .dkv-vertical-align {
-  height: 100%;
-  display: inline-block;
-  vertical-align: middle;
+  position: absolute;
 }
 @media (max-width: 400px) {
-  .dkv-video-preview .dkv-image {
+  .videos-preview .image {
     float: none;
     display: block;
   }
-  .dkv-video-preview .dkv-image img {
+  .videos-preview .image img {
     width: 100%;
     height: auto;
   }
-  .dkv-video-preview .dkv-text {
+  .videos-preview .description {
     margin-left: 0;
     margin-top: 0.5em;
   }
 }
 @media (max-width: 500px) {
-  .dk-add-input {
+  .add-input {
     display: none;
-  }
-  .dk-buttons {
-    display: block;
   }
 }
