@@ -175,6 +175,8 @@ Videos.Explorer = Garnish.Base.extend({
                 }
             }
 
+            $('.main', this.$container).animate({scrollTop:0}, 0);
+
         }, this));
     },
 
