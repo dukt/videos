@@ -9,10 +9,11 @@ Videos.Explorer = Garnish.Base.extend({
     previewInject: null,
     searchTimeout: null,
 
-    init: function($container)
+    init: function($container, settings)
     {
+        this.settings = settings;
+
         this.$container = $container;
-        this.$error = $('.error', this.$container);
         this.$spinner = $('.spinner', this.$container);
         this.$gateways = $('.gateways select', this.$container);
         this.$sectionLinks = $('nav a', this.$container);
@@ -130,6 +131,16 @@ Videos.Explorer = Garnish.Base.extend({
         }, this));
     },
 
+    selectVideo: function(ev)
+    {
+        this.$videoElements.removeClass('sel');
+        $(ev.currentTarget).addClass('sel');
+
+        url = $(ev.currentTarget).data('url');
+
+        this.settings.onSelectVideo(url);
+    },
+
     getVideos: function(gateway, method, options)
     {
         data = {
@@ -138,32 +149,44 @@ Videos.Explorer = Garnish.Base.extend({
             options: options
         };
 
-        this.$error.addClass('hidden');
         this.$spinner.removeClass('hidden');
 
         Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
         {
+            this.deselectVideos();
             this.$spinner.addClass('hidden');
             this.$videos.html('');
-            this.$error.html('');
 
             if(textStatus == 'success')
             {
                 if(typeof(response.error) == 'undefined')
                 {
                     this.$videos.html(response.html);
+
+                    this.$playBtns = $('.play', this.$videos);
+                    this.$videoElements = $('.video', this.$videos);
+
+                    this.addListener(this.$playBtns, 'click', 'showPreview');
+                    this.addListener(this.$videoElements, 'click', 'selectVideo');
                 }
                 else
                 {
-                    this.$error.html(response.error);
-                    this.$error.removeClass('hidden');
+                    this.$videos.html('<p class="error">'+response.error+'</p>');
                 }
-
-                this.$playBtns = $('.play', this.$videos);
-                this.addListener(this.$playBtns, 'click', 'showPreview');
             }
 
         }, this));
+    },
+
+    deselectVideos: function()
+    {
+        if(this.$videoElements)
+        {
+            currentVideo = this.$videoElements.filter('.sel');
+            currentVideo.removeClass('.sel');
+
+            this.settings.onDeselectVideo();
+        }
     }
 });
 

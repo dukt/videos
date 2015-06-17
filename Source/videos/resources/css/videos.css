@@ -9,10 +9,14 @@
   margin: 0 7px;
   text-align: center;
 }
+.video.sel .thumb {
+  border-color: #da5a47;
+}
 .thumb {
   position: relative;
-  border-radius: 3px;
+  border-radius: 5px;
   overflow: hidden;
+  border: 3px solid transparent;
 }
 .thumb img {
   display: block;

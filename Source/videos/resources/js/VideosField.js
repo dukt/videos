@@ -1,4 +1,4 @@
-if (typeof Videos == 'undefined')
+    if (typeof Videos == 'undefined')
 {
     Videos = {};
 }
@@ -6,14 +6,17 @@ if (typeof Videos == 'undefined')
 Videos.Field = Garnish.Base.extend({
 
     $input: null,
+    $container: null,
     $spinner: null,
     $preview: null,
     $player: null,
+    $playBtn: null,
+    $addBtn: null,
+    $removeBtn: null,
 
     explorer: null,
     playerModal: null,
     videoSelectorModal: null,
-    lookupVideoTimeout: null,
 
     init: function(inputId)
     {
@@ -49,7 +52,7 @@ Videos.Field = Garnish.Base.extend({
             $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
             $buttons = $('<div class="buttons right"/>').appendTo($footer),
             $cancelBtn = $('<div class="btn">'+Craft.t('Cancel')+'</div>').appendTo($buttons),
-            $selectBtn = $('<input type="submit" class="btn submit" value="'+Craft.t('Select')+'" />').appendTo($buttons);
+            $selectBtn = $('<input type="submit" class="btn submit disabled" value="'+Craft.t('Select')+'" />').appendTo($buttons);
 
             this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                 visible: false,
@@ -60,10 +63,27 @@ Videos.Field = Garnish.Base.extend({
                 this.videoSelectorModal.hide();
             });
 
+            this.addListener($selectBtn, 'click', function() {
+                this.$input.val(url);
+                this.$input.trigger('change');
+                this.videoSelectorModal.hide();
+            });
+
             Craft.postActionRequest('videos/explorer', {}, $.proxy(function(response, textStatus)
             {
                 $wrap.html(response.html);
-                this.explorer = new Videos.Explorer($videoSelectorModal);
+
+                this.explorer = new Videos.Explorer($videoSelectorModal, {
+                    onSelectVideo: $.proxy(function(url)
+                    {
+                        $selectBtn.removeClass('disabled');
+                    }, this),
+                    onDeselectVideo: $.proxy(function()
+                    {
+                        $selectBtn.addClass('disabled');
+                    }, this)
+                });
+
                 this.videoSelectorModal.updateSizeAndPosition();
                 Craft.initUiElements();
                 console.log('Craft.initUiElements();');
@@ -75,7 +95,9 @@ Videos.Field = Garnish.Base.extend({
         }
     },
 
-    playVideo: function(ev) {
+    playVideo: function(ev)
+    {
+        console.log('play');
         var gateway = $(ev.currentTarget).data('gateway');
         var videoId = $(ev.currentTarget).data('id');
 
@@ -121,25 +143,23 @@ Videos.Field = Garnish.Base.extend({
             Craft.postActionRequest('videos/lookupVideo', { url: val }, $.proxy(function(response, textStatus)
             {
                 this.$spinner.addClass('hidden');
+                this.$preview.show();
 
-                if (response && textStatus == 'success')
+                if (textStatus == 'success')
                 {
-                    if (!response.hasOwnProperty('error'))
+                    if (response.error)
                     {
-                        this.$preview.show();
-                        this.$preview.html(response.preview);
+                        this.$preview.html('<p class="error">'+response.error+'</p>');
                     }
                     else
                     {
-                        $('.error', this.$container).html(response.error);
-                        $('.error', this.$container).removeClass('hidden');
-                        this.$preview.hide();
+                        this.$preview.html(response.preview);
+
+                        $playBtn = $('.play', this.$container);
+                        this.addListener($playBtn, 'click', 'playVideo');
                     }
                 }
-                else
-                {
-                    this.$preview.hide();
-                }
+
             }, this));
         }
         else

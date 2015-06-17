@@ -1,7 +1,7 @@
 {% if videos %}
 
     {% for key, video in videos %}
-        <div class="video">
+        <div class="video" data-url="{{ video.url }}">
 
             <div class="thumb">
                 <img src="{{ video.thumbnail }}" />
