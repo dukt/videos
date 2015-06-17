@@ -70,6 +70,7 @@ class Videos_VideoFieldType extends BaseFieldType
         craft()->templates->includeCssResource('videos/css/videos.css');
         craft()->templates->includeCssResource('videos/css/VideosExplorer.css');
         craft()->templates->includeCssResource('videos/css/VideosField.css');
+        craft()->templates->includeJsResource('videos/js/Videos.js');
         craft()->templates->includeJsResource('videos/js/VideosExplorer.js');
         craft()->templates->includeJsResource('videos/js/VideosField.js');
 

@@ -95,9 +95,8 @@ Videos.Field = Garnish.Base.extend({
         }
     },
 
-    playVideo: function(ev)
+    playVideoOld: function(ev)
     {
-        console.log('play');
         var gateway = $(ev.currentTarget).data('gateway');
         var videoId = $(ev.currentTarget).data('id');
 
@@ -129,6 +128,24 @@ Videos.Field = Garnish.Base.extend({
             this.$player.html(response.html);
             this.playerModal.updateSizeAndPosition();
         }, this));
+    },
+
+    playVideo: function(ev)
+    {
+        var gateway = $(ev.currentTarget).data('gateway');
+        var videoId = $(ev.currentTarget).data('id');
+
+        if(!this.playerModal)
+        {
+            this.playerModal = new Videos.Player({
+                gateway: gateway,
+                videoId: videoId
+            });
+        }
+        else
+        {
+            this.playerModal.show();
+        }
     },
 
     lookupVideo: function()
