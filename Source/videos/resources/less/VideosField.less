@@ -9,10 +9,16 @@
 .videos-field .preview .description .title { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; cursor: default; margin: 0 !important; max-width: 200px; }
 .videos-field .preview .description ul li { text-overflow: ellipsis; white-space: nowrap; overflow: hidden; }
 
-.videoselectormodal { min-width: 951px; min-height: 400px; }
+.videoselectormodal { min-width: 940px; min-height: 400px; padding-bottom: 58px; }
 .videoselectormodal .wrap { height: 100%; }
 .videoselectormodal .videos-explorer { height: 100%; }
 .videoselectormodal .footer { position: absolute; bottom: 0; left: 0; width: 100%; margin: 0; }
+
+.videoselectormodal .sidebar {
+  top: 24px;
+  height: ~"calc(100% - 48px)";
+  overflow: auto;
+}
 
 @media (max-width:400px){
     .videos-preview .image { float: none; display: block; }

@@ -43,8 +43,9 @@
   overflow: hidden;
 }
 .videoselectormodal {
-  min-width: 951px;
+  min-width: 940px;
   min-height: 400px;
+  padding-bottom: 58px;
 }
 .videoselectormodal .wrap {
   height: 100%;
@@ -58,6 +59,11 @@
   left: 0;
   width: 100%;
   margin: 0;
+}
+.videoselectormodal .sidebar {
+  top: 24px;
+  height: calc(100% - 48px);
+  overflow: auto;
 }
 @media (max-width: 400px) {
   .videos-preview .image {

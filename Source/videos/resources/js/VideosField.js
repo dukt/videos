@@ -59,6 +59,20 @@ Videos.Field = Garnish.Base.extend({
                 resizable: true
             });
 
+            this.videoSelectorModal.resizeDragger.settings.onDrag = $.proxy(function() {
+                this.videoSelectorModal._handleResize();
+                width = this.videoSelectorModal.getWidth();
+
+                if(width > 1000)
+                {
+                    $('.videos', $videoSelectorModal).addClass('large');
+                }
+                else
+                {
+                    $('.videos', $videoSelectorModal).removeClass('large');
+                }
+            }, this);
+
             this.addListener($cancelBtn, 'click', function() {
                 this.videoSelectorModal.hide();
             });
@@ -74,6 +88,9 @@ Videos.Field = Garnish.Base.extend({
                 $wrap.html(response.html);
 
                 this.explorer = new Videos.Explorer($videoSelectorModal, {
+                    onPlayerHide: $.proxy(function() {
+                        this.videoSelectorModal.show();
+                    }, this),
                     onSelectVideo: $.proxy(function(url)
                     {
                         $selectBtn.removeClass('disabled');
@@ -93,41 +110,6 @@ Videos.Field = Garnish.Base.extend({
         {
             this.videoSelectorModal.show();
         }
-    },
-
-    playVideoOld: function(ev)
-    {
-        var gateway = $(ev.currentTarget).data('gateway');
-        var videoId = $(ev.currentTarget).data('id');
-
-        if(!this.playerModal)
-        {
-            this.$player = $('<div class="player modal" />').appendTo(Garnish.$bod);
-
-            this.playerModal = new Garnish.Modal(this.$player, {
-                visible: false,
-                resizable: true,
-                onHide: $.proxy(function()
-                {
-                    this.$player.html('');
-                }, this)
-            });
-        }
-        else
-        {
-            this.playerModal.show();
-        }
-
-        var data = {
-            gateway: gateway,
-            videoId: videoId
-        };
-
-        Craft.postActionRequest('videos/player', data, $.proxy(function(response, textStatus)
-        {
-            this.$player.html(response.html);
-            this.playerModal.updateSizeAndPosition();
-        }, this));
     },
 
     playVideo: function(ev)

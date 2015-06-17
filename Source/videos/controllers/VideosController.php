@@ -221,40 +221,6 @@ class VideosController extends BaseController
     }
 
     /**
-     * Preview
-     */
-    public function actionPreview()
-    {
-        try
-        {
-            $gatewayHandle = craft()->request->getParam('gateway');
-            $gatewayHandle = strtolower($gatewayHandle);
-
-            $id = craft()->request->getParam('videoId');
-
-            $video = craft()->videos->getVideoById($gatewayHandle, $id);
-
-            if($video)
-            {
-                $response['html'] = craft()->templates->render('videos/explorer/preview', array(
-                    'video' => $video
-                ));
-
-                $this->returnJson($response);
-            }
-            else
-            {
-                throw new Exception("Gateway not available");
-            }
-
-        }
-        catch(\Exception $e)
-        {
-            $this->returnErrorJson($e->getMessage());
-        }
-    }
-
-    /**
      * Get videos
      */
     public function actionGetVideos()

@@ -5,7 +5,7 @@ if (typeof Videos == 'undefined')
 
 Videos.Explorer = Garnish.Base.extend({
 
-    previewModal: null,
+    playerModal: null,
     previewInject: null,
     searchTimeout: null,
 
@@ -87,48 +87,30 @@ Videos.Explorer = Garnish.Base.extend({
         }
     },
 
-    showPreview: function(ev)
+    playVideo: function(ev)
     {
         var gateway = $(ev.currentTarget).data('gateway');
         var videoId = $(ev.currentTarget).data('id');
 
-        if(!this.previewModal)
+        if(!this.playerModal)
         {
-            var $form = $('<form id="videos-preview-form" class="modal fitted"/>').appendTo(Garnish.$bod);
-            var $body = $('<div class="body"></div>').appendTo($form);
-            this.$previewInject = $('<div class="inject"/>').appendTo($body);
-            var $buttons = $('<div class="buttons right"/>').appendTo($body);
-            var $cancelBtn = $('<div class="btn">'+Craft.t('Cancel')+'</div>').appendTo($buttons);
-            var $submitBtn = $('<input type="submit" class="btn submit" value="'+Craft.t('Continue')+'" />').appendTo($buttons);
-
-            this.previewModal = new Garnish.Modal($form, {
-                visible: false,
-                resizable: true,
-                onHide: $.proxy(function()
-                {
-                    this.$previewInject.html('');
+            this.playerModal = new Videos.Player({
+                gateway: gateway,
+                videoId: videoId,
+                onHide: $.proxy(function() {
+                    this.settings.onPlayerHide();
                 }, this)
-            });
-
-            this.addListener($cancelBtn, 'click', function() {
-                this.previewModal.hide();
             });
         }
         else
         {
-            this.previewModal.show();
+            this.playerModal.play({
+                gateway: gateway,
+                videoId: videoId,
+            });
+
+            this.playerModal.show();
         }
-
-        var data = {
-            gateway: gateway,
-            videoId: videoId
-        };
-
-        Craft.postActionRequest('videos/preview', data, $.proxy(function(response, textStatus)
-        {
-            this.$previewInject.html(response.html);
-            this.previewModal.updateSizeAndPosition();
-        }, this));
     },
 
     selectVideo: function(ev)
@@ -166,7 +148,7 @@ Videos.Explorer = Garnish.Base.extend({
                     this.$playBtns = $('.play', this.$videos);
                     this.$videoElements = $('.video', this.$videos);
 
-                    this.addListener(this.$playBtns, 'click', 'showPreview');
+                    this.addListener(this.$playBtns, 'click', 'playVideo');
                     this.addListener(this.$videoElements, 'click', 'selectVideo');
                 }
                 else

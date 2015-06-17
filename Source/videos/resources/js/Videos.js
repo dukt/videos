@@ -8,11 +8,18 @@ Videos.Player = Garnish.Modal.extend(
 {
     init: function(settings)
     {
-        this.settings = settings;
+        this.setSettings(settings, Garnish.Modal.defaults);
 
         this.$player = $('<div class="player modal" />').appendTo(Garnish.$bod);
 
         this.base(this.$player, this.settings);
+
+        this.play(this.settings);
+    },
+
+    play: function(settings)
+    {
+        this.setSettings(settings, this.settings);
 
         var data = {
             gateway: this.settings.gateway,
