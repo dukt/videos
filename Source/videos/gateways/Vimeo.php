@@ -22,6 +22,7 @@ class Vimeo extends BaseGateway
     public function getSections()
     {
         $sections = array();
+
         $sections['Library'] = array(
             array(
                 'name' => "Uploads",
@@ -288,7 +289,7 @@ class Vimeo extends BaseGateway
 
         // duration
         $video['durationSeconds'] = $item['duration'];
-        $video['duration']        = $this->getDuration($video['durationSeconds']);
+        $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
 
 
         // thumbnails

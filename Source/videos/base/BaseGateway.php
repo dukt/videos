@@ -3,6 +3,11 @@ namespace Dukt\Videos\Gateways;
 
 abstract class BaseGateway
 {
+    public $paginationDefaults = array(
+        'page' => 1,
+        'perPage' => 30
+    );
+
     public function getOAuthProvider()
     {
     }
@@ -14,11 +19,6 @@ abstract class BaseGateway
     public function getOAuthParams()
     {
     }
-
-    public $paginationDefaults = array(
-        'page' => 1,
-        'perPage' => 30
-    );
 
     public function getHandle()
     {
@@ -204,27 +204,5 @@ abstract class BaseGateway
         $video = $this->getVideo($params);
 
         return $video;
-    }
-
-    public function getDuration($seconds)
-    {
-        $hours = intval(intval($seconds) / 3600);
-        $minutes = intval(($seconds / 60) % 60);
-        $seconds = intval($seconds % 60);
-
-        // hh:mm:ss
-
-        $hms = "";
-
-        if($hours > 0)
-        {
-            $hms .= str_pad($hours, 2, "0", STR_PAD_LEFT).":";
-        }
-
-        $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ":";
-
-        $hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
-
-        return $hms;
     }
 }

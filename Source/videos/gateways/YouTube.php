@@ -40,6 +40,7 @@ class YouTube extends BaseGateway
     public function getSections()
     {
         $sections = array();
+
         $sections['Library'] = array(
             array(
                 'name' => "Uploads",
@@ -403,7 +404,7 @@ class YouTube extends BaseGateway
         // duration
         $interval              = new \DateInterval($item->contentDetails->duration);
         $video['durationSeconds'] = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
-        $video['duration']        = $this->getDuration($video['durationSeconds']);
+        $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
 
         // aliases
         $video['embedUrl']             = $this->getEmbedUrl($video['id']);
