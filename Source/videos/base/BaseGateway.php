@@ -182,7 +182,8 @@ abstract class BaseGateway
 
         $videoId = $this->getVideoId($url);
 
-        if(!$videoId) {
+        if(!$videoId)
+        {
             throw new \Exception('Video not found with url given');
         }
 
