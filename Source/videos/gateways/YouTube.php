@@ -65,20 +65,7 @@ class YouTube extends BaseGateway
         return $sections;
     }
 
-    // Protected Methods
-    // =========================================================================
-
-    protected function getBoolParameters()
-    {
-        return array('autohide', 'cc_load_policy', 'controls', 'disablekb', 'fs', 'modestbranding', 'rel', 'showinfo');
-    }
-
-    protected function getEmbedFormat()
-    {
-        return "https://www.youtube.com/embed/%s?wmode=transparent";
-    }
-
-    protected function getVideo($opts)
+    public function getVideo($opts)
     {
         if(empty($opts['id']))
         {
@@ -97,6 +84,19 @@ class YouTube extends BaseGateway
         {
             throw new \Exception('Video not found');
         }
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    protected function getBoolParameters()
+    {
+        return array('autohide', 'cc_load_policy', 'controls', 'disablekb', 'fs', 'modestbranding', 'rel', 'showinfo');
+    }
+
+    protected function getEmbedFormat()
+    {
+        return "https://www.youtube.com/embed/%s?wmode=transparent";
     }
 
     protected static function getVideoId($url)

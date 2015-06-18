@@ -83,20 +83,7 @@ class Vimeo extends BaseGateway
         return $sections;
     }
 
-    // Protected Methods
-    // =========================================================================
-
-    protected function getEmbedFormat()
-    {
-        return "https://player.vimeo.com/video/%s";
-    }
-
-    protected function getBoolParameters()
-    {
-        return array('portrait', 'title', 'byline');
-    }
-
-    protected function getVideo($opts)
+    public function getVideo($opts)
     {
         $method = '/videos/'.$opts['id'];
         $response = $this->api($method);
@@ -112,6 +99,19 @@ class Vimeo extends BaseGateway
                 throw new \Exception($response['body']['error'], 1);
             }
         }
+    }
+
+    // Protected Methods
+    // =========================================================================
+
+    protected function getEmbedFormat()
+    {
+        return "https://player.vimeo.com/video/%s";
+    }
+
+    protected function getBoolParameters()
+    {
+        return array('portrait', 'title', 'byline');
     }
 
     protected static function getVideoId($url)

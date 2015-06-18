@@ -30,7 +30,7 @@ Videos.Field = Garnish.Base.extend({
         this.$addBtn = $('.videos-add', this.$container);
         this.$removeBtn = $('.delete', this.$container);
 
-        this.addListener(this.$input, 'textchange', 'lookupVideo');
+        this.addListener(this.$input, 'textchange', 'fieldPreview');
         this.addListener(this.$playBtn, 'click', 'playVideo');
         this.addListener(this.$addBtn, 'click', 'addVideo');
         this.addListener(this.$removeBtn, 'click', 'removeVideo');
@@ -39,7 +39,7 @@ Videos.Field = Garnish.Base.extend({
     removeVideo: function(ev)
     {
         this.$input.val('');
-        this.lookupVideo();
+        this.fieldPreview();
         ev.preventDefault();
     },
 
@@ -130,7 +130,7 @@ Videos.Field = Garnish.Base.extend({
         }
     },
 
-    lookupVideo: function()
+    fieldPreview: function()
     {
         var val = this.$input.val();
 
@@ -139,7 +139,7 @@ Videos.Field = Garnish.Base.extend({
             this.$spinner.removeClass('hidden');
             $('.error', this.$container).addClass('hidden');
 
-            Craft.postActionRequest('videos/lookupVideo', { url: val }, $.proxy(function(response, textStatus)
+            Craft.postActionRequest('videos/fieldPreview', { url: val }, $.proxy(function(response, textStatus)
             {
                 this.$spinner.addClass('hidden');
                 this.$preview.show();
