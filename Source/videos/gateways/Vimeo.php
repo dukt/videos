@@ -211,7 +211,7 @@ class Vimeo extends BaseGateway
         $query = $this->queryFromParams();
         $response = $this->api('/me/albums', $query);
 
-        return $this->parseCollectionAlbum($response['body']['data']);
+        return $this->parseCollections('album', $response['body']['data']);
     }
 
     private function getCollectionsChannels($params = array())
@@ -219,35 +219,43 @@ class Vimeo extends BaseGateway
         $query = $this->queryFromParams();
         $response = $this->api('/me/channels', $query);
 
-        return $this->parseCollectionChannel($response['body']['data']);
+        return $this->parseCollections('channel', $response['body']['data']);
     }
 
     private function parseCollectionAlbum($response)
     {
-        if($response)
-        {
-            $collection = array();
-            $collection['id'] = substr($response['uri'], (strpos($response['uri'], '/albums/') + strlen('/albums/')));
-            $collection['url'] = $response['uri'];
-            $collection['title'] = $response['name'];
-            $collection['totalVideos'] = $response['stats']['videos'];
+        $collection = array();
+        $collection['id'] = substr($response['uri'], (strpos($response['uri'], '/albums/') + strlen('/albums/')));
+        $collection['url'] = $response['uri'];
+        $collection['title'] = $response['name'];
+        $collection['totalVideos'] = $response['stats']['videos'];
 
-            return $collection;
-        }
+        return $collection;
     }
 
-    private function parseCollectionChannel($response)
+    private function parseCollectionChannel($channel)
     {
-        if($response)
-        {
-            $collection = array();
-            $collection['id'] = substr($response['uri'], (strpos($response['uri'], '/channels/') + strlen('/channels/')));
-            $collection['url'] = $response['uri'];
-            $collection['title'] = $response['name'];
-            $collection['totalVideos'] = $response['stats']['videos'];
+        $collection = array();
+        $collection['id'] = substr($channel['uri'], (strpos($channel['uri'], '/channels/') + strlen('/channels/')));
+        $collection['url'] = $channel['uri'];
+        $collection['title'] = $channel['name'];
+        $collection['totalVideos'] = $channel['stats']['videos'];
 
-            return $collection;
+        return $collection;
+    }
+
+    private function parseCollections($type, $response)
+    {
+        $collections = array();
+
+        foreach($response as $channel)
+        {
+            $collection = $this->{'parseCollection'.ucwords($type)}($channel);
+
+            array_push($collections, $collection);
         }
+
+        return $collections;
     }
 
     private function parseUser()
