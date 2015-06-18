@@ -39,15 +39,7 @@ class YouTube extends BaseGateway
 
         // playlists
 
-        // try {
-            $playlists = $this->getCollectionsPlaylists();
-        // }
-        // catch(\Exception $e)
-        // {
-        //     // todo: log error
-
-        //     $playlists = false;
-        // }
+        $playlists = $this->getCollectionsPlaylists();
 
         if(is_array($playlists))
         {
@@ -76,6 +68,37 @@ class YouTube extends BaseGateway
     // Protected Methods
     // =========================================================================
 
+    protected function getBoolParameters()
+    {
+        return array('autohide', 'cc_load_policy', 'controls', 'disablekb', 'fs', 'modestbranding', 'rel', 'showinfo');
+    }
+
+    protected function getEmbedFormat()
+    {
+        return "https://www.youtube.com/embed/%s?wmode=transparent";
+    }
+
+    protected function getVideo($opts)
+    {
+        if(empty($opts['id']))
+        {
+            throw new \Exception('The video ID is required. (empty found)');
+        }
+
+        $client = $this->api();
+        $videos = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $opts['id']));
+        $videos = $this->parseVideos($videos);
+
+        if(count($videos) == 1)
+        {
+            return array_pop($videos);
+        }
+        else
+        {
+            throw new \Exception('Video not found');
+        }
+    }
+
     protected static function getVideoId($url)
     {
         // check if url works with this service and extract video_id
@@ -103,42 +126,6 @@ class YouTube extends BaseGateway
         return $video_id;
     }
 
-    protected function getEmbedFormat()
-    {
-        return "https://www.youtube.com/embed/%s?wmode=transparent";
-    }
-
-    protected function getBoolParameters()
-    {
-        return array('autohide', 'cc_load_policy', 'controls', 'disablekb', 'fs', 'modestbranding', 'rel', 'showinfo');
-    }
-
-    protected function getVideo($opts)
-    {
-        if(empty($opts['id']))
-        {
-            throw new \Exception('The video ID is required. (empty found)');
-        }
-
-        $client = $this->getClient();
-        $videos = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $opts['id']));
-        $videos = $this->extractVideos($videos);
-
-        if(count($videos) == 1)
-        {
-            return array_pop($videos);
-        }
-        else
-        {
-            throw new \Exception('Video not found');
-        }
-    }
-
-    protected function getVideosUploads($params = array())
-    {
-        return $this->performVideosRequest('uploads', $params);
-    }
-
     protected function getVideosFavorites($params = array())
     {
         // if the account has no playlist or favorites, an exception is thrown.
@@ -157,59 +144,11 @@ class YouTube extends BaseGateway
         }
     }
 
-    protected function getVideosSearch($params = array())
-    {
-        $pagination = $this->_pagination($params);
-
-        $client = $this->getClient();
-
-        $data = array(
-            'q' => $params['q'],
-            'maxResults' => $pagination['perPage']
-        );
-
-        if(!empty($pagination['nextPageToken']))
-        {
-            $data['pageToken'] = $pagination['nextPageToken'];
-        }
-
-        $response = $client->search->listSearch('id', $data);
-
-        foreach($response['items'] as $item)
-        {
-            $videoIds[] = $item->id->videoId;
-        }
-
-        if(!empty($videoIds))
-        {
-            $videoIds = implode(",", $videoIds);
-
-            $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-            $videos = $this->extractVideos($videosResponse);
-
-            $more = false;
-
-            if(!empty($playlistItemsResponse->nextPageToken) && count($videos) > 0)
-            {
-                $more = true;
-            }
-
-            return array(
-                'prevPageToken' => $response->prevPageToken,
-                'nextPageToken' => $response->nextPageToken,
-                'videos' => $videos,
-                'more' => $more
-            );
-        }
-
-        return array();
-    }
-
     protected function getVideosPlaylist($params = array())
     {
         $pagination = $this->_pagination($params);
 
-        $client = $this->getClient();
+        $client = $this->api();
 
         $playlistId = $params['id'];
 
@@ -237,7 +176,7 @@ class YouTube extends BaseGateway
         $videoIds = implode(",", $videoIds);
 
         $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-        $videos = $this->extractVideos($videosResponse);
+        $videos = $this->parseVideos($videosResponse);
 
         $more = false;
 
@@ -254,10 +193,63 @@ class YouTube extends BaseGateway
             );
     }
 
+    protected function getVideosSearch($params = array())
+    {
+        $pagination = $this->_pagination($params);
+
+        $client = $this->api();
+
+        $data = array(
+            'q' => $params['q'],
+            'maxResults' => $pagination['perPage']
+        );
+
+        if(!empty($pagination['nextPageToken']))
+        {
+            $data['pageToken'] = $pagination['nextPageToken'];
+        }
+
+        $response = $client->search->listSearch('id', $data);
+
+        foreach($response['items'] as $item)
+        {
+            $videoIds[] = $item->id->videoId;
+        }
+
+        if(!empty($videoIds))
+        {
+            $videoIds = implode(",", $videoIds);
+
+            $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
+            $videos = $this->parseVideos($videosResponse);
+
+            $more = false;
+
+            if(!empty($playlistItemsResponse->nextPageToken) && count($videos) > 0)
+            {
+                $more = true;
+            }
+
+            return array(
+                'prevPageToken' => $response->prevPageToken,
+                'nextPageToken' => $response->nextPageToken,
+                'videos' => $videos,
+                'more' => $more
+            );
+        }
+
+        return array();
+    }
+
+    protected function getVideosUploads($params = array())
+    {
+        return $this->performVideosRequest('uploads', $params);
+    }
+
     // Private Methods
     // =========================================================================
 
-    private function getClient()
+    private function api()
     {
         // make token compatible with Google library
         $arrayToken = array();
@@ -282,7 +274,18 @@ class YouTube extends BaseGateway
         return $api;
     }
 
-    private function _pagination($params = array())
+    private function getCollectionsPlaylists($params = array())
+    {
+        $client = $this->api();
+
+        $channelsResponse = $client->playlists->listPlaylists('snippet', array(
+          'mine' => 'true',
+        ));
+
+        return $this->parseCollections($channelsResponse['items']);
+    }
+
+    private function pagination($params = array())
     {
         $pagination = array(
             'page' => $this->paginationDefaults['page'],
@@ -302,18 +305,6 @@ class YouTube extends BaseGateway
 
         return $pagination;
     }
-
-    private function getCollectionsPlaylists($params = array())
-    {
-        $client = $this->getClient();
-
-        $channelsResponse = $client->playlists->listPlaylists('snippet', array(
-          'mine' => 'true',
-        ));
-
-        return $this->extractCollections($channelsResponse['items']);
-    }
-
     private function parseCollection($item)
     {
         $collection = array();
@@ -325,6 +316,19 @@ class YouTube extends BaseGateway
         return $collection;
     }
 
+    private function parseCollections($items)
+    {
+        $collections = array();
+
+        foreach($items as $item)
+        {
+            $collection = $this->parseCollection($item);
+
+            array_push($collections, $collection);
+        }
+
+        return $collections;
+    }
     private function parseUser()
     {
         $this->id = (string) $response->id;
@@ -395,11 +399,25 @@ class YouTube extends BaseGateway
         return $video;
     }
 
+    private function parseVideos($items)
+    {
+        $videos = array();
+
+        foreach($items as $v)
+        {
+            $video = $this->parseVideo($v);
+
+            array_push($videos, $video);
+        }
+
+        return $videos;
+    }
+
     private function performVideosRequest($playlist, $params = array())
     {
         $pagination = $this->_pagination($params);
 
-        $client = $this->getClient();
+        $client = $this->api();
 
         $channelsResponse = $client->channels->listChannels('contentDetails', array(
           'mine' => 'true',
@@ -434,7 +452,7 @@ class YouTube extends BaseGateway
             $videoIds = implode(",", $videoIds);
 
             $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-            $videos = $this->extractVideos($videosResponse);
+            $videos = $this->parseVideos($videosResponse);
 
             $more = false;
 
@@ -450,33 +468,5 @@ class YouTube extends BaseGateway
                     'more' => $more
                 );
         }
-    }
-
-    private function extractVideos($items)
-    {
-        $videos = array();
-
-        foreach($items as $v)
-        {
-            $video = $this->parseVideo($v);
-
-            array_push($videos, $video);
-        }
-
-        return $videos;
-    }
-
-    private function extractCollections($items)
-    {
-        $collections = array();
-
-        foreach($items as $item)
-        {
-            $collection = $this->parseCollection($item);
-
-            array_push($collections, $collection);
-        }
-
-        return $collections;
     }
 }

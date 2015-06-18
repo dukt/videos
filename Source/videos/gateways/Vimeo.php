@@ -86,6 +86,34 @@ class Vimeo extends BaseGateway
     // Protected Methods
     // =========================================================================
 
+    protected function getEmbedFormat()
+    {
+        return "https://player.vimeo.com/video/%s";
+    }
+
+    protected function getBoolParameters()
+    {
+        return array('portrait', 'title', 'byline');
+    }
+
+    protected function getVideo($opts)
+    {
+        $method = '/videos/'.$opts['id'];
+        $response = $this->api($method);
+
+        if(!empty($response['body']))
+        {
+            if(!isset($response['body']['error']))
+            {
+                return $this->parseVideo($response['body']);
+            }
+            else
+            {
+                throw new \Exception($response['body']['error'], 1);
+            }
+        }
+    }
+
     protected static function getVideoId($url)
     {
         // check if url works with this service and extract video_id
@@ -116,23 +144,13 @@ class Vimeo extends BaseGateway
         return $video_id;
     }
 
-    protected function getEmbedFormat()
-    {
-        return "https://player.vimeo.com/video/%s";
-    }
-
-    protected function getBoolParameters()
-    {
-        return array('portrait', 'title', 'byline');
-    }
-
     protected function getVideosAlbum($params = array())
     {
         $params['album_id'] = $params['id'];
         unset($params['id']);
 
          // albums/#album_id
-        return $this->_getVideosRequest('/me/albums/'.$params['album_id'].'/videos', $params);
+        return $this->performVideosRequest('/me/albums/'.$params['album_id'].'/videos', $params);
     }
 
     protected function getVideosChannel($params = array())
@@ -140,88 +158,28 @@ class Vimeo extends BaseGateway
         $params['channel_id'] = $params['id'];
         unset($params['id']);
 
-        return $this->_getVideosRequest('/channels/'.$params['channel_id'].'/videos', $params);
-    }
-
-    protected function getVideosSearch($params = array())
-    {
-        return $this->_getVideosRequest('/videos', $params);
-    }
-
-    protected function getVideosUploads($params = array())
-    {
-        return $this->_getVideosRequest('/me/videos', $params);
+        return $this->performVideosRequest('/channels/'.$params['channel_id'].'/videos', $params);
     }
 
     protected function getVideosFavorites($params = array())
     {
-        return $this->_getVideosRequest('/me/likes', $params);
+        return $this->performVideosRequest('/me/likes', $params);
     }
 
-    protected function getVideo($opts)
+    protected function getVideosSearch($params = array())
     {
-        $method = '/videos/'.$opts['id'];
-        $response = $this->_api($method);
+        return $this->performVideosRequest('/videos', $params);
+    }
 
-        if(!empty($response['body']))
-        {
-            if(!isset($response['body']['error']))
-            {
-                return $this->parseVideo($response['body']);
-            }
-            else
-            {
-                throw new \Exception($response['body']['error'], 1);
-            }
-        }
+    protected function getVideosUploads($params = array())
+    {
+        return $this->performVideosRequest('/me/videos', $params);
     }
 
     // Private Methods
     // =========================================================================
 
-    private function _getVideosRequest($uri, $params, $requireAuthentication = true)
-    {
-        $query = $this->_queryFromParams($params);
-
-        $response = $this->_api($uri, $query);
-
-        $videosRaw = $response['body']['data'];
-        $videos = $this->extractVideos($videosRaw);
-
-        $more = true;
-
-        if(count($videos) < $this->paginationDefaults['perPage'])
-        {
-            $more = false;
-        }
-
-        return array(
-                'videos' => $videos,
-                'nextPage' => $query['nextPage'],
-                'more' => $more
-            );
-    }
-
-    private function extractVideos($r)
-    {
-        $videos = array();
-
-        if(!empty($r))
-        {
-            $responseVideos = $r;
-
-            foreach($responseVideos as $responseVideo)
-            {
-                $video = $this->parseVideo($responseVideo);
-
-                array_push($videos, $video);
-            }
-        }
-
-        return $videos;
-    }
-
-    private function _api($method, $params = array())
+    private function api($method, $params = array())
     {
         $token = $this->token;
         // client id & secret are fake because we already have a valid token
@@ -248,27 +206,20 @@ class Vimeo extends BaseGateway
         return $return;
     }
 
-    private function performRequest($uri, $params, $requireAuthentication = true)
+    private function getCollectionsAlbums($params = array())
     {
-        $query = $this->_queryFromParams($params);
+        $query = $this->queryFromParams();
+        $response = $this->api('/me/albums', $query);
 
-        $response = $this->_api($uri, $query);
+        return $this->parseCollectionAlbum($response['body']['data']);
+    }
 
-        $videosRaw = $response['body']['data'];
-        $videos = $this->extractVideos($videosRaw);
+    private function getCollectionsChannels($params = array())
+    {
+        $query = $this->queryFromParams();
+        $response = $this->api('/me/channels', $query);
 
-        $more = true;
-
-        if(count($videos) < $this->paginationDefaults['perPage'])
-        {
-            $more = false;
-        }
-
-        return array(
-                'videos' => $videos,
-                'nextPage' => $query['nextPage'],
-                'more' => $more
-            );
+        return $this->parseCollectionChannel($response['body']['data']);
     }
 
     private function parseCollectionAlbum($response)
@@ -297,24 +248,6 @@ class Vimeo extends BaseGateway
 
             return $collection;
         }
-    }
-
-    private function getCollectionsAlbums($params = array())
-    {
-        $query = $this->_queryFromParams();
-
-        $response = $this->_api('/me/albums', $query);
-
-        return $this->extractCollections($response['body']['data'], 'album');
-    }
-
-    private function getCollectionsChannels($params = array())
-    {
-        $query = $this->_queryFromParams();
-
-        $response = $this->_api('/me/channels', $query);
-
-        return $this->extractCollections($response['body']['data'], 'channel');
     }
 
     private function parseUser()
@@ -385,7 +318,49 @@ class Vimeo extends BaseGateway
         return $video;
     }
 
-    private function _queryFromParams($params = array())
+    private function parseVideos($r)
+    {
+        $videos = array();
+
+        if(!empty($r))
+        {
+            $responseVideos = $r;
+
+            foreach($responseVideos as $responseVideo)
+            {
+                $video = $this->parseVideo($responseVideo);
+
+                array_push($videos, $video);
+            }
+        }
+
+        return $videos;
+    }
+
+    private function performVideosRequest($uri, $params, $requireAuthentication = true)
+    {
+        $query = $this->queryFromParams($params);
+
+        $response = $this->api($uri, $query);
+
+        $videosRaw = $response['body']['data'];
+        $videos = $this->parseVideos($videosRaw);
+
+        $more = true;
+
+        if(count($videos) < $this->paginationDefaults['perPage'])
+        {
+            $more = false;
+        }
+
+        return array(
+                'videos' => $videos,
+                'nextPage' => $query['nextPage'],
+                'more' => $more
+            );
+    }
+
+    private function queryFromParams($params = array())
     {
         $query = array();
 
@@ -414,21 +389,5 @@ class Vimeo extends BaseGateway
         $query = array_merge($query, $params);
 
         return $query;
-    }
-
-    private function extractCollections($r, $type='album')
-    {
-        $responseCollections = $r;
-
-        $collections = array();
-
-        foreach($responseCollections as $responseCollection)
-        {
-            $collection = $this->{'parseCollection'.ucwords($type)}($responseCollection);
-
-            array_push($collections, $collection);
-        }
-
-        return $collections;
     }
 }
