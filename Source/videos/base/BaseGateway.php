@@ -3,6 +3,18 @@ namespace Dukt\Videos\Gateways;
 
 abstract class BaseGateway
 {
+    public function getOAuthProvider()
+    {
+    }
+
+    public function getOAuthScope()
+    {
+    }
+
+    public function getOAuthParams()
+    {
+    }
+
     public $paginationDefaults = array(
         'page' => 1,
         'perPage' => 30

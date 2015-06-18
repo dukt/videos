@@ -9,6 +9,11 @@ class Vimeo extends BaseGateway
     // Public Methods
     // =========================================================================
 
+    public function getOAuthProvider()
+    {
+        return 'Vimeo';
+    }
+
     public function getName()
     {
         return "Vimeo";

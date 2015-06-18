@@ -11,7 +11,7 @@
                 } %}
 
                 {% set gatewayOptions = [] %}
-                {% for gateway in craft.videos.nav() %}
+                {% for gateway in nav %}
                     {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t, value: gateway.handle }]) %}
                 {% endfor %}
 
@@ -25,7 +25,7 @@
                 </div>
 
                 <nav>
-                    {% for gateway in craft.videos.nav() %}
+                    {% for gateway in nav %}
                         {% set showGateway = (loop.first ? true : false) %}
                         <div id="gateway{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
                             {% if gateway.sections %}

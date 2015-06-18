@@ -35,18 +35,14 @@ class VideosController extends BaseController
         // connect
 
         $gatewayHandle = craft()->request->getParam('gateway');
-        $gateway = craft()->videos->getGatewayOpts($gatewayHandle);
 
-        $scopes = craft()->videos->getScopes($gateway['oauth']['handle']);
-        $params = craft()->videos->getParams($gateway['oauth']['handle']);
-
-        $providerHandle = $gateway['oauth']['handle'];
+        $gateway = craft()->videos->getGateway($gatewayHandle, false);
 
         if($response = craft()->oauth->connect(array(
             'plugin' => 'videos',
-            'provider' => $providerHandle,
-            'scopes' => $scopes,
-            'params' => $params
+            'provider' => $gateway->getOAuthProvider(),
+            'scopes' => $gateway->getOAuthScope(),
+            'params' => $gateway->getOAuthParams()
         )))
         {
             if($response['success'])
@@ -55,7 +51,7 @@ class VideosController extends BaseController
                 $token = $response['token'];
 
                 // save token
-                craft()->videos->saveToken($providerHandle, $token);
+                craft()->videos->saveToken($gateway->getOAuthProvider(), $token);
 
                 // session notice
                 craft()->userSession->setNotice(Craft::t("Connected."));
@@ -85,14 +81,12 @@ class VideosController extends BaseController
      */
     public function actionDisconnect()
     {
-        // handle
-        $gateway = craft()->request->getParam('gateway');
-        $gateway = craft()->videos->getGatewayOpts($gateway);
-        $handle = $gateway['oauth']['handle'];
+        $gatewayHandle = craft()->request->getParam('gateway');
+        $gateway = craft()->videos->getGateway($gatewayHandle, false);
 
+        $oauthProviderHandle = $gateway->getOAuthProvider();
 
-        // delete token
-        craft()->videos->deleteToken($handle);
+        craft()->videos->deleteToken($oauthProviderHandle);
 
         // set notice
         craft()->userSession->setNotice(Craft::t("Disconnected."));
@@ -171,7 +165,7 @@ class VideosController extends BaseController
     }
 
     /**
-     * Player Modal
+     * Player
      */
     public function actionPlayer()
     {
@@ -179,7 +173,6 @@ class VideosController extends BaseController
         $gatewayHandle = strtolower($gatewayHandle);
 
         $videoId = craft()->request->getParam('videoId');
-
         $video = craft()->videos->getVideoById($gatewayHandle, $videoId);
 
         if($video)
@@ -205,11 +198,22 @@ class VideosController extends BaseController
      */
     public function actionExplorer()
     {
-        $html = craft()->templates->render('videos/modals/explorer');
+        $variables = array(
+            'nav' => craft()->videos->getExplorerNav()
+        );
 
-        $this->returnJson(array(
-            'html' => $html
-        ));
+        if (craft()->request->isAjaxRequest())
+        {
+            $html = craft()->templates->render('videos/modals/explorer', $variables);
+
+            $this->returnJson(array(
+                'html' => $html
+            ));
+        }
+        else
+        {
+            $this->renderTemplate('videos/explorer', $variables);
+        }
     }
 
     /**
@@ -243,9 +247,9 @@ class VideosController extends BaseController
                         'error' => false
                     );
 
-                    $gatewayOpts = craft()->videos->getGatewayOpts($gateway->handle);
-                    $providerHandle = $gatewayOpts['oauth']['handle'];
-                    $providerName = $gatewayOpts['oauth']['name'];
+                    $gatewayHandle = $gateway->getHandle();
+                    $providerHandle = strtolower($gateway->getOAuthProvider());
+                    $providerName = $gateway->getOAuthProvider();
 
                     $provider = craft()->oauth->getProvider($providerHandle, false);
 
@@ -283,7 +287,7 @@ class VideosController extends BaseController
                         $response['provider'] = $provider;
                     }
 
-                    $variables['gateways'][$gateway->handle] = $response;
+                    $variables['gateways'][$gatewayHandle] = $response;
                 }
 
                 $this->renderTemplate('videos/settings', $variables);

@@ -6,16 +6,31 @@ use \Google_Service_YouTube;
 
 class YouTube extends BaseGateway
 {
-    public $oauthProvider = 'Google';
-    public $oauthScope    = array(
-        'https://www.googleapis.com/auth/userinfo.profile',
-        'https://www.googleapis.com/auth/userinfo.email',
-        'https://www.googleapis.com/auth/youtube',
-        'https://www.googleapis.com/auth/youtube.readonly'
-    );
-
     // Public Methods
     // =========================================================================
+
+    public function getOAuthProvider()
+    {
+        return 'Google';
+    }
+
+    public function getOAuthScope()
+    {
+        return array(
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/youtube',
+            'https://www.googleapis.com/auth/youtube.readonly'
+        );
+    }
+
+    public function getOAuthParams()
+    {
+        return array(
+            'access_type' => 'offline',
+            'approval_prompt' => 'force'
+        );
+    }
 
     public function getName()
     {

@@ -76,6 +76,7 @@ class VideosPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
+            'videos\/explorer' => array('action' => "videos/explorer"),
             'videos\/settings' => array('action' => "videos/settings")
         );
     }
@@ -139,7 +140,7 @@ class VideosPlugin extends BasePlugin
                 // but we don't want a Videos_VideoModel object
                 // otherwise it's gonna loops forever with thumbnail generation
 
-                $video = craft()->videos->_getVideoObjectById($gateway, $videoId);
+                $video = craft()->videos->requestVideoById($gateway, $videoId);
                 $video = (array) $video;
 
 

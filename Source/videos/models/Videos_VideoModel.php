@@ -19,7 +19,7 @@ class Videos_VideoModel extends BaseModel
 
     public function getEmbed($opts = array())
     {
-        $embed = craft()->videos->getEmbed($this->url, $opts);
+        $embed = craft()->videos->getEmbedHtml($this->url, $opts);
 
         $charset = craft()->templates->getTwig()->getCharset();
 
@@ -72,7 +72,7 @@ class Videos_VideoModel extends BaseModel
     {
         if(!$this->_video)
         {
-            $this->_video = craft()->videos->_getVideoObjectByUrl($this->url);
+            $this->_video = craft()->videos->requestVideoByUrl($this->url);
         }
 
         return $this->_video;

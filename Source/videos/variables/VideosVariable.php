@@ -13,56 +13,48 @@ class VideosVariable
     // =========================================================================
 
     /**
-     * Request the API.
+     * Request the API
      */
     public function api($attributes = null)
     {
         return new Videos_RequestCriteriaModel($attributes);
     }
 
-    public function nav()
+    /**
+     * Get Embed
+     */
+    public function getEmbed($videoUrl, $options = array())
     {
-        $nav = array();
-
-        $gateways = craft()->videos->getGateways();
-
-        foreach ($gateways as $gateway)
-        {
-            $nav[] = $gateway;
-        }
-
-        return $nav;
+        return $this->getEmbedHtml($videoUrl, $options);
     }
 
-    public function getGateways()
-    {
-        return craft()->videos->getGateways();
-    }
-
+    /**
+     * Get gateway
+     */
     public function getGateway($handle)
     {
         return craft()->videos->getGateway($handle);
     }
 
-    public function getGatewayOpts($handle)
+    /**
+     * Get gateways
+     */
+    public function getGateways()
     {
-        return craft()->videos->getGatewayOpts($handle);
+        return craft()->videos->getGateways();
     }
 
+    /**
+     * Get token
+     */
     public function getToken($handle)
     {
         return craft()->videos->getToken($handle);
     }
 
-    public function getEmbed($videoUrl, $options = array())
-    {
-        $embed = craft()->videos->getEmbed($videoUrl, $options);
-
-        $charset = craft()->templates->getTwig()->getCharset();
-
-        return new \Twig_Markup($embed, $charset);
-    }
-
+    /**
+     * Get a video from its URL
+     */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         try
@@ -71,21 +63,13 @@ class VideosVariable
         }
         catch(\Exception $e)
         {
-            return null;
-
-            // if(craft()->config->get('devMode'))
-            // {
-            //     throw $e;
-            // }
-            // else
-            // {
-            //     Craft::log("Couldn't get video from URL : ".$videoUrl.'. '.$e->getMessage(), LogLevel::Info, true);
-            // }
+            // todo
         }
     }
 
-    // alias for getVideoByUrl
-
+    /**
+     * Alias for getVideoByUrl()
+     */
     public function url($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
