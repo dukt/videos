@@ -2,11 +2,6 @@
     "config": {
         "vendor-dir": "videos/vendor/"
     },
-    "autoload": {
-        "psr-4": {
-            "Dukt\\Videos\\": ["videos/src/"]
-        }
-    },
     "repositories": [
         {
             "type": "vcs",
