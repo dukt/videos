@@ -379,58 +379,6 @@ class VideosService extends BaseApplicationComponent
         return false;
     }
 
-    public function getGatewaysWithSections()
-    {
-        try
-        {
-            // get gateways with sections
-
-            $gatewaysWithSections = array();
-
-            $gateways = $this->getGateways();
-
-            foreach($gateways as $gateway)
-            {
-                if($gateway)
-                {
-                    $class = '\\Dukt\\Videos\\App\\'.$gateway->providerClass;
-
-                    $sections = $class::getSections($gateway);
-
-                    if($gateway->sections = $class::getSections($gateway))
-                    {
-                        array_push($gatewaysWithSections, $gateway);
-                    }
-                }
-            }
-
-
-            // i18n
-
-            foreach($gatewaysWithSections as $k => $g)
-            {
-                foreach($g->sections as $k2 => $s)
-                {
-                    $g->sections[$k2]['name'] = Craft::t($s['name']);
-
-                    foreach($s['childs'] as $k3 => $c)
-                    {
-                        $g->sections[$k2]['childs'][$k3]['name'] = Craft::t($c['name']);
-                    }
-                }
-
-                $gatewaysWithSections[$k] = $g;
-            }
-
-            // return
-            return $gatewaysWithSections;
-        }
-        catch(\Exception $e)
-        {
-            throw new \Exception($e->getMessage());
-        }
-    }
-
     public function getGateways($enabledOnly = true)
     {
         $this->loadGateways();
@@ -460,7 +408,7 @@ class VideosService extends BaseApplicationComponent
 
         foreach($gateways as $g)
         {
-            if($g->handle == $gatewayHandle)
+            if($g->getHandle() == $gatewayHandle)
             {
                 return $g;
             }
@@ -471,20 +419,18 @@ class VideosService extends BaseApplicationComponent
 
     public function loadGateways()
     {
+
         if(!$this->_gatewaysLoaded)
         {
-            $folders = IOHelper::getFolders(CRAFT_PLUGINS_PATH.'videos/src/Gateways/');
+            $files = IOHelper::getFiles(CRAFT_PLUGINS_PATH.'videos/gateways');
 
-            foreach($folders as $folder)
+            foreach($files as $file)
             {
-                $gatewayName = IOHelper::getFolderName($folder, false);
+                require_once($file);
 
-                if($gatewayName == 'Common')
-                {
-                    continue;
-                }
+                $gatewayName = IOHelper::getFilename($file, false);
 
-                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName.'\\Service';
+                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName;
 
 
                 // gateway
