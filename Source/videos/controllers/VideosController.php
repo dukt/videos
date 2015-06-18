@@ -258,25 +258,6 @@ class VideosController extends BaseController
     }
 
     /**
-     * Get gateways with sections
-     */
-    public function actionGetGatewaysWithSections()
-    {
-        try
-        {
-            $gateways = craft()->videos->getGatewaysWithSections();
-
-            $this->returnJson(array(
-                'gateways' => $gateways
-            ));
-        }
-        catch(\Exception $e)
-        {
-            $this->returnErrorJson("Couldn't get gateways: ".$e->getMessage());
-        }
-    }
-
-    /**
      * Manager modal
      */
     public function actionManager()
