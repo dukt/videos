@@ -52,8 +52,6 @@ class VideosService extends BaseApplicationComponent
 
             $response = Videos_VideoModel::populateModel($attributes);
 
-            // $response['thumbnail'] = $response->getThumbnail();
-
             return $response;
         }
     }
@@ -70,8 +68,6 @@ class VideosService extends BaseApplicationComponent
             $video = (array) $video;
 
             $response = Videos_VideoModel::populateModel($video);
-
-            // $response['thumbnail'] = $response->getThumbnail();
 
             return $response;
         }
@@ -145,7 +141,6 @@ class VideosService extends BaseApplicationComponent
             {
                 if($gateway->getHandle() == $gatewayHandle)
                 {
-
                     $response = $gateway->getVideo(array('id' => $id));
 
                     if($response)
@@ -159,7 +154,6 @@ class VideosService extends BaseApplicationComponent
                     }
                 }
             }
-
         }
         catch(\Exception $e)
         {
@@ -177,8 +171,6 @@ class VideosService extends BaseApplicationComponent
             $enableCache = false;
         }
 
-        $enableCache = false;
-
         if($enableCache)
         {
             $key = 'videos.video.'.md5($videoUrl);
@@ -192,7 +184,6 @@ class VideosService extends BaseApplicationComponent
         }
 
         $gateways = $this->getGateways();
-
 
         foreach($gateways as $gateway)
         {
