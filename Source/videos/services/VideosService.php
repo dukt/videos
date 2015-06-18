@@ -279,7 +279,9 @@ class VideosService extends BaseApplicationComponent
     {
         $video = $this->_getVideoObjectByUrl($videoUrl);
 
-        return $video->getEmbed($opts);
+        $gateway = $this->getGateway($video['gatewayHandle']);
+
+        return $gateway->getEmbedHtml($video['id'], $opts);
     }
 
     public function _getVideoObjectById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
@@ -298,7 +300,6 @@ class VideosService extends BaseApplicationComponent
 
         try
         {
-
             $gateways = $this->getGateways();
 
             foreach($gateways as $gateway)
@@ -354,6 +355,7 @@ class VideosService extends BaseApplicationComponent
         foreach($gateways as $gateway)
         {
             $params['url'] = $videoUrl;
+
             try
             {
                 $response = $gateway->videoFromUrl($params);
@@ -374,9 +376,7 @@ class VideosService extends BaseApplicationComponent
                 // todo
                 // throw new Exception($e);
             }
-
         }
-
 
         return false;
     }
