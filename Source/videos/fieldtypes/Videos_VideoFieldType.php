@@ -78,10 +78,10 @@ class Videos_VideoFieldType extends BaseFieldType
         craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'");');
 
         // preview
-        $preview = craft()->templates->render('videos/field/preview', array('video' => $video));
+        $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $video));
 
         // Render HTML
-        return craft()->templates->render('videos/field/index', array(
+        return craft()->templates->render('videos/_components/fieldtypes/Video/input', array(
             'id'    => $id,
             'name'  => $name,
             'value' => $value,

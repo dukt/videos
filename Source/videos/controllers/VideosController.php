@@ -117,7 +117,7 @@ class VideosController extends BaseController
             $this->returnJson(
                 array(
                     'video' => $video,
-                    'preview' => craft()->templates->render('videos/field/preview', array('video' => $video))
+                    'preview' => craft()->templates->render('videos/_elements/fieldPreview', array('video' => $video))
                 )
             );
         }
@@ -146,7 +146,7 @@ class VideosController extends BaseController
             {
                 $videosResponse = $gateway->getVideos($method, $options);
 
-                $response['html'] = craft()->templates->render('videos/explorer/videos', array(
+                $response['html'] = craft()->templates->render('videos/_elements/videos', array(
                     'videos' => $videosResponse['videos']
                 ));
 
@@ -177,7 +177,7 @@ class VideosController extends BaseController
 
         if($video)
         {
-            $html = craft()->templates->render('videos/modals/player', array(
+            $html = craft()->templates->render('videos/_elements/player', array(
                 'video' => $video
             ));
 
@@ -204,7 +204,7 @@ class VideosController extends BaseController
 
         if (craft()->request->isAjaxRequest())
         {
-            $html = craft()->templates->render('videos/modals/explorer', $variables);
+            $html = craft()->templates->render('videos/_elements/explorer', $variables);
 
             $this->returnJson(array(
                 'html' => $html
