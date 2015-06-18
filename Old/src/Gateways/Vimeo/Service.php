@@ -148,7 +148,6 @@ class Service extends AbstractService
 
             }
         }
-
     }
 
     public static function getVideoId($url)
