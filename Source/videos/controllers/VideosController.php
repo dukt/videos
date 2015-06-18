@@ -103,9 +103,9 @@ class VideosController extends BaseController
     }
 
     /**
-     * Returns a video by its URL.
+     * Field Preview
      */
-    public function actionLookupVideo()
+    public function actionFieldPreview()
     {
         $this->requireAjaxRequest();
 
@@ -126,93 +126,6 @@ class VideosController extends BaseController
                     'preview' => craft()->templates->render('videos/field/preview', array('video' => $video))
                 )
             );
-        }
-        catch(\Exception $e)
-        {
-            $this->returnErrorJson($e->getMessage());
-        }
-    }
-
-    /**
-     * Get Videos from ko URL
-     *
-     *
-     * {gatewayHandle}/{method}/{id}
-     *
-     * youtube/favorites
-     * - gatewayHandle : youtube
-     * - method : favorites
-     * - params : {page:2}
-     *
-     * youtube/uploaded
-     * - gatewayHandle : youtube
-     * - method : favorites
-     * - params : {page:2}
-     *
-     *
-     * youtube/search
-     * - gatewayHandle : youtube
-     * - method : search
-     * - params : {q:"peter doherty"}
-     *
-     * youtube/playlist/1
-     * - gatewayHandle : youtube
-     * - method : playlist
-     * - params : {id:"1234"}
-     *
-     * vimeo/album/1
-     * - gatewayHandle : youtube
-     * - method : playlist
-     * - params : {id:"1234"}
-     */
-    public function actionGetVideosFromUrl()
-    {
-        try
-        {
-            $gatewayHandle = false;
-            $method = false;
-            $id = false;
-
-            // explode url
-
-            $url = craft()->request->getParam('url');
-            $url = trim($url, "/");
-            $url = explode("/", $url);
-
-            if(!empty($url[0]))
-            {
-                $gatewayHandle = $url[0];
-            }
-
-            if(!empty($url[1]))
-            {
-                $method = $url[1];
-            }
-
-            if(!empty($url[2]))
-            {
-                $id = $url[2];
-            }
-
-            // perform request
-
-            $gateway = craft()->videos->getGateway($gatewayHandle);
-            $response = array();
-
-            if(!empty($gateway))
-            {
-                $realMethod = 'getVideos'.ucwords($method);
-                $options = craft()->request->getParam('options');
-
-                if($id)
-                {
-                    $options['id'] = $id;
-                }
-
-                $response = $gateway->{$realMethod}($options);
-            }
-
-            $this->returnJson($response);
         }
         catch(\Exception $e)
         {
@@ -258,14 +171,6 @@ class VideosController extends BaseController
     }
 
     /**
-     * Manager modal
-     */
-    public function actionManager()
-    {
-        $this->renderTemplate('videos/modals/manager');
-    }
-
-    /**
      * Player Modal
      */
     public function actionPlayer()
@@ -293,6 +198,11 @@ class VideosController extends BaseController
         }
     }
 
+    /**
+     * Explorer
+     *
+     * @return null
+     */
     public function actionExplorer()
     {
         $html = craft()->templates->render('videos/modals/explorer');
