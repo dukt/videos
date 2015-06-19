@@ -1,6 +1,8 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
+use Craft\VideosHelper;
+
 class Vimeo extends BaseGateway
 {
     public $oauthProvider = 'Vimeo';
@@ -8,6 +10,19 @@ class Vimeo extends BaseGateway
 
     // Public Methods
     // =========================================================================
+
+    public function api($uri, $query = array())
+    {
+        $query['access_token'] = $this->token->accessToken;
+        $queryString = http_build_query($query);
+
+        $url = 'https://api.vimeo.com/'.$uri.'?'.$queryString;
+        $client = new \Guzzle\Http\Client();
+        $request = $client->get($url);
+        $response = $request->send()->json();
+
+        return $response;
+    }
 
     public function getOAuthProvider()
     {
@@ -91,19 +106,11 @@ class Vimeo extends BaseGateway
 
     public function getVideo($opts)
     {
-        $method = '/videos/'.$opts['id'];
-        $response = $this->api($method);
+        $response = $this->api('videos/'.$opts['id']);
 
-        if(!empty($response['body']))
+        if($response)
         {
-            if(!isset($response['body']['error']))
-            {
-                return $this->parseVideo($response['body']);
-            }
-            else
-            {
-                throw new \Exception($response['body']['error'], 1);
-            }
+            return $this->parseVideo($response);
         }
     }
 
@@ -156,7 +163,7 @@ class Vimeo extends BaseGateway
         unset($params['id']);
 
          // albums/#album_id
-        return $this->performVideosRequest('/me/albums/'.$params['album_id'].'/videos', $params);
+        return $this->performVideosRequest('me/albums/'.$params['album_id'].'/videos', $params);
     }
 
     protected function getVideosChannel($params = array())
@@ -164,97 +171,70 @@ class Vimeo extends BaseGateway
         $params['channel_id'] = $params['id'];
         unset($params['id']);
 
-        return $this->performVideosRequest('/channels/'.$params['channel_id'].'/videos', $params);
+        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
     }
 
     protected function getVideosFavorites($params = array())
     {
-        return $this->performVideosRequest('/me/likes', $params);
+        return $this->performVideosRequest('me/likes', $params);
     }
 
     protected function getVideosSearch($params = array())
     {
-        return $this->performVideosRequest('/videos', $params);
+        return $this->performVideosRequest('videos', $params);
     }
 
     protected function getVideosUploads($params = array())
     {
-        return $this->performVideosRequest('/me/videos', $params);
+        return $this->performVideosRequest('me/videos', $params);
     }
 
     // Private Methods
     // =========================================================================
 
-    private function api($method, $params = array())
-    {
-        $token = $this->token;
-        // client id & secret are fake because we already have a valid token
-        $vimeo = new \Dukt\Vimeo(
-            "clientId",
-            "clientSecret",
-            $token->accessToken
-        );
-
-        $return = array();
-
-        try
-        {
-            $return = $vimeo->request($method, $params);
-        }
-        catch(\Exception $e)
-        {
-            if($e->getMessage() != 'Page out of bounds')
-            {
-                throw $e;
-            }
-        }
-
-        return $return;
-    }
-
     private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->api('/me/albums', $query);
+        $response = $this->api('me/albums', $query);
 
-        return $this->parseCollections('album', $response['body']['data']);
+        return $this->parseCollections('album', $response['data']);
     }
 
     private function getCollectionsChannels($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->api('/me/channels', $query);
+        $response = $this->api('me/channels', $query);
 
-        return $this->parseCollections('channel', $response['body']['data']);
+        return $this->parseCollections('channel', $response['data']);
     }
 
-    private function parseCollectionAlbum($response)
+    private function parseCollectionAlbum($data)
     {
         $collection = array();
-        $collection['id'] = substr($response['uri'], (strpos($response['uri'], '/albums/') + strlen('/albums/')));
-        $collection['url'] = $response['uri'];
-        $collection['title'] = $response['name'];
-        $collection['totalVideos'] = $response['stats']['videos'];
+        $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
+        $collection['url'] = $data['uri'];
+        $collection['title'] = $data['name'];
+        $collection['totalVideos'] = $data['stats']['videos'];
 
         return $collection;
     }
 
-    private function parseCollectionChannel($channel)
+    private function parseCollectionChannel($data)
     {
         $collection = array();
-        $collection['id'] = substr($channel['uri'], (strpos($channel['uri'], '/channels/') + strlen('/channels/')));
-        $collection['url'] = $channel['uri'];
-        $collection['title'] = $channel['name'];
-        $collection['totalVideos'] = $channel['stats']['videos'];
+        $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
+        $collection['url'] = $data['uri'];
+        $collection['title'] = $data['name'];
+        $collection['totalVideos'] = $data['stats']['videos'];
 
         return $collection;
     }
 
-    private function parseCollections($type, $response)
+    private function parseCollections($type, $data)
     {
         $collections = array();
 
-        foreach($response as $channel)
+        foreach($data as $channel)
         {
             $collection = $this->{'parseCollection'.ucwords($type)}($channel);
 
@@ -270,25 +250,25 @@ class Vimeo extends BaseGateway
         $this->name = $response->display_name;
     }
 
-    private function parseVideo($item)
+    private function parseVideo($data)
     {
-        $video['raw'] = $item;
+        $video['raw'] = $data;
 
         // populate video object
-        $video['authorName']    = $item['user']['name'];
-        $video['authorUrl']     = $item['user']['link'];
-        $video['date']          = strtotime($item['created_time']);
-        $video['description']   = $item['description'];
+        $video['authorName']    = $data['user']['name'];
+        $video['authorUrl']     = $data['user']['link'];
+        $video['date']          = strtotime($data['created_time']);
+        $video['description']   = $data['description'];
         $video['gatewayHandle'] = "vimeo";
         $video['gatewayName']   = "Vimeo";
-        $video['id']            = substr($item['uri'], strlen('/videos/'));
-        $video['plays']         = (isset($item['stats']['plays']) ? $item['stats']['plays'] : 0);
-        $video['title']         = $item['name'];
-        $video['url']           = $item['link'];
+        $video['id']            = substr($data['uri'], strlen('/videos/'));
+        $video['plays']         = (isset($data['stats']['plays']) ? $data['stats']['plays'] : 0);
+        $video['title']         = $data['name'];
+        $video['url']           = $data['link'];
 
 
         // duration
-        $video['durationSeconds'] = $item['duration'];
+        $video['durationSeconds'] = $data['duration'];
         $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
 
 
@@ -297,9 +277,9 @@ class Vimeo extends BaseGateway
         $thumbnail = false;
         $thumbnailLarge = false;
 
-        if(is_array($item['pictures']))
+        if(is_array($data['pictures']))
         {
-            foreach($item['pictures'] as $picture)
+            foreach($data['pictures'] as $picture)
             {
                 if($picture['type'] == 'thumbnail')
                 {
@@ -355,10 +335,8 @@ class Vimeo extends BaseGateway
     {
         $query = $this->queryFromParams($params);
 
-        $response = $this->api($uri, $query);
-
-        $videosRaw = $response['body']['data'];
-        $videos = $this->parseVideos($videosRaw);
+        $videosRaw = $this->api($uri, $query);
+        $videos = $this->parseVideos($videosRaw['data']);
 
         $more = true;
 
@@ -368,10 +346,10 @@ class Vimeo extends BaseGateway
         }
 
         return array(
-                'videos' => $videos,
-                'nextPage' => $query['nextPage'],
-                'more' => $more
-            );
+            'videos' => $videos,
+            'nextPage' => $query['nextPage'],
+            'more' => $more
+        );
     }
 
     private function queryFromParams($params = array())

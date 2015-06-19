@@ -188,7 +188,7 @@ abstract class BaseGateway
         $this->token = $token;
     }
 
-    public function videoFromUrl($url)
+    public function getVideoByUrl($url)
     {
         $url = $url['url'];
 

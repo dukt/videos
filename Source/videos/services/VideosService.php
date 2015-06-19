@@ -112,7 +112,6 @@ class VideosService extends BaseApplicationComponent
     public function sendRequest(Videos_RequestCriteriaModel $criteria)
     {
         $gateway = $this->getGateway($criteria->gateway);
-
         return $gateway->api($criteria->method, $criteria->query);
     }
 
@@ -191,7 +190,7 @@ class VideosService extends BaseApplicationComponent
 
             try
             {
-                $response = $gateway->videoFromUrl($params);
+                $response = $gateway->getVideoByUrl($params);
 
                 if($response)
                 {

@@ -1,13 +1,27 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
-use \Google_Client;
-use \Google_Service_YouTube;
+use Craft\VideosHelper;
+use Google_Client;
+use Google_Service_YouTube;
 
 class YouTube extends BaseGateway
 {
     // Public Methods
     // =========================================================================
+
+    public function api($uri, $query = array())
+    {
+        $query['access_token'] = $this->token->accessToken;
+        $queryString = http_build_query($query);
+
+        $url = 'https://www.googleapis.com/youtube/v3/'.$uri.'?'.$queryString;
+        $client = new \Guzzle\Http\Client();
+        $request = $client->get($url);
+        $response = $request->send()->json();
+
+        return $response;
+    }
 
     public function getOAuthProvider()
     {
@@ -88,7 +102,7 @@ class YouTube extends BaseGateway
             throw new \Exception('The video ID is required. (empty found)');
         }
 
-        $client = $this->api();
+        $client = $this->_api();
         $videos = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $opts['id']));
         $videos = $this->parseVideos($videos);
 
@@ -164,7 +178,7 @@ class YouTube extends BaseGateway
     {
         $pagination = $this->_pagination($params);
 
-        $client = $this->api();
+        $client = $this->_api();
 
         $playlistId = $params['id'];
 
@@ -213,7 +227,7 @@ class YouTube extends BaseGateway
     {
         $pagination = $this->_pagination($params);
 
-        $client = $this->api();
+        $client = $this->_api();
 
         $data = array(
             'q' => $params['q'],
@@ -265,7 +279,7 @@ class YouTube extends BaseGateway
     // Private Methods
     // =========================================================================
 
-    private function api()
+    private function _api()
     {
         // make token compatible with Google library
         $arrayToken = array();
@@ -292,7 +306,7 @@ class YouTube extends BaseGateway
 
     private function getCollectionsPlaylists($params = array())
     {
-        $client = $this->api();
+        $client = $this->_api();
 
         $channelsResponse = $client->playlists->listPlaylists('snippet', array(
           'mine' => 'true',
@@ -433,7 +447,7 @@ class YouTube extends BaseGateway
     {
         $pagination = $this->_pagination($params);
 
-        $client = $this->api();
+        $client = $this->_api();
 
         $channelsResponse = $client->channels->listChannels('contentDetails', array(
           'mine' => 'true',
