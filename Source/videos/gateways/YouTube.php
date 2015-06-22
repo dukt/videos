@@ -13,14 +13,13 @@ class YouTube extends BaseGateway
     public function api($uri, $query = array())
     {
         $query['access_token'] = $this->token->accessToken;
-        $queryString = http_build_query($query);
 
-        $url = 'https://www.googleapis.com/youtube/v3/'.$uri.'?'.$queryString;
-        $client = new \Guzzle\Http\Client();
-        $request = $client->get($url);
-        $response = $request->send()->json();
+        $client = new \Guzzle\Http\Client('https://www.googleapis.com/youtube/v3/');
+        $request = $client->get($uri, [], ['query' => $query]);
 
-        return $response;
+        $response = $request->send();
+
+        return $response->json();
     }
 
     public function getOAuthProvider()
@@ -102,9 +101,12 @@ class YouTube extends BaseGateway
             throw new \Exception('The video ID is required. (empty found)');
         }
 
-        $client = $this->_api();
-        $videos = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $opts['id']));
-        $videos = $this->parseVideos($videos);
+        $response = $this->api('videos', array(
+            'part' => 'snippet,statistics,contentDetails',
+            'id' => $opts['id']
+        ));
+
+        $videos = $this->parseVideos($response['items']);
 
         if(count($videos) == 1)
         {
@@ -176,14 +178,11 @@ class YouTube extends BaseGateway
 
     protected function getVideosPlaylist($params = array())
     {
-        $pagination = $this->_pagination($params);
-
-        $client = $this->_api();
-
-        $playlistId = $params['id'];
+        $pagination = $this->pagination($params);
 
         $data = array(
-            'playlistId' => $playlistId,
+            'part' => 'id,snippet',
+            'playlistId' => $params['id'],
             'maxResults' => $pagination['perPage']
         );
 
@@ -192,7 +191,7 @@ class YouTube extends BaseGateway
             $data['pageToken'] = $pagination['nextPageToken'];
         }
 
-        $playlistItemsResponse = $client->playlistItems->listPlaylistItems('id,snippet', $data);
+        $playlistItemsResponse = $this->api('playlistItems', $data);
 
         $videoIds = array();
 
@@ -205,19 +204,23 @@ class YouTube extends BaseGateway
 
         $videoIds = implode(",", $videoIds);
 
-        $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-        $videos = $this->parseVideos($videosResponse);
+        $videosResponse = $this->api('videos', array(
+            'part' => 'snippet,statistics,contentDetails',
+            'id' => $videoIds
+        ));
+
+        $videos = $this->parseVideos($videosResponse['items']);
 
         $more = false;
 
-        if(!empty($playlistItemsResponse->nextPageToken) && count($videos) > 0)
+        if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
         {
             $more = true;
         }
 
         return array(
-                'prevPageToken' => $playlistItemsResponse->prevPageToken,
-                'nextPageToken' => $playlistItemsResponse->nextPageToken,
+                'prevPageToken' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
+                'nextPageToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -225,11 +228,10 @@ class YouTube extends BaseGateway
 
     protected function getVideosSearch($params = array())
     {
-        $pagination = $this->_pagination($params);
-
-        $client = $this->_api();
+        $pagination = $this->pagination($params);
 
         $data = array(
+            'part' => 'id',
             'q' => $params['q'],
             'maxResults' => $pagination['perPage']
         );
@@ -239,19 +241,23 @@ class YouTube extends BaseGateway
             $data['pageToken'] = $pagination['nextPageToken'];
         }
 
-        $response = $client->search->listSearch('id', $data);
+        $response = $this->api('search', $data);
 
         foreach($response['items'] as $item)
         {
-            $videoIds[] = $item->id->videoId;
+            $videoIds[] = $item['id']['videoId'];
         }
 
         if(!empty($videoIds))
         {
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-            $videos = $this->parseVideos($videosResponse);
+            $videosResponse = $this->api('videos', array(
+                'part' => 'snippet,statistics,contentDetails',
+                'id' => $videoIds
+            ));
+
+            $videos = $this->parseVideos($videosResponse['items']);
 
             $more = false;
 
@@ -261,8 +267,8 @@ class YouTube extends BaseGateway
             }
 
             return array(
-                'prevPageToken' => $response->prevPageToken,
-                'nextPageToken' => $response->nextPageToken,
+                'prevPageToken' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
+                'nextPageToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -279,38 +285,12 @@ class YouTube extends BaseGateway
     // Private Methods
     // =========================================================================
 
-    private function _api()
-    {
-        // make token compatible with Google library
-        $arrayToken = array();
-        $arrayToken['created'] = 0;
-        $arrayToken['access_token'] = $this->token->accessToken;
-        $arrayToken['expires_in'] = $this->token->endOfLife;
-
-        $arrayToken = json_encode($arrayToken);
-
-
-        // client: client id, secret and redirect uri are fake because we already have a valid token
-        $client = new Google_Client();
-        $client->setApplicationName('Google+ PHP Starter Application');
-        $client->setClientId("clientId");
-        $client->setClientSecret("clientSecret");
-        $client->setRedirectUri("redirectUri");
-
-        $client->setAccessToken($arrayToken);
-
-        $api = new Google_Service_YouTube($client);
-
-        return $api;
-    }
-
     private function getCollectionsPlaylists($params = array())
     {
-        $client = $this->_api();
-
-        $channelsResponse = $client->playlists->listPlaylists('snippet', array(
-          'mine' => 'true',
-        ));
+        $channelsResponse = $this->api('playlists', array(
+                'part' => 'snippet',
+                'mine' => 'true'
+            ));
 
         return $this->parseCollections($channelsResponse['items']);
     }
@@ -338,8 +318,8 @@ class YouTube extends BaseGateway
     private function parseCollection($item)
     {
         $collection = array();
-        $collection['id']          = $item->id;
-        $collection['title']       = $item->snippet->title;
+        $collection['id']          = $item['id'];
+        $collection['title']       = $item['snippet']['title'];
         $collection['totalVideos'] = 0;
         $collection['url']         = 'title';
 
@@ -373,50 +353,50 @@ class YouTube extends BaseGateway
         // populate video object
         $video['gatewayHandle'] = "youtube";
         $video['gatewayName']   = "YouTube";
-        $video['id']            = $item->id;
-        $video['plays']         = $item->statistics->viewCount;
-        $video['title']         = $item->snippet->title;
+        $video['id']            = $item['id'];
+        $video['plays']         = $item['statistics']['viewCount'];
+        $video['title']         = $item['snippet']['title'];
         $video['url']           = 'http://youtu.be/'.$video['id'];
-        $video['authorName']    = $item->snippet->channelTitle;
-        $video['authorUrl']     = "http://youtube.com/channel/".$item->snippet->channelId;
-        $video['date']          = strtotime($item->snippet->publishedAt);
-        $video['description']   = $item->snippet->description;
+        $video['authorName']    = $item['snippet']['channelTitle'];
+        $video['authorUrl']     = "http://youtube.com/channel/".$item['snippet']['channelId'];
+        $video['date']          = strtotime($item['snippet']['publishedAt']);
+        $video['description']   = $item['snippet']['description'];
 
 
         // thumbnail
-        if(@$item->snippet->thumbnails->medium->url)
+        if(@$item['snippet']['thumbnails']['medium']['url'])
         {
-            $video['thumbnail'] = $item->snippet->thumbnails->medium->url;
+            $video['thumbnail'] = $item['snippet']['thumbnails']['medium']['url'];
         }
-        elseif(@$item->snippet->thumbnails->default->url)
+        elseif(@$item['snippet']['thumbnails']['default']['url'])
         {
-            $video['thumbnail'] = $item->snippet->thumbnails->default->url;
+            $video['thumbnail'] = $item['snippet']['thumbnails']['default']['url'];
         }
 
         // thumbnailLarge
-        if(@$item->snippet->thumbnails->maxres->url)
+        if(@$item['snippet']['thumbnails']['maxres']['url'])
         {
-            $video['thumbnailLarge'] = $item->snippet->thumbnails->maxres->url;
+            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['maxres']['url'];
         }
-        elseif(@$item->snippet->thumbnails->high->url)
+        elseif(@$item['snippet']['thumbnails']['high']['url'])
         {
-            $video['thumbnailLarge'] = $item->snippet->thumbnails->high->url;
+            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['high']['url'];
         }
-        elseif(@$item->snippet->thumbnails->standard->url)
+        elseif(@$item['snippet']['thumbnails']['standard']['url'])
         {
-            $video['thumbnailLarge'] = $item->snippet->thumbnails->standard->url;
+            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['standard']['url'];
         }
-        elseif(@$item->snippet->thumbnails->medium->url)
+        elseif(@$item['snippet']['thumbnails']['medium']['url'])
         {
-            $video['thumbnailLarge'] = $item->snippet->thumbnails->medium->url;
+            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['medium']['url'];
         }
-        elseif(@$item->snippet->thumbnails->default->url)
+        elseif(@$item['snippet']['thumbnails']['default']['url'])
         {
-            $video['thumbnailLarge'] = $item->snippet->thumbnails->default->url;
+            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['default']['url'];
         }
 
         // duration
-        $interval              = new \DateInterval($item->contentDetails->duration);
+        $interval              = new \DateInterval($item['contentDetails']['duration']);
         $video['durationSeconds'] = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
         $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
 
@@ -445,12 +425,11 @@ class YouTube extends BaseGateway
 
     private function performVideosRequest($playlist, $params = array())
     {
-        $pagination = $this->_pagination($params);
+        $pagination = $this->pagination($params);
 
-        $client = $this->_api();
-
-        $channelsResponse = $client->channels->listChannels('contentDetails', array(
-          'mine' => 'true',
+        $channelsResponse = $this->api('channels', array(
+            'part' => 'contentDetails',
+            'mine' => 'true'
         ));
 
         foreach ($channelsResponse['items'] as $channel)
@@ -458,6 +437,7 @@ class YouTube extends BaseGateway
             $uploadsListId = $channel['contentDetails']['relatedPlaylists'][$playlist];
 
             $data = array(
+                'part' => 'id,snippet',
                 'playlistId' => $uploadsListId,
                 'maxResults' => $pagination['perPage']
             );
@@ -467,8 +447,7 @@ class YouTube extends BaseGateway
                 $data['pageToken'] = $pagination['nextPageToken'];
             }
 
-            $playlistItemsResponse = $client->playlistItems->listPlaylistItems('id,snippet', $data);
-
+            $playlistItemsResponse = $this->api('playlistItems', $data);
 
             $videoIds = array();
 
@@ -481,8 +460,12 @@ class YouTube extends BaseGateway
 
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $client->videos->listVideos('snippet,statistics,contentDetails', array('id' => $videoIds));
-            $videos = $this->parseVideos($videosResponse);
+            $videosResponse = $this->api('videos', array(
+                'part' => 'snippet,statistics,contentDetails',
+                'id' => $videoIds
+            ));
+
+            $videos = $this->parseVideos($videosResponse['items']);
 
             $more = false;
 
@@ -492,9 +475,9 @@ class YouTube extends BaseGateway
             }
 
            return array(
+                    'prevPageToken' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
+                    'nextPageToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                     'videos' => $videos,
-                    'prevPageToken' => $playlistItemsResponse->prevPageToken,
-                    'nextPageToken' => $playlistItemsResponse->nextPageToken,
                     'more' => $more
                 );
         }

@@ -5,23 +5,18 @@ use Craft\VideosHelper;
 
 class Vimeo extends BaseGateway
 {
-    public $oauthProvider = 'Vimeo';
-    public $oauthScope    = array();
-
     // Public Methods
     // =========================================================================
 
     public function api($uri, $query = array())
     {
         $query['access_token'] = $this->token->accessToken;
-        $queryString = http_build_query($query);
 
-        $url = 'https://api.vimeo.com/'.$uri.'?'.$queryString;
-        $client = new \Guzzle\Http\Client();
-        $request = $client->get($url);
-        $response = $request->send()->json();
+        $client = new \Guzzle\Http\Client('https://api.vimeo.com/');
 
-        return $response;
+        $request = $client->get($uri, [], ['query' => $query]);
+
+        return $request->send()->json();
     }
 
     public function getOAuthProvider()
