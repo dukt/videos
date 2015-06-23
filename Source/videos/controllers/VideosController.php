@@ -146,17 +146,20 @@ class VideosController extends BaseController
             {
                 $videosResponse = $gateway->getVideos($method, $options);
 
-                $response['html'] = craft()->templates->render('videos/_elements/videos', array(
+                $html = craft()->templates->render('videos/_elements/videos', array(
                     'videos' => $videosResponse['videos']
                 ));
 
-                $this->returnJson($response);
+                $this->returnJson(array(
+                    'html' => $html,
+                    'more' => $videosResponse['more'],
+                    'nextPage' => $videosResponse['nextPage']
+                ));
             }
             else
             {
                 throw new Exception("Gateway not available");
             }
-
         }
         catch(\Exception $e)
         {

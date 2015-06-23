@@ -1,7 +1,9 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
+use Craft\Craft;
 use Craft\VideosHelper;
+use Guzzle\Http\Client;
 
 class Vimeo extends BaseGateway
 {
@@ -12,7 +14,7 @@ class Vimeo extends BaseGateway
     {
         $query['access_token'] = $this->token->accessToken;
 
-        $client = new \Guzzle\Http\Client('https://api.vimeo.com/');
+        $client = new Client('https://api.vimeo.com/');
 
         $request = $client->get($uri, [], ['query' => $query]);
 
@@ -335,7 +337,7 @@ class Vimeo extends BaseGateway
 
         $more = true;
 
-        if(count($videos) < $this->paginationDefaults['perPage'])
+        if(count($videos) < Craft::app()->config->get('videosPerPage', 'videos'))
         {
             $more = false;
         }
@@ -360,7 +362,7 @@ class Vimeo extends BaseGateway
         }
         else
         {
-            $query['page'] = $this->paginationDefaults['page'];
+            $query['page'] = 1;
         }
 
         $params['nextPage'] = $query['page'] + 1;
@@ -371,7 +373,7 @@ class Vimeo extends BaseGateway
             unset($params['q']);
         }
 
-        $query['per_page'] = $this->paginationDefaults['perPage'];
+        $query['per_page'] = Craft::app()->config->get('videosPerPage', 'videos');
 
         $query = array_merge($query, $params);
 

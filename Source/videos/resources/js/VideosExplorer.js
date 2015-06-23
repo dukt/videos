@@ -36,7 +36,7 @@ Videos.Explorer = Garnish.Base.extend({
             this.getVideos(gateway, method, options);
 
             ev.preventDefault();
-        }));
+        }, this));
 
 
         // Search
@@ -150,6 +150,27 @@ Videos.Explorer = Garnish.Base.extend({
 
                     this.addListener(this.$playBtns, 'click', 'playVideo');
                     this.addListener(this.$videoElements, 'click', 'selectVideo');
+
+                    if(response.more)
+                    {
+                        $moreBtn = $('<a class="more btn">More</a>');
+                        this.$videos.append($moreBtn);
+
+                        if(typeof(options) == 'undefined')
+                        {
+                            var moreOptions = {};
+                        }
+                        else
+                        {
+                            var moreOptions = options;
+                        }
+
+                        moreOptions.nextPage = response.nextPage;
+
+                        this.addListener($moreBtn, 'click', $.proxy(function() {
+                            this.loadMore(gateway, method, moreOptions);
+                        }, this));
+                    }
                 }
                 else
                 {
@@ -159,6 +180,69 @@ Videos.Explorer = Garnish.Base.extend({
 
             $('.main', this.$container).animate({scrollTop:0}, 0);
 
+        }, this));
+    },
+
+    loadMore: function(gateway, method, options)
+    {
+        $('.more', this.$videos).remove();
+
+        this.$spinner.removeClass('hidden');
+
+        $videosSpinner = $('<div class="spinner" />');
+        this.$videos.append($videosSpinner);
+
+
+        data = {
+            gateway: gateway,
+            method: method,
+            options: options
+        };
+
+        Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
+        {
+            this.deselectVideos();
+            this.$spinner.addClass('hidden');
+            $videosSpinner.remove();
+
+            if(textStatus == 'success')
+            {
+                if(typeof(response.error) == 'undefined')
+                {
+                    this.$videos.append(response.html);
+
+                    this.$playBtns = $('.play', this.$videos);
+                    this.$videoElements = $('.video', this.$videos);
+
+                    this.addListener(this.$playBtns, 'click', 'playVideo');
+                    this.addListener(this.$videoElements, 'click', 'selectVideo');
+
+                    if(response.more)
+                    {
+                        $moreBtn = $('<a class="more btn">More</a>');
+                        this.$videos.append($moreBtn);
+
+                        if(typeof(options) == 'undefined')
+                        {
+                            var moreOptions = {};
+                        }
+                        else
+                        {
+                            var moreOptions = options;
+                        }
+
+                        moreOptions.nextPage = response.nextPage;
+
+                        this.addListener($moreBtn, 'click', $.proxy(function() {
+                            this.loadMore(gateway, method, options);
+                        }, this));
+                    }
+                }
+                else
+                {
+                    this.$videos.html('<p class="error">'+response.error+'</p>');
+                }
+            }
         }, this));
     },
 

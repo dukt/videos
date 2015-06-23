@@ -1,9 +1,9 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
+use Craft\Craft;
 use Craft\VideosHelper;
-use Google_Client;
-use Google_Service_YouTube;
+use Guzzle\Http\Client;
 
 class YouTube extends BaseGateway
 {
@@ -14,7 +14,7 @@ class YouTube extends BaseGateway
     {
         $query['access_token'] = $this->token->accessToken;
 
-        $client = new \Guzzle\Http\Client('https://www.googleapis.com/youtube/v3/');
+        $client = new Client('https://www.googleapis.com/youtube/v3/');
         $request = $client->get($uri, [], ['query' => $query]);
 
         $response = $request->send();
@@ -219,8 +219,8 @@ class YouTube extends BaseGateway
         }
 
         return array(
-                'prevPageToken' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                'nextPageToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
+                'nextPage' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -261,14 +261,14 @@ class YouTube extends BaseGateway
 
             $more = false;
 
-            if(!empty($playlistItemsResponse->nextPageToken) && count($videos) > 0)
+            if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
             {
                 $more = true;
             }
 
             return array(
-                'prevPageToken' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
-                'nextPageToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
+                'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
+                'nextPage' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -298,9 +298,9 @@ class YouTube extends BaseGateway
     private function pagination($params = array())
     {
         $pagination = array(
-            'page' => $this->paginationDefaults['page'],
-            'perPage' => $this->paginationDefaults['perPage'],
-            'nextPageToken' => false
+            'page' => 1,
+            'perPage' => Craft::app()->config->get('videosPerPage', 'videos'),
+            'nextPage' => false
         );
 
         if(!empty($params['perPage']))
@@ -308,9 +308,9 @@ class YouTube extends BaseGateway
             $pagination['perPage'] = $params['perPage'];
         }
 
-        if(!empty($params['nextPageToken']))
+        if(!empty($params['nextPage']))
         {
-            $pagination['nextPageToken'] = $params['nextPageToken'];
+            $pagination['nextPage'] = $params['nextPage'];
         }
 
         return $pagination;
@@ -442,9 +442,9 @@ class YouTube extends BaseGateway
                 'maxResults' => $pagination['perPage']
             );
 
-            if(!empty($pagination['nextPageToken']))
+            if(!empty($pagination['nextPage']))
             {
-                $data['pageToken'] = $pagination['nextPageToken'];
+                $data['pageToken'] = $pagination['nextPage'];
             }
 
             $playlistItemsResponse = $this->api('playlistItems', $data);
@@ -469,14 +469,14 @@ class YouTube extends BaseGateway
 
             $more = false;
 
-            if(!empty($playlistItemsResponse->nextPageToken) && count($videos) > 0)
+            if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
             {
                 $more = true;
             }
 
            return array(
-                    'prevPageToken' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                    'nextPageToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                    'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
+                    'nextPage' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                     'videos' => $videos,
                     'more' => $more
                 );
