@@ -160,20 +160,7 @@ class YouTube extends BaseGateway
 
     protected function getVideosFavorites($params = array())
     {
-        // if the account has no playlist or favorites, an exception is thrown.
-        // catch the exception and return response with no videos
-
-        try
-        {
-            return $this->performVideosRequest('favorites', $params);
-        }
-        catch(\Exception $e)
-        {
-           return array(
-                    'videos' => array(),
-                    'more' => false
-                );
-        }
+        return $this->performVideosRequest('favorites', $params);
     }
 
     protected function getVideosPlaylist($params = array())
