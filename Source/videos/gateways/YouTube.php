@@ -332,6 +332,7 @@ class YouTube extends BaseGateway
 
         return $collections;
     }
+
     private function parseUser()
     {
         $this->id = (string) $response->id;
