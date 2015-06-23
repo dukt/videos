@@ -153,7 +153,7 @@ class VideosController extends BaseController
                 $this->returnJson(array(
                     'html' => $html,
                     'more' => $videosResponse['more'],
-                    'nextPage' => $videosResponse['nextPage']
+                    'moreToken' => $videosResponse['moreToken']
                 ));
             }
             else

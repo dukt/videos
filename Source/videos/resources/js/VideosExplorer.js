@@ -165,7 +165,7 @@ Videos.Explorer = Garnish.Base.extend({
                             var moreOptions = options;
                         }
 
-                        moreOptions.nextPage = response.nextPage;
+                        moreOptions.moreToken = response.moreToken;
 
                         this.addListener($moreBtn, 'click', $.proxy(function() {
                             this.loadMore(gateway, method, moreOptions);
@@ -231,7 +231,7 @@ Videos.Explorer = Garnish.Base.extend({
                             var moreOptions = options;
                         }
 
-                        moreOptions.nextPage = response.nextPage;
+                        moreOptions.moreToken = response.moreToken;
 
                         this.addListener($moreBtn, 'click', $.proxy(function() {
                             this.loadMore(gateway, method, options);

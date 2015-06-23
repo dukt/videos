@@ -220,7 +220,7 @@ class YouTube extends BaseGateway
 
         return array(
                 'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                'nextPage' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -269,7 +269,7 @@ class YouTube extends BaseGateway
 
             return array(
                 'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
-                'nextPage' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
+                'moreToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             );
@@ -301,7 +301,7 @@ class YouTube extends BaseGateway
         $pagination = array(
             'page' => 1,
             'perPage' => Craft::app()->config->get('videosPerPage', 'videos'),
-            'nextPage' => false
+            'moreToken' => false
         );
 
         if(!empty($params['perPage']))
@@ -309,9 +309,9 @@ class YouTube extends BaseGateway
             $pagination['perPage'] = $params['perPage'];
         }
 
-        if(!empty($params['nextPage']))
+        if(!empty($params['moreToken']))
         {
-            $pagination['nextPage'] = $params['nextPage'];
+            $pagination['moreToken'] = $params['moreToken'];
         }
 
         return $pagination;
@@ -443,9 +443,9 @@ class YouTube extends BaseGateway
                 'maxResults' => $pagination['perPage']
             );
 
-            if(!empty($pagination['nextPage']))
+            if(!empty($pagination['moreToken']))
             {
-                $data['pageToken'] = $pagination['nextPage'];
+                $data['pageToken'] = $pagination['moreToken'];
             }
 
             $playlistItemsResponse = $this->api('playlistItems', $data);
@@ -477,7 +477,7 @@ class YouTube extends BaseGateway
 
            return array(
                     'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                    'nextPage' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                    'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
                     'videos' => $videos,
                     'more' => $more
                 );

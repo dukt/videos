@@ -344,7 +344,7 @@ class Vimeo extends BaseGateway
 
         return array(
             'videos' => $videos,
-            'nextPage' => $query['nextPage'],
+            'moreToken' => $query['moreToken'],
             'more' => $more
         );
     }
@@ -355,17 +355,17 @@ class Vimeo extends BaseGateway
 
         $query['full_response'] = 1;
 
-        if(!empty($params['nextPage']))
+        if(!empty($params['moreToken']))
         {
-            $query['page'] = $params['nextPage'];
-            unset($params['nextPage']);
+            $query['page'] = $params['moreToken'];
+            unset($params['moreToken']);
         }
         else
         {
             $query['page'] = 1;
         }
 
-        $params['nextPage'] = $query['page'] + 1;
+        $params['moreToken'] = $query['page'] + 1;
 
         if(!empty($params['q']))
         {
