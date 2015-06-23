@@ -232,6 +232,7 @@ class YouTube extends BaseGateway
 
         $data = array(
             'part' => 'id',
+            'type' => 'video',
             'q' => $params['q'],
             'maxResults' => $pagination['perPage']
         );
