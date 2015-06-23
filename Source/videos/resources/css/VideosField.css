@@ -25,6 +25,8 @@
   position: relative;
   float: left;
   width: 160px;
+  height: 90px;
+  padding-top: 0;
 }
 .videos-field .preview .description {
   margin-left: 170px;

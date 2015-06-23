@@ -18,12 +18,19 @@
 }
 .thumb {
   position: relative;
-  border-radius: 5px;
-  overflow: hidden;
+  display: block;
+  padding-top: 54.5%;
+  border-radius: 6px;
   border: 3px solid transparent;
+  overflow: hidden;
 }
 .thumb img {
-  display: block;
+  position: absolute;
+  border-radius: 3px;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
   width: 100%;
 }
 .thumb .duration {

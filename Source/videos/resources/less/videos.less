@@ -8,8 +8,25 @@
 }
 .video.sel .thumb { border-color: #da5a47; }
 
-.thumb { position: relative; border-radius: 5px; overflow: hidden; border: 3px solid transparent; }
-.thumb img { display:block; width: 100%; }
+.thumb { position: relative;
+    display: block;
+    padding-top: 54.5%;
+    border-radius: 6px;
+    border: 3px solid transparent;
+    overflow: hidden;
+
+}
+
+.thumb img {
+    position: absolute;
+    border-radius: 3px;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+}
+
 .thumb .duration { position: absolute; background: #333; display: block; bottom: 4px; right: 4px; line-height: 1em; padding: 3px 4px; font-size: 0.8em; color: #fff; opacity: .8; font-weight: bold; }
 .thumb .play { border-radius: 100%; opacity: .0; border: 2px solid #fff; width: 28px; height: 28px; margin-left: -14px; margin-top: -14px; background: #000 url('../img/play.png') center center no-repeat; position: absolute; top: 50%; left: 50%; }
 .thumb:hover .play { opacity: .5; }
