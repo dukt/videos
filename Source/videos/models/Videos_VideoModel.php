@@ -12,15 +12,25 @@ class Videos_VideoModel extends BaseModel
     // Properties
     // =========================================================================
 
-    private $_video = false;
+    private $_video;
+    private $_gateway;
 
     // Public Methods
     // =========================================================================
 
+    public function getGateway()
+    {
+        if(!$this->_gateway)
+        {
+            $this->_gateway = craft()->videos->getGateway($this->gatewayHandle);
+        }
+
+        return $this->_gateway;
+    }
+
     public function getEmbed($opts = array())
     {
-        $embed = craft()->videos->getEmbedHtml($this->url, $opts);
-
+        $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
         $charset = craft()->templates->getTwig()->getCharset();
 
         return new \Twig_Markup($embed, $charset);
@@ -28,13 +38,12 @@ class Videos_VideoModel extends BaseModel
 
     public function getEmbedUrl($opts = array())
     {
-        $video = $this->getVideo();
+        return $this->getGateway()->getEmbedUrl($this->id, $opts);
+    }
 
-        if($video)
-        {
-            $embedUrl = $video->getEmbedUrl($opts);
-            return $embedUrl;
-        }
+    public function getThumbnail($size = 100)
+    {
+        return UrlHelper::getResourceUrl('videosthumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
     }
 
     // Protected Methods
@@ -55,9 +64,9 @@ class Videos_VideoModel extends BaseModel
             'authorName' => array(AttributeType::String),
             'authorUrl' => array(AttributeType::String),
             'authorUsername' => array(AttributeType::String),
-            'thumbnail' => array(AttributeType::String),
-            'thumbnailLarge' => array(AttributeType::String),
-            // 'thumbnailSource' => array(AttributeType::String),
+            // 'thumbnail' => array(AttributeType::String),
+            // 'thumbnailLarge' => array(AttributeType::String),
+            'thumbnailSource' => array(AttributeType::String),
             // 'thumbnailSourceLarge' => array(AttributeType::String),
             // 'thumbnails' => array(AttributeType::Mixed),
             'title' => array(AttributeType::String),

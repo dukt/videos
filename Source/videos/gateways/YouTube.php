@@ -3,6 +3,7 @@ namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
 use Craft\VideosHelper;
+use Craft\Videos_VideoModel;
 use Guzzle\Http\Client;
 
 class YouTube extends BaseGateway
@@ -341,6 +342,28 @@ class YouTube extends BaseGateway
     }
 
     private function parseVideo($item)
+    {
+        $video = new Videos_VideoModel;
+        $video->gatewayHandle = 'youtube';
+        $video->gatewayName = 'YouTube';
+        $video->id = $item['id'];
+        $video->plays = $item['statistics']['viewCount'];
+        $video->title = $item['snippet']['title'];
+        $video->url = 'http://youtu.be/'.$video->id;
+        $video->authorName = $item['snippet']['channelTitle'];
+        $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
+        $video->date = strtotime($item['snippet']['publishedAt']);
+        $video->description = $item['snippet']['description'];
+        $video->thumbnailSource = $item['snippet']['thumbnails']['maxres']['url'];
+
+        // duration
+        $interval              = new \DateInterval($item['contentDetails']['duration']);
+        $video->durationSeconds = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
+
+        return $video;
+    }
+
+    private function parseVideo_backup($item)
     {
         $video['raw'] = $item;
 

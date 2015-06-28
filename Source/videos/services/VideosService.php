@@ -48,11 +48,7 @@ class VideosService extends BaseApplicationComponent
 
         if($video)
         {
-            $attributes = (array) $video;
-
-            $response = Videos_VideoModel::populateModel($attributes);
-
-            return $response;
+            return $video;
         }
     }
 
@@ -65,11 +61,7 @@ class VideosService extends BaseApplicationComponent
 
         if($video)
         {
-            $video = (array) $video;
-
-            $response = Videos_VideoModel::populateModel($video);
-
-            return $response;
+            return $video;
         }
     }
 
@@ -190,16 +182,16 @@ class VideosService extends BaseApplicationComponent
 
             try
             {
-                $response = $gateway->getVideoByUrl($params);
+                $video = $gateway->getVideoByUrl($params);
 
-                if($response)
+                if($video)
                 {
                     if($enableCache)
                     {
-                        craft()->fileCache->set($key, $response, $cacheExpiry);
+                        craft()->fileCache->set($key, $video, $cacheExpiry);
                     }
 
-                    return $response;
+                    return $video;
                 }
 
             }
