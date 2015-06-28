@@ -3,6 +3,7 @@ namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
 use Craft\VideosHelper;
+use Craft\Videos_VideoModel;
 use Guzzle\Http\Client;
 
 class Vimeo extends BaseGateway
@@ -249,30 +250,23 @@ class Vimeo extends BaseGateway
 
     private function parseVideo($data)
     {
-        $video['raw'] = $data;
-
-        // populate video object
-        $video['authorName']    = $data['user']['name'];
-        $video['authorUrl']     = $data['user']['link'];
-        $video['date']          = strtotime($data['created_time']);
-        $video['description']   = $data['description'];
-        $video['gatewayHandle'] = "vimeo";
-        $video['gatewayName']   = "Vimeo";
-        $video['id']            = substr($data['uri'], strlen('/videos/'));
-        $video['plays']         = (isset($data['stats']['plays']) ? $data['stats']['plays'] : 0);
-        $video['title']         = $data['name'];
-        $video['url']           = $data['link'];
-
-
-        // duration
-        $video['durationSeconds'] = $data['duration'];
-        $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
+        $video = new Videos_VideoModel;
+        $video->authorName = $data['user']['name'];
+        $video->authorUrl = $data['user']['link'];
+        $video->date = strtotime($data['created_time']);
+        $video->durationSeconds = $data['duration'];
+        $video->description = $data['description'];
+        $video->gatewayHandle = "vimeo";
+        $video->gatewayName = "Vimeo";
+        $video->id = substr($data['uri'], strlen('/videos/'));
+        $video->plays = (isset($data['stats']['plays']) ? $data['stats']['plays'] : 0);
+        $video->title = $data['name'];
+        $video->url = $data['link'];
 
 
-        // thumbnails
+        // Retrieve largest thumbnail
 
-        $thumbnail = false;
-        $thumbnailLarge = false;
+        $largestSize = 0;
 
         if(is_array($data['pictures']))
         {
@@ -280,31 +274,14 @@ class Vimeo extends BaseGateway
             {
                 if($picture['type'] == 'thumbnail')
                 {
-                    // largest thumbnail
-
-                    if(!$thumbnailLarge)
+                    if($picture['width'] > $largestSize)
                     {
-                        $thumbnailLarge = $picture['link'];
-                    }
-
-                    // default thumbnail
-
-                    if(!$thumbnail && $picture['width'] < 640)
-                    {
-                        $thumbnail = $picture['link'];
+                        $video->thumbnailSource = $picture['link'];
+                        $largestSize = $picture['width'];
                     }
                 }
             }
         }
-
-        $video['thumbnail']      = $thumbnail;
-        $video['thumbnailLarge'] = $thumbnailLarge;
-
-        // aliases
-        $video['embedUrl']             = $this->getEmbedUrl($video['id']);
-        $video['embedHtml']            = $this->getEmbedHtml($video['id']);
-        $video['thumbnailSource']      = $video['thumbnail'];
-        $video['thumbnailSourceLarge'] = $video['thumbnailLarge'];
 
         return $video;
     }

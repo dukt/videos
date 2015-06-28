@@ -344,17 +344,17 @@ class YouTube extends BaseGateway
     private function parseVideo($item)
     {
         $video = new Videos_VideoModel;
-        $video->gatewayHandle = 'youtube';
-        $video->gatewayName = 'YouTube';
-        $video->id = $item['id'];
-        $video->plays = $item['statistics']['viewCount'];
-        $video->title = $item['snippet']['title'];
-        $video->url = 'http://youtu.be/'.$video->id;
         $video->authorName = $item['snippet']['channelTitle'];
         $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
         $video->date = strtotime($item['snippet']['publishedAt']);
         $video->description = $item['snippet']['description'];
+        $video->gatewayHandle = 'youtube';
+        $video->gatewayName = 'YouTube';
+        $video->id = $item['id'];
+        $video->plays = $item['statistics']['viewCount'];
         $video->thumbnailSource = $item['snippet']['thumbnails']['maxres']['url'];
+        $video->title = $item['snippet']['title'];
+        $video->url = 'http://youtu.be/'.$video->id;
 
         // duration
         $interval              = new \DateInterval($item['contentDetails']['duration']);
