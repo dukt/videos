@@ -97,81 +97,66 @@ class VideosPlugin extends BasePlugin
      */
     public function getResourcePath($path)
     {
-        // Are they requesting a video thumbnail?
-        if (strncmp($path, 'videosthumbnails/', 17) === 0)
+        $segs = explode('/', $path);
+
+        if($segs[0] == 'videosthumbnails')
         {
+            $gateway = $segs[1];
+            $videoId = $segs[2];
+            $size = $segs[3];
 
-            $parts = array_merge(array_filter(explode('/', $path)));
-
-            if (count($parts) != 4 && count($parts) != 5)
+            if (!is_numeric($size) && $size != "original")
             {
-                return;
+                return false;
             }
 
-            $gateway = $parts[1];
-            $videoId = $parts[2];
-            $width = $parts[3];
-            $height = null;
+            $video = craft()->videos->getVideoById($gateway, $videoId);
+            $url = $video->thumbnailSource;
 
-            $size = $width;
+            $basePath = craft()->path->getRuntimePath().'videosthumbnails/';
+            IOHelper::ensureFolderExists($basePath);
 
-            if(isset($parts[4]))
+            $filename = pathinfo($url, PATHINFO_BASENAME);
+            $thumbnailsFolderPath = $basePath.$gateway.'/'.$videoId.'/';
+
+            $originalFolderPath = $thumbnailsFolderPath.'original/';
+            $originalThumbnailPath = $originalFolderPath.$filename;
+
+            $sizedThumbnailFolder = $thumbnailsFolderPath.$size.'/';
+            $sizedThumbnailPath = $sizedThumbnailFolder.$filename;
+
+            // If the photo doesn't exist at this size, create it.
+            if (!IOHelper::fileExists($sizedThumbnailPath))
             {
-                $height = $parts[4];
-                $size .= "x".$height;
-            }
-
-            $baseThumbnailsPath = craft()->path->getRuntimePath().'videos/thumbnails/'.$gateway.'/'.$videoId.'/';
-
-            $sizedFolderPath = $baseThumbnailsPath.$size.'/';
-
-            $originalFolderPath = $baseThumbnailsPath.'original/';
-
-            // Have we already downloaded this user's image at this size?
-            $contents = IOHelper::getFolderContents($sizedFolderPath, false);
-
-            if ($contents)
-            {
-                return $contents[0];
-            }
-            else
-            {
-                // get video from its id,
-                // but we don't want a Videos_VideoModel object
-                // otherwise it's gonna loops forever with thumbnail generation
-
-                $video = craft()->videos->requestVideoById($gateway, $videoId);
-                $video = (array) $video;
-
-
-                IOHelper::ensureFolderExists($sizedFolderPath);
-                IOHelper::ensureFolderExists($originalFolderPath);
-
-                $url = $video['thumbnailSourceLarge'];
-
-                $fileName = pathinfo($url, PATHINFO_BASENAME);
-                $originalPath = $originalFolderPath.$fileName;
-
-                $response = \Guzzle\Http\StaticClient::get($url, array(
-                    'save_to' => $originalPath
-                ));
-
-                if (!$response->isSuccessful())
+                if (!IOHelper::fileExists($originalThumbnailPath))
                 {
-                    return;
+                    IOHelper::ensureFolderExists($originalFolderPath);
+
+                    $response = \Guzzle\Http\StaticClient::get($url, array(
+                        'save_to' => $originalThumbnailPath
+                    ));
+
+                    if (!$response->isSuccessful())
+                    {
+                        return;
+                    }
                 }
 
+                IOHelper::ensureFolderExists($sizedThumbnailFolder);
 
-                // Resize it to the requested size
-                $fileName = pathinfo($originalPath, PATHINFO_BASENAME);
-                $sizedPath = $sizedFolderPath.$fileName;
-
-                craft()->images->loadImage($originalPath)
-                    ->scaleAndCrop($width, $height)
-                    ->saveAs($sizedPath);
-
-                return $sizedPath;
+                if (IOHelper::isWritable($sizedThumbnailFolder))
+                {
+                    craft()->images->loadImage($originalThumbnailPath, $size, $size)
+                        ->resize($size)
+                        ->saveAs($sizedThumbnailPath);
+                }
+                else
+                {
+                    Craft::log('Tried to write to target folder and could not: '.$sizedIconFolder, LogLevel::Error);
+                }
             }
+
+            return $sizedThumbnailPath;
         }
     }
 
