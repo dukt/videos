@@ -31,5 +31,11 @@ Videos.Player = Garnish.Modal.extend(
             this.$player.html(response.html);
             this.updateSizeAndPosition();
         }, this));
+    },
+
+    hide: function()
+    {
+        this.base();
+        this.$player.html('');
     }
 });
