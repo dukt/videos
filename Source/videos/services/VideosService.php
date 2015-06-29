@@ -23,20 +23,16 @@ class VideosService extends BaseApplicationComponent
     // =========================================================================
 
     /**
-     * Get Explorer Nav
+     * Get a video from its ID
      */
-    public function getExplorerNav()
+    public function getVideoById($gateway, $id)
     {
-        $nav = array();
+        $video = $this->requestVideoById($gateway, $id);
 
-        $gateways = craft()->videos->getGateways();
-
-        foreach ($gateways as $gateway)
+        if($video)
         {
-            $nav[] = $gateway;
+            return $video;
         }
-
-        return $nav;
     }
 
     /**
@@ -53,156 +49,12 @@ class VideosService extends BaseApplicationComponent
     }
 
     /**
-     * Get a video from its ID
-     */
-    public function getVideoById($gateway, $id)
-    {
-        $video = $this->requestVideoById($gateway, $id);
-
-        if($video)
-        {
-            return $video;
-        }
-    }
-
-    /**
-     * Get Embed HTML
-     */
-    public function getEmbedHtml($videoUrl, $opts)
-    {
-        $video = $this->requestVideoByUrl($videoUrl);
-
-        $gateway = $this->getGateway($video['gatewayHandle']);
-
-        return $gateway->getEmbedHtml($video['id'], $opts);
-    }
-
-    /**
-     * Get Video Thumbnail
-     */
-    public function getVideoThumbnail($gateway, $id, $w = 340, $h = null)
-    {
-        $uri = 'videosthumbnails/'.$gateway.'/'.$id.'/';
-
-        $uri .= $w;
-
-        if(!$h)
-        {
-            // calculate hd ratio (1,280×720)
-            $h = floor($w * 720 / 1280);
-        }
-
-        $uri .= '/'.$h;
-
-
-        return UrlHelper::getResourceUrl($uri);
-    }
-
-    /**
      * Send Request
      */
     public function sendRequest(Videos_RequestCriteriaModel $criteria)
     {
         $gateway = $this->getGateway($criteria->gateway);
         return $gateway->api($criteria->method, $criteria->query);
-    }
-
-    /**
-     * Request a video from its ID
-     */
-    public function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
-    {
-        if($enableCache)
-        {
-            $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
-
-            $response = craft()->fileCache->get($key);
-
-            if($response)
-            {
-                return $response;
-            }
-        }
-
-        try
-        {
-            $gateways = $this->getGateways();
-
-            foreach($gateways as $gateway)
-            {
-                if($gateway->getHandle() == $gatewayHandle)
-                {
-                    $response = $gateway->getVideo(array('id' => $id));
-
-                    if($response)
-                    {
-                        if($enableCache)
-                        {
-                            craft()->fileCache->set($key, $response, $cacheExpiry);
-                        }
-
-                        return $response;
-                    }
-                }
-            }
-        }
-        catch(\Exception $e)
-        {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    /**
-     * Request a video from its URL
-     */
-    public function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
-    {
-        if(craft()->config->get('disableCache', 'videos') == true)
-        {
-            $enableCache = false;
-        }
-
-        if($enableCache)
-        {
-            $key = 'videos.video.'.md5($videoUrl);
-
-            $response = craft()->fileCache->get($key);
-
-            if($response)
-            {
-                return $response;
-            }
-        }
-
-        $gateways = $this->getGateways();
-
-        foreach($gateways as $gateway)
-        {
-            $params['url'] = $videoUrl;
-
-            try
-            {
-                $video = $gateway->getVideoByUrl($params);
-
-                if($video)
-                {
-                    if($enableCache)
-                    {
-                        craft()->fileCache->set($key, $video, $cacheExpiry);
-                    }
-
-                    return $video;
-                }
-
-            }
-            catch(\Exception $e)
-            {
-                // todo
-                // throw new Exception($e);
-            }
-        }
-
-        return false;
     }
 
     /**
@@ -239,45 +91,6 @@ class VideosService extends BaseApplicationComponent
                     return $this->tokens[$handle];
                 }
             }
-        }
-    }
-
-    /**
-     * Delete Token
-     */
-    public function deleteToken($handle)
-    {
-        $handle = strtolower($handle);
-
-        // get plugin
-        $plugin = craft()->plugins->getPlugin('videos');
-
-        // get settings
-        $settings = $plugin->getSettings();
-
-        // get tokens
-        $tokens = $settings['tokens'];
-
-        // get token
-
-        if(!empty($tokens[$handle]))
-        {
-            // get tokenId
-            $tokenId = $tokens[$handle];
-
-            // get token
-            $token = craft()->oauth->getTokenById($tokenId);
-
-            if($token)
-            {
-                craft()->oauth->deleteToken($token);
-            }
-
-            unset($tokens[$handle]);
-
-            // save plugin settings
-            $settings['tokens'] = $tokens;
-            craft()->plugins->savePluginSettings($plugin, $settings);
         }
     }
 
@@ -337,19 +150,41 @@ class VideosService extends BaseApplicationComponent
     }
 
     /**
-     * Get gateways
+     * Delete Token
      */
-    public function getGateways($enabledOnly = true)
+    public function deleteToken($handle)
     {
-        $this->loadGateways();
+        $handle = strtolower($handle);
 
-        if($enabledOnly)
+        // get plugin
+        $plugin = craft()->plugins->getPlugin('videos');
+
+        // get settings
+        $settings = $plugin->getSettings();
+
+        // get tokens
+        $tokens = $settings['tokens'];
+
+        // get token
+
+        if(!empty($tokens[$handle]))
         {
-            return $this->_gateways;
-        }
-        else
-        {
-            return $this->_allGateways;
+            // get tokenId
+            $tokenId = $tokens[$handle];
+
+            // get token
+            $token = craft()->oauth->getTokenById($tokenId);
+
+            if($token)
+            {
+                craft()->oauth->deleteToken($token);
+            }
+
+            unset($tokens[$handle]);
+
+            // save plugin settings
+            $settings['tokens'] = $tokens;
+            craft()->plugins->savePluginSettings($plugin, $settings);
         }
     }
 
@@ -380,8 +215,117 @@ class VideosService extends BaseApplicationComponent
         return null;
     }
 
+    /**
+     * Get gateways
+     */
+    public function getGateways($enabledOnly = true)
+    {
+        $this->loadGateways();
+
+        if($enabledOnly)
+        {
+            return $this->_gateways;
+        }
+        else
+        {
+            return $this->_allGateways;
+        }
+    }
+
     // Private Methods
     // =========================================================================
+
+    /**
+     * Request a video from its ID
+     */
+    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    {
+        if($enableCache)
+        {
+            $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
+
+            $response = craft()->fileCache->get($key);
+
+            if($response)
+            {
+                return $response;
+            }
+        }
+
+        try
+        {
+            $gateway = $this->getGateway();
+
+            $response = $gateway->getVideo(array('id' => $id));
+
+            if($response)
+            {
+                if($enableCache)
+                {
+                    craft()->fileCache->set($key, $response, $cacheExpiry);
+                }
+
+                return $response;
+            }
+        }
+        catch(\Exception $e)
+        {
+            throw new Exception($e->getMessage());
+        }
+    }
+
+    /**
+     * Request a video from its URL
+     */
+    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    {
+        if(craft()->config->get('disableCache', 'videos') == true)
+        {
+            $enableCache = false;
+        }
+
+        if($enableCache)
+        {
+            $key = 'videos.video.'.md5($videoUrl);
+
+            $response = craft()->fileCache->get($key);
+
+            if($response)
+            {
+                return $response;
+            }
+        }
+
+        $gateways = $this->getGateways();
+
+        foreach($gateways as $gateway)
+        {
+            $params['url'] = $videoUrl;
+
+            try
+            {
+                $video = $gateway->getVideoByUrl($params);
+
+                if($video)
+                {
+                    if($enableCache)
+                    {
+                        craft()->fileCache->set($key, $video, $cacheExpiry);
+                    }
+
+                    return $video;
+                }
+
+            }
+            catch(\Exception $e)
+            {
+                // todo
+                // throw new Exception($e);
+            }
+        }
+
+        return false;
+    }
 
     /**
      * Load gateways

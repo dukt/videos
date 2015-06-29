@@ -391,69 +391,6 @@ class YouTube extends BaseGateway
         return $video;
     }
 
-    private function parseVideo_backup($item)
-    {
-        $video['raw'] = $item;
-
-        // populate video object
-        $video['gatewayHandle'] = "youtube";
-        $video['gatewayName']   = "YouTube";
-        $video['id']            = $item['id'];
-        $video['plays']         = $item['statistics']['viewCount'];
-        $video['title']         = $item['snippet']['title'];
-        $video['url']           = 'http://youtu.be/'.$video['id'];
-        $video['authorName']    = $item['snippet']['channelTitle'];
-        $video['authorUrl']     = "http://youtube.com/channel/".$item['snippet']['channelId'];
-        $video['date']          = strtotime($item['snippet']['publishedAt']);
-        $video['description']   = $item['snippet']['description'];
-
-
-        // thumbnail
-        if(@$item['snippet']['thumbnails']['medium']['url'])
-        {
-            $video['thumbnail'] = $item['snippet']['thumbnails']['medium']['url'];
-        }
-        elseif(@$item['snippet']['thumbnails']['default']['url'])
-        {
-            $video['thumbnail'] = $item['snippet']['thumbnails']['default']['url'];
-        }
-
-        // thumbnailLarge
-        if(@$item['snippet']['thumbnails']['maxres']['url'])
-        {
-            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['maxres']['url'];
-        }
-        elseif(@$item['snippet']['thumbnails']['high']['url'])
-        {
-            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['high']['url'];
-        }
-        elseif(@$item['snippet']['thumbnails']['standard']['url'])
-        {
-            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['standard']['url'];
-        }
-        elseif(@$item['snippet']['thumbnails']['medium']['url'])
-        {
-            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['medium']['url'];
-        }
-        elseif(@$item['snippet']['thumbnails']['default']['url'])
-        {
-            $video['thumbnailLarge'] = $item['snippet']['thumbnails']['default']['url'];
-        }
-
-        // duration
-        $interval              = new \DateInterval($item['contentDetails']['duration']);
-        $video['durationSeconds'] = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
-        $video['duration']        = VideosHelper::getDuration($video['durationSeconds']);
-
-        // aliases
-        $video['embedUrl']             = $this->getEmbedUrl($video['id']);
-        $video['embedHtml']            = $this->getEmbedHtml($video['id']);
-        $video['thumbnailSource']      = $video['thumbnail'];
-        $video['thumbnailSourceLarge'] = $video['thumbnailLarge'];
-
-        return $video;
-    }
-
     private function parseVideos($items)
     {
         $videos = array();

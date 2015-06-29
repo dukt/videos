@@ -201,8 +201,17 @@ class VideosController extends BaseController
      */
     public function actionExplorer()
     {
+        $nav = array();
+
+        $gateways = craft()->videos->getGateways();
+
+        foreach ($gateways as $gateway)
+        {
+            $nav[] = $gateway;
+        }
+
         $variables = array(
-            'nav' => craft()->videos->getExplorerNav()
+            'nav' => $nav
         );
 
         if (craft()->request->isAjaxRequest())
