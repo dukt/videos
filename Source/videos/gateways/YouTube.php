@@ -352,13 +352,41 @@ class YouTube extends BaseGateway
         $video->gatewayName = 'YouTube';
         $video->id = $item['id'];
         $video->plays = $item['statistics']['viewCount'];
-        $video->thumbnailSource = $item['snippet']['thumbnails']['maxres']['url'];
         $video->title = $item['snippet']['title'];
         $video->url = 'http://youtu.be/'.$video->id;
 
         // duration
         $interval              = new \DateInterval($item['contentDetails']['duration']);
         $video->durationSeconds = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
+
+        // thumbnails
+
+
+        // Retrieve largest thumbnail
+
+        $largestSize = 0;
+
+        if(is_array($item['snippet']['thumbnails']))
+        {
+            if(isset($item['snippet']['thumbnails']['medium']))
+            {
+                $video->thumbnailSource = $item['snippet']['thumbnails']['medium']['url'];
+            }
+
+            foreach($item['snippet']['thumbnails'] as $thumbnail)
+            {
+                if($thumbnail['width'] > $largestSize)
+                {
+                    $video->thumbnailLargeSource = $thumbnail['url'];
+                    $largestSize = $thumbnail['width'];
+                }
+            }
+
+            // if(!$video->thumbnailSource && $video->thumbnailLargeSource)
+            // {
+            //     $video->thumbnailSource = $video->thumbnailLargeSource;
+            // }
+        }
 
         return $video;
     }

@@ -69,6 +69,7 @@ class Videos_VideoModel extends BaseModel
             'authorUrl' => array(AttributeType::String),
             'authorUsername' => array(AttributeType::String),
             'thumbnailSource' => array(AttributeType::String),
+            'thumbnailLargeSource' => array(AttributeType::String),
             'title' => array(AttributeType::String),
             'description' => array(AttributeType::String, 'column' => ColumnType::Text),
         );
