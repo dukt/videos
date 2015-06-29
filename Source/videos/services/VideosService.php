@@ -252,25 +252,18 @@ class VideosService extends BaseApplicationComponent
             }
         }
 
-        try
+        $gateway = $this->getGateway($gatewayHandle);
+
+        $response = $gateway->getVideo(array('id' => $id));
+
+        if($response)
         {
-            $gateway = $this->getGateway($gatewayHandle);
-
-            $response = $gateway->getVideo(array('id' => $id));
-
-            if($response)
+            if($enableCache)
             {
-                if($enableCache)
-                {
-                    craft()->fileCache->set($key, $response, $cacheExpiry);
-                }
-
-                return $response;
+                craft()->fileCache->set($key, $response, $cacheExpiry);
             }
-        }
-        catch(\Exception $e)
-        {
-            throw new Exception($e->getMessage());
+
+            return $response;
         }
     }
 
