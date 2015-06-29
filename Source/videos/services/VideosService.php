@@ -254,7 +254,7 @@ class VideosService extends BaseApplicationComponent
 
         try
         {
-            $gateway = $this->getGateway();
+            $gateway = $this->getGateway($gatewayHandle);
 
             $response = $gateway->getVideo(array('id' => $id));
 
