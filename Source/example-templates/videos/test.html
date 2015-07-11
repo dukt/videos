@@ -1,0 +1,55 @@
+{% set url = "https://www.youtube.com/watch?v=2902s170YPs" %}
+{# {% set url = "https://vimeo.com/38513811" %}
+{% set url = "https://vimeo.com/97519516" %} #}
+
+{% set video = craft.videos.getVideoByUrl(url) %}
+
+
+{% if video %}
+
+    <h3>Data</h3>
+
+    <ul>
+        <li><strong>authorName :</strong> {{ video.authorName }}</li>
+        <li><strong>authorUrl :</strong> {{ video.authorUrl }}</li>
+        {# <li><strong>date :</strong> {{ video.date.format('F d, Y') }}</li> #}
+        <li><strong>description :</strong> {{ video.description }}</li>
+        <li><strong>duration :</strong> {{ video.duration }}</li>
+        <li><strong>durationSeconds :</strong> {{ video.durationSeconds }}</li>
+        <li><strong>gatewayHandle :</strong> {{ video.gatewayHandle }}</li>
+        <li><strong>gatewayName :</strong> {{ video.gatewayName }}</li>
+        <li><strong>id :</strong> {{ video.id }}</li>
+        <li><strong>plays :</strong> {{ video.plays }}</li>
+        <li><strong>title :</strong> {{ video.title }}</li>
+        <li><strong>url :</strong> {{ video.url }}</li>
+    </ul>
+
+    <h3>Embed</h3>
+
+    {{ video.getEmbed() }}
+
+    <h3>Thumbnail</h3>
+
+    {{ video.thumbnail }}
+
+    <img src="{{ video.thumbnail(100) }}" />
+
+{#
+    <h3>Thumbnails</h3>
+
+    <h4>Thumbnail</h4>
+    <img src="{{video.thumbnail}}" />
+
+    <h4>Thumbnail Large</h4>
+    <img src="{{video.thumbnailLarge}}" />
+
+
+    <h3>Embed</h3>
+    {{video.embed({
+        width:550,
+        height:310
+    })}} #}
+
+{% else %}
+    <p>Couldn't find video</p>
+{% endif %}
