@@ -18,6 +18,7 @@ Videos.Explorer = Garnish.Base.extend({
         this.$gateways = $('.gateways select', this.$container);
         this.$sectionLinks = $('nav a', this.$container);
         this.$search = $('.search', this.$container);
+        this.$mainContent = $('.main .content', this.$container);
         this.$videos = $('.videos', this.$container);
 
 
@@ -143,7 +144,14 @@ Videos.Explorer = Garnish.Base.extend({
             {
                 if(typeof(response.error) == 'undefined')
                 {
+                    $('.error', this.$mainContent).remove();
+
+                    this.$videos = $('<div class="videos" />');
                     this.$videos.html(response.html);
+
+                    this.$mainContent.append(this.$videos);
+
+                    // this.$videos.html(response.html);
 
                     this.$playBtns = $('.play', this.$videos);
                     this.$videoElements = $('.video', this.$videos);
@@ -174,7 +182,7 @@ Videos.Explorer = Garnish.Base.extend({
                 }
                 else
                 {
-                    this.$videos.html('<p class="error">'+response.error+'</p>');
+                    this.$mainContent.html('<p class="error">'+response.error+'</p>');
                 }
             }
 
