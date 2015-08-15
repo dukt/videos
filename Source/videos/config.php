@@ -1,6 +1,6 @@
 <?php
 
 return array(
-    'disableCache' => false
+    'disableCache' => false,
     'videosPerPage' => 30
 );
