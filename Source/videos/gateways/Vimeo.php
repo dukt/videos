@@ -311,16 +311,18 @@ class Vimeo extends BaseGateway
         $videosRaw = $this->api($uri, $query);
         $videos = $this->parseVideos($videosRaw['data']);
 
-        $more = true;
+        $more = false;
+        $moreToken = null;
 
-        if(count($videos) < Craft::app()->config->get('videosPerPage', 'videos'))
+        if($videosRaw['paging']['next'])
         {
-            $more = false;
+            $more = true;
+            $moreToken = $query['page'] + 1;
         }
 
         return array(
             'videos' => $videos,
-            'moreToken' => $query['moreToken'],
+            'moreToken' => $moreToken,
             'more' => $more
         );
     }
@@ -341,7 +343,7 @@ class Vimeo extends BaseGateway
             $query['page'] = 1;
         }
 
-        $params['moreToken'] = $query['page'] + 1;
+        // $params['moreToken'] = $query['page'] + 1;
 
         if(!empty($params['q']))
         {
@@ -351,7 +353,10 @@ class Vimeo extends BaseGateway
 
         $query['per_page'] = Craft::app()->config->get('videosPerPage', 'videos');
 
-        $query = array_merge($query, $params);
+        if(is_array($params))
+        {
+            $query = array_merge($query, $params);
+        }
 
         return $query;
     }
