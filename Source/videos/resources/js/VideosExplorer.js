@@ -14,13 +14,16 @@ Videos.Explorer = Garnish.Base.extend({
         this.settings = settings;
 
         this.$container = $container;
+        this.$main = $('.main', this.$container);
         this.$spinner = $('.spinner', this.$container);
         this.$gateways = $('.gateways select', this.$container);
         this.$sectionLinks = $('nav a', this.$container);
         this.$search = $('.search', this.$container);
         this.$mainContent = $('.main .content', this.$container);
         this.$videos = $('.videos', this.$container);
+        this.$scroller = this.$main;
 
+        console.log('scroller', this.$scroller);
 
         // Section Links
 
@@ -142,6 +145,8 @@ Videos.Explorer = Garnish.Base.extend({
 
     getVideos: function(gateway, method, options)
     {
+        this.removeListener(this.$scroller, 'scroll');
+
         data = {
             gateway: gateway,
             method: method,
@@ -198,6 +203,10 @@ Videos.Explorer = Garnish.Base.extend({
                         this.addListener($moreBtn, 'click', $.proxy(function() {
                             this.loadMore(gateway, method, moreOptions);
                         }, this));
+
+                        this.addListener(this.$scroller, 'scroll', $.proxy(function() {
+                            this.maybeLoadMore(gateway, method, moreOptions);
+                        }, this));
                     }
                 }
             }
@@ -207,8 +216,29 @@ Videos.Explorer = Garnish.Base.extend({
         }, this));
     },
 
+    maybeLoadMore: function(gateway, method, moreOptions)
+    {
+        if (this.canLoadMore())
+		{
+            console.log('load more !');
+
+			this.loadMore(gateway, method, moreOptions);
+		}
+    },
+
+    canLoadMore: function()
+    {
+        var containerScrollHeight = this.$scroller.prop('scrollHeight'),
+            containerScrollTop = this.$scroller.scrollTop(),
+            containerHeight = this.$scroller.outerHeight();
+
+        return (containerScrollHeight - containerScrollTop <= containerHeight + 15);
+    },
+
     loadMore: function(gateway, method, options)
     {
+        this.removeListener(this.$scroller, 'scroll');
+
         $('.more', this.$videos).remove();
 
         this.$spinner.removeClass('hidden');
@@ -259,6 +289,10 @@ Videos.Explorer = Garnish.Base.extend({
 
                         this.addListener($moreBtn, 'click', $.proxy(function() {
                             this.loadMore(gateway, method, options);
+                        }, this));
+
+                        this.addListener(this.$scroller, 'scroll', $.proxy(function() {
+                            this.maybeLoadMore(gateway, method, moreOptions);
                         }, this));
                     }
                 }
