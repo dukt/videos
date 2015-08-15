@@ -34,6 +34,12 @@ Videos.Explorer = Garnish.Base.extend({
             method = $(ev.currentTarget).data('method');
             options = $(ev.currentTarget).data('options');
 
+            if(typeof(options) != 'undefined')
+            {
+                options = JSON.stringify(options);
+                options = $.parseJSON(options);
+            }
+
             this.getVideos(gateway, method, options);
 
             ev.preventDefault();
