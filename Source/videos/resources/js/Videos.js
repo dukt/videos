@@ -28,8 +28,19 @@ Videos.Player = Garnish.Modal.extend(
 
         Craft.postActionRequest('videos/player', data, $.proxy(function(response, textStatus)
         {
-            this.$player.html(response.html);
-            this.updateSizeAndPosition();
+            if (textStatus == 'success')
+            {
+                if (response.error)
+                {
+                    $error = $('<div class="error">'+response.error+'</div>');
+                    $error.appendTo(this.$player);
+                }
+                else
+                {
+                    this.$player.html(response.html);
+                    this.updateSizeAndPosition();
+                }
+            }
         }, this));
     },
 

@@ -176,9 +176,16 @@ class VideosController extends BaseController
         $gatewayHandle = strtolower($gatewayHandle);
 
         $videoId = craft()->request->getParam('videoId');
-        $video = craft()->videos->getVideoById($gatewayHandle, $videoId);
 
-        if($video)
+        try {
+            $video = craft()->videos->getVideoById($gatewayHandle, $videoId);
+        }
+        catch(\Exception $e)
+        {
+            $errorMsg = $e->getMessage();
+        }
+
+        if(isset($video))
         {
             $html = craft()->templates->render('videos/_elements/player', array(
                 'video' => $video
@@ -187,6 +194,10 @@ class VideosController extends BaseController
             $this->returnJson(array(
                 'html' => $html
             ));
+        }
+        elseif(isset($errorMsg))
+        {
+            $this->returnErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
