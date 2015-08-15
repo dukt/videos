@@ -156,11 +156,11 @@ class Vimeo extends BaseGateway
 
     protected function getVideosAlbum($params = array())
     {
-        $params['album_id'] = $params['id'];
+        $albumId = $params['id'];
         unset($params['id']);
 
          // albums/#album_id
-        return $this->performVideosRequest('me/albums/'.$params['album_id'].'/videos', $params);
+        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
     }
 
     protected function getVideosChannel($params = array())
