@@ -152,7 +152,11 @@ Videos.Explorer = Garnish.Base.extend({
 
             if(textStatus == 'success')
             {
-                if(typeof(response.error) == 'undefined')
+                if(response.error)
+                {
+                    this.$mainContent.html('<p class="error">'+response.error+'</p>');
+                }
+                else
                 {
                     $('.error', this.$mainContent).remove();
 
@@ -189,10 +193,6 @@ Videos.Explorer = Garnish.Base.extend({
                             this.loadMore(gateway, method, moreOptions);
                         }, this));
                     }
-                }
-                else
-                {
-                    this.$mainContent.html('<p class="error">'+response.error+'</p>');
                 }
             }
 
