@@ -172,9 +172,9 @@ class YouTube extends BaseGateway
             'maxResults' => $pagination['perPage']
         );
 
-        if(!empty($pagination['nextPageToken']))
+        if(!empty($pagination['moreToken']))
         {
-            $data['pageToken'] = $pagination['nextPageToken'];
+            $data['pageToken'] = $pagination['moreToken'];
         }
 
         $playlistItemsResponse = $this->api('playlistItems', $data);
@@ -223,9 +223,9 @@ class YouTube extends BaseGateway
             'maxResults' => $pagination['perPage']
         );
 
-        if(!empty($pagination['nextPageToken']))
+        if(!empty($pagination['moreToken']))
         {
-            $data['pageToken'] = $pagination['nextPageToken'];
+            $data['pageToken'] = $pagination['moreToken'];
         }
 
         $response = $this->api('search', $data);
@@ -248,7 +248,7 @@ class YouTube extends BaseGateway
 
             $more = false;
 
-            if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
+            if(!empty($response['nextPageToken']) && count($videos) > 0)
             {
                 $more = true;
             }
