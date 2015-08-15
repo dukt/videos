@@ -41,6 +41,7 @@ abstract class BaseGateway
         catch(\Exception $e)
         {
             Craft::log("Videos.Debug.GuzzleError\r\n".$e->getMessage().'\r\n'.$e->getTraceAsString(), LogLevel::Info, true);
+            Craft::log("Videos.Debug.GuzzleErrorResponse\r\n".$e->getResponse(), LogLevel::Info, true);
 
             throw $e;
         }
