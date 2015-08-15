@@ -52,6 +52,16 @@ Videos.Explorer = Garnish.Base.extend({
             this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
         }, this));
 
+        this.addListener(this.$search, 'blur', $.proxy(function(ev)
+        {
+            var q = $(ev.currentTarget).val();
+
+            if(q.length == 0)
+            {
+                this.$sectionLinks.filter('.sel').trigger('click');
+            }
+        }, this));
+
         this.addListener(this.$search, 'keypress', function(ev)
         {
             if (ev.keyCode == Garnish.RETURN_KEY)
@@ -265,4 +275,3 @@ Videos.Explorer = Garnish.Base.extend({
         }
     }
 });
-
