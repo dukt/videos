@@ -13,7 +13,7 @@ abstract class BaseGateway
 
     public function getOAuthScope()
     {
-        
+
     }
 
     public function getOAuthParams()
