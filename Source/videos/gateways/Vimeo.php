@@ -2,24 +2,23 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\VideosHelper;
 use Craft\Videos_VideoModel;
-use Guzzle\Http\Client;
 
 class Vimeo extends BaseGateway
 {
     // Public Methods
     // =========================================================================
 
-    public function api($uri, $query = array())
+    public function getApiUrl()
     {
-        $query['access_token'] = $this->token->accessToken;
+        return 'https://api.vimeo.com/';
+    }
 
-        $client = new Client('https://api.vimeo.com/');
-
-        $request = $client->get($uri, [], ['query' => $query]);
-
-        return $request->send()->json();
+    public function apiQuery()
+    {
+        return [
+            'access_token' => $this->token->accessToken
+        ];
     }
 
     public function getOAuthProvider()

@@ -1,6 +1,10 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
+use Craft\Craft;
+use Craft\LogLevel;
+use Guzzle\Http\Client;
+
 abstract class BaseGateway
 {
     public function getOAuthProvider()
@@ -9,10 +13,37 @@ abstract class BaseGateway
 
     public function getOAuthScope()
     {
+        
     }
 
     public function getOAuthParams()
     {
+    }
+
+    public function api($uri, $query = array())
+    {
+        $query = array_merge($this->apiQuery(), $query);
+
+        $apiUrl = $this->getApiUrl();
+        $client = new Client($apiUrl);
+        $request = $client->get($uri, [], ['query' => $query]);
+
+        Craft::log("Videos.Debug.GuzzleRequest\r\n".(string) $request, LogLevel::Info, true);
+
+        try
+        {
+            $response = $request->send();
+
+            Craft::log("Videos.Debug.GuzzleResponse\r\n".(string) $response, LogLevel::Info, true);
+
+            return $response->json();
+        }
+        catch(\Exception $e)
+        {
+            Craft::log("Videos.Debug.GuzzleError\r\n".$e->getMessage().'\r\n'.$e->getTraceAsString(), LogLevel::Info, true);
+
+            throw $e;
+        }
     }
 
     public function getHandle()

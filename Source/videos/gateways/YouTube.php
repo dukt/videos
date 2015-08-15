@@ -2,25 +2,23 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\VideosHelper;
 use Craft\Videos_VideoModel;
-use Guzzle\Http\Client;
 
 class YouTube extends BaseGateway
 {
     // Public Methods
     // =========================================================================
 
-    public function api($uri, $query = array())
+    public function getApiUrl()
     {
-        $query['access_token'] = $this->token->accessToken;
+        return 'https://www.googleapis.com/youtube/v3/';
+    }
 
-        $client = new Client('https://www.googleapis.com/youtube/v3/');
-        $request = $client->get($uri, [], ['query' => $query]);
-
-        $response = $request->send();
-
-        return $response->json();
+    public function apiQuery()
+    {
+        return [
+            'access_token' => $this->token->accessToken
+        ];
     }
 
     public function getOAuthProvider()
