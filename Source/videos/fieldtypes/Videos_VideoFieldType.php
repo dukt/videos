@@ -35,21 +35,16 @@ class Videos_VideoFieldType extends BaseFieldType
      */
     public function getInputHtml($name, $value)
     {
-        $video = false;
-
-        // get the prepped value (the video object)
-        if(is_object($value))
-        {
-            $video = $value;
-        }
-
         // get the unprepped value (the video url)
+
         if($this->element)
         {
-            $value = $this->element->getContent()->getAttribute($this->model->handle);
+            $unpreppedValue = $this->element->getContent()->getAttribute($this->model->handle);
         }
 
+
         // Reformat the input name into something that looks more like an ID
+
         $id = craft()->templates->formatInputId($name);
 
 
@@ -59,13 +54,17 @@ class Videos_VideoFieldType extends BaseFieldType
 
         $settings = $this->getSettings();
 
+
         // Init CSRF Token
+
         $jsTemplate = 'window.csrfTokenName = "{{ craft.config.csrfTokenName|e(\'js\') }}";';
         $jsTemplate .= 'window.csrfTokenValue = "{{ craft.request.csrfToken|e(\'js\') }}";';
         $js = craft()->templates->renderString($jsTemplate);
         craft()->templates->includeJs($js);
 
+
         // Resources
+
         craft()->templates->includeCssResource('videos/css/videos.css');
         craft()->templates->includeCssResource('videos/css/VideosExplorer.css');
         craft()->templates->includeCssResource('videos/css/VideosField.css');
@@ -86,15 +85,25 @@ class Videos_VideoFieldType extends BaseFieldType
 
         craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'", '.$jsonOptions.');');
 
+
         // Preview
 
-        $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $video));
+        if ($value instanceof Videos_VideoModel)
+        {
+            $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $value));
+        }
+        else
+        {
+            $preview = null;
+        }
+
 
         // Render HTML
+
         return craft()->templates->render('videos/_components/fieldtypes/Video/input', array(
             'id'    => $id,
             'name'  => $name,
-            'value' => $value,
+            'value' => $unpreppedValue,
             'preview' => $preview
         ));
     }
