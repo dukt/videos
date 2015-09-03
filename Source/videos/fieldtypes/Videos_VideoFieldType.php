@@ -60,11 +60,10 @@ class Videos_VideoFieldType extends BaseFieldType
         $settings = $this->getSettings();
 
         // Init CSRF Token
-        craft()->templates->includeHeadHtml('
-            <script type="text/javascript">
-                window.csrfTokenName ="'.craft()->config->get('csrfTokenName').'";
-                window.csrfTokenValue = "'.craft()->request->csrfToken.'";
-            </script>');
+        $jsTemplate = 'window.csrfTokenName = "{{ craft.config.csrfTokenName|e(\'js\') }}";';
+        $jsTemplate .= 'window.csrfTokenValue = "{{ craft.request.csrfToken|e(\'js\') }}";';
+        $js = craft()->templates->renderString($jsTemplate);
+        craft()->templates->includeJs($js);
 
         // Resources
         craft()->templates->includeCssResource('videos/css/videos.css');
@@ -76,27 +75,19 @@ class Videos_VideoFieldType extends BaseFieldType
 
         // Explorer
 
-        $nav = array();
-
-        $gateways = craft()->videos->getGateways();
-
-        foreach ($gateways as $gateway)
-        {
-            $nav[] = $gateway;
-        }
-
-        $explorerHtml = craft()->templates->render('videos/_elements/explorer', ['nav' => $nav]);
-
-        // JSON Options
-
-        $jsonOptions = json_encode([
-            'explorerHtml' => $explorerHtml
+        $explorerHtml = craft()->templates->render('videos/_elements/explorer', [
+            'nav' => craft()->videos->getExplorerNav()
         ]);
 
+
         // JS Field
+
+        $jsonOptions = json_encode(['explorerHtml' => $explorerHtml]);
+
         craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'", '.$jsonOptions.');');
 
-        // preview
+        // Preview
+
         $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $video));
 
         // Render HTML

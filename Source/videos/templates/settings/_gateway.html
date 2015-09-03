@@ -11,14 +11,14 @@
                     <li><strong>{{ 'Name'|t }} : </strong> {{ account.name }}</li>
                 </ul>
 
-                <p><a class="btn small" href="{{ actionUrl('videos/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t }}</a></p>
+                <p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t }}</a></p>
 
             {% else %}
 
                 <h2 class="first">{{ gateway.name }}</h2>
                 <p>{{'You need to connect Craft to {gateway} in order to get started.'|t({gateway: gateway.name})}}</p>
                 <p>{{"Getting errors trying to connect ?"|t}} <a href="{{url('oauth/'~provider.handle)}}">{{"Check {providerName} API key & secret in OAuth settings"|t({providerName: provider.name})}}</a>.</p>
-                <p><a class="btn submit" href="{{ actionUrl('videos/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t({ gateway: gateway.name }) }}</a></p>
+                <p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t({ gateway: gateway.name }) }}</a></p>
 
             {% endif %}
         {% else %}
@@ -43,7 +43,7 @@
     <p class="error">{{ error }}</p>
 
     {% if token %}
-        <p><a class="btn small" href="{{ actionUrl('videos/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t }}</a></p>
+        <p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t }}</a></p>
     {% endif %}
 
 {% endif %}

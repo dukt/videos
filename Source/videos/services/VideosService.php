@@ -22,6 +22,20 @@ class VideosService extends BaseApplicationComponent
     // Public Methods
     // =========================================================================
 
+    public function getExplorerNav()
+    {
+        $nav = [];
+
+        $gateways = craft()->videos->getGateways();
+
+        foreach ($gateways as $gateway)
+        {
+            $nav[] = $gateway;
+        }
+
+        return $nav;
+    }
+
     /**
      * Get a video from its ID
      */
@@ -55,137 +69,6 @@ class VideosService extends BaseApplicationComponent
     {
         $gateway = $this->getGateway($criteria->gateway);
         return $gateway->api($criteria->method, $criteria->query);
-    }
-
-    /**
-     * Get OAuth Token
-     */
-    public function getToken($handle)
-    {
-        if(!empty($this->tokens[$handle]))
-        {
-            return $this->tokens[$handle];
-        }
-        else
-        {
-            // get plugin
-            $plugin = craft()->plugins->getPlugin('videos');
-
-            // get settings
-            $settings = $plugin->getSettings();
-
-            // get tokens
-            $tokens = $settings['tokens'];
-
-            if(!empty($settings['tokens'][$handle]))
-            {
-                // get tokenId
-                $tokenId = $tokens[$handle];
-
-                // get token
-                $token = craft()->oauth->getTokenById($tokenId);
-
-                if($token)
-                {
-                    $this->tokens[$handle] = $token;
-                    return $this->tokens[$handle];
-                }
-            }
-        }
-    }
-
-    /**
-     * Save OAuth Token
-     */
-    public function saveToken($handle, $token)
-    {
-        $handle = strtolower($handle);
-
-        // get plugin
-        $plugin = craft()->plugins->getPlugin('videos');
-
-        // get settings
-        $settings = $plugin->getSettings();
-
-        // get tokens
-        $tokens = $settings['tokens'];
-
-        // get token
-
-        if(!empty($tokens[$handle]))
-        {
-            // get tokenId
-            $tokenId = $tokens[$handle];
-
-            // get token
-            // $model = craft()->oauth->getTokenById($tokenId);
-            // $token->id = $tokenId;
-            $existingToken = craft()->oauth->getTokenById($tokenId);
-        }
-
-
-        if(!$token)
-        {
-            $token = new Oauth_TokenModel;
-        }
-
-        if(isset($existingToken))
-        {
-            $token->id = $existingToken->id;
-        }
-
-        $token->providerHandle = $handle;
-        $token->pluginHandle = 'videos';
-
-
-        // save token
-        craft()->oauth->saveToken($token);
-
-        // set token ID
-        $tokens[$handle] = $token->id;
-
-        // save plugin settings
-        $settings['tokens'] = $tokens;
-        craft()->plugins->savePluginSettings($plugin, $settings);
-    }
-
-    /**
-     * Delete Token
-     */
-    public function deleteToken($handle)
-    {
-        $handle = strtolower($handle);
-
-        // get plugin
-        $plugin = craft()->plugins->getPlugin('videos');
-
-        // get settings
-        $settings = $plugin->getSettings();
-
-        // get tokens
-        $tokens = $settings['tokens'];
-
-        // get token
-
-        if(!empty($tokens[$handle]))
-        {
-            // get tokenId
-            $tokenId = $tokens[$handle];
-
-            // get token
-            $token = craft()->oauth->getTokenById($tokenId);
-
-            if($token)
-            {
-                craft()->oauth->deleteToken($token);
-            }
-
-            unset($tokens[$handle]);
-
-            // save plugin settings
-            $settings['tokens'] = $tokens;
-            craft()->plugins->savePluginSettings($plugin, $settings);
-        }
     }
 
     /**
@@ -325,7 +208,6 @@ class VideosService extends BaseApplicationComponent
      */
     private function loadGateways()
     {
-
         if(!$this->_gatewaysLoaded)
         {
             $files = IOHelper::getFiles(CRAFT_PLUGINS_PATH.'videos/gateways');
@@ -351,7 +233,7 @@ class VideosService extends BaseApplicationComponent
 
                 // token
 
-                $token = $this->getToken($handle);
+                $token = craft()->videos_oauth->getToken($handle);
 
                 if($token)
                 {
