@@ -196,7 +196,14 @@ class VideosController extends BaseController
 
                                 try
                                 {
-                                    $account = $provider->getAccount();
+
+                                    $account = craft()->videos_cache->get(['getAccount', $token]);
+
+                                    if(!$account)
+                                    {
+                                        $account = $provider->getAccount();
+                                        craft()->videos_cache->set(['getAccount', $token], $account);
+                                    }
 
                                     if ($account)
                                     {
