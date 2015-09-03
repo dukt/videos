@@ -155,7 +155,7 @@ class VideosService extends BaseApplicationComponent
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        if(craft()->config->get('disableCache', 'videos') == true)
+        if(craft()->config->get('enableCache', 'videos') === false)
         {
             $enableCache = false;
         }
