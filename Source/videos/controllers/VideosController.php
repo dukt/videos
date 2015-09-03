@@ -225,18 +225,7 @@ class VideosController extends BaseController
             'nav' => $nav
         );
 
-        if (craft()->request->isAjaxRequest())
-        {
-            $html = craft()->templates->render('videos/_elements/explorer', $variables);
-
-            $this->returnJson(array(
-                'html' => $html
-            ));
-        }
-        else
-        {
-            $this->renderTemplate('videos/explorer', $variables);
-        }
+        $this->renderTemplate('videos/explorer', $variables);
     }
 
     /**

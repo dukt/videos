@@ -74,8 +74,27 @@ class Videos_VideoFieldType extends BaseFieldType
         craft()->templates->includeJsResource('videos/js/VideosExplorer.js');
         craft()->templates->includeJsResource('videos/js/VideosField.js');
 
+        // Explorer
+
+        $nav = array();
+
+        $gateways = craft()->videos->getGateways();
+
+        foreach ($gateways as $gateway)
+        {
+            $nav[] = $gateway;
+        }
+
+        $explorerHtml = craft()->templates->render('videos/_elements/explorer', ['nav' => $nav]);
+
+        // JSON Options
+
+        $jsonOptions = json_encode([
+            'explorerHtml' => $explorerHtml
+        ]);
+
         // JS Field
-        craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'");');
+        craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'", '.$jsonOptions.');');
 
         // preview
         $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $video));

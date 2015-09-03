@@ -17,8 +17,9 @@ Videos.Field = Garnish.Base.extend({
     explorer: null,
     playerModal: null,
     videoSelectorModal: null,
+    explorerHtml: null,
 
-    init: function(inputId)
+    init: function(inputId, options)
     {
         this.$input = $('#'+inputId);
         this.$container = this.$input.parents('.videos-field');
@@ -34,6 +35,12 @@ Videos.Field = Garnish.Base.extend({
         this.addListener(this.$playBtn, 'click', 'playVideo');
         this.addListener(this.$addBtn, 'click', 'addVideo');
         this.addListener(this.$removeBtn, 'click', 'removeVideo');
+
+        if(typeof(options['explorerHtml']) != 'undefined')
+        {
+            console.log('explorerHtml', options['explorerHtml']);
+            this.explorerHtml = options['explorerHtml'];
+        }
     },
 
     removeVideo: function(ev)
@@ -83,9 +90,9 @@ Videos.Field = Garnish.Base.extend({
                 this.videoSelectorModal.hide();
             });
 
-            Craft.postActionRequest('videos/explorer', {}, $.proxy(function(response, textStatus)
+            if(this.explorerHtml)
             {
-                $wrap.html(response.html);
+                $wrap.html(this.explorerHtml);
 
                 this.explorer = new Videos.Explorer($videoSelectorModal, {
                     onPlayerHide: $.proxy(function() {
@@ -103,8 +110,7 @@ Videos.Field = Garnish.Base.extend({
 
                 this.videoSelectorModal.updateSizeAndPosition();
                 Craft.initUiElements();
-                console.log('Craft.initUiElements();');
-            }, this));
+            }
         }
         else
         {
