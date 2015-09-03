@@ -21,7 +21,7 @@ class m140620_045459_videos_transfer_token extends BaseMigration
 
     private function saveToken($handle, $token)
     {
-        craft()->videos->saveToken($handle, $token);
+        craft()->videos_oauth->saveToken($handle, $token);
     }
 
     private function transferSystemToken($handle, $namespace)

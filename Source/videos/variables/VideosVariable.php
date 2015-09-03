@@ -49,7 +49,7 @@ class VideosVariable
      */
     public function getToken($handle)
     {
-        return craft()->videos->getToken($handle);
+        return craft()->videos_oauth->getToken($handle);
     }
 
     /**

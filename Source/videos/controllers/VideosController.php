@@ -188,7 +188,7 @@ class VideosController extends BaseController
                     {
                         if($provider->isConfigured())
                         {
-                            $token = craft()->videos->getToken($providerHandle);
+                            $token = craft()->videos_oauth->getToken($providerHandle);
 
                             if ($token)
                             {

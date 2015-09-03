@@ -51,7 +51,7 @@ class Videos_OauthController extends BaseController
                 $token = $response['token'];
 
                 // save token
-                craft()->videos->saveToken($gateway->getOAuthProvider(), $token);
+                craft()->videos_oauth->saveToken($gateway->getOAuthProvider(), $token);
 
                 // session notice
                 craft()->userSession->setNotice(Craft::t("Connected."));
@@ -86,7 +86,7 @@ class Videos_OauthController extends BaseController
 
         $oauthProviderHandle = $gateway->getOAuthProvider();
 
-        craft()->videos->deleteToken($oauthProviderHandle);
+        craft()->videos_oauth->deleteToken($oauthProviderHandle);
 
         // set notice
         craft()->userSession->setNotice(Craft::t("Disconnected."));
