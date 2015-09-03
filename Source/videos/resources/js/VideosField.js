@@ -63,22 +63,22 @@ Videos.Field = Garnish.Base.extend({
 
             this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                 visible: false,
-                resizable: true
+                resizable: false,
             });
 
-            this.videoSelectorModal.resizeDragger.settings.onDrag = $.proxy(function() {
-                this.videoSelectorModal._handleResize();
-                width = this.videoSelectorModal.getWidth();
+            // this.videoSelectorModal.resizeDragger.settings.onDrag = $.proxy(function() {
+            //     this.videoSelectorModal._handleResize();
+            //     width = this.videoSelectorModal.getWidth();
 
-                if(width > 1000)
-                {
-                    $('.videos', $videoSelectorModal).addClass('large');
-                }
-                else
-                {
-                    $('.videos', $videoSelectorModal).removeClass('large');
-                }
-            }, this);
+            //     if(width > 1000)
+            //     {
+            //         $('.videos', $videoSelectorModal).addClass('large');
+            //     }
+            //     else
+            //     {
+            //         $('.videos', $videoSelectorModal).removeClass('large');
+            //     }
+            // }, this);
 
             this.addListener($cancelBtn, 'click', function() {
                 this.videoSelectorModal.hide();

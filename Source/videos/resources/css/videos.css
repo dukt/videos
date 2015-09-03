@@ -4,7 +4,7 @@
 .video {
   display: inline-block;
   overflow: hidden;
-  width: 31%;
+  width: 30%;
   margin: 0 7px;
   text-align: center;
 }
@@ -83,8 +83,8 @@
   top: 40%;
   left: 50%;
 }
-@media (min-width: 500px) {
-  .videos.large .video {
-    width: 22.5%;
-  }
+/*
+@media (min-width:500px) {
+    .videos.large .video { width: 22.5%; }
 }
+*/
