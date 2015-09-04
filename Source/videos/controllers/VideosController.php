@@ -59,6 +59,8 @@ class VideosController extends BaseController
      */
     public function actionGetVideos()
     {
+        $this->requireAjaxRequest();
+
         try
         {
             $gatewayHandle = craft()->request->getParam('gateway');
@@ -100,6 +102,8 @@ class VideosController extends BaseController
      */
     public function actionPlayer()
     {
+        $this->requireAjaxRequest();
+
         $gatewayHandle = craft()->request->getParam('gateway');
         $gatewayHandle = strtolower($gatewayHandle);
 
@@ -133,18 +137,6 @@ class VideosController extends BaseController
             // todo: log
             $this->returnErrorJson("Video not found.");
         }
-    }
-
-    /**
-     * Explorer
-     *
-     * @return null
-     */
-    public function actionExplorer()
-    {
-        $this->renderTemplate('videos/explorer', [
-            'nav' => craft()->videos->getExplorerNav()
-        ]);
     }
 
     /**
@@ -235,5 +227,17 @@ class VideosController extends BaseController
                 $this->renderTemplate('videos/settings/_oauthNotInstalled');
             }
         }
+    }
+
+    /**
+     * Explorer
+     *
+     * @return null
+     */
+    public function actionExplorer()
+    {
+        $this->renderTemplate('videos/explorer', [
+            'nav' => craft()->videos->getExplorerNav()
+        ]);
     }
 }
