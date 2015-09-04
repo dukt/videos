@@ -25,7 +25,6 @@ class Videos_PluginController extends BaseController
 
     public function actionDownload()
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         $pluginHandle = craft()->request->getParam('plugin');
 
@@ -54,7 +53,7 @@ class Videos_PluginController extends BaseController
                 $msg = $download['msg'];
             }
 
-            Craft::log(__METHOD__.' : '.$msg, LogLevel::Info, true);
+            Craft::log('Couldn’t download plugin: '.$msg, LogLevel::Error);
 
             craft()->userSession->setError(Craft::t($msg));
         }
@@ -65,7 +64,6 @@ class Videos_PluginController extends BaseController
 
     public function actionEnable()
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         $pluginHandle = craft()->request->getParam('plugin');
 
@@ -76,7 +74,6 @@ class Videos_PluginController extends BaseController
 
     public function actionInstall()
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         // pluginHandle
 
@@ -94,13 +91,13 @@ class Videos_PluginController extends BaseController
         if($this->pluginService->install($pluginHandle))
         {
             // install success
-            Craft::log(__METHOD__." : ".$pluginHandle.' plugin installed.', LogLevel::Info, true);
+            Craft::log($pluginHandle.' plugin installed.', LogLevel::Error);
             craft()->userSession->setNotice(Craft::t('Plugin installed.'));
         }
         else
         {
             // install failure
-            Craft::log(__METHOD__." : Couldn't install ".$pluginHandle." plugin.", LogLevel::Info, true);
+            Craft::log("Couldn’t install ".$pluginHandle." plugin.", LogLevel::Error);
             craft()->userSession->setError(Craft::t("Couldn't install plugin."));
         }
 

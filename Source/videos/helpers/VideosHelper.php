@@ -34,4 +34,12 @@ class VideosHelper
 
         return $hms;
     }
+
+    public static function log($message, $level = 'info', $force = true, $category = 'application', $plugin = null)
+    {
+        if(craft()->config->get('duktDevMode'))
+        {
+            Craft::log($message, $level, $force, $category, $plugin);
+        }
+    }
 }

@@ -63,7 +63,7 @@ class VideosVariable
         }
         catch(\Exception $e)
         {
-            // todo
+            VideosHelper::log('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), LogLevel::Error);
         }
     }
 

@@ -49,7 +49,8 @@ class VideosController extends BaseController
         }
         catch(\Exception $e)
         {
-            // todo: log
+            Craft::log('Couldn’t get field preview: '.$e->getMessage(), LogLevel::Error);
+
             $this->returnErrorJson($e->getMessage());
         }
     }
@@ -92,7 +93,8 @@ class VideosController extends BaseController
         }
         catch(\Exception $e)
         {
-            // todo: log
+            Craft::log('Couldn’t get videos: '.$e->getMessage(), LogLevel::Error);
+
             $this->returnErrorJson($e->getMessage());
         }
     }
@@ -129,12 +131,14 @@ class VideosController extends BaseController
         }
         elseif(isset($errorMsg))
         {
-            // todo: log
+            Craft::log('Couldn’t get videos: '.$errorMsg, LogLevel::Error);
+
             $this->returnErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
-            // todo: log
+            Craft::log('Couldn’t get videos: Video not found', LogLevel::Error);
+
             $this->returnErrorJson("Video not found.");
         }
     }

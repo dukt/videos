@@ -16,7 +16,6 @@ class Videos_PluginService extends BaseApplicationComponent
 
     public function download($pluginHandle)
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         // -------------------------------
         // Get ready to download & unzip
@@ -40,7 +39,7 @@ class Videos_PluginService extends BaseApplicationComponent
         if(!$remotePlugin) {
             $return['msg'] = "Couldn't get plugin last version";
 
-            Craft::log(__METHOD__.' : Could not get last version' , LogLevel::Info, true);
+            Craft::log('Could not get last version' , LogLevel::Error);
 
             return $return;
         }
@@ -112,7 +111,7 @@ class Videos_PluginService extends BaseApplicationComponent
 
             $return['msg'] = $e->getMessage();
 
-            Craft::log(__METHOD__.' : Crashed : '.$e->getMessage() , LogLevel::Info, true);
+            Craft::log('Couldn’t download plugin: '.$e->getMessage() , LogLevel::Error);
 
             return $return;
         }
@@ -127,12 +126,10 @@ class Videos_PluginService extends BaseApplicationComponent
 
             $return['msg'] = $e->getMessage();
 
-            Craft::log(__METHOD__.' : Crashed : '.$e->getMessage() , LogLevel::Info, true);
+            Craft::log('Coudln’t remove download files: '.$e->getMessage() , LogLevel::Error);
 
             return $return;
         }
-
-        Craft::log(__METHOD__.' : Success : ' , LogLevel::Info, true);
 
         $return['success'] = true;
 
@@ -141,8 +138,6 @@ class Videos_PluginService extends BaseApplicationComponent
 
     public function enable($pluginHandle)
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
-
         $pluginComponent = craft()->plugins->getPlugin($pluginHandle, false);
 
         try {
@@ -159,7 +154,7 @@ class Videos_PluginService extends BaseApplicationComponent
 
         } catch(\Exception $e) {
 
-            Craft::log(__METHOD__.' : Crashed : '.$e->getMessage(), LogLevel::Info, true);
+            Craft::log('Couldn’t enable plugin: '.$e->getMessage(), LogLevel::Error);
 
             return false;
         }
@@ -167,7 +162,6 @@ class Videos_PluginService extends BaseApplicationComponent
 
     public function install($pluginHandle)
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         craft()->plugins->loadPlugins();
 
@@ -176,7 +170,7 @@ class Videos_PluginService extends BaseApplicationComponent
         try {
             if(!$pluginComponent)
             {
-                Craft::log(__METHOD__.' : '.$pluginHandle.' component not found', LogLevel::Info, true);
+                Craft::log($pluginHandle.' plugin not found', LogLevel::Error);
 
                 return false;
             }
@@ -186,7 +180,7 @@ class Videos_PluginService extends BaseApplicationComponent
                     return true;
                 } else {
 
-                    Craft::log(__METHOD__.' : '.$pluginHandle.' component not installed', LogLevel::Info, true);
+                    Craft::log($pluginHandle.' plugin not installed', LogLevel::Error);
 
                     return false;
                 }
@@ -195,7 +189,7 @@ class Videos_PluginService extends BaseApplicationComponent
             }
         } catch(\Exception $e) {
 
-            Craft::log(__METHOD__.' : Crashed : '.$e->getMessage(), LogLevel::Info, true);
+            Craft::log('Couldn’t install plugin: '.$e->getMessage(), LogLevel::Error);
 
             return false;
         }
@@ -206,7 +200,6 @@ class Videos_PluginService extends BaseApplicationComponent
 
     private function _getRemotePlugin($pluginHandle)
     {
-        Craft::log(__METHOD__, LogLevel::Info, true);
 
         $url = 'https://dukt.net/craft/'.$pluginHandle.'/releases.xml';
 
@@ -235,7 +228,7 @@ class Videos_PluginService extends BaseApplicationComponent
                 return $versions[$version_number];
             }
         } else {
-            Craft::log(__METHOD__.' : Could not get channel items', LogLevel::Info, true);
+            Craft::log('Could not get channel items', LogLevel::Error);
         }
     }
 }

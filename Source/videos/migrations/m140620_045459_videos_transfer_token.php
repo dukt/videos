@@ -65,22 +65,22 @@ class m140620_045459_videos_transfer_token extends BaseMigration
                     }
                     else
                     {
-                        Craft::log('Token error.', LogLevel::Info, true);
+                        Craft::log('Token error.', LogLevel::Error);
                     }
                 }
                 else
                 {
-                    Craft::log('Token record error.', LogLevel::Info, true);
+                    Craft::log('Token record error.', LogLevel::Error);
                 }
             }
             else
             {
-                Craft::log('Class error.', LogLevel::Info, true);
+                Craft::log('Class error.', LogLevel::Error);
             }
         }
         catch(\Exception $e)
         {
-            Craft::log($e->getMessage(), LogLevel::Info, true);
+            Craft::log($e->getMessage(), LogLevel::Error);
         }
     }
 }
