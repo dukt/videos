@@ -72,6 +72,7 @@ class Videos_VideoFieldType extends BaseFieldType
         craft()->templates->includeJsResource('videos/js/VideosExplorer.js');
         craft()->templates->includeJsResource('videos/js/VideosField.js');
 
+
         // Explorer
 
         $explorerHtml = craft()->templates->render('videos/_elements/explorer', [
@@ -90,7 +91,7 @@ class Videos_VideoFieldType extends BaseFieldType
 
         if ($value instanceof Videos_VideoModel)
         {
-            $preview = craft()->templates->render('videos/_elements/fieldPreview', array('video' => $value));
+            $preview = craft()->templates->render('videos/_elements/fieldPreview', ['video' => $value]);
         }
         else
         {
@@ -100,12 +101,12 @@ class Videos_VideoFieldType extends BaseFieldType
 
         // Render HTML
 
-        return craft()->templates->render('videos/_components/fieldtypes/Video/input', array(
+        return craft()->templates->render('videos/_components/fieldtypes/Video/input', [
             'id'    => $id,
             'name'  => $name,
             'value' => $unpreppedValue,
             'preview' => $preview
-        ));
+        ]);
     }
 
     /**

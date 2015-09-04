@@ -127,7 +127,7 @@ class VideosService extends BaseApplicationComponent
         {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
-            $response = craft()->fileCache->get($key);
+            $response = craft()->videos_cache->get([$key]);
 
             if($response)
             {
@@ -143,7 +143,7 @@ class VideosService extends BaseApplicationComponent
         {
             if($enableCache)
             {
-                craft()->fileCache->set($key, $response, $cacheExpiry);
+                craft()->videos_cache->set([$key], $response, $cacheExpiry);
             }
 
             return $response;
@@ -164,7 +164,7 @@ class VideosService extends BaseApplicationComponent
         {
             $key = 'videos.video.'.md5($videoUrl);
 
-            $response = craft()->fileCache->get($key);
+            $response = craft()->videos_cache->get([$key]);
 
             if($response)
             {
@@ -186,7 +186,7 @@ class VideosService extends BaseApplicationComponent
                 {
                     if($enableCache)
                     {
-                        craft()->fileCache->set($key, $video, $cacheExpiry);
+                        craft()->videos_cache->set([$key], $video, $cacheExpiry);
                     }
 
                     return $video;

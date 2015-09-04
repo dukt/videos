@@ -26,13 +26,20 @@ class VideosController extends BaseController
 
         try
         {
-            $video = craft()->videos->getVideoByUrl($url);
+            $video = craft()->videos_cache->get(['fieldPreview', $url]);
 
             if(!$video)
             {
-                throw new Exception("Video not found");
+                $video = craft()->videos->getVideoByUrl($url);
 
+                if(!$video)
+                {
+                    throw new Exception("Video not found");
+                }
+
+                craft()->videos_cache->set(['fieldPreview', $url], $video);
             }
+
             $this->returnJson(
                 array(
                     'video' => $video,
@@ -42,6 +49,7 @@ class VideosController extends BaseController
         }
         catch(\Exception $e)
         {
+            // todo: log
             $this->returnErrorJson($e->getMessage());
         }
     }
@@ -82,6 +90,7 @@ class VideosController extends BaseController
         }
         catch(\Exception $e)
         {
+            // todo: log
             $this->returnErrorJson($e->getMessage());
         }
     }
@@ -116,10 +125,12 @@ class VideosController extends BaseController
         }
         elseif(isset($errorMsg))
         {
+            // todo: log
             $this->returnErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
+            // todo: log
             $this->returnErrorJson("Video not found.");
         }
     }
@@ -131,20 +142,9 @@ class VideosController extends BaseController
      */
     public function actionExplorer()
     {
-        $nav = array();
-
-        $gateways = craft()->videos->getGateways();
-
-        foreach ($gateways as $gateway)
-        {
-            $nav[] = $gateway;
-        }
-
-        $variables = array(
-            'nav' => $nav
-        );
-
-        $this->renderTemplate('videos/explorer', $variables);
+        $this->renderTemplate('videos/explorer', [
+            'nav' => craft()->videos->getExplorerNav()
+        ]);
     }
 
     /**
