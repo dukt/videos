@@ -40,7 +40,7 @@ class Videos_VideoModel extends BaseModel
     {
         if(!$this->_gateway)
         {
-            $this->_gateway = craft()->videos->getGateway($this->gatewayHandle);
+            $this->_gateway = craft()->videos_gateways->getGateway($this->gatewayHandle);
         }
 
         return $this->_gateway;

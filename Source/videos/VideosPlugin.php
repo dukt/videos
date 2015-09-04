@@ -7,6 +7,7 @@
 
 namespace Craft;
 
+require_once(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 require_once(CRAFT_PLUGINS_PATH.'videos/Info.php');
 require_once(CRAFT_PLUGINS_PATH.'videos/base/BaseGateway.php');
 

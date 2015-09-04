@@ -7,18 +7,8 @@
 
 namespace Craft;
 
-require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
-
 class VideosService extends BaseApplicationComponent
 {
-    // Properties
-    // =========================================================================
-
-    private $_gateways = array();
-    private $_allGateways = array();
-    private $_gatewaysLoaded = false;
-    private $tokens;
-
     // Public Methods
     // =========================================================================
 
@@ -29,7 +19,7 @@ class VideosService extends BaseApplicationComponent
     {
         $nav = [];
 
-        $gateways = craft()->videos->getGateways();
+        $gateways = craft()->videos_gateways->getGateways();
 
         foreach ($gateways as $gateway)
         {
@@ -70,52 +60,8 @@ class VideosService extends BaseApplicationComponent
      */
     public function sendRequest(Videos_RequestCriteriaModel $criteria)
     {
-        $gateway = $this->getGateway($criteria->gateway);
+        $gateway = craft()->videos_gateways->getGateway($criteria->gateway);
         return $gateway->api($criteria->method, $criteria->query);
-    }
-
-    /**
-     * Get a gateway from its handle
-     */
-    public function getGateway($gatewayHandle, $enabledOnly = true)
-    {
-        $this->loadGateways();
-
-        if($enabledOnly)
-        {
-            $gateways = $this->_gateways;
-        }
-        else
-        {
-            $gateways = $this->_allGateways;
-        }
-
-        foreach($gateways as $g)
-        {
-            if($g->getHandle() == $gatewayHandle)
-            {
-                return $g;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * Get gateways
-     */
-    public function getGateways($enabledOnly = true)
-    {
-        $this->loadGateways();
-
-        if($enabledOnly)
-        {
-            return $this->_gateways;
-        }
-        else
-        {
-            return $this->_allGateways;
-        }
     }
 
     // Private Methods
@@ -138,7 +84,7 @@ class VideosService extends BaseApplicationComponent
             }
         }
 
-        $gateway = $this->getGateway($gatewayHandle);
+        $gateway = craft()->videos_gateways->getGateway($gatewayHandle);
 
         $response = $gateway->getVideo(array('id' => $id));
 
@@ -175,7 +121,7 @@ class VideosService extends BaseApplicationComponent
             }
         }
 
-        $gateways = $this->getGateways();
+        $gateways = craft()->videos_gateways->getGateways();
 
         foreach($gateways as $gateway)
         {
@@ -204,51 +150,5 @@ class VideosService extends BaseApplicationComponent
         }
 
         return false;
-    }
-
-    /**
-     * Load gateways
-     */
-    private function loadGateways()
-    {
-        if(!$this->_gatewaysLoaded)
-        {
-            $files = IOHelper::getFiles(CRAFT_PLUGINS_PATH.'videos/gateways');
-
-            foreach($files as $file)
-            {
-                require_once($file);
-
-                $gatewayName = IOHelper::getFilename($file, false);
-
-                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName;
-
-
-                // gateway
-                $gateway = new $nsClass;
-
-
-                // provider
-                $handle = strtolower($gateway->getOAuthProvider());
-
-
-                // token
-                $token = craft()->videos_oauth->getToken($handle);
-
-                if($token)
-                {
-                    $gateway->setToken($token);
-
-                    // add to loaded gateways
-                    $this->_gateways[] = $gateway;
-                }
-
-
-                // add to all gateways
-                $this->_allGateways[] = $gateway;
-            }
-
-            $this->_gatewaysLoaded = true;
-        }
     }
 }

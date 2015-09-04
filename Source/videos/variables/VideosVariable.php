@@ -33,7 +33,7 @@ class VideosVariable
      */
     public function getGateway($handle)
     {
-        return craft()->videos->getGateway($handle);
+        return craft()->videos_gateways->getGateway($handle);
     }
 
     /**
@@ -41,7 +41,7 @@ class VideosVariable
      */
     public function getGateways()
     {
-        return craft()->videos->getGateways();
+        return craft()->videos_gateways->getGateways();
     }
 
     /**

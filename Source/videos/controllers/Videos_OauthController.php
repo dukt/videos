@@ -36,7 +36,7 @@ class Videos_OauthController extends BaseController
 
         $gatewayHandle = craft()->request->getParam('gateway');
 
-        $gateway = craft()->videos->getGateway($gatewayHandle, false);
+        $gateway = craft()->videos_gateways->getGateway($gatewayHandle, false);
 
         if($response = craft()->oauth->connect(array(
             'plugin' => 'videos',
@@ -82,7 +82,7 @@ class Videos_OauthController extends BaseController
     public function actionDisconnect()
     {
         $gatewayHandle = craft()->request->getParam('gateway');
-        $gateway = craft()->videos->getGateway($gatewayHandle, false);
+        $gateway = craft()->videos_gateways->getGateway($gatewayHandle, false);
 
         $oauthProviderHandle = $gateway->getOAuthProvider();
 

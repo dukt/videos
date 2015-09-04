@@ -69,7 +69,7 @@ class VideosController extends BaseController
             $method = craft()->request->getParam('method');
             $options = craft()->request->getParam('options');
 
-            $gateway = craft()->videos->getGateway($gatewayHandle);
+            $gateway = craft()->videos_gateways->getGateway($gatewayHandle);
 
             if($gateway)
             {
@@ -157,7 +157,7 @@ class VideosController extends BaseController
         {
             if (isset(craft()->oauth))
             {
-                $gateways = craft()->videos->getGateways(false);
+                $gateways = craft()->videos_gateways->getGateways(false);
                 $variables['gateways'] = array();
 
                 foreach($gateways as $gateway)
