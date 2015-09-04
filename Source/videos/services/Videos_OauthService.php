@@ -7,8 +7,6 @@
 
 namespace Craft;
 
-require(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
-
 class Videos_OauthService extends BaseApplicationComponent
 {
     // Properties

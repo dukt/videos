@@ -9,6 +9,12 @@ namespace Craft;
 
 class Videos_CacheService extends BaseApplicationComponent
 {
+    // Public Methods
+    // =========================================================================
+
+    /**
+     * Get
+     */
     public function get($id)
     {
         if(craft()->config->get('enableCache', 'videos') == true)
@@ -19,6 +25,9 @@ class Videos_CacheService extends BaseApplicationComponent
         }
     }
 
+    /**
+     * Set
+     */
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
         if(is_null($enableCache))
@@ -41,6 +50,12 @@ class Videos_CacheService extends BaseApplicationComponent
         }
     }
 
+    // Private Methods
+    // =========================================================================
+
+    /**
+     * Get Cache Key
+     */
     private function getCacheKey(array $request)
     {
         unset($request['CRAFT_CSRF_TOKEN']);

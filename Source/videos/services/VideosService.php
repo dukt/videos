@@ -22,6 +22,9 @@ class VideosService extends BaseApplicationComponent
     // Public Methods
     // =========================================================================
 
+    /**
+     * Explorer Nav
+     */
     public function getExplorerNav()
     {
         $nav = [];
@@ -222,17 +225,14 @@ class VideosService extends BaseApplicationComponent
 
 
                 // gateway
-
                 $gateway = new $nsClass;
 
 
                 // provider
-
                 $handle = strtolower($gateway->getOAuthProvider());
 
 
                 // token
-
                 $token = craft()->videos_oauth->getToken($handle);
 
                 if($token)
