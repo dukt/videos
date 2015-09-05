@@ -266,6 +266,7 @@ class Vimeo extends BaseGateway
         // Retrieve largest thumbnail
 
         $largestSize = 0;
+        $thumbSize = 0;
 
         if(is_array($data['pictures']))
         {
@@ -275,11 +276,24 @@ class Vimeo extends BaseGateway
                 {
                     if($picture['width'] > $largestSize)
                     {
-                        $video->thumbnailSource = $picture['link'];
+                        $video->thumbnailLargeSource = $picture['link'];
+
                         $largestSize = $picture['width'];
+                    }
+
+                    if($picture['width'] > $thumbSize && $thumbSize < 400)
+                    {
+                        $video->thumbnailSource = $picture['link'];
+
+                        $thumbSize = $picture['width'];
                     }
                 }
             }
+        }
+
+        if(empty($video->thumbnailSource) && !empty($video->thumbnailLargeSource))
+        {
+            $video->thumbnailSource = $video->thumbnailLargeSource;
         }
 
         return $video;
