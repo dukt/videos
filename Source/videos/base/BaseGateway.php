@@ -3,6 +3,7 @@ namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
 use Craft\LogLevel;
+use Craft\VideosHelper;
 use Guzzle\Http\Client;
 
 abstract class BaseGateway
