@@ -29,6 +29,8 @@ class Videos_OauthController extends BaseController
             $referer = craft()->request->getUrlReferrer();
 
             craft()->httpSession->add('videos.referer', $referer);
+
+            VideosHelper::log('Videos OAuth Connect Step 1: '."\r\n".print_r(['referer' => $referer], true), LogLevel::Info);
         }
 
 
@@ -52,6 +54,8 @@ class Videos_OauthController extends BaseController
 
                 // save token
                 craft()->videos_oauth->saveToken($gateway->getOAuthProvider(), $token);
+
+                VideosHelper::log('Videos OAuth Connect Step 2: '."\r\n".print_r(['token' => $token], true), LogLevel::Info);
 
                 // session notice
                 craft()->userSession->setNotice(Craft::t("Connected."));
