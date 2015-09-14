@@ -1,17 +1,6 @@
 {
     "config": {
         "vendor-dir": "videos/vendor/"
-    },
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/dukt/vimeo"
-        }
-    ],
-    "require": {
-        "php": ">=5.3.2",
-        "dukt/vimeo": "dev-master",
-        "google/apiclient": "dev-master"
     }
 }
 
