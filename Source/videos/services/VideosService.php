@@ -9,6 +9,8 @@ namespace Craft;
 
 class VideosService extends BaseApplicationComponent
 {
+    private $explorerNav;
+
     // Public Methods
     // =========================================================================
 
@@ -17,16 +19,24 @@ class VideosService extends BaseApplicationComponent
      */
     public function getExplorerNav()
     {
-        $nav = [];
-
-        $gateways = craft()->videos_gateways->getGateways();
-
-        foreach ($gateways as $gateway)
+        if(!$this->explorerNav)
         {
-            $nav[] = $gateway;
+            $gatewaySections = [];
+
+            $gateways = craft()->videos_gateways->getGateways();
+
+            foreach ($gateways as $gateway)
+            {
+                $gatewaySections[] = $gateway->getSections();
+            }
+
+            $this->explorerNav = [
+                'gateways' => $gateways,
+                'gatewaySections' => $gatewaySections
+            ];
         }
 
-        return $nav;
+        return $this->explorerNav;
     }
 
     /**

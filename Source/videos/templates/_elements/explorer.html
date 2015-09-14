@@ -11,7 +11,7 @@
                 } %}
 
                 {% set gatewayOptions = [] %}
-                {% for gateway in nav %}
+                {% for gateway in nav.gateways %}
                     {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t, value: gateway.handle }]) %}
                 {% endfor %}
 
@@ -21,8 +21,6 @@
                 {% else %}
                     {% set targetPrefix = 'gateway' %}
                 {% endif %}
-
-
 
                 <div class="gateways first">
                     {{ forms.select({
@@ -34,12 +32,12 @@
                 </div>
 
                 <nav>
-                    {% for gateway in nav %}
+                    {% for k, gateway in nav.gateways %}
                         {% set showGateway = (loop.first ? true : false) %}
                         <div id="{{ targetPrefix }}{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
-                            {% if gateway.sections %}
+                            {% if nav.gatewaySections[k] %}
                                 <ul>
-                                    {% for sectionName, items in gateway.sections %}
+                                    {% for sectionName, items in nav.gatewaySections[k] %}
                                         <li class="heading"><span>{{ sectionName }}</span></li>
 
                                         {% for itemKey, item in items %}
