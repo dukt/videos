@@ -46,7 +46,7 @@ class Videos_VideoModel extends BaseModel
         return $this->_gateway;
     }
 
-    public function getThumbnail($size = 100)
+    public function getThumbnail($size = 300)
     {
         return UrlHelper::getResourceUrl('videosthumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
     }
