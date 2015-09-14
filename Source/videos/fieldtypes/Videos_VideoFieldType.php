@@ -76,6 +76,7 @@ class Videos_VideoFieldType extends BaseFieldType
         // Explorer
 
         $explorerHtml = craft()->templates->render('videos/_elements/explorer', [
+            'namespaceInputId' => craft()->templates->namespaceInputId($id),
             'nav' => craft()->videos->getExplorerNav()
         ]);
 

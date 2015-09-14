@@ -15,19 +15,28 @@
                     {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t, value: gateway.handle }]) %}
                 {% endfor %}
 
+
+                {% if namespaceInputId is defined %}
+                    {% set targetPrefix = 'gateway-' ~ namespaceInputId %}
+                {% else %}
+                    {% set targetPrefix = 'gateway' %}
+                {% endif %}
+
+
+
                 <div class="gateways first">
                     {{ forms.select({
                         name: 'gateway',
                         options: gatewayOptions,
                         toggle: true,
-                        targetPrefix: 'gateway'
+                        targetPrefix: targetPrefix
                     }) }}
                 </div>
 
                 <nav>
                     {% for gateway in nav %}
                         {% set showGateway = (loop.first ? true : false) %}
-                        <div id="gateway{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
+                        <div id="{{ targetPrefix }}{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
                             {% if gateway.sections %}
                                 <ul>
                                     {% for sectionName, items in gateway.sections %}
