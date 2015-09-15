@@ -21,30 +21,6 @@ class VideosVariable
     }
 
     /**
-     * Get gateway
-     */
-    public function getGateway($handle)
-    {
-        return craft()->videos_gateways->getGateway($handle);
-    }
-
-    /**
-     * Get gateways
-     */
-    public function getGateways()
-    {
-        return craft()->videos_gateways->getGateways();
-    }
-
-    /**
-     * Get token
-     */
-    public function getToken($handle)
-    {
-        return craft()->videos_oauth->getToken($handle);
-    }
-
-    /**
      * Get a video from its URL
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
