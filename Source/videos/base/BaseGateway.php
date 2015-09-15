@@ -21,7 +21,7 @@ abstract class BaseGateway
     {
     }
 
-    public function api($uri, $query = array())
+    protected function api($uri, $query = array())
     {
         $query = array_merge($this->apiQuery(), $query);
 
