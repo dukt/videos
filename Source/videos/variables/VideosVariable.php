@@ -13,14 +13,6 @@ class VideosVariable
     // =========================================================================
 
     /**
-     * Request the API
-     */
-    public function api($attributes = null)
-    {
-        return new Videos_RequestCriteriaModel($attributes);
-    }
-
-    /**
      * Get Embed
      */
     public function getEmbed($videoUrl, $options = array())
