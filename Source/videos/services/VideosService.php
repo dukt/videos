@@ -15,6 +15,19 @@ class VideosService extends BaseApplicationComponent
     // =========================================================================
 
     /**
+     * Get Embed
+     */
+    public function getEmbed($videoUrl, $embedOptions = array())
+    {
+        $video = $this->getVideoByUrl($videoUrl);
+
+        if($video)
+        {
+            return $video->getEmbed($embedOptions);
+        }
+    }
+
+    /**
      * Explorer Nav
      */
     public function getExplorerNav()
