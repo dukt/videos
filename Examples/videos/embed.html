@@ -1,0 +1,15 @@
+{% extends "videos/_layout" %}
+
+
+{% block main %}
+
+    <h1>Embed</h1>
+
+    {% set embed = craft.videos.getEmbed('http://youtu.be/14pRmb5LAhU', {
+        width:550,
+        height:310
+    }) %}
+
+    {{ embed }}
+
+{% endblock main %}
