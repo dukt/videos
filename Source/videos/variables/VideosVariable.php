@@ -15,9 +15,9 @@ class VideosVariable
     /**
      * Get Embed
      */
-    public function getEmbed($videoUrl, $options = array())
+    public function getEmbed($videoUrl, $embedOptions = array())
     {
-        return $this->getEmbedHtml($videoUrl, $options);
+        return craft()->videos->getEmbed($videoUrl, $embedOptions);
     }
 
     /**
