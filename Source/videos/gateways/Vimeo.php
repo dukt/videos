@@ -211,7 +211,7 @@ class Vimeo extends BaseGateway
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
-        $collection['totalVideos'] = $data['stats']['videos'];
+        $collection['totalVideos'] = (isset($data['stats']['videos']) ? $data['stats']['videos'] : 0);
 
         return $collection;
     }
@@ -222,7 +222,7 @@ class Vimeo extends BaseGateway
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
-        $collection['totalVideos'] = $data['stats']['videos'];
+        $collection['totalVideos'] = (isset($data['stats']['videos']) ? $data['stats']['videos'] : 0);
 
         return $collection;
     }
