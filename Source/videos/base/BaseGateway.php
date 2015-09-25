@@ -21,13 +21,19 @@ abstract class BaseGateway
     {
     }
 
+    public function getHeaders()
+    {
+        return [];
+    }
+
     protected function api($uri, $query = array())
     {
         $query = array_merge($this->apiQuery(), $query);
 
         $apiUrl = $this->getApiUrl();
+        $headers = $this->getHeaders();
         $client = new Client($apiUrl);
-        $request = $client->get($uri, [], ['query' => $query]);
+        $request = $client->get($uri, $headers, ['query' => $query]);
 
         VideosHelper::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
 

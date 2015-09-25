@@ -21,6 +21,18 @@ class Vimeo extends BaseGateway
         ];
     }
 
+    public function getApiVersion()
+    {
+        return '3.0';
+    }
+
+    public function getHeaders()
+    {
+        return [
+            'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion()
+        ];
+    }
+
     public function getOAuthProvider()
     {
         return 'Vimeo';
@@ -211,7 +223,7 @@ class Vimeo extends BaseGateway
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
-        $collection['totalVideos'] = (isset($data['stats']['videos']) ? $data['stats']['videos'] : 0);
+        $collection['totalVideos'] = $data['stats']['videos'];
 
         return $collection;
     }
@@ -222,7 +234,7 @@ class Vimeo extends BaseGateway
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
-        $collection['totalVideos'] = (isset($data['stats']['videos']) ? $data['stats']['videos'] : 0);
+        $collection['totalVideos'] = $data['stats']['videos'];
 
         return $collection;
     }
