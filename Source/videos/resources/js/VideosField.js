@@ -124,15 +124,17 @@ Videos.Field = Garnish.Base.extend({
 
         if(!this.playerModal)
         {
-            this.playerModal = new Videos.Player({
-                gateway: gateway,
-                videoId: videoId
-            });
+            this.playerModal = new Videos.Player();
         }
         else
         {
             this.playerModal.show();
         }
+
+        this.playerModal.play({
+            gateway: gateway,
+            videoId: videoId
+        });
     },
 
     fieldPreview: function()

@@ -13,8 +13,6 @@ Videos.Player = Garnish.Modal.extend(
         this.$player = $('<div class="player modal" />').appendTo(Garnish.$bod);
 
         this.base(this.$player, this.settings);
-
-        this.play(this.settings);
     },
 
     play: function(settings)
