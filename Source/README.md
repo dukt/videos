@@ -2,10 +2,10 @@
 
 Connect to YouTube & Vimeo and publish social videos on your website.
 
-- [Videos Overview](http://dukt.net/craft/videos/)
-- [Videos Docs](http://dukt.net/craft/videos/docs)
-- [Videos Updates](http://dukt.net/craft/videos/updates)
-- [Videos License](http://dukt.net/craft/videos/docs/license)
+- [Videos Overview](https://dukt.net/craft/videos/)
+- [Videos Docs](https://dukt.net/craft/videos/docs)
+- [Videos Updates](https://dukt.net/craft/videos/updates)
+- [Videos License](https://dukt.net/craft/videos/docs/license)
 
 
 [Dukt.net](https://dukt.net/) © 2015 - All rights reserved
