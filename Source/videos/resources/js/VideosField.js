@@ -38,7 +38,6 @@ Videos.Field = Garnish.Base.extend({
 
         if(typeof(options['explorerHtml']) != 'undefined')
         {
-            console.log('explorerHtml', options['explorerHtml']);
             this.explorerHtml = options['explorerHtml'];
         }
     },

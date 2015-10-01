@@ -23,7 +23,6 @@ Videos.Explorer = Garnish.Base.extend({
         this.$videos = $('.videos', this.$container);
         this.$scroller = this.$main;
 
-        console.log('scroller', this.$scroller);
 
         // Section Links
 
@@ -220,7 +219,6 @@ Videos.Explorer = Garnish.Base.extend({
     {
         if (this.canLoadMore())
 		{
-            console.log('load more !');
 
 			this.loadMore(gateway, method, moreOptions);
 		}
