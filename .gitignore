@@ -1,9 +1,4 @@
 *.log
 .DS_Store
-Docs/build/
-Docs/cache/
-Docs/sami.phar
-Source/videos/Info.php
-Source/videos/vendor
-Source/composer.lock
-Source/node_modules/
+composer.lock
+node_modules/
