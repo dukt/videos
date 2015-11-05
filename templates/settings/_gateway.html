@@ -17,7 +17,7 @@
 
                 <h2 class="first">{{ gateway.name }}</h2>
                 <p>{{'You need to connect Craft to {gateway} in order to get started.'|t({gateway: gateway.name})}}</p>
-                <p>{{"Getting errors trying to connect ?"|t}} <a href="{{url('oauth/'~provider.handle)}}">{{"Check {providerName} API key & secret in OAuth settings"|t({providerName: provider.name})}}</a>.</p>
+                <p>{{"Getting errors trying to connect ?"|t}} <a href="{{url('oauth/providers/'~provider.handle)}}">{{"Check {providerName} API key & secret in OAuth settings"|t({providerName: provider.name})}}</a>.</p>
                 <p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t({ gateway: gateway.name }) }}</a></p>
 
             {% endif %}
@@ -25,7 +25,7 @@
 
             <h2 class="first">{{'{provider} provider not configured'|t({provider: provider.name})}}</h2>
             <p>{{'Please fill API client id & secret for Analytics provider.'|t}}</p>
-            <p><a class="btn" href="{{url('oauth/'~provider.handle)}}">{{'{provider} OAuth settings'|t({provider: provider.name})}}</a></p>
+            <p><a class="btn" href="{{url('oauth/providers/'~provider.handle)}}">{{'{provider} OAuth settings'|t({provider: provider.name})}}</a></p>
 
         {% endif %}
 
