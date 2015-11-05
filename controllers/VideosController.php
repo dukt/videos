@@ -175,8 +175,8 @@ class VideosController extends BaseController
                     );
 
                     $gatewayHandle = $gateway->getHandle();
-                    $providerHandle = strtolower($gateway->getOAuthProvider());
-                    $providerName = $gateway->getOAuthProvider();
+                    $providerHandle = strtolower($gateway->getOauthProvider());
+                    $providerName = $gateway->getOauthProvider();
 
                     $provider = craft()->oauth->getProvider($providerHandle, false);
 

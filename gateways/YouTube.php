@@ -21,12 +21,12 @@ class YouTube extends BaseGateway
         ];
     }
 
-    public function getOAuthProvider()
+    public function getOauthProvider()
     {
         return 'Google';
     }
 
-    public function getOAuthScope()
+    public function getOauthScope()
     {
         return array(
             'https://www.googleapis.com/auth/userinfo.profile',

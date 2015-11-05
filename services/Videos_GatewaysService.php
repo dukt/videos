@@ -89,7 +89,7 @@ class Videos_GatewaysService extends BaseApplicationComponent
 
 
                 // provider
-                $handle = strtolower($gateway->getOAuthProvider());
+                $handle = strtolower($gateway->getOauthProvider());
 
 
                 // token

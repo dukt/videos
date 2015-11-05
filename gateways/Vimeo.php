@@ -33,7 +33,7 @@ class Vimeo extends BaseGateway
         ];
     }
 
-    public function getOAuthProvider()
+    public function getOauthProvider()
     {
         return 'Vimeo';
     }

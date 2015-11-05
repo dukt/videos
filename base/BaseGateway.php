@@ -8,11 +8,11 @@ use Guzzle\Http\Client;
 
 abstract class BaseGateway
 {
-    public function getOAuthProvider()
+    public function getOauthProvider()
     {
     }
 
-    public function getOAuthScope()
+    public function getOauthScope()
     {
 
     }
