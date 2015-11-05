@@ -36,7 +36,7 @@ class YouTube extends BaseGateway
         );
     }
 
-    public function getOAuthParams()
+    public function getOauthAuthorizationOptions()
     {
         return array(
             'access_type' => 'offline',

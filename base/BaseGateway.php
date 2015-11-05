@@ -17,7 +17,7 @@ abstract class BaseGateway
 
     }
 
-    public function getOAuthParams()
+    public function getOauthAuthorizationOptions()
     {
     }
 
