@@ -43,7 +43,7 @@ class Videos_OauthController extends BaseController
         if($response = craft()->oauth->connect(array(
             'plugin' => 'videos',
             'provider' => $gateway->getOauthProvider(),
-            'scopes' => $gateway->getOauthScope(),
+            'scope' => $gateway->getOauthScope(),
             'authorizationOptions' => $gateway->getOauthAuthorizationOptions()
         )))
         {
