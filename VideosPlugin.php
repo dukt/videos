@@ -27,7 +27,7 @@ class VideosPlugin extends BasePlugin
      */
     public function getVersion()
     {
-        return '1.1.34';
+        return '1.1.35';
     }
 
     /**
