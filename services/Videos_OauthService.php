@@ -43,12 +43,16 @@ class Videos_OauthService extends BaseApplicationComponent
                 $tokenId = $tokens[$handle];
 
                 // get token
-                $token = craft()->oauth->getTokenById($tokenId);
 
-                if($token)
+                if(isset(craft()->oauth))
                 {
-                    $this->tokens[$handle] = $token;
-                    return $this->tokens[$handle];
+                    $token = craft()->oauth->getTokenById($tokenId);
+
+                    if($token)
+                    {
+                        $this->tokens[$handle] = $token;
+                        return $this->tokens[$handle];
+                    }
                 }
             }
         }

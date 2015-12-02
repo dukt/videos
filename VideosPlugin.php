@@ -276,6 +276,7 @@ class VideosPlugin extends BasePlugin
 
         $dependency['isMissing'] = $isMissing;
         $dependency['plugin'] = $plugin;
+        $dependency['pluginUrl'] = 'https://dukt.net/craft/'.$dependency['handle'];
 
         return $dependency;
     }
