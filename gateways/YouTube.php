@@ -366,24 +366,14 @@ class YouTube extends BaseGateway
 
         if(is_array($item['snippet']['thumbnails']))
         {
-            if(isset($item['snippet']['thumbnails']['medium']))
-            {
-                $video->thumbnailSource = $item['snippet']['thumbnails']['medium']['url'];
-            }
-
             foreach($item['snippet']['thumbnails'] as $thumbnail)
             {
                 if($thumbnail['width'] > $largestSize)
                 {
-                    $video->thumbnailLargeSource = $thumbnail['url'];
+                    $video->thumbnailSource = $thumbnail['url'];
                     $largestSize = $thumbnail['width'];
                 }
             }
-
-            // if(!$video->thumbnailSource && $video->thumbnailLargeSource)
-            // {
-            //     $video->thumbnailSource = $video->thumbnailLargeSource;
-            // }
         }
 
         return $video;
