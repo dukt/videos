@@ -1,24 +1,22 @@
 var gulp = require('gulp'),
-    less = require('gulp-less'),
+    sass = require('gulp-sass'),
     livereload = require('gulp-livereload'),
     del = require('del'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename');
 
 var paths = {
-    less: './videos/resources/less',
-    css: './videos/resources/css',
-    js: './videos/resources/js',
-    jsCompressed: './videos/resources/js/compressed',
+    sass: './resources/sass',
+    css: './resources/css',
+    js: './resources/js',
+    jsCompressed: './resources/js/compressed',
 }
 
-/* Less */
+/* sass */
 
-gulp.task('less', function () {
-  return gulp.src(paths.less+'/**/*.less')
-    .pipe(less({
-      paths: []
-    }))
+gulp.task('css', function () {
+  return gulp.src(paths.sass+'/*.scss')
+    .pipe(sass().on('error', sass.logError))
     .pipe(gulp.dest(paths.css));
 });
 
@@ -43,7 +41,7 @@ gulp.task('clean', function(cb) {
 /* Default Task */
 
 gulp.task('default', ['clean'], function() {
-    gulp.start('less', 'scripts');
+    gulp.start('css', 'scripts');
 });
 
 
@@ -51,7 +49,7 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch(paths.less+'/**/*.less', ['less']);
+    gulp.watch(paths.sass+'/**/*.sass', ['css']);
     gulp.watch(paths.js+'/*.js', ['scripts']);
 
     livereload.listen();
