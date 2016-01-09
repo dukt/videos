@@ -229,16 +229,4 @@ class VideosController extends BaseController
             }
         }
     }
-
-    /**
-     * Explorer
-     *
-     * @return null
-     */
-    public function actionExplorer()
-    {
-        $this->renderTemplate('videos/explorer', [
-            'nav' => craft()->videos->getExplorerNav()
-        ]);
-    }
 }

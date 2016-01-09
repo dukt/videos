@@ -85,7 +85,6 @@ class VideosPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
-            'videos\/explorer' => array('action' => "videos/explorer"),
             'videos\/settings' => array('action' => "videos/settings")
         );
     }
