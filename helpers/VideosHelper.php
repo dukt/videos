@@ -39,7 +39,7 @@ class VideosHelper
     {
         if(craft()->config->get('duktDevMode'))
         {
-            Craft::log($message, $level, $force, $category, $plugin);
+            VideosPlugin::log($message, $level, $force, $category, $plugin);
         }
     }
 }
