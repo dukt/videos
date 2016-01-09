@@ -17,6 +17,8 @@ class VideosController extends BaseController
 
     /**
      * Field Preview
+     *
+     * @return null
      */
     public function actionFieldPreview()
     {
@@ -55,6 +57,11 @@ class VideosController extends BaseController
         }
     }
 
+    /**
+     * Get Explorer Modal
+     *
+     * @return null
+     */
     public function actionGetExplorerModal()
     {
         $namespaceInputId = craft()->request->getPost('namespaceInputId');
@@ -64,8 +71,11 @@ class VideosController extends BaseController
             'nav' => craft()->videos->getExplorerNav()
         ]);
     }
+
     /**
-     * Get videos
+     * Get Videos
+     *
+     * @return null
      */
     public function actionGetVideos()
     {
@@ -110,6 +120,8 @@ class VideosController extends BaseController
 
     /**
      * Player
+     *
+     * @return null
      */
     public function actionPlayer()
     {
