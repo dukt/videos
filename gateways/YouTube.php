@@ -58,10 +58,6 @@ class YouTube extends BaseGateway
                 'name' => "Uploads",
                 'method' => 'uploads'
             ),
-            array(
-                'name' => "Favorites",
-                'method' => 'favorites'
-            )
         );
 
 
@@ -319,11 +315,6 @@ class YouTube extends BaseGateway
 
         foreach($items as $item)
         {
-            if($item['snippet']['title'] == "Favorites")
-            {
-                continue;
-            }
-
             $collection = $this->parseCollection($item);
 
             array_push($collections, $collection);
