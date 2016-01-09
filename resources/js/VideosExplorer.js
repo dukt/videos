@@ -130,15 +130,17 @@ Videos.Explorer = Garnish.Base.extend({
                 }, this)
             });
         }
+        else
+        {
+            this.playerModal.show();
+        }
+
+        this.settings.onPlayerShow();
 
         this.playerModal.play({
             gateway: gateway,
             videoId: videoId,
         });
-
-        this.playerModal.show();
-
-        this.settings.onPlayerShow();
     },
 
     selectVideo: function(ev)
@@ -183,8 +185,6 @@ Videos.Explorer = Garnish.Base.extend({
                     this.$videos.html(response.html);
 
                     this.$mainContent.append(this.$videos);
-
-                    // this.$videos.html(response.html);
 
                     this.$playBtns = $('.play', this.$videos);
                     this.$videoElements = $('.video', this.$videos);
@@ -249,10 +249,8 @@ Videos.Explorer = Garnish.Base.extend({
         $('.more', this.$videos).remove();
 
         this.$spinner.removeClass('hidden');
-
         $videosSpinner = $('<div class="spinner" />');
         this.$videos.append($videosSpinner);
-
 
         data = {
             gateway: gateway,
@@ -263,6 +261,7 @@ Videos.Explorer = Garnish.Base.extend({
         Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
         {
             this.deselectVideos();
+
             this.$spinner.addClass('hidden');
             $videosSpinner.remove();
 
