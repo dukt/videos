@@ -14,76 +14,86 @@ Videos.Explorer = Garnish.Base.extend({
         this.settings = settings;
 
         this.$container = $container;
-        this.$main = $('.main', this.$container);
-        this.$spinner = $('.spinner', this.$container);
-        this.$gateways = $('.gateways select', this.$container);
-        this.$sectionLinks = $('nav a', this.$container);
-        this.$search = $('.search', this.$container);
-        this.$mainContent = $('.main .content', this.$container);
-        this.$videos = $('.videos', this.$container);
-        this.$scroller = this.$main;
 
+        var data = {
+            namespaceInputId: this.settings.namespaceInputId
+        };
 
-        // Section Links
-
-        this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
-
-            this.$sectionLinks.filter('.sel').removeClass('sel');
-
-            $(ev.currentTarget).addClass('sel');
-
-            gateway = $(ev.currentTarget).data('gateway');
-            method = $(ev.currentTarget).data('method');
-            options = $(ev.currentTarget).data('options');
-
-            if(typeof(options) != 'undefined')
-            {
-                options = JSON.stringify(options);
-                options = $.parseJSON(options);
-            }
-
-            this.getVideos(gateway, method, options);
-
-            ev.preventDefault();
-        }, this));
-
-
-        // Search
-
-        this.addListener(this.$search, 'textchange', $.proxy(function(ev)
+        Craft.postActionRequest('videos/getExplorerModal', data, $.proxy(function(response, textStatus)
         {
-            if (this.searchTimeout)
-            {
-                clearTimeout(this.searchTimeout);
-            }
+            this.$modal = $(response).appendTo(this.$container);
 
-            this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
-        }, this));
+            this.$main = $('.main', this.$modal);
+            this.$spinner = $('.spinner', this.$modal);
+            this.$gateways = $('.gateways select', this.$modal);
+            this.$sectionLinks = $('nav a', this.$modal);
+            this.$search = $('.search', this.$modal);
+            this.$mainContent = $('.main .content', this.$modal);
+            this.$videos = $('.videos', this.$modal);
+            this.$scroller = this.$main;
 
-        this.addListener(this.$search, 'blur', $.proxy(function(ev)
-        {
-            var q = $(ev.currentTarget).val();
 
-            if(q.length == 0)
-            {
-                this.$sectionLinks.filter('.sel').trigger('click');
-            }
-        }, this));
+            // Section Links
 
-        this.addListener(this.$search, 'keypress', function(ev)
-        {
-            if (ev.keyCode == Garnish.RETURN_KEY)
-            {
+            this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
+
+                this.$sectionLinks.filter('.sel').removeClass('sel');
+
+                $(ev.currentTarget).addClass('sel');
+
+                gateway = $(ev.currentTarget).data('gateway');
+                method = $(ev.currentTarget).data('method');
+                options = $(ev.currentTarget).data('options');
+
+                if(typeof(options) != 'undefined')
+                {
+                    options = JSON.stringify(options);
+                    options = $.parseJSON(options);
+                }
+
+                this.getVideos(gateway, method, options);
+
                 ev.preventDefault();
-
-                this.search(ev);
-            }
-        });
+            }, this));
 
 
-        // Trigger first click
+            // Search
 
-        $('nav div:not(.hidden) a:first', this.$container).trigger('click');
+            this.addListener(this.$search, 'textchange', $.proxy(function(ev)
+            {
+                if (this.searchTimeout)
+                {
+                    clearTimeout(this.searchTimeout);
+                }
+
+                this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
+            }, this));
+
+            this.addListener(this.$search, 'blur', $.proxy(function(ev)
+            {
+                var q = $(ev.currentTarget).val();
+
+                if(q.length == 0)
+                {
+                    this.$sectionLinks.filter('.sel').trigger('click');
+                }
+            }, this));
+
+            this.addListener(this.$search, 'keypress', function(ev)
+            {
+                if (ev.keyCode == Garnish.RETURN_KEY)
+                {
+                    ev.preventDefault();
+
+                    this.search(ev);
+                }
+            });
+
+
+            // Trigger first click
+
+            $('nav div:not(.hidden) a:first', this.$modal).trigger('click');
+        }, this));
     },
 
     search: function(ev)
@@ -210,7 +220,7 @@ Videos.Explorer = Garnish.Base.extend({
                 }
             }
 
-            $('.main', this.$container).animate({scrollTop:0}, 0);
+            $('.main', this.$modal).animate({scrollTop:0}, 0);
 
         }, this));
     },

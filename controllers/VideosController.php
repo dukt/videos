@@ -55,6 +55,15 @@ class VideosController extends BaseController
         }
     }
 
+    public function actionGetExplorerModal()
+    {
+        $namespaceInputId = craft()->request->getPost('namespaceInputId');
+
+        $this->renderTemplate('videos/_elements/explorer', [
+            'namespaceInputId' => $namespaceInputId,
+            'nav' => craft()->videos->getExplorerNav()
+        ]);
+    }
     /**
      * Get videos
      */

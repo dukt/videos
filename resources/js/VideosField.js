@@ -11,16 +11,18 @@ Videos.Field = Garnish.Base.extend({
     $preview: null,
     $player: null,
     $playBtn: null,
-    $addBtn: null,
+    $openExplorerBtn: null,
     $removeBtn: null,
 
+    inputId: null,
     explorer: null,
     playerModal: null,
     videoSelectorModal: null,
     explorerHtml: null,
 
-    init: function(inputId, options)
+    init: function(inputId)
     {
+        this.inputId = inputId;
         this.$input = $('#'+inputId);
         this.$container = this.$input.parents('.videos-field');
 
@@ -28,18 +30,13 @@ Videos.Field = Garnish.Base.extend({
         this.$preview = $('.preview', this.$container);
 
         this.$playBtn = $('.play', this.$container);
-        this.$addBtn = $('.videos-add', this.$container);
+        this.$openExplorerBtn = $('.videos-add', this.$container);
         this.$removeBtn = $('.delete', this.$container);
 
         this.addListener(this.$input, 'textchange', 'fieldPreview');
+        this.addListener(this.$openExplorerBtn, 'click', 'openExplorer');
         this.addListener(this.$playBtn, 'click', 'playVideo');
-        this.addListener(this.$addBtn, 'click', 'addVideo');
         this.addListener(this.$removeBtn, 'click', 'removeVideo');
-
-        if(typeof(options['explorerHtml']) != 'undefined')
-        {
-            this.explorerHtml = options['explorerHtml'];
-        }
     },
 
     removeVideo: function(ev)
@@ -49,12 +46,12 @@ Videos.Field = Garnish.Base.extend({
         ev.preventDefault();
     },
 
-    addVideo: function(ev)
+    openExplorer: function(ev)
     {
         if(!this.videoSelectorModal)
         {
             $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
-            $wrap = $('<div class="wrap"/>').appendTo($videoSelectorModal),
+            $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
             $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
             $buttons = $('<div class="buttons right"/>').appendTo($footer),
             $cancelBtn = $('<div class="btn">'+Craft.t('Cancel')+'</div>').appendTo($buttons),
@@ -75,12 +72,14 @@ Videos.Field = Garnish.Base.extend({
                 this.videoSelectorModal.hide();
             });
 
-            if(this.explorerHtml)
+            if(!this.explorer)
             {
-                $wrap.html(this.explorerHtml);
+                this.explorer = new Videos.Explorer($explorerContainer,
+                {
+                    namespaceInputId: this.inputId,
 
-                this.explorer = new Videos.Explorer($videoSelectorModal, {
-                    onPlayerHide: $.proxy(function() {
+                    onPlayerHide: $.proxy(function()
+                    {
                         this.videoSelectorModal.show();
                     }, this),
                     onSelectVideo: $.proxy(function(url)
