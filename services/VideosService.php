@@ -78,15 +78,6 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Send Request
-     */
-    public function sendRequest(Videos_RequestCriteriaModel $criteria)
-    {
-        $gateway = craft()->videos_gateways->getGateway($criteria->gateway);
-        return $gateway->api($criteria->method, $criteria->query);
-    }
-
     // Private Methods
     // =========================================================================
 
