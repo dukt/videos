@@ -47,11 +47,11 @@ abstract class BaseGateway
         }
         catch(\Exception $e)
         {
-            VideosHelper::log("GuzzleError: ".$e->getMessage().' \r\n'.$e->getTraceAsString(), LogLevel::Info);
+            VideosHelper::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
 
             if(method_exists($e, 'getResponse'))
             {
-                VideosHelper::log("GuzzleErrorResponse: ".$e->getResponse(), LogLevel::Info);
+                VideosHelper::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
             }
 
             throw $e;
