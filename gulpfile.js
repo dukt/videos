@@ -49,7 +49,7 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('watch', function() {
 
-    gulp.watch(paths.sass+'/**/*.sass', ['css']);
+    gulp.watch(paths.sass+'/*.scss', ['css']);
     gulp.watch(paths.js+'/*.js', ['scripts']);
 
     livereload.listen();
