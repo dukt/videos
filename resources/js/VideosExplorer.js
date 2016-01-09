@@ -6,7 +6,6 @@ if (typeof Videos == 'undefined')
 Videos.Explorer = Garnish.Base.extend({
 
     playerModal: null,
-    previewInject: null,
     searchTimeout: null,
 
     init: function($container, settings)
@@ -131,15 +130,15 @@ Videos.Explorer = Garnish.Base.extend({
                 }, this)
             });
         }
-        else
-        {
-            this.playerModal.play({
-                gateway: gateway,
-                videoId: videoId,
-            });
 
-            this.playerModal.show();
-        }
+        this.playerModal.play({
+            gateway: gateway,
+            videoId: videoId,
+        });
+
+        this.playerModal.show();
+
+        this.settings.onPlayerShow();
     },
 
     selectVideo: function(ev)

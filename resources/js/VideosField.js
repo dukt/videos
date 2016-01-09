@@ -82,6 +82,10 @@ Videos.Field = Garnish.Base.extend({
                     {
                         this.videoSelectorModal.show();
                     }, this),
+                    onPlayerShow: $.proxy(function()
+                    {
+                        this.videoSelectorModal.hide();
+                    }, this),
                     onSelectVideo: $.proxy(function(url)
                     {
                         $selectBtn.removeClass('disabled');
