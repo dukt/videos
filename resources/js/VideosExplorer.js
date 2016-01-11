@@ -88,6 +88,7 @@ Videos.Explorer = Garnish.Base.extend({
                 }
             });
 
+            Craft.initUiElements();
 
             // Trigger first click
 
