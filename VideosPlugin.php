@@ -72,6 +72,14 @@ class VideosPlugin extends BasePlugin
     }
 
     /**
+     * Get Documentation URL
+     */
+    public function getDocumentationUrl()
+    {
+        return 'https://dukt.net/craft/videos/docs/';
+    }
+
+    /**
      * Has CP Section
      */
     public function hasCpSection()
