@@ -35,23 +35,23 @@ abstract class BaseGateway
         $client = new Client($apiUrl);
         $request = $client->get($uri, $headers, ['query' => $query]);
 
-        VideosHelper::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
+        VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
 
         try
         {
             $response = $request->send();
 
-            VideosHelper::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
+            VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
 
             return $response->json();
         }
         catch(\Exception $e)
         {
-            VideosHelper::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
+            VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
 
             if(method_exists($e, 'getResponse'))
             {
-                VideosHelper::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
+                VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
             }
 
             throw $e;

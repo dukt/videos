@@ -31,7 +31,7 @@ class VideosVariable
         }
         catch(\Exception $e)
         {
-            VideosHelper::log('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), LogLevel::Error);
+            VideosPlugin::log('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), LogLevel::Error);
         }
     }
 

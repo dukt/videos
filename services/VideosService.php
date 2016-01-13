@@ -158,7 +158,7 @@ class VideosService extends BaseApplicationComponent
             }
             catch(\Exception $e)
             {
-                VideosHelper::log('Couldn’t get video: '.$e->getMessage(), LogLevel::Error);
+                VideosPlugin::log('Couldn’t get video: '.$e->getMessage(), LogLevel::Error);
             }
         }
 
