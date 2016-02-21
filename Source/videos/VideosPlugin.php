@@ -22,13 +22,22 @@ class VideosPlugin extends BasePlugin
         return Craft::t('Videos');
     }
 
-    /**
-     * Get Version
-     */
-    public function getVersion()
-    {
-        return '1.1.39';
-    }
+	/**
+	 * Get Version
+	 */
+	public function getVersion()
+	{
+		$path = CRAFT_PLUGINS_PATH.'videos/Info.php';
+
+		if(IOHelper::fileExists($path))
+		{
+			require_once($path);
+
+			return VIDEOS_VERSION;
+		}
+
+		return '1.1.0';
+	}
 
     /**
      * Get Schema Version
