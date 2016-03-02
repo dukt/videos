@@ -66,10 +66,22 @@ class VideosController extends BaseController
     {
         $namespaceInputId = craft()->request->getPost('namespaceInputId');
 
-        $this->renderTemplate('videos/_elements/explorer', [
-            'namespaceInputId' => $namespaceInputId,
-            'nav' => craft()->videos->getExplorerNav()
-        ]);
+        try
+        {
+            $this->renderTemplate('videos/_elements/explorer', [
+                'namespaceInputId' => $namespaceInputId,
+                'nav' => craft()->videos->getExplorerNav()
+            ]);
+        }
+        catch(\Exception $e)
+        {
+            $json = $e->getResponse()->json();
+            $message = $json['error']['message'];
+
+            $this->returnErrorJson($message);
+
+            VideosPlugin::log('Couldn’t load explorer modal: '.$message, LogLevel::Error);
+        }
     }
 
     /**

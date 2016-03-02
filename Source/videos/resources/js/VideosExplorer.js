@@ -20,79 +20,102 @@ Videos.Explorer = Garnish.Base.extend({
 
         Craft.postActionRequest('videos/getExplorerModal', data, $.proxy(function(response, textStatus)
         {
-            this.$modal = $(response).appendTo(this.$container);
+            console.log('response', response);
+            console.log('textStatus', textStatus);
 
-            this.$main = $('.main', this.$modal);
-            this.$spinner = $('.spinner', this.$modal);
-            this.$gateways = $('.gateways select', this.$modal);
-            this.$sectionLinks = $('nav a', this.$modal);
-            this.$search = $('.search', this.$modal);
-            this.$mainContent = $('.main .content', this.$modal);
-            this.$videos = $('.videos', this.$modal);
-            this.$scroller = this.$main;
-
-
-            // Section Links
-
-            this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
-
-                this.$sectionLinks.filter('.sel').removeClass('sel');
-
-                $(ev.currentTarget).addClass('sel');
-
-                gateway = $(ev.currentTarget).data('gateway');
-                method = $(ev.currentTarget).data('method');
-                options = $(ev.currentTarget).data('options');
-
-                if(typeof(options) != 'undefined')
-                {
-                    options = JSON.stringify(options);
-                    options = $.parseJSON(options);
-                }
-
-                this.getVideos(gateway, method, options);
-
-                ev.preventDefault();
-            }, this));
-
-
-            // Search
-
-            this.addListener(this.$search, 'textchange', $.proxy(function(ev)
+            if(textStatus == 'success')
             {
-                if (this.searchTimeout)
+                if(response.success)
                 {
-                    clearTimeout(this.searchTimeout);
+                    this.$modal = $(response).appendTo(this.$container);
+
+                    this.$main = $('.main', this.$modal);
+                    this.$spinner = $('.spinner', this.$modal);
+                    this.$gateways = $('.gateways select', this.$modal);
+                    this.$sectionLinks = $('nav a', this.$modal);
+                    this.$search = $('.search', this.$modal);
+                    this.$mainContent = $('.main .content', this.$modal);
+                    this.$videos = $('.videos', this.$modal);
+                    this.$scroller = this.$main;
+
+
+                    // Section Links
+
+                    this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
+
+                        this.$sectionLinks.filter('.sel').removeClass('sel');
+
+                        $(ev.currentTarget).addClass('sel');
+
+                        gateway = $(ev.currentTarget).data('gateway');
+                        method = $(ev.currentTarget).data('method');
+                        options = $(ev.currentTarget).data('options');
+
+                        if(typeof(options) != 'undefined')
+                        {
+                            options = JSON.stringify(options);
+                            options = $.parseJSON(options);
+                        }
+
+                        this.getVideos(gateway, method, options);
+
+                        ev.preventDefault();
+                    }, this));
+
+
+                    // Search
+
+                    this.addListener(this.$search, 'textchange', $.proxy(function(ev)
+                    {
+                        if (this.searchTimeout)
+                        {
+                            clearTimeout(this.searchTimeout);
+                        }
+
+                        this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
+                    }, this));
+
+                    this.addListener(this.$search, 'blur', $.proxy(function(ev)
+                    {
+                        var q = $(ev.currentTarget).val();
+
+                        if(q.length == 0)
+                        {
+                            this.$sectionLinks.filter('.sel').trigger('click');
+                        }
+                    }, this));
+
+                    this.addListener(this.$search, 'keypress', function(ev)
+                    {
+                        if (ev.keyCode == Garnish.RETURN_KEY)
+                        {
+                            ev.preventDefault();
+
+                            this.search(ev);
+                        }
+                    });
+
+                    Craft.initUiElements();
+
+                    // Trigger first click
+
+                    $('nav div:not(.hidden) a:first', this.$modal).trigger('click');
                 }
-
-                this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
-            }, this));
-
-            this.addListener(this.$search, 'blur', $.proxy(function(ev)
-            {
-                var q = $(ev.currentTarget).val();
-
-                if(q.length == 0)
+                else
                 {
-                    this.$sectionLinks.filter('.sel').trigger('click');
+                    var errorMessage = "Couldn’t load explorer manager.";
+
+                    if(response.error)
+                    {
+                        errorMessage = response.error;
+                    }
+
+
+                    var $error = $('<div class="error">'+errorMessage+'</div>');
+
+                    $error.appendTo(this.$container);
                 }
-            }, this));
-
-            this.addListener(this.$search, 'keypress', function(ev)
-            {
-                if (ev.keyCode == Garnish.RETURN_KEY)
-                {
-                    ev.preventDefault();
-
-                    this.search(ev);
-                }
-            });
-
-            Craft.initUiElements();
-
-            // Trigger first click
-
-            $('nav div:not(.hidden) a:first', this.$modal).trigger('click');
+            }
         }, this));
     },
 

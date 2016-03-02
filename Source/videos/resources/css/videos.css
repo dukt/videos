@@ -83,6 +83,9 @@
   top: 40%;
   left: 50%; }
 
+.explorer-container .error {
+  padding: 24px; }
+
 /*
 @media (min-width:500px) {
     .videos.large .video { width: 22.5%; }
