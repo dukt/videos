@@ -27,7 +27,7 @@ Videos.Explorer = Garnish.Base.extend({
             {
                 if(response.success)
                 {
-                    this.$modal = $(response).appendTo(this.$container);
+                    this.$modal = $(response.html).appendTo(this.$container);
 
                     this.$main = $('.main', this.$modal);
                     this.$spinner = $('.spinner', this.$modal);

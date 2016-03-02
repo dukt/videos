@@ -68,14 +68,18 @@ class VideosController extends BaseController
 
         try
         {
-            $this->renderTemplate('videos/_elements/explorer', [
-                'namespaceInputId' => $namespaceInputId,
-                'nav' => craft()->videos->getExplorerNav()
-            ]);
+            $this->returnJson(array(
+                'success' => true,
+                'html' => craft()->templates->render('videos/_elements/explorer', [
+                    'namespaceInputId' => $namespaceInputId,
+                    'nav' => craft()->videos->getExplorerNav()
+                ])
+            ));
         }
         catch(\Exception $e)
         {
             $json = $e->getResponse()->json();
+
             $message = $json['error']['message'];
 
             $this->returnErrorJson($message);
