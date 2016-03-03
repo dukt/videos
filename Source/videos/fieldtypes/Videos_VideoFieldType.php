@@ -33,6 +33,8 @@ class Videos_VideoFieldType extends BaseFieldType
      */
     public function getInputHtml($name, $value)
     {
+        $unpreppedValue = false;
+        
         // get the unprepped value (the video url)
 
         if($this->element)
