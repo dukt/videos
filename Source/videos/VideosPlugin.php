@@ -177,7 +177,7 @@ class VideosPlugin extends BasePlugin
                 }
                 else
                 {
-                    Craft::log('Tried to write to target folder and could not: '.$sizedIconFolder, LogLevel::Error);
+                    VideosPlugin::log('Tried to write to target folder and could not: '.$sizedIconFolder, LogLevel::Error);
                 }
             }
 
