@@ -46,7 +46,7 @@
 
 .videoselectormodal {
   width: 940px;
-  height: 400px;
+  min-height: 400px;
   padding-bottom: 58px; }
 
 .videoselectormodal .explorer-container {
