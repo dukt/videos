@@ -3,8 +3,8 @@
     Videos = {};
 }
 
-Videos.Field = Garnish.Base.extend({
-
+Videos.Field = Garnish.Base.extend(
+{
     $input: null,
     $container: null,
     $spinner: null,

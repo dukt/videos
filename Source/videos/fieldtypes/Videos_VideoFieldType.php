@@ -42,37 +42,28 @@ class Videos_VideoFieldType extends BaseFieldType
 
 
         // Reformat the input name into something that looks more like an ID
-
         $id = craft()->templates->formatInputId($name);
 
-
         // Figure out what that ID is going to look like once it has been namespaced
-
         $namespacedId = craft()->templates->namespaceInputId($id);
 
-        $settings = $this->getSettings();
-
-
         // Init CSRF Token
-
         $jsTemplate = 'window.csrfTokenName = "{{ craft.config.csrfTokenName|e(\'js\') }}";';
         $jsTemplate .= 'window.csrfTokenValue = "{{ craft.request.csrfToken|e(\'js\') }}";';
         $js = craft()->templates->renderString($jsTemplate);
         craft()->templates->includeJs($js);
 
-
-        // Resources
-
+        // CSS
         craft()->templates->includeCssResource('videos/css/videos.css');
         craft()->templates->includeCssResource('videos/css/VideosExplorer.css');
         craft()->templates->includeCssResource('videos/css/VideosField.css');
+
+        // JS
         craft()->templates->includeJsResource('videos/js/Videos.js');
         craft()->templates->includeJsResource('videos/js/VideosExplorer.js');
         craft()->templates->includeJsResource('videos/js/VideosField.js');
 
-
-        // JS Field
-
+        // Instantiate Videos Field
         craft()->templates->includeJs('new Videos.Field("'.craft()->templates->namespaceInputId($id).'");');
 
 
@@ -86,9 +77,6 @@ class Videos_VideoFieldType extends BaseFieldType
         {
             $preview = null;
         }
-
-
-        // Render HTML
 
         return craft()->templates->render('videos/_components/fieldtypes/Video/input', [
             'id'    => $id,

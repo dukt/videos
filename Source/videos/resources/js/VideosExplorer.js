@@ -20,9 +20,6 @@ Videos.Explorer = Garnish.Base.extend({
 
         Craft.postActionRequest('videos/getExplorerModal', data, $.proxy(function(response, textStatus)
         {
-            console.log('response', response);
-            console.log('textStatus', textStatus);
-
             if(textStatus == 'success')
             {
                 if(response.success)
@@ -115,6 +112,13 @@ Videos.Explorer = Garnish.Base.extend({
 
                     $error.appendTo(this.$container);
                 }
+            }
+            else
+            {
+                var errorMessage = "Couldn’t load explorer manager.";
+                var $error = $('<div class="error">'+errorMessage+'</div>');
+
+                $error.appendTo(this.$container);
             }
         }, this));
     },

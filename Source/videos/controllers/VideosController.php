@@ -76,11 +76,19 @@ class VideosController extends BaseController
                 ])
             ));
         }
-        catch(\Exception $e)
+        catch(\Guzzle\Http\Exception\ClientErrorResponseException $e)
         {
             $json = $e->getResponse()->json();
 
             $message = $json['error']['message'];
+
+            $this->returnErrorJson($message);
+
+            VideosPlugin::log('Couldn’t load explorer modal: '.$message, LogLevel::Error);
+        }
+        catch(\Exception $e)
+        {
+            $message = $e->getMessage();
 
             $this->returnErrorJson($message);
 
