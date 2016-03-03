@@ -45,8 +45,8 @@
   overflow: hidden; }
 
 .videoselectormodal {
-  min-width: 940px;
-  min-height: 400px;
+  width: 940px;
+  height: 400px;
   padding-bottom: 58px; }
 
 .videoselectormodal .explorer-container {
