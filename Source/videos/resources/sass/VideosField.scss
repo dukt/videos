@@ -1,5 +1,8 @@
 .videos-field { position: relative; }
-.videos-field .add-input { font-size: .9em; position: absolute; top: 7px; right: 10px; }
+.videos-field .add-input { font-size: .9em; position: absolute; top: 7px; right: 10px; padding-left: 3px; background: #fff;
+    -webkit-box-shadow: 0 0 3px 3px rgba(255,255,255,1);
+    box-shadow: 0 0 3px 3px rgba(255,255,255,1);
+ }
 .videos-field:hover .play { opacity: .7; -webkit-transition: all 0.3s ease; -moz-transition: all 0.3s ease; -ms-transition: all 0.3s ease; -o-transition: all 0.3s ease; transition: all 0.3s ease; }
 .videos-field img { background: url(../img/spinner.gif) center center no-repeat; }
 
