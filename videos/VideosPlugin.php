@@ -7,7 +7,7 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH.'videos/base/BaseGateway.php');
+require_once(CRAFT_PLUGINS_PATH.'videos/vendor/autoload.php');
 
 class VideosPlugin extends BasePlugin
 {
