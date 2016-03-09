@@ -9,8 +9,6 @@ namespace Craft;
 
 class VideosService extends BaseApplicationComponent
 {
-    private $explorerNav;
-
     // Public Methods
     // =========================================================================
 
