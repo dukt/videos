@@ -77,8 +77,9 @@ class Videos_GatewaysService extends BaseApplicationComponent
 
             foreach($gateways as $gateway)
             {
-                $handle = $gateway->getHandle();
-                $token = craft()->videos_oauth->getToken($handle);
+	            $oauthProviderHandle = strtolower($gateway->getOauthProvider());
+
+                $token = craft()->videos_oauth->getToken($oauthProviderHandle);
 
                 if($token)
                 {
