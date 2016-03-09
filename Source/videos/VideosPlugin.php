@@ -7,8 +7,6 @@
 
 namespace Craft;
 
-require_once(CRAFT_PLUGINS_PATH.'videos/base/BaseGateway.php');
-
 class VideosPlugin extends BasePlugin
 {
     // Public Methods
@@ -78,6 +76,21 @@ class VideosPlugin extends BasePlugin
     public function getDeveloperUrl()
     {
         return 'https://dukt.net/';
+    }
+
+    /**
+     * Get OAuth Providers
+     */
+    public function getVideosGateways()
+    {
+        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');
+        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/Vimeo.php');
+        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/YouTube.php');
+
+        return [
+            'Dukt\Videos\Gateways\Vimeo',
+            'Dukt\Videos\Gateways\YouTube',
+        ];
     }
 
     /**

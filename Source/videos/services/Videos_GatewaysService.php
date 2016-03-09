@@ -73,42 +73,63 @@ class Videos_GatewaysService extends BaseApplicationComponent
     {
         if(!$this->_gatewaysLoaded)
         {
-            $files = IOHelper::getFiles(CRAFT_PLUGINS_PATH.'videos/gateways');
+            $gateways = $this->_getGateways();
 
-            foreach($files as $file)
+            foreach($gateways as $gateway)
             {
-                require_once($file);
-
-                $gatewayName = IOHelper::getFilename($file, false);
-
-                $nsClass = '\\Dukt\\Videos\\Gateways\\'.$gatewayName;
-
-
-                // gateway
-                $gateway = new $nsClass;
-
-
-                // provider
-                $handle = strtolower($gateway->getOauthProvider());
-
-
-                // token
+                $handle = $gateway->getHandle();
                 $token = craft()->videos_oauth->getToken($handle);
 
                 if($token)
                 {
                     $gateway->setToken($token);
 
-                    // add to loaded gateways
                     $this->_gateways[] = $gateway;
                 }
 
-
-                // add to all gateways
                 $this->_allGateways[] = $gateway;
             }
 
             $this->_gatewaysLoaded = true;
         }
+    }
+
+    /**
+     * Get Providers
+     */
+    private function _getGateways()
+    {
+        // fetch all OAuth provider types
+
+        $gatewayTypes = array();
+
+        foreach(craft()->plugins->call('getVideosGateways', [], true) as $pluginGatewayTypes)
+        {
+            $gatewayTypes = array_merge($gatewayTypes, $pluginGatewayTypes);
+        }
+
+
+        // instantiate providers
+
+        $gateways = [];
+
+        foreach($gatewayTypes as $gatewayType)
+        {
+            $gateways[$gatewayType] = $this->_createGateway($gatewayType);
+        }
+
+        ksort($gateways);
+
+        return $gateways;
+    }
+
+    /**
+     * Create gateway
+     */
+    private function _createGateway($gatewayType)
+    {
+        $gateway = new $gatewayType;
+
+        return $gateway;
     }
 }
