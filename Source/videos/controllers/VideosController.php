@@ -64,15 +64,18 @@ class VideosController extends BaseController
      */
     public function actionGetExplorerModal()
     {
-        $namespaceInputId = craft()->request->getPost('namespaceInputId');
+	    $this->requireAjaxRequest();
 
         try
         {
+	        $namespaceInputId = craft()->request->getPost('namespaceInputId');
+            $nav = craft()->videos->getExplorerNav();
+            
             $this->returnJson(array(
                 'success' => true,
                 'html' => craft()->templates->render('videos/_elements/explorer', [
                     'namespaceInputId' => $namespaceInputId,
-                    'nav' => craft()->videos->getExplorerNav()
+                    'nav' => $nav,
                 ])
             ));
         }
