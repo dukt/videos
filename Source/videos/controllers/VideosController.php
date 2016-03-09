@@ -12,6 +12,11 @@ namespace Craft;
  */
 class VideosController extends BaseController
 {
+	// Properties
+	// =========================================================================
+
+	private $explorerNav;
+
     // Public Methods
     // =========================================================================
 
