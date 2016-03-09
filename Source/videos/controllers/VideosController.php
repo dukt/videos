@@ -69,7 +69,7 @@ class VideosController extends BaseController
         try
         {
 	        $namespaceInputId = craft()->request->getPost('namespaceInputId');
-            $nav = craft()->videos->getExplorerNav();
+            $nav = $this->getExplorerNav();
             
             $this->returnJson(array(
                 'success' => true,
@@ -264,4 +264,32 @@ class VideosController extends BaseController
             }
         }
     }
+
+	// Private Methods
+	// =========================================================================
+
+	/**
+	 * Explorer Nav
+	 */
+	private function getExplorerNav()
+	{
+		if(!$this->explorerNav)
+		{
+			$gatewaySections = [];
+
+			$gateways = craft()->videos_gateways->getGateways();
+
+			foreach ($gateways as $gateway)
+			{
+				$gatewaySections[] = $gateway->getSections();
+			}
+
+			$this->explorerNav = [
+				'gateways' => $gateways,
+				'gatewaySections' => $gatewaySections
+			];
+		}
+
+		return $this->explorerNav;
+	}
 }

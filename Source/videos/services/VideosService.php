@@ -28,31 +28,6 @@ class VideosService extends BaseApplicationComponent
     }
 
     /**
-     * Explorer Nav
-     */
-    public function getExplorerNav()
-    {
-        if(!$this->explorerNav)
-        {
-            $gatewaySections = [];
-
-            $gateways = craft()->videos_gateways->getGateways();
-
-            foreach ($gateways as $gateway)
-            {
-                $gatewaySections[] = $gateway->getSections();
-            }
-
-            $this->explorerNav = [
-                'gateways' => $gateways,
-                'gatewaySections' => $gatewaySections
-            ];
-        }
-
-        return $this->explorerNav;
-    }
-
-    /**
      * Get a video from its ID
      */
     public function getVideoById($gateway, $id)
