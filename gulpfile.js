@@ -6,10 +6,10 @@ var gulp = require('gulp'),
     rename = require('gulp-rename');
 
 var paths = {
-    sass: './videos/resources/sass',
-    css: './videos/resources/css',
-    js: './videos/resources/js',
-    jsCompressed: './videos/resources/js/compressed',
+    sass: './Source/videos/resources/sass',
+    css: './Source/videos/resources/css',
+    js: './Source/videos/resources/js',
+    jsCompressed: './Source/videos/resources/js/compressed',
 }
 
 /* sass */
