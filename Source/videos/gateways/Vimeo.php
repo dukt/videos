@@ -2,7 +2,7 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\Videos_VideoModel;
+use Craft\Videos_VimeoVideoModel;
 
 class Vimeo extends BaseGateway
 {
@@ -261,7 +261,7 @@ class Vimeo extends BaseGateway
 
     private function parseVideo($data)
     {
-        $video = new Videos_VideoModel;
+        $video = new Videos_VimeoVideoModel;
         $video->authorName = $data['user']['name'];
         $video->authorUrl = $data['user']['link'];
         $video->date = strtotime($data['created_time']);
@@ -274,6 +274,29 @@ class Vimeo extends BaseGateway
         $video->title = $data['name'];
         $video->url = $data['link'];
 
+        $video->privacy = $data['privacy'];
+	    $video->uri = $data['uri'];
+		$video->name = $data['name'];
+		$video->link = $data['link'];
+		$video->duration = $data['duration'];
+		$video->width = $data['width'];
+		$video->language = $data['language'];
+		$video->height = $data['height'];
+		$video->embed = $data['embed'];
+		$video->createdTime = $data['created_time'];
+		$video->modifiedTime = $data['modified_time'];
+		$video->contentRating = $data['content_rating'];
+		$video->license = $data['license'];
+		$video->privacy = $data['privacy'];
+		$video->pictures = $data['pictures'];
+		$video->tags = $data['tags'];
+		$video->stats = $data['stats'];
+		$video->metadata = $data['metadata'];
+		$video->user = $data['user'];
+		$video->status = $data['status'];
+		$video->resourceKey = $data['resource_key'];
+		$video->privacy = $data['privacy'];
+		$video->downloads = (isset($data['download']) ? $data['download'] : null);
 
         // Retrieve largest thumbnail
 

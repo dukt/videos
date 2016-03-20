@@ -2,7 +2,7 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\Videos_VideoModel;
+use Craft\Videos_YoutubeVideoModel;
 
 class YouTube extends BaseGateway
 {
@@ -332,7 +332,7 @@ class YouTube extends BaseGateway
 
     private function parseVideo($item)
     {
-        $video = new Videos_VideoModel;
+        $video = new Videos_YoutubeVideoModel;
         $video->authorName = $item['snippet']['channelTitle'];
         $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
         $video->date = strtotime($item['snippet']['publishedAt']);
@@ -366,6 +366,12 @@ class YouTube extends BaseGateway
                 }
             }
         }
+
+	    $video->kind = $item['kind'];
+	    $video->etag = $item['etag'];
+	    $video->snippet = $item['snippet'];
+	    $video->contentDetails = $item['contentDetails'];
+	    $video->statistics = $item['statistics'];
 
         return $video;
     }
