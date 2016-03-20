@@ -37,11 +37,6 @@ interface GatewayInterface
     public function extractVideoIdFromUrl($url);
     
     /**
-     * Returns an authenticated Guzzle client
-     */
-    public function apiCreateClient();
-    
-    /**
      * Returns the URL format of the embed
      */
     public function getEmbedFormat();

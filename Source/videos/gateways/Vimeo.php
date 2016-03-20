@@ -2,6 +2,8 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
+use Craft\LogLevel;
+use Craft\VideosPlugin;
 use Craft\Videos_VimeoVideoModel;
 use Guzzle\Http\Client;
 
@@ -386,6 +388,35 @@ class Vimeo extends BaseGateway
         }
 
         return $query;
+    }
+    
+    private function apiPerformGetRequest($uri, $query = array(), $headers = null)
+    {
+        $client = $this->apiCreateClient();
+        
+        $request = $client->get($uri, $headers, ['query' => $query]);
+
+        VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
+
+        try
+        {
+            $response = $request->send();
+
+            VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
+
+            return $response->json();
+        }
+        catch(\Exception $e)
+        {
+            VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
+
+            if(method_exists($e, 'getResponse'))
+            {
+                VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
+            }
+
+            throw $e;
+        }
     }
     
     // Get Videos methods
