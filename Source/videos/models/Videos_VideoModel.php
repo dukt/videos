@@ -78,7 +78,7 @@ class Videos_VideoModel extends BaseModel
     // Private Methods
     // =========================================================================
 
-    private function getVideo()
+    private function getVideoById()
     {
         if(!$this->_video)
         {

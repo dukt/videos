@@ -3,47 +3,19 @@ namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
 use Craft\Videos_VimeoVideoModel;
+use Guzzle\Http\Client;
 
 class Vimeo extends BaseGateway
 {
     // Public Methods
     // =========================================================================
-
-    public function getApiUrl()
-    {
-        return 'https://api.vimeo.com/';
-    }
-
-    public function apiQuery()
-    {
-        return [
-            'access_token' => $this->token->accessToken
-        ];
-    }
-
-    public function getApiVersion()
-    {
-        return '3.0';
-    }
-
-    public function getHeaders()
-    {
-        return [
-            'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion()
-        ];
-    }
-
-    public function getOauthProvider()
-    {
-        return 'Vimeo';
-    }
-
+    
     public function getName()
     {
         return "Vimeo";
     }
-
-    public function getSections()
+    
+    public function getExplorerSections()
     {
         $sections = array();
 
@@ -112,31 +84,40 @@ class Vimeo extends BaseGateway
 
         return $sections;
     }
-
-    public function getVideo($opts)
+    
+    public function getVideoById($id)
     {
-        $response = $this->api('videos/'.$opts['id']);
+        $response = $this->apiPerformGetRequest('videos/'.$id);
 
         if($response)
         {
             return $this->parseVideo($response);
         }
     }
+    
+    public function getVideos($method, $options)
+    {
+        $realMethod = 'getVideos'.ucwords($method);
+
+        if(method_exists($this, $realMethod))
+        {
+            return $this->{$realMethod}($options);
+        }
+        else
+        {
+            throw new \Exception("Method ".$realMethod." not found");
+        }
+    }
+    
+    public function getOauthProviderHandle()
+    {
+        return 'vimeo';
+    }
 
     // Protected Methods
     // =========================================================================
-
-    protected function getEmbedFormat()
-    {
-        return "https://player.vimeo.com/video/%s";
-    }
-
-    protected function getBoolParameters()
-    {
-        return array('portrait', 'title', 'byline');
-    }
-
-    protected static function getVideoId($url)
+    
+    protected function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
@@ -165,46 +146,47 @@ class Vimeo extends BaseGateway
         // here we should have a valid video_id or false if service not matching
         return $video_id;
     }
-
-    protected function getVideosAlbum($params = array())
+    
+    protected function apiCreateClient()
     {
-        $albumId = $params['id'];
-        unset($params['id']);
-
-         // albums/#album_id
-        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
+        $apiUrl = $this->getApiUrl();
+        
+        $client = new Client($apiUrl, array(
+            'request.options' => array(
+                'headers' => [
+                    'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion()
+                ],
+                'query' => [
+                    'access_token' => $this->token->accessToken
+                ],
+            )
+        ));
+        
+        return $client;
     }
-
-    protected function getVideosChannel($params = array())
+    
+    protected function getEmbedFormat()
     {
-        $params['channel_id'] = $params['id'];
-        unset($params['id']);
-
-        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
+        return "https://player.vimeo.com/video/%s";
     }
-
-    protected function getVideosFavorites($params = array())
-    {
-        return $this->performVideosRequest('me/likes', $params);
-    }
-
-    protected function getVideosSearch($params = array())
-    {
-        return $this->performVideosRequest('videos', $params);
-    }
-
-    protected function getVideosUploads($params = array())
-    {
-        return $this->performVideosRequest('me/videos', $params);
-    }
-
+    
     // Private Methods
     // =========================================================================
+    
+    private function getApiUrl()
+    {
+        return 'https://api.vimeo.com/';
+    }
 
+    private function getApiVersion()
+    {
+        return '3.0';
+    }
+    
     private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->api('me/albums', $query);
+        $response = $this->apiPerformGetRequest('me/albums', $query);
 
         return $this->parseCollections('album', $response['data']);
     }
@@ -212,7 +194,7 @@ class Vimeo extends BaseGateway
     private function getCollectionsChannels($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->api('me/channels', $query);
+        $response = $this->apiPerformGetRequest('me/channels', $query);
 
         return $this->parseCollections('channel', $response['data']);
     }
@@ -278,7 +260,6 @@ class Vimeo extends BaseGateway
 	    $video->uri = $data['uri'];
 		$video->name = $data['name'];
 		$video->link = $data['link'];
-		$video->duration = $data['duration'];
 		$video->width = $data['width'];
 		$video->language = $data['language'];
 		$video->height = $data['height'];
@@ -357,7 +338,7 @@ class Vimeo extends BaseGateway
     {
         $query = $this->queryFromParams($params);
 
-        $videosRaw = $this->api($uri, $query);
+        $videosRaw = $this->apiPerformGetRequest($uri, $query);
         $videos = $this->parseVideos($videosRaw['data']);
 
         $more = false;
@@ -408,5 +389,40 @@ class Vimeo extends BaseGateway
         }
 
         return $query;
+    }
+    
+    // Get Videos methods
+    // =========================================================================
+
+    private function getVideosAlbum($params = array())
+    {
+        $albumId = $params['id'];
+        unset($params['id']);
+
+         // albums/#album_id
+        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
+    }
+
+    private function getVideosChannel($params = array())
+    {
+        $params['channel_id'] = $params['id'];
+        unset($params['id']);
+
+        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
+    }
+
+    private function getVideosFavorites($params = array())
+    {
+        return $this->performVideosRequest('me/likes', $params);
+    }
+
+    private function getVideosSearch($params = array())
+    {
+        return $this->performVideosRequest('videos', $params);
+    }
+
+    private function getVideosUploads($params = array())
+    {
+        return $this->performVideosRequest('me/videos', $params);
     }
 }

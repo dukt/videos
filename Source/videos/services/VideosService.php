@@ -73,7 +73,7 @@ class VideosService extends BaseApplicationComponent
 
         $gateway = craft()->videos_gateways->getGateway($gatewayHandle);
 
-        $response = $gateway->getVideo(array('id' => $id));
+        $response = $gateway->getVideoById($id);
 
         if($response)
         {

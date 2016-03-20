@@ -3,53 +3,19 @@ namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
 use Craft\Videos_YoutubeVideoModel;
+use Guzzle\Http\Client;
 
 class YouTube extends BaseGateway
 {
     // Public Methods
     // =========================================================================
 
-    public function getApiUrl()
-    {
-        return 'https://www.googleapis.com/youtube/v3/';
-    }
-
-    public function apiQuery()
-    {
-        return [
-            'access_token' => $this->token->accessToken
-        ];
-    }
-
-    public function getOauthProvider()
-    {
-        return 'Google';
-    }
-
-    public function getOauthScope()
-    {
-        return array(
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/youtube',
-            'https://www.googleapis.com/auth/youtube.readonly'
-        );
-    }
-
-    public function getOauthAuthorizationOptions()
-    {
-        return array(
-            'access_type' => 'offline',
-            'approval_prompt' => 'force'
-        );
-    }
-
     public function getName()
     {
         return "YouTube";
     }
 
-    public function getSections()
+    public function getExplorerSections()
     {
         $sections = array();
 
@@ -59,9 +25,6 @@ class YouTube extends BaseGateway
                 'method' => 'uploads'
             ),
         );
-
-
-        // playlists
 
         $playlists = $this->getCollectionsPlaylists();
 
@@ -89,16 +52,11 @@ class YouTube extends BaseGateway
         return $sections;
     }
 
-    public function getVideo($opts)
+    public function getVideoById($id)
     {
-        if(empty($opts['id']))
-        {
-            throw new \Exception('The video ID is required. (empty found)');
-        }
-
-        $response = $this->api('videos', array(
+        $response = $this->apiPerformGetRequest('videos', array(
             'part' => 'snippet,statistics,contentDetails',
-            'id' => $opts['id']
+            'id' => $id
         ));
 
         $videos = $this->parseVideos($response['items']);
@@ -112,21 +70,53 @@ class YouTube extends BaseGateway
             throw new \Exception('Video not found');
         }
     }
-
-    // Protected Methods
-    // =========================================================================
-
-    protected function getBoolParameters()
+    
+    public function getVideos($method, $options)
     {
-        return array('autohide', 'cc_load_policy', 'controls', 'disablekb', 'fs', 'modestbranding', 'rel', 'showinfo');
+        $realMethod = 'getVideos'.ucwords($method);
+
+        if(method_exists($this, $realMethod))
+        {
+            return $this->{$realMethod}($options);
+        }
+        else
+        {
+            throw new \Exception("Method ".$realMethod." not found");
+        }
+    }
+    
+    public function getOauthProviderHandle()
+    {
+        return 'google';
+    }
+    
+    public function getOauthScope()
+    {
+        return array(
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/youtube',
+            'https://www.googleapis.com/auth/youtube.readonly'
+        );
     }
 
+    public function getOauthAuthorizationOptions()
+    {
+        return array(
+            'access_type' => 'offline',
+            'approval_prompt' => 'force'
+        );
+    }
+    
+    // Protected Methods
+    // =========================================================================
+    
     protected function getEmbedFormat()
     {
         return "https://www.youtube.com/embed/%s?wmode=transparent";
     }
-
-    protected static function getVideoId($url)
+    
+    protected function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
@@ -152,125 +142,34 @@ class YouTube extends BaseGateway
         // here we should have a valid video_id or false if service not matching
         return $video_id;
     }
-
-    protected function getVideosFavorites($params = array())
+    
+    protected function apiCreateClient()
     {
-        return $this->performVideosRequest('favorites', $params);
-    }
-
-    protected function getVideosPlaylist($params = array())
-    {
-        $pagination = $this->pagination($params);
-
-        $data = array(
-            'part' => 'id,snippet',
-            'playlistId' => $params['id'],
-            'maxResults' => $pagination['perPage']
-        );
-
-        if(!empty($pagination['moreToken']))
-        {
-            $data['pageToken'] = $pagination['moreToken'];
-        }
-
-        $playlistItemsResponse = $this->api('playlistItems', $data);
-
-        $videoIds = array();
-
-        foreach($playlistItemsResponse['items'] as $item)
-        {
-            $videoId = $item['snippet']['resourceId']['videoId'];
-
-            array_push($videoIds, $videoId);
-        }
-
-        $videoIds = implode(",", $videoIds);
-
-        $videosResponse = $this->api('videos', array(
-            'part' => 'snippet,statistics,contentDetails',
-            'id' => $videoIds
+        $apiUrl = $this->getApiUrl();
+        
+        $client = new Client($apiUrl, array(
+            'request.options' => array(
+                'headers' => [],
+                'query' => [
+                    'access_token' => $this->token->accessToken
+                ],
+            )
         ));
-
-        $videos = $this->parseVideos($videosResponse['items']);
-
-        $more = false;
-
-        if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
-        {
-            $more = true;
-        }
-
-        return array(
-                'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
-                'videos' => $videos,
-                'more' => $more
-            );
+        
+        return $client;
     }
-
-    protected function getVideosSearch($params = array())
-    {
-        $pagination = $this->pagination($params);
-
-        $data = array(
-            'part' => 'id',
-            'type' => 'video',
-            'q' => $params['q'],
-            'maxResults' => $pagination['perPage']
-        );
-
-        if(!empty($pagination['moreToken']))
-        {
-            $data['pageToken'] = $pagination['moreToken'];
-        }
-
-        $response = $this->api('search', $data);
-
-        foreach($response['items'] as $item)
-        {
-            $videoIds[] = $item['id']['videoId'];
-        }
-
-        if(!empty($videoIds))
-        {
-            $videoIds = implode(",", $videoIds);
-
-            $videosResponse = $this->api('videos', array(
-                'part' => 'snippet,statistics,contentDetails',
-                'id' => $videoIds
-            ));
-
-            $videos = $this->parseVideos($videosResponse['items']);
-
-            $more = false;
-
-            if(!empty($response['nextPageToken']) && count($videos) > 0)
-            {
-                $more = true;
-            }
-
-            return array(
-                'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
-                'moreToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
-                'videos' => $videos,
-                'more' => $more
-            );
-        }
-
-        return array();
-    }
-
-    protected function getVideosUploads($params = array())
-    {
-        return $this->performVideosRequest('uploads', $params);
-    }
-
+    
     // Private Methods
     // =========================================================================
 
+    private function getApiUrl()
+    {
+        return 'https://www.googleapis.com/youtube/v3/';
+    }
+    
     private function getCollectionsPlaylists($params = array())
     {
-        $channelsResponse = $this->api('playlists', array(
+        $channelsResponse = $this->apiPerformGetRequest('playlists', array(
                 'part' => 'snippet',
                 'mine' => 'true'
             ));
@@ -298,6 +197,7 @@ class YouTube extends BaseGateway
 
         return $pagination;
     }
+    
     private function parseCollection($item)
     {
         $collection = array();
@@ -394,7 +294,7 @@ class YouTube extends BaseGateway
     {
         $pagination = $this->pagination($params);
 
-        $channelsResponse = $this->api('channels', array(
+        $channelsResponse = $this->apiPerformGetRequest('channels', array(
             'part' => 'contentDetails',
             'mine' => 'true'
         ));
@@ -414,7 +314,7 @@ class YouTube extends BaseGateway
                 $data['pageToken'] = $pagination['moreToken'];
             }
 
-            $playlistItemsResponse = $this->api('playlistItems', $data);
+            $playlistItemsResponse = $this->apiPerformGetRequest('playlistItems', $data);
 
             $videoIds = array();
 
@@ -427,7 +327,7 @@ class YouTube extends BaseGateway
 
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $this->api('videos', array(
+            $videosResponse = $this->apiPerformGetRequest('videos', array(
                 'part' => 'snippet,statistics,contentDetails',
                 'id' => $videoIds
             ));
@@ -448,5 +348,120 @@ class YouTube extends BaseGateway
                     'more' => $more
                 );
         }
+    }
+    
+    // Get Videos methods
+    // =========================================================================
+
+    protected function getVideosFavorites($params = array())
+    {
+        return $this->performVideosRequest('favorites', $params);
+    }
+
+    protected function getVideosPlaylist($params = array())
+    {
+        $pagination = $this->pagination($params);
+
+        $data = array(
+            'part' => 'id,snippet',
+            'playlistId' => $params['id'],
+            'maxResults' => $pagination['perPage']
+        );
+
+        if(!empty($pagination['moreToken']))
+        {
+            $data['pageToken'] = $pagination['moreToken'];
+        }
+
+        $playlistItemsResponse = $this->apiPerformGetRequest('playlistItems', $data);
+
+        $videoIds = array();
+
+        foreach($playlistItemsResponse['items'] as $item)
+        {
+            $videoId = $item['snippet']['resourceId']['videoId'];
+
+            array_push($videoIds, $videoId);
+        }
+
+        $videoIds = implode(",", $videoIds);
+
+        $videosResponse = $this->apiPerformGetRequest('videos', array(
+            'part' => 'snippet,statistics,contentDetails',
+            'id' => $videoIds
+        ));
+
+        $videos = $this->parseVideos($videosResponse['items']);
+
+        $more = false;
+
+        if(!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0)
+        {
+            $more = true;
+        }
+
+        return array(
+                'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
+                'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                'videos' => $videos,
+                'more' => $more
+            );
+    }
+
+    protected function getVideosSearch($params = array())
+    {
+        $pagination = $this->pagination($params);
+
+        $data = array(
+            'part' => 'id',
+            'type' => 'video',
+            'q' => $params['q'],
+            'maxResults' => $pagination['perPage']
+        );
+
+        if(!empty($pagination['moreToken']))
+        {
+            $data['pageToken'] = $pagination['moreToken'];
+        }
+
+        $response = $this->apiPerformGetRequest('search', $data);
+
+        foreach($response['items'] as $item)
+        {
+            $videoIds[] = $item['id']['videoId'];
+        }
+
+        if(!empty($videoIds))
+        {
+            $videoIds = implode(",", $videoIds);
+
+            $videosResponse = $this->apiPerformGetRequest('videos', array(
+                'part' => 'snippet,statistics,contentDetails',
+                'id' => $videoIds
+            ));
+
+            $videos = $this->parseVideos($videosResponse['items']);
+
+            $more = false;
+
+            if(!empty($response['nextPageToken']) && count($videos) > 0)
+            {
+                $more = true;
+            }
+
+            return array(
+                'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
+                'moreToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
+                'videos' => $videos,
+                'more' => $more
+            );
+        }
+
+        return array();
+    }
+
+    protected function getVideosUploads($params = array())
+    {
+        return $this->performVideosRequest('uploads', $params);
     }
 }

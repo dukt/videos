@@ -39,12 +39,12 @@ class Videos_OauthController extends BaseController
         $gatewayHandle = craft()->request->getParam('gateway');
 
         $gateway = craft()->videos_gateways->getGateway($gatewayHandle, false);
-
+        
         if($response = craft()->oauth->connect(array(
             'plugin' => 'videos',
-            'provider' => $gateway->getOauthProvider(),
+            'provider' => $gateway->getOauthProviderHandle(),
             'scope' => $gateway->getOauthScope(),
-            'authorizationOptions' => $gateway->getOauthAuthorizationOptions()
+            'authorizationOptions' => $gateway->getOauthAuthorizationOptions(),
         )))
         {
             if($response['success'])
@@ -53,7 +53,7 @@ class Videos_OauthController extends BaseController
                 $token = $response['token'];
 
                 // save token
-                craft()->videos_oauth->saveToken($gateway->getOauthProvider(), $token);
+                craft()->videos_oauth->saveToken($gateway->getOauthProviderHandle(), $token);
 
                 VideosPlugin::log('Videos OAuth Connect Step 2: '."\r\n".print_r(['token' => $token], true), LogLevel::Info);
 
@@ -88,7 +88,7 @@ class Videos_OauthController extends BaseController
         $gatewayHandle = craft()->request->getParam('gateway');
         $gateway = craft()->videos_gateways->getGateway($gatewayHandle, false);
 
-        $oauthProviderHandle = $gateway->getOauthProvider();
+        $oauthProviderHandle = $gateway->getOauthProviderHandle();
 
         craft()->videos_oauth->deleteToken($oauthProviderHandle);
 

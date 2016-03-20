@@ -4,35 +4,35 @@ namespace Dukt\Videos\Gateways;
 use Craft\Craft;
 use Craft\LogLevel;
 use Craft\VideosPlugin;
-use Guzzle\Http\Client;
 
 abstract class BaseGateway
 {
-    public function getOauthProvider()
+    public function getHandle()
     {
+        $handle = get_class($this);
+        $handle = substr($handle, strrpos($handle, "\\") + 1);
+        $handle = strtolower($handle);
+
+        return $handle;
     }
 
+    public function authenticationSetToken($token)
+    {
+        $this->token = $token;
+    }
+    
     public function getOauthScope()
     {
-
     }
-
+    
     public function getOauthAuthorizationOptions()
     {
     }
-
-    public function getHeaders()
+    
+    protected function apiPerformGetRequest($uri, $query = array(), $headers = null)
     {
-        return [];
-    }
-
-    protected function api($uri, $query = array())
-    {
-        $query = array_merge($this->apiQuery(), $query);
-
-        $apiUrl = $this->getApiUrl();
-        $headers = $this->getHeaders();
-        $client = new Client($apiUrl);
+        $client = $this->apiCreateClient();
+        
         $request = $client->get($uri, $headers, ['query' => $query]);
 
         VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
@@ -58,40 +58,8 @@ abstract class BaseGateway
         }
     }
 
-    public function getHandle()
-    {
-        $handle = get_class($this);
-        $handle = substr($handle, strrpos($handle, "\\") + 1);
-        $handle = strtolower($handle);
-
-        return $handle;
-    }
-
     public function getEmbedUrl($videoId, $options = array())
     {
-        $boolParameters = array('disable_size', 'autoplay', 'loop');
-
-        $boolParameters = array_merge($boolParameters, $this->getBoolParameters());
-
-        foreach($options as $k => $o)
-        {
-            foreach($boolParameters as $k2)
-            {
-                if($k == $k2)
-                {
-                    if($o === 1 || $o === "1" || $o === true || $o === "yes")
-                    {
-                        $options[$k] = 1;
-                    }
-
-                    if($o === 0 || $o === "0" || $o === false || $o === "no")
-                    {
-                        $options[$k] = 0;
-                    }
-                }
-            }
-        }
-
         $queryMark = '?';
 
         if(strpos($this->getEmbedFormat(), "?") !== false)
@@ -156,40 +124,17 @@ abstract class BaseGateway
         return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
     }
 
-    public function getVideos($method, $options)
-    {
-        $realMethod = 'getVideos'.ucwords($method);
-
-        if(method_exists($this, $realMethod))
-        {
-            return $this->{$realMethod}($options);
-        }
-        else
-        {
-            throw new \Exception("Method ".$realMethod." not found");
-        }
-    }
-
-    public function setToken($token)
-    {
-        $this->token = $token;
-    }
-
     public function getVideoByUrl($url)
     {
         $url = $url['url'];
 
-        $videoId = $this->getVideoId($url);
+        $videoId = $this->extractVideoIdFromUrl($url);
 
         if(!$videoId)
         {
             throw new \Exception('Video not found with url given');
         }
 
-        $params['id'] = $videoId;
-
-        $video = $this->getVideo($params);
-
-        return $video;
+        return $this->getVideoById($videoId);
     }
 }

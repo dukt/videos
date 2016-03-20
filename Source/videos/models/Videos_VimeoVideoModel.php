@@ -15,7 +15,6 @@ class Videos_VimeoVideoModel extends Videos_VideoModel
 	        'uri' => AttributeType::String,
 	        'name' => AttributeType::String,
 	        'link' => AttributeType::String,
-	        'duration' => AttributeType::Number,
 	        'width' => AttributeType::Number,
 	        'language' => AttributeType::String,
 	        'height' => AttributeType::Number,

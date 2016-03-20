@@ -111,7 +111,7 @@ class Videos_ExplorerController extends BaseController
 
 			foreach ($gateways as $gateway)
 			{
-				$gatewaySections[] = $gateway->getSections();
+				$gatewaySections[] = $gateway->getExplorerSections();
 			}
 
 			$this->explorerNav = [

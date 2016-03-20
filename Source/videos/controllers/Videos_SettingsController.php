@@ -44,8 +44,8 @@ class Videos_SettingsController extends BaseController
                     );
 
                     $gatewayHandle = $gateway->getHandle();
-                    $providerHandle = strtolower($gateway->getOauthProvider());
-                    $providerName = $gateway->getOauthProvider();
+                    $providerHandle = strtolower($gateway->getOauthProviderHandle());
+                    $providerName = $gateway->getOauthProviderHandle();
 
                     $provider = craft()->oauth->getProvider($providerHandle, false);
 
