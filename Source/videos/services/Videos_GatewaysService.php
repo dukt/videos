@@ -96,7 +96,7 @@ class Videos_GatewaysService extends BaseApplicationComponent
     }
 
     /**
-     * Get Providers
+     * Get Gateways
      */
     private function _getGateways()
     {
