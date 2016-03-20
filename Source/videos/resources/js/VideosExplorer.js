@@ -18,7 +18,7 @@ Videos.Explorer = Garnish.Base.extend({
             namespaceInputId: this.settings.namespaceInputId
         };
 
-        Craft.postActionRequest('videos/getExplorerModal', data, $.proxy(function(response, textStatus)
+        Craft.postActionRequest('videos/explorer/getModal', data, $.proxy(function(response, textStatus)
         {
             if(textStatus == 'success')
             {
@@ -193,7 +193,7 @@ Videos.Explorer = Garnish.Base.extend({
 
         this.$spinner.removeClass('hidden');
 
-        Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
+        Craft.postActionRequest('videos/explorer/getVideos', data, $.proxy(function(response, textStatus)
         {
             this.deselectVideos();
             this.$spinner.addClass('hidden');
@@ -286,7 +286,7 @@ Videos.Explorer = Garnish.Base.extend({
             options: options
         };
 
-        Craft.postActionRequest('videos/getVideos', data, $.proxy(function(response, textStatus)
+        Craft.postActionRequest('videos/explorer/getVideos', data, $.proxy(function(response, textStatus)
         {
             this.deselectVideos();
 
