@@ -5,7 +5,7 @@ use Craft\Craft;
 use Craft\LogLevel;
 use Craft\VideosPlugin;
 
-abstract class BaseGateway
+abstract class BaseGateway implements GatewayInterface
 {
     public function getHandle()
     {
