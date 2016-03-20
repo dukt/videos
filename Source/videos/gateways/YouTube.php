@@ -107,16 +107,13 @@ class YouTube extends BaseGateway
             'approval_prompt' => 'force'
         );
     }
-    
-    // Protected Methods
-    // =========================================================================
-    
-    protected function getEmbedFormat()
+
+    public function getEmbedFormat()
     {
         return "https://www.youtube.com/embed/%s?wmode=transparent";
     }
     
-    protected function extractVideoIdFromUrl($url)
+    public function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
@@ -143,7 +140,7 @@ class YouTube extends BaseGateway
         return $video_id;
     }
     
-    protected function apiCreateClient()
+    public function apiCreateClient()
     {
         $apiUrl = $this->getApiUrl();
         

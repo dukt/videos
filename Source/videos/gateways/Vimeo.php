@@ -114,10 +114,7 @@ class Vimeo extends BaseGateway
         return 'vimeo';
     }
 
-    // Protected Methods
-    // =========================================================================
-    
-    protected function extractVideoIdFromUrl($url)
+    public function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
@@ -147,7 +144,7 @@ class Vimeo extends BaseGateway
         return $video_id;
     }
     
-    protected function apiCreateClient()
+    public function apiCreateClient()
     {
         $apiUrl = $this->getApiUrl();
         
@@ -165,7 +162,7 @@ class Vimeo extends BaseGateway
         return $client;
     }
     
-    protected function getEmbedFormat()
+    public function getEmbedFormat()
     {
         return "https://player.vimeo.com/video/%s";
     }

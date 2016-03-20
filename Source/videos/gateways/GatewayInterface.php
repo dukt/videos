@@ -30,22 +30,19 @@ interface GatewayInterface
 	 * Handle of the OAuth provider handle for this gateway
 	 */
     public function getOauthProviderHandle();
-    
-    // Protected Methods
-    // =========================================================================
-    
+
     /**
      * Extracts the video ID from the video URL
      */
-    protected function extractVideoIdFromUrl($url);
+    public function extractVideoIdFromUrl($url);
     
     /**
      * Returns an authenticated Guzzle client
      */
-    protected function apiCreateClient();
+    public function apiCreateClient();
     
     /**
      * Returns the URL format of the embed
      */
-    protected function getEmbedFormat();
+    public function getEmbedFormat();
 }
