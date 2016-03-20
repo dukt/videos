@@ -4,6 +4,8 @@ namespace Dukt\Videos\Gateways;
 use Craft\Craft;
 use Craft\LogLevel;
 use Craft\VideosPlugin;
+use Craft\Videos_CollectionModel;
+use Craft\Videos_SectionModel;
 use Craft\Videos_VimeoVideoModel;
 use Guzzle\Http\Client;
 
@@ -20,41 +22,48 @@ class Vimeo extends BaseGateway
     public function getExplorerSections()
     {
         $sections = array();
+        
+        
+        // Library
 
-        $sections['Library'] = array(
-            array(
-                'name' => "Uploads",
-                'method' => 'uploads'
-            ),
-            array(
-                'name' => "Favorites",
-                'method' => 'favorites'
-            )
-        );
+        $sections[] = new Videos_SectionModel([
+            'name' => "Library",
+            'collections' => [
+                new Videos_CollectionModel([
+                    'name' => "Uploads",
+                    'method' => 'uploads',
+                ]),
+                new Videos_CollectionModel([
+                    'name' => "Favorites",
+                    'method' => 'favorites',
+                ]),
+            ]
+        ]);
 
 
-        // albums
+        // Albums
 
         $albums = $this->getCollectionsAlbums();
 
         if(is_array($albums))
         {
-            $items = array();
+            $collections = array();
 
             foreach($albums as $album)
             {
-                $item = array(
+                $collections[] = new Videos_CollectionModel([
                     'name' => $album['title'],
                     'method' => 'album',
                     'options' => array('id' => $album['id'])
-                );
-
-                $items[] = $item;
+                ]);
             }
 
-            if(count($items) > 0)
+            if(count($collections) > 0)
             {
-                $sections['Albums'] = $items;
+                $sections[] = new Videos_SectionModel([
+                    'name' => "Playlists",
+                    'collections' => $collections,
+                ]);
             }
         }
 
@@ -65,22 +74,23 @@ class Vimeo extends BaseGateway
 
         if(is_array($channels))
         {
-            $items = array();
+            $collections = array();
 
             foreach($channels as $channel)
             {
-                $item = array(
+                $collections[] = new Videos_CollectionModel([
                     'name' => $channel['title'],
                     'method' => 'channel',
-                    'options' => array('id' => $channel['id'])
-                );
-
-                $items[] = $item;
+                    'options' => array('id' => $channel['id']),
+                ]);
             }
 
-            if(count($items) > 0)
+            if(count($collections) > 0)
             {
-                $sections['Channels'] = $items;
+                $sections[] = new Videos_SectionModel([
+                    'name' => "Channels",
+                    'collections' => $collections,
+                ]);
             }
         }
 

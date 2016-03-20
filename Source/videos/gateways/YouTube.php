@@ -4,6 +4,8 @@ namespace Dukt\Videos\Gateways;
 use Craft\Craft;
 use Craft\LogLevel;
 use Craft\VideosPlugin;
+use Craft\Videos_CollectionModel;
+use Craft\Videos_SectionModel;
 use Craft\Videos_YoutubeVideoModel;
 use Guzzle\Http\Client;
 
@@ -20,34 +22,44 @@ class YouTube extends BaseGateway
     public function getExplorerSections()
     {
         $sections = array();
-
-        $sections['Library'] = array(
-            array(
-                'name' => "Uploads",
-                'method' => 'uploads'
-            ),
-        );
-
+        
+        
+        // Library
+        
+        $sections[] = new Videos_SectionModel([
+            'name' => "Library",
+            'collections' => [
+                new Videos_CollectionModel([
+                    'name' => "Uploads",
+                    'method' => 'uploads',
+                ])
+            ]
+        ]);
+        
+        
+        // Playlists
+        
         $playlists = $this->getCollectionsPlaylists();
 
         if(is_array($playlists))
         {
-            $items = array();
+            $collections = array();
 
             foreach($playlists as $playlist)
             {
-                $item = array(
+                $collections[] = new Videos_CollectionModel([
                     'name' => $playlist['title'],
                     'method' => 'playlist',
-                    'options' => array('id' => $playlist['id'])
-                );
-
-                $items[] = $item;
+                    'options' => array('id' => $playlist['id']),
+                ]);
             }
 
-            if(count($items) > 0)
+            if(count($collections) > 0)
             {
-                $sections['Playlists'] = $items;
+                $sections[] = new Videos_SectionModel([
+                    'name' => "Playlists",
+                    'collections' => $collections,
+                ]);
             }
         }
 

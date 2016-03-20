@@ -35,16 +35,17 @@
                     {% for k, gateway in nav.gateways %}
                         {% set showGateway = (loop.first ? true : false) %}
                         <div id="{{ targetPrefix }}{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
-                            {% if nav.gatewaySections[k] %}
+
+							{% set sections = nav.gatewaySections[k] %}
+
+                            {% if sections %}
                                 <ul>
-                                    {% for sectionName, items in nav.gatewaySections[k] %}
-                                        <li class="heading"><span>{{ sectionName }}</span></li>
+                                    {% for section in sections %}
+                                        <li class="heading"><span>{{ section.name }}</span></li>
 
-                                        {% for itemKey, item in items %}
+                                        {% for collection in section.collections %}
                                             <li>
-                                                <a href="#" data-gateway="{{ gateway.handle }}" data-method="{{ item.method }}"{% if item.options is defined %} data-options="{{ item.options|json_encode }}"{% endif %}>{{ item.name }}</a>
-
-
+                                                <a href="#" data-gateway="{{ gateway.handle }}" data-method="{{ collection.method }}"{% if collection.options is defined %} data-options="{{ collection.options|json_encode }}"{% endif %}>{{ collection.name }}</a>
                                             </li>
                                         {% endfor %}
                                     {% endfor %}
