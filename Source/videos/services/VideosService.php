@@ -12,10 +12,15 @@ class VideosService extends BaseApplicationComponent
     // Public Methods
     // =========================================================================
 
-    /**
-     * Get Embed
-     */
-    public function getEmbed($videoUrl, $embedOptions = array())
+	/**
+	 * Returns the HTML of the embed from a video URL
+	 *
+	 * @param       $videoUrl
+	 * @param array $embedOptions
+	 *
+	 * @return mixed
+	 */
+	public function getEmbed($videoUrl, $embedOptions = array())
     {
         $video = $this->getVideoByUrl($videoUrl);
 
@@ -25,10 +30,15 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Get a video from its ID
-     */
-    public function getVideoById($gateway, $id)
+	/**
+	 * Get video by ID
+	 *
+	 * @param $gateway
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public function getVideoById($gateway, $id)
     {
         $video = $this->requestVideoById($gateway, $id);
 
@@ -38,10 +48,16 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Get a video from its URL
-     */
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+	/**
+	 * Get video by URL
+	 *
+	 * @param      $videoUrl
+	 * @param bool $enableCache
+	 * @param int  $cacheExpiry
+	 *
+	 * @return bool
+	 */
+	public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -54,10 +70,17 @@ class VideosService extends BaseApplicationComponent
     // Private Methods
     // =========================================================================
 
-    /**
-     * Request a video from its ID
-     */
-    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+	/**
+	 * Request video by ID
+	 *
+	 * @param      $gatewayHandle
+	 * @param      $id
+	 * @param bool $enableCache
+	 * @param int  $cacheExpiry
+	 *
+	 * @return mixed
+	 */
+	private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
         if($enableCache)
         {
@@ -86,10 +109,16 @@ class VideosService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Request a video from its URL
-     */
-    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+	/**
+	 * Request video by URL
+	 *
+	 * @param      $videoUrl
+	 * @param bool $enableCache
+	 * @param int  $cacheExpiry
+	 *
+	 * @return bool
+	 */
+	private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         if(craft()->config->get('enableCache', 'videos') === false)
         {

@@ -12,10 +12,14 @@ class Videos_CacheService extends BaseApplicationComponent
     // Public Methods
     // =========================================================================
 
-    /**
-     * Get
-     */
-    public function get($id)
+	/**
+	 * Get cache
+	 *
+	 * @param $id
+	 *
+	 * @return mixed
+	 */
+	public function get($id)
     {
         if(craft()->config->get('enableCache', 'videos') == true)
         {
@@ -25,10 +29,18 @@ class Videos_CacheService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Set
-     */
-    public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
+	/**
+	 * Set cache
+	 *
+	 * @param      $id
+	 * @param      $value
+	 * @param null $expire
+	 * @param null $dependency
+	 * @param null $enableCache
+	 *
+	 * @return mixed
+	 */
+	public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
         if(is_null($enableCache))
         {
@@ -53,10 +65,14 @@ class Videos_CacheService extends BaseApplicationComponent
     // Private Methods
     // =========================================================================
 
-    /**
-     * Get Cache Key
-     */
-    private function getCacheKey(array $request)
+	/**
+	 * Return the cache key
+	 *
+	 * @param array $request
+	 *
+	 * @return string
+	 */
+	private function getCacheKey(array $request)
     {
         unset($request['CRAFT_CSRF_TOKEN']);
 

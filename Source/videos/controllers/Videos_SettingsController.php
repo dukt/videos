@@ -13,7 +13,7 @@ namespace Craft;
 class Videos_SettingsController extends BaseController
 {
     /**
-     * Settings
+     * Settings Index
      *
      * @return null
      */

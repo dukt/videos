@@ -21,17 +21,22 @@ class Videos_VideoFieldType extends BaseFieldType
     }
 
     /**
-     * Save it
+     * Content Attributes
      */
     public function defineContentAttribute()
     {
         return AttributeType::String;
     }
 
-    /**
-     * Show field
-     */
-    public function getInputHtml($name, $value)
+	/**
+	 * Get Input HTML
+	 *
+	 * @param string $name
+	 * @param mixed  $value
+	 *
+	 * @return mixed
+	 */
+	public function getInputHtml($name, $value)
     {
         $unpreppedValue = false;
         
@@ -88,10 +93,15 @@ class Videos_VideoFieldType extends BaseFieldType
         ]);
     }
 
-    /**
-     * Prep value
-     */
-    public function prepValue($videoUrl)
+
+	/**
+	 * Prep value
+	 *
+	 * @param mixed $videoUrl
+	 *
+	 * @return null
+	 */
+	public function prepValue($videoUrl)
     {
         try
         {
@@ -110,10 +120,14 @@ class Videos_VideoFieldType extends BaseFieldType
         }
     }
 
-    /**
-     * Get Search Keywords
-     */
-    public function getSearchKeywords($value)
+	/**
+	 * Get Search Keywords
+	 *
+	 * @param mixed $value
+	 *
+	 * @return string
+	 */
+	public function getSearchKeywords($value)
     {
         // ignore "raw" attribute
         if(!empty($value->raw))

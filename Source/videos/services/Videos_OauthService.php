@@ -12,15 +12,22 @@ class Videos_OauthService extends BaseApplicationComponent
     // Properties
     // =========================================================================
 
-    private $tokens;
+	/**
+	 * @var
+	 */
+	private $tokens;
 
     // Public Methods
     // =========================================================================
 
-    /**
-     * Get OAuth Token
-     */
-    public function getToken($handle)
+	/**
+	 * Gets a token
+	 *
+	 * @param $handle
+	 *
+	 * @return mixed
+	 */
+	public function getToken($handle)
     {
         if(!empty($this->tokens[$handle]))
         {
@@ -58,10 +65,13 @@ class Videos_OauthService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Save OAuth Token
-     */
-    public function saveToken($handle, $token)
+	/**
+	 * Saves a token
+	 *
+	 * @param $handle
+	 * @param $token
+	 */
+	public function saveToken($handle, $token)
     {
         $handle = strtolower($handle);
 
@@ -113,10 +123,12 @@ class Videos_OauthService extends BaseApplicationComponent
         craft()->plugins->savePluginSettings($plugin, $settings);
     }
 
-    /**
-     * Delete Token
-     */
-    public function deleteToken($handle)
+	/**
+	 * Deletes a token
+	 *
+	 * @param $handle
+	 */
+	public function deleteToken($handle)
     {
         $handle = strtolower($handle);
 

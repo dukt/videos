@@ -98,8 +98,11 @@ class Videos_ExplorerController extends BaseController
 	// Private Methods
 	// =========================================================================
 
+
 	/**
-	 * Explorer Nav
+	 * Get Explorer Nav
+	 *
+	 * @return array
 	 */
 	private function getExplorerNav()
 	{

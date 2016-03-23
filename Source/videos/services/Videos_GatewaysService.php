@@ -12,17 +12,33 @@ class Videos_GatewaysService extends BaseApplicationComponent
     // Properties
     // =========================================================================
 
-    private $_gateways = array();
-    private $_allGateways = array();
-    private $_gatewaysLoaded = false;
+	/**
+	 * @var array
+	 */
+	private $_gateways = array();
+
+	/**
+	 * @var array
+	 */
+	private $_allGateways = array();
+
+	/**
+	 * @var bool
+	 */
+	private $_gatewaysLoaded = false;
 
     // Public Methods
     // =========================================================================
 
-    /**
-     * Get a gateway from its handle
-     */
-    public function getGateway($gatewayHandle, $enabledOnly = true)
+	/**
+	 * Get gateway by handle
+	 *
+	 * @param      $gatewayHandle
+	 * @param bool $enabledOnly
+	 *
+	 * @return null
+	 */
+	public function getGateway($gatewayHandle, $enabledOnly = true)
     {
         $this->loadGateways();
 
@@ -46,10 +62,14 @@ class Videos_GatewaysService extends BaseApplicationComponent
         return null;
     }
 
-    /**
-     * Get gateways
-     */
-    public function getGateways($enabledOnly = true)
+	/**
+	 * Get gateways
+	 *
+	 * @param bool $enabledOnly
+	 *
+	 * @return array
+	 */
+	public function getGateways($enabledOnly = true)
     {
         $this->loadGateways();
 
@@ -66,10 +86,10 @@ class Videos_GatewaysService extends BaseApplicationComponent
     // Private Methods
     // =========================================================================
 
-    /**
-     * Load gateways
-     */
-    private function loadGateways()
+	/**
+	 * Load gateways
+	 */
+	private function loadGateways()
     {
         if(!$this->_gatewaysLoaded)
         {
@@ -95,10 +115,12 @@ class Videos_GatewaysService extends BaseApplicationComponent
         }
     }
 
-    /**
-     * Get Gateways
-     */
-    private function _getGateways()
+	/**
+	 * Real get gateways
+	 *
+	 * @return array
+	 */
+	private function _getGateways()
     {
         // fetch all OAuth provider types
 
@@ -124,10 +146,14 @@ class Videos_GatewaysService extends BaseApplicationComponent
         return $gateways;
     }
 
-    /**
-     * Create gateway
-     */
-    private function _createGateway($gatewayType)
+	/**
+	 * Instantiates a gateway
+	 *
+	 * @param $gatewayType
+	 *
+	 * @return mixed
+	 */
+	private function _createGateway($gatewayType)
     {
         $gateway = new $gatewayType;
 

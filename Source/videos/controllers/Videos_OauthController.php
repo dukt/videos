@@ -17,6 +17,8 @@ class Videos_OauthController extends BaseController
 
     /**
      * Connect
+     *
+     * @return null
      */
     public function actionConnect()
     {
@@ -82,6 +84,8 @@ class Videos_OauthController extends BaseController
 
     /**
      * Disconnect
+     *
+     * @return null
      */
     public function actionDisconnect()
     {
