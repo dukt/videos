@@ -102,6 +102,14 @@ class VideosPlugin extends BasePlugin
         return 'https://dukt.net/craft/videos/docs/';
     }
 
+	/**
+	 * Get Release Feed URL
+	 */
+	public function getReleaseFeedUrl()
+	{
+		return 'https://dukt.net/craft/videos/updates.json';
+	}
+
     /**
      * Has CP Section
      */
