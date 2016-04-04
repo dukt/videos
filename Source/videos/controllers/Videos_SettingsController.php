@@ -63,7 +63,7 @@ class Videos_SettingsController extends BaseController
 
                                     if(!$account)
                                     {
-                                        $account = $provider->getAccount($token);
+                                        $account = $provider->getResourceOwner($token);
                                         craft()->videos_cache->set(['getAccount', $token], $account);
                                     }
 
