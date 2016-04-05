@@ -124,6 +124,7 @@ class VideosPlugin extends BasePlugin
     public function registerCpRoutes()
     {
         return array(
+            'videos/install' => array('action' => "videos/install/index"),
             'videos/settings' => array('action' => "videos/settings/index")
         );
     }
@@ -230,35 +231,6 @@ class VideosPlugin extends BasePlugin
         }
     }
 
-    /**
-     * Get Plugin Dependencies
-     */
-    public function getPluginDependencies($missingOnly = true)
-    {
-        $dependencies = array();
-
-        $plugins = $this->getRequiredPlugins();
-
-        foreach($plugins as $key => $plugin)
-        {
-            $dependency = $this->getPluginDependency($plugin);
-
-            if($missingOnly)
-            {
-                if($dependency['isMissing'])
-                {
-                    $dependencies[] = $dependency;
-                }
-            }
-            else
-            {
-                $dependencies[] = $dependency;
-            }
-        }
-
-        return $dependencies;
-    }
-
     // Protected Methods
     // =========================================================================
 
@@ -271,51 +243,5 @@ class VideosPlugin extends BasePlugin
             'youtubeParameters' => array(AttributeType::Mixed),
             'tokens' => array(AttributeType::Mixed),
         );
-    }
-
-    // Private Methods
-    // =========================================================================
-
-    /**
-     * Get Plugin Dependency
-     */
-    private function getPluginDependency($dependency)
-    {
-        $isMissing = true;
-        $isInstalled = true;
-
-        $plugin = craft()->plugins->getPlugin($dependency['handle'], false);
-
-        if($plugin)
-        {
-            $currentVersion = $plugin->version;
-
-
-            // requires update ?
-
-            if(version_compare($currentVersion, $dependency['version']) >= 0)
-            {
-                // no (requirements OK)
-
-                if($plugin->isInstalled && $plugin->isEnabled)
-                {
-                    $isMissing = false;
-                }
-            }
-            else
-            {
-                // yes (requirement not OK)
-            }
-        }
-        else
-        {
-            // not installed
-        }
-
-        $dependency['isMissing'] = $isMissing;
-        $dependency['plugin'] = $plugin;
-        $dependency['pluginUrl'] = 'https://dukt.net/craft/'.$dependency['handle'];
-
-        return $dependency;
     }
 }

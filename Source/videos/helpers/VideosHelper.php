@@ -1,8 +1,8 @@
 <?php
 /**
- * @link      https://dukt.net/craft/analytics/
+ * @link      https://dukt.net/craft/videos/
  * @copyright Copyright (c) 2016, Dukt
- * @license   https://dukt.net/craft/analytics/docs/license
+ * @license   https://dukt.net/craft/videos/docs/license
  */
 
 namespace Craft;

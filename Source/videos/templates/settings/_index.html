@@ -1,0 +1,13 @@
+{% extends "videos/_layouts/settings" %}
+
+{% set content %}
+
+    {% for gatewayConfig in gatewayConfigs %}
+        {% include 'videos/settings/_gateway' with gatewayConfig %}
+
+        {% if not loop.last %}
+            <hr />
+        {% endif %}
+    {% endfor %}
+
+{% endset %}

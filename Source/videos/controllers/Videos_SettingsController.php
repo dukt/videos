@@ -19,43 +19,40 @@ class Videos_SettingsController extends BaseController
      */
     public function actionIndex()
     {
-        $plugin = craft()->plugins->getPlugin('videos');
-        $pluginDependencies = $plugin->getPluginDependencies();
+	    craft()->videos->requireDependencies();
 
-        if (count($pluginDependencies) > 0)
+	    $plugin = craft()->plugins->getPlugin('videos');
+        $gateways = craft()->videos_gateways->getGateways(false);
+        $variables['gatewayConfigs'] = array();
+
+        foreach($gateways as $gateway)
         {
-            $this->renderTemplate('videos/settings/_dependencies', ['pluginDependencies' => $pluginDependencies]);
-        }
-        else
-        {
-            if (isset(craft()->oauth))
+            $gatewayConfig = array(
+                'gateway' => $gateway,
+                'provider' => false,
+                'account' => false,
+                'token' => false,
+                'error' => false
+            );
+
+            $gatewayHandle = $gateway->getHandle();
+            $providerHandle = strtolower($gateway->getOauthProviderHandle());
+
+            $provider = craft()->oauth->getProvider($providerHandle, false);
+
+            if ($provider)
             {
-                $gateways = craft()->videos_gateways->getGateways(false);
-                $variables['gateways'] = array();
-
-                foreach($gateways as $gateway)
+                if($provider->isConfigured())
                 {
-                    $response = array(
-                        'gateway' => $gateway,
-                        'provider' => false,
-                        'account' => false,
-                        'token' => false,
-                        'error' => false
-                    );
+                    $token = craft()->videos_oauth->getToken($providerHandle);
 
-                    $gatewayHandle = $gateway->getHandle();
-                    $providerHandle = strtolower($gateway->getOauthProviderHandle());
-                    $providerName = $gateway->getOauthProviderHandle();
-
-                    $provider = craft()->oauth->getProvider($providerHandle, false);
-
-                    if ($provider)
+                    if ($token)
                     {
-                        if($provider->isConfigured())
+                        try
                         {
-                            $token = craft()->videos_oauth->getToken($providerHandle);
+                            $account = craft()->videos_cache->get(['getAccount', $token]);
 
-                            if ($token)
+                            if(!$account)
                             {
                                 try
                                 {
@@ -69,33 +66,41 @@ class Videos_SettingsController extends BaseController
 
                                     if ($account)
                                     {
-                                        $response['account'] = $account;
-                                        $response['settings'] = $plugin->getSettings();
+                                        $gatewayConfig['account'] = $account;
+                                        $gatewayConfig['settings'] = $plugin->getSettings();
                                     }
                                 }
                                 catch(\Exception $e)
                                 {
                                     VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
-                                    $response['error'] = $e->getMessage();
+                                    $gatewayConfig['error'] = $e->getMessage();
                                 }
                             }
 
-                            $response['token'] = $token;
+                            if ($account)
+                            {
+                                $gatewayConfig['account'] = $account;
+                                $gatewayConfig['settings'] = $plugin->getSettings();
+                            }
                         }
+                        catch(\Exception $e)
+                        {
+                            VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
-                        $response['provider'] = $provider;
+                            $gatewayConfig['error'] = $e->getMessage();
+                        }
                     }
 
-                    $variables['gateways'][$gatewayHandle] = $response;
+                    $gatewayConfig['token'] = $token;
                 }
 
-                $this->renderTemplate('videos/settings', $variables);
+                $gatewayConfig['provider'] = $provider;
             }
-            else
-            {
-                $this->renderTemplate('videos/settings/_oauthNotInstalled');
-            }
+
+            $variables['gatewayConfigs'][$gatewayHandle] = $gatewayConfig;
         }
+
+        $this->renderTemplate('videos/settings/_index', $variables);
     }
 }

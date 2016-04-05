@@ -7,8 +7,15 @@
 
 namespace Craft;
 
+require_once(CRAFT_PLUGINS_PATH.'videos/base/VideosTrait.php');
+
 class VideosService extends BaseApplicationComponent
 {
+	// Traits
+	// =========================================================================
+
+	use VideosTrait;
+
     // Public Methods
     // =========================================================================
 
