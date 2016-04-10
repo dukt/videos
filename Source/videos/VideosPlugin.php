@@ -7,6 +7,10 @@
 
 namespace Craft;
 
+
+require_once(CRAFT_PLUGINS_PATH.'videos/gateways/GatewayInterface.php');
+require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');
+
 class VideosPlugin extends BasePlugin
 {
     // Public Methods
@@ -18,6 +22,14 @@ class VideosPlugin extends BasePlugin
     public function getName()
     {
         return Craft::t('Videos');
+    }
+
+    /**
+     * Get Description
+     */
+    public function getDescription()
+    {
+        return Craft::t('Connect to YouTube & Vimeo and publish social videos on your website.');
     }
 
 	/**
@@ -83,8 +95,6 @@ class VideosPlugin extends BasePlugin
      */
     public function getVideosGateways()
     {
-        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/GatewayInterface.php');
-        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');
         require_once(CRAFT_PLUGINS_PATH.'videos/gateways/Vimeo.php');
         require_once(CRAFT_PLUGINS_PATH.'videos/gateways/YouTube.php');
 
