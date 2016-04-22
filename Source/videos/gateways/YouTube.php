@@ -18,7 +18,30 @@ class YouTube extends BaseGateway implements IGateway
     {
         return "YouTube";
     }
+    
+    public function getOauthProviderHandle()
+    {
+        return 'google';
+    }
+    
+    public function getOauthScope()
+    {
+        return array(
+            'https://www.googleapis.com/auth/userinfo.profile',
+            'https://www.googleapis.com/auth/userinfo.email',
+            'https://www.googleapis.com/auth/youtube',
+            'https://www.googleapis.com/auth/youtube.readonly'
+        );
+    }
 
+    public function getOauthAuthorizationOptions()
+    {
+        return array(
+            'access_type' => 'offline',
+            'approval_prompt' => 'force'
+        );
+    }
+    
     public function getExplorerSections()
     {
         $sections = array();
@@ -98,29 +121,6 @@ class YouTube extends BaseGateway implements IGateway
             throw new \Exception("Method ".$realMethod." not found");
         }
     }
-    
-    public function getOauthProviderHandle()
-    {
-        return 'google';
-    }
-    
-    public function getOauthScope()
-    {
-        return array(
-            'https://www.googleapis.com/auth/userinfo.profile',
-            'https://www.googleapis.com/auth/userinfo.email',
-            'https://www.googleapis.com/auth/youtube',
-            'https://www.googleapis.com/auth/youtube.readonly'
-        );
-    }
-
-    public function getOauthAuthorizationOptions()
-    {
-        return array(
-            'access_type' => 'offline',
-            'approval_prompt' => 'force'
-        );
-    }
 
     public function getEmbedFormat()
     {
@@ -154,7 +154,10 @@ class YouTube extends BaseGateway implements IGateway
         return $video_id;
     }
     
-    public function apiCreateClient()
+    // Private Methods
+    // =========================================================================
+    
+    private function apiCreateClient()
     {
         $apiUrl = $this->getApiUrl();
         
@@ -170,9 +173,6 @@ class YouTube extends BaseGateway implements IGateway
         return $client;
     }
     
-    // Private Methods
-    // =========================================================================
-
     private function getApiUrl()
     {
         return 'https://www.googleapis.com/youtube/v3/';

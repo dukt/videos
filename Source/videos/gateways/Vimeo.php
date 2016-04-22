@@ -13,17 +13,37 @@ class Vimeo extends BaseGateway implements IGateway
 {
     // Public Methods
     // =========================================================================
-    
-    public function getName()
+
+	/**
+	 * @inheritDoc IGateway::getName()
+	 *
+	 * @return string
+	 */
+	public function getName()
     {
         return "Vimeo";
     }
-    
+
+	/**
+	 * @inheritDoc IGateway::getOauthProviderHandle()
+	 *
+	 * @return string
+	 */
+    public function getOauthProviderHandle()
+    {
+        return 'vimeo';
+    }
+
+	/**
+	 * @inheritDoc IGateway::getExplorerSections()
+	 *
+	 * @return array
+	 */
     public function getExplorerSections()
     {
         $sections = array();
-        
-        
+
+
         // Library
 
         $sections[] = new Videos_SectionModel([
@@ -96,8 +116,16 @@ class Vimeo extends BaseGateway implements IGateway
 
         return $sections;
     }
-    
-    public function getVideoById($id)
+
+	/**
+	 * @inheritDoc IGateway::getVideoById()
+	 *
+	 * @param $id
+	 *
+	 * @return Videos_VimeoVideoModel
+	 * @throws \Exception
+	 */
+	public function getVideoById($id)
     {
         $response = $this->apiPerformGetRequest('videos/'.$id);
 
@@ -106,8 +134,17 @@ class Vimeo extends BaseGateway implements IGateway
             return $this->parseVideo($response);
         }
     }
-    
-    public function getVideos($method, $options)
+
+	/**
+	 * @inheritDoc IGateway::getVideos()
+	 *
+	 * @param $method
+	 * @param $options
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	public function getVideos($method, $options)
     {
         $realMethod = 'getVideos'.ucwords($method);
 
@@ -120,17 +157,29 @@ class Vimeo extends BaseGateway implements IGateway
             throw new \Exception("Method ".$realMethod." not found");
         }
     }
-    
-    public function getOauthProviderHandle()
+
+	/**
+	 * @inheritDoc IGateway::getEmbedFormat()
+	 *
+	 * @return string
+	 */
+	public function getEmbedFormat()
     {
-        return 'vimeo';
+        return "https://player.vimeo.com/video/%s";
     }
 
-    public function extractVideoIdFromUrl($url)
+	/**
+	 * @inheritDoc IGateway::extractVideoIdFromUrl()
+	 *
+	 * @param $url
+	 *
+	 * @return bool|int
+	 */
+	public function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
-        $video_id = false;
+	    $video_id = false;
 
         $regexp = array('/^https?:\/\/(www\.)?vimeo\.com\/([0-9]*)/', 2);
 
@@ -155,11 +204,14 @@ class Vimeo extends BaseGateway implements IGateway
         // here we should have a valid video_id or false if service not matching
         return $video_id;
     }
-    
-    public function apiCreateClient()
+
+    // Private Methods
+    // =========================================================================
+
+    private function apiCreateClient()
     {
         $apiUrl = $this->getApiUrl();
-        
+
         $client = new Client($apiUrl, array(
             'request.options' => array(
                 'headers' => [
@@ -170,18 +222,10 @@ class Vimeo extends BaseGateway implements IGateway
                 ],
             )
         ));
-        
+
         return $client;
     }
-    
-    public function getEmbedFormat()
-    {
-        return "https://player.vimeo.com/video/%s";
-    }
-    
-    // Private Methods
-    // =========================================================================
-    
+
     private function getApiUrl()
     {
         return 'https://api.vimeo.com/';
@@ -191,7 +235,7 @@ class Vimeo extends BaseGateway implements IGateway
     {
         return '3.0';
     }
-    
+
     private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
@@ -399,11 +443,11 @@ class Vimeo extends BaseGateway implements IGateway
 
         return $query;
     }
-    
+
     private function apiPerformGetRequest($uri, $query = array(), $headers = null)
     {
         $client = $this->apiCreateClient();
-        
+
         $request = $client->get($uri, $headers, ['query' => $query]);
 
         VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
@@ -428,7 +472,7 @@ class Vimeo extends BaseGateway implements IGateway
             throw $e;
         }
     }
-    
+
     // Get Videos methods
     // =========================================================================
 
