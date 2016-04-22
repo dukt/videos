@@ -9,7 +9,7 @@ use Craft\Videos_SectionModel;
 use Craft\Videos_VimeoVideoModel;
 use Guzzle\Http\Client;
 
-class Vimeo extends BaseGateway
+class Vimeo extends BaseGateway implements IGateway
 {
     // Public Methods
     // =========================================================================

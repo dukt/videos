@@ -9,7 +9,7 @@ use Craft\Videos_SectionModel;
 use Craft\Videos_YoutubeVideoModel;
 use Guzzle\Http\Client;
 
-class YouTube extends BaseGateway
+class YouTube extends BaseGateway implements IGateway
 {
     // Public Methods
     // =========================================================================

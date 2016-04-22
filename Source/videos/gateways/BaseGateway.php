@@ -1,7 +1,7 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
-abstract class BaseGateway implements GatewayInterface
+abstract class BaseGateway implements IGateway
 {
 	/**
 	 * Return the handle of the gateway based on its class name
@@ -28,17 +28,23 @@ abstract class BaseGateway implements GatewayInterface
     }
 
 	/**
-	 * OAuth scope
+	 * OAuth Scope
+	 *
+	 * @return array|null
 	 */
 	public function getOauthScope()
     {
+	    return null;
     }
 
 	/**
-	 * Authorization Options
+	 * OAuth Authorization Options
+	 *
+	 * @return array|null
 	 */
 	public function getOauthAuthorizationOptions()
     {
+	    return null;
     }
 
 	/**

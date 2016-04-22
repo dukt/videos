@@ -1,16 +1,21 @@
 <?php
 namespace Dukt\Videos\Gateways;
 
-interface GatewayInterface
+interface IGateway
 {
     // Public Methods
     // =========================================================================
-    
+
 	/**
 	 * Returns the name of the gateway
 	 */
     public function getName();
     
+    /**
+	 * Handle of the OAuth provider handle for this gateway
+	 */
+    public function getOauthProviderHandle();
+
 	/**
 	 * Returns the sections for the explorer
 	 */
@@ -26,18 +31,13 @@ interface GatewayInterface
 	 */
     public function getVideos($method, $options);
     
-	/**
-	 * Handle of the OAuth provider handle for this gateway
-	 */
-    public function getOauthProviderHandle();
-
-    /**
-     * Extracts the video ID from the video URL
-     */
-    public function extractVideoIdFromUrl($url);
-    
     /**
      * Returns the URL format of the embed
      */
     public function getEmbedFormat();
+    
+    /**
+     * Extracts the video ID from the video URL
+     */
+    public function extractVideoIdFromUrl($url);
 }
