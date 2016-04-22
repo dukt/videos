@@ -6,7 +6,7 @@ use Craft\LogLevel;
 use Craft\VideosPlugin;
 use Craft\Videos_CollectionModel;
 use Craft\Videos_SectionModel;
-use Craft\Videos_YoutubeVideoModel;
+use Craft\Videos_VideoModel;
 use Guzzle\Http\Client;
 
 class YouTube extends BaseGateway implements IGateway
@@ -243,7 +243,7 @@ class YouTube extends BaseGateway implements IGateway
 
     private function parseVideo($item)
     {
-        $video = new Videos_YoutubeVideoModel;
+        $video = new Videos_VideoModel;
         $video->authorName = $item['snippet']['channelTitle'];
         $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
         $video->date = strtotime($item['snippet']['publishedAt']);
@@ -278,11 +278,14 @@ class YouTube extends BaseGateway implements IGateway
             }
         }
 
-	    $video->kind = $item['kind'];
-	    $video->etag = $item['etag'];
-	    $video->snippet = $item['snippet'];
-	    $video->contentDetails = $item['contentDetails'];
-	    $video->statistics = $item['statistics'];
+	    // privacy
+
+	    switch($item['status']['privacyStatus'])
+	    {
+		    case 'private':
+				$video->private = true;
+			    break;
+	    }
 
         return $video;
     }
@@ -339,7 +342,7 @@ class YouTube extends BaseGateway implements IGateway
             $videoIds = implode(",", $videoIds);
 
             $videosResponse = $this->apiPerformGetRequest('videos', array(
-                'part' => 'snippet,statistics,contentDetails',
+                'part' => 'snippet,statistics,contentDetails,status',
                 'id' => $videoIds
             ));
 

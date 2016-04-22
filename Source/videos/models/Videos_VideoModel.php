@@ -72,6 +72,7 @@ class Videos_VideoModel extends BaseModel
             'thumbnailLargeSource' => array(AttributeType::String),
             'title' => array(AttributeType::String),
             'description' => array(AttributeType::String, 'column' => ColumnType::Text),
+            'private' => array(AttributeType::Bool, 'default' => false),
         );
     }
 

@@ -66,6 +66,16 @@
   opacity: .7 !important;
   cursor: pointer; }
 
+.thumb .private {
+  color: #fff;
+  width: 13px;
+  height: 13px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  text-shadow: 0 0 2px #000000;
+  opacity: 0.7; }
+
 .player {
   width: 800px;
   height: 450px;

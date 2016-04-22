@@ -7,6 +7,10 @@
                 <img src="{{ video.thumbnailSource }}" />
                 <div class="duration">{{ video.duration }}</div>
                 <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+
+				{% if video.private %}
+					<div class="private icon secure"></div>
+				{% endif %}
             </div>
 
             <div class="title">{{ video.title }}</div>

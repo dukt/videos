@@ -6,7 +6,7 @@ use Craft\LogLevel;
 use Craft\VideosPlugin;
 use Craft\Videos_CollectionModel;
 use Craft\Videos_SectionModel;
-use Craft\Videos_VimeoVideoModel;
+use Craft\Videos_VideoModel;
 use Guzzle\Http\Client;
 
 class Vimeo extends BaseGateway implements IGateway
@@ -122,7 +122,7 @@ class Vimeo extends BaseGateway implements IGateway
 	 *
 	 * @param $id
 	 *
-	 * @return Videos_VimeoVideoModel
+	 * @return Videos_VideoModel
 	 * @throws \Exception
 	 */
 	public function getVideoById($id)
@@ -296,7 +296,7 @@ class Vimeo extends BaseGateway implements IGateway
 
     private function parseVideo($data)
     {
-        $video = new Videos_VimeoVideoModel;
+        $video = new Videos_VideoModel;
         $video->authorName = $data['user']['name'];
         $video->authorUrl = $data['user']['link'];
         $video->date = strtotime($data['created_time']);
@@ -309,28 +309,20 @@ class Vimeo extends BaseGateway implements IGateway
         $video->title = $data['name'];
         $video->url = $data['link'];
 
-        $video->privacy = $data['privacy'];
-	    $video->uri = $data['uri'];
-		$video->name = $data['name'];
-		$video->link = $data['link'];
-		$video->width = $data['width'];
-		$video->language = $data['language'];
-		$video->height = $data['height'];
-		$video->embed = $data['embed'];
-		$video->createdTime = $data['created_time'];
-		$video->modifiedTime = $data['modified_time'];
-		$video->contentRating = $data['content_rating'];
-		$video->license = $data['license'];
-		$video->privacy = $data['privacy'];
-		$video->pictures = $data['pictures'];
-		$video->tags = $data['tags'];
-		$video->stats = $data['stats'];
-		$video->metadata = $data['metadata'];
-		$video->user = $data['user'];
-		$video->status = $data['status'];
-		$video->resourceKey = $data['resource_key'];
-		$video->privacy = $data['privacy'];
-		$video->downloads = (isset($data['download']) ? $data['download'] : null);
+
+	    // privacy
+
+	    switch($data['privacy']['view'])
+	    {
+		    case "nobody":
+		    case "contacts":
+		    case "password":
+		    case "users":
+		    case "disable":
+				$video->private = true;
+				break;
+	    }
+
 
         // Retrieve largest thumbnail
 
