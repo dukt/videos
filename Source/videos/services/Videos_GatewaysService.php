@@ -99,14 +99,21 @@ class Videos_GatewaysService extends BaseApplicationComponent
             {
 	            $oauthProviderHandle = strtolower($gateway->getOauthProviderHandle());
 
-                $token = craft()->videos_oauth->getToken($oauthProviderHandle);
+	            if($gateway->enableOauthFlow())
+	            {
+		            $token = craft()->videos_oauth->getToken($oauthProviderHandle);
 
-                if($token)
-                {
-                    $gateway->authenticationSetToken($token);
+		            if($token)
+		            {
+			            $gateway->authenticationSetToken($token);
 
-                    $this->_gateways[] = $gateway;
-                }
+			            $this->_gateways[] = $gateway;
+		            }
+	            }
+	            else
+	            {
+		            $this->_gateways[] = $gateway;
+	            }
 
                 $this->_allGateways[] = $gateway;
             }

@@ -2,12 +2,14 @@
 
 {% set content %}
 
-    {% for gatewayConfig in gatewayConfigs %}
-        {% include 'videos/settings/_gateway' with gatewayConfig %}
+    {% for gateway in gateways %}
+
+        {{ gateway.getSettingsHtml()|raw }}
 
         {% if not loop.last %}
             <hr />
         {% endif %}
+
     {% endfor %}
 
 {% endset %}

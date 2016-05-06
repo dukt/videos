@@ -33,7 +33,7 @@ class Videos_ExplorerController extends BaseController
         {
 	        $namespaceInputId = craft()->request->getPost('namespaceInputId');
             $nav = $this->getExplorerNav();
-            
+
             $this->returnJson(array(
                 'success' => true,
                 'html' => craft()->templates->render('videos/_elements/explorer', [
