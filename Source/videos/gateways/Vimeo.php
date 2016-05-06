@@ -129,9 +129,11 @@ class Vimeo extends BaseGateway implements IGateway
     {
         $response = $this->apiPerformGetRequest('videos/'.$id);
 
-        if($response)
+        $data = $response;
+
+        if($data)
         {
-            return $this->parseVideo($response);
+            return $this->parseVideo($data);
         }
     }
 
@@ -399,17 +401,15 @@ class Vimeo extends BaseGateway implements IGateway
         return $video;
     }
 
-    private function parseVideos($r)
+    private function parseVideos($data)
     {
         $videos = array();
 
-        if(!empty($r))
+        if(!empty($data))
         {
-            $responseVideos = $r;
-
-            foreach($responseVideos as $responseVideo)
+            foreach($data as $videoData)
             {
-                $video = $this->parseVideo($responseVideo);
+                $video = $this->parseVideo($videoData);
 
                 array_push($videos, $video);
             }
@@ -422,13 +422,13 @@ class Vimeo extends BaseGateway implements IGateway
     {
         $query = $this->queryFromParams($params);
 
-        $videosRaw = $this->apiPerformGetRequest($uri, $query);
-        $videos = $this->parseVideos($videosRaw['data']);
+        $response = $this->apiPerformGetRequest($uri, $query);
+        $videos = $this->parseVideos($response['data']);
 
         $more = false;
         $moreToken = null;
 
-        if($videosRaw['paging']['next'])
+        if($response['paging']['next'])
         {
             $more = true;
             $moreToken = $query['page'] + 1;

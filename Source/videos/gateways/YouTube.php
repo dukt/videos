@@ -411,35 +411,36 @@ class YouTube extends BaseGateway implements IGateway
         $this->name = (string) $response->author->name;
     }
 
-    private function parseVideo($item)
+    private function parseVideo($data)
     {
         $video = new Videos_VideoModel;
-        $video->raw = $item;
-        $video->authorName = $item['snippet']['channelTitle'];
-        $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
-        $video->date = strtotime($item['snippet']['publishedAt']);
-        $video->description = $item['snippet']['description'];
+        $video->raw = $data;
+        $video->authorName = $data['snippet']['channelTitle'];
+        $video->authorUrl = "http://youtube.com/channel/".$data['snippet']['channelId'];
+        $video->date = strtotime($data['snippet']['publishedAt']);
+        $video->description = $data['snippet']['description'];
         $video->gatewayHandle = 'youtube';
         $video->gatewayName = 'YouTube';
-        $video->id = $item['id'];
-        $video->plays = $item['statistics']['viewCount'];
-        $video->title = $item['snippet']['title'];
+        $video->id = $data['id'];
+        $video->plays = $data['statistics']['viewCount'];
+        $video->title = $data['snippet']['title'];
         $video->url = 'http://youtu.be/'.$video->id;
 
-        // duration
-        $interval              = new \DateInterval($item['contentDetails']['duration']);
+        // Video Duration
+
+        $interval = new \DateInterval($data['contentDetails']['duration']);
         $video->durationSeconds = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
 
         // thumbnails
 
 
-        // Retrieve largest thumbnail
+        // Set thumbnail source from the largest thumbnail
 
         $largestSize = 0;
 
-        if(is_array($item['snippet']['thumbnails']))
+        if(is_array($data['snippet']['thumbnails']))
         {
-            foreach($item['snippet']['thumbnails'] as $thumbnail)
+            foreach($data['snippet']['thumbnails'] as $thumbnail)
             {
                 if($thumbnail['width'] > $largestSize)
                 {
@@ -450,11 +451,11 @@ class YouTube extends BaseGateway implements IGateway
         }
 
 
-	    // privacy
+	    // Privacy
 
-        if(isset($item['status']['privacyStatus']))
+        if(isset($data['status']['privacyStatus']))
         {
-            switch($item['status']['privacyStatus'])
+            switch($data['status']['privacyStatus'])
             {
                 case 'private':
                     $video->private = true;
@@ -465,13 +466,13 @@ class YouTube extends BaseGateway implements IGateway
         return $video;
     }
 
-    private function parseVideos($items)
+    private function parseVideos($data)
     {
         $videos = array();
 
-        foreach($items as $v)
+        foreach($data as $videoData)
         {
-            $video = $this->parseVideo($v);
+            $video = $this->parseVideo($videoData);
 
             array_push($videos, $video);
         }
