@@ -7,100 +7,8 @@ use Craft\LogLevel;
 
 abstract class BaseGateway implements IGateway
 {
-    public function enableOauthFlow()
-    {
-        return true;
-    }
-
-    public function getSettingsHtml()
-    {
-        $oauthProviderHandle = $this->getOauthProviderHandle();
-
-        $variables = array(
-            'provider' => false,
-            'account' => false,
-            'token' => false,
-            'error' => false
-        );
-
-        $oauthProvider = Craft::app()->oauth->getProvider($oauthProviderHandle, false);
-
-        if ($oauthProvider)
-        {
-            if($oauthProvider->isConfigured())
-            {
-                $token = Craft::app()->videos_oauth->getToken($oauthProviderHandle);
-
-                if ($token)
-                {
-                    try
-                    {
-                        $account = Craft::app()->videos_cache->get(['getAccount', $token]);
-
-                        if(!$account)
-                        {
-                            try
-                            {
-                                $account = Craft::app()->videos_cache->get(['getAccount', $token]);
-
-                                if(!$account)
-                                {
-                                    $account = $oauthProvider->getResourceOwner($token);
-                                    Craft::app()->videos_cache->set(['getAccount', $token], $account);
-                                }
-
-                                if ($account)
-                                {
-                                    $variables['account'] = $account;
-                                    // $variables['settings'] = $plugin->getSettings();
-                                }
-                            }
-                            catch(\Exception $e)
-                            {
-                                VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
-
-                                $variables['error'] = $e->getMessage();
-                            }
-                        }
-
-                        if ($account)
-                        {
-                            $variables['account'] = $account;
-                            // $variables['settings'] = $plugin->getSettings();
-                        }
-                    }
-                    catch(\Exception $e)
-                    {
-                        VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
-
-                        $variables['error'] = $e->getMessage();
-                    }
-                }
-
-                $variables['token'] = $token;
-            }
-
-            $variables['provider'] = $oauthProvider;
-        }
-
-        $variables['gateway'] = $this;
-
-        return Craft::app()->templates->render('videos/settings/_oauth', $variables);
-    }
-
-	/**
-	 * Return the handle of the gateway based on its class name
-	 *
-	 * @return string
-	 */
-	public function getHandle()
-    {
-        $handle = get_class($this);
-        $handle = substr($handle, strrpos($handle, "\\") + 1);
-        $handle = strtolower($handle);
-
-        return $handle;
-    }
+	// Public Methods
+	// =========================================================================
 
 	/**
 	 * Set authentication OAuth token
@@ -108,30 +16,75 @@ abstract class BaseGateway implements IGateway
 	 * @param $token
 	 */
 	public function authenticationSetToken($token)
+	{
+		$this->token = $token;
+	}
+
+	/**
+	 * Where the OAuth flow should be enable or not for this gateway
+	 *
+	 * @return bool
+	 */
+	public function enableOauthFlow()
     {
-        $this->token = $token;
+        return true;
     }
 
 	/**
-	 * OAuth Scope
+	 * Returns the HTML of the embed from a video ID
+	 * @param       $videoId
+	 * @param array $options
 	 *
-	 * @return array|null
+	 * @return string
 	 */
-	public function getOauthScope()
-    {
-	    return null;
-    }
+	public function getEmbedHtml($videoId, $options = array())
+	{
+		$embedAttributes = array(
+			'frameborder' => "0",
+			'allowfullscreen' => "true" ,
+			'allowscriptaccess' => "true"
+		);
 
-	/**
-	 * OAuth Authorization Options
-	 *
-	 * @return array|null
-	 */
-	public function getOauthAuthorizationOptions()
-    {
-	    return null;
-    }
+		$disableSize = false;
 
+		if(isset($options['disable_size']))
+		{
+			$disableSize = $options['disable_size'];
+		}
+
+		if(!$disableSize)
+		{
+			if(isset($options['width']))
+			{
+				$embedAttributes['width'] = $options['width'];
+				unset($options['width']);
+			}
+
+			if(isset($options['height']))
+			{
+				$embedAttributes['height'] = $options['height'];
+				unset($options['height']);
+			}
+		}
+
+		if(!empty($options['iframeClass']))
+		{
+			$embedAttributes['class'] = $options['iframeClass'];
+			unset($options['iframeClass']);
+		}
+
+		$embedUrl = $this->getEmbedUrl($videoId, $options);
+
+		$embedAttributesString = '';
+
+		foreach($embedAttributes as $key => $value)
+		{
+			$embedAttributesString .= ' '.$key.'="'.$value.'"';
+		}
+
+		return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
+	}
+	
 	/**
 	 * Returns the URL of the embed from a video ID
 	 *
@@ -159,60 +112,119 @@ abstract class BaseGateway implements IGateway
     }
 
 	/**
-	 * Returns the HTML of the embed from a video ID
-	 * @param       $videoId
-	 * @param array $options
+	 * Return the handle of the gateway based on its class name
 	 *
 	 * @return string
 	 */
-	public function getEmbedHtml($videoId, $options = array())
-    {
-        $embedAttributes = array(
-            'frameborder' => "0",
-            'allowfullscreen' => "true" ,
-            'allowscriptaccess' => "true"
-        );
+	public function getHandle()
+	{
+		$handle = get_class($this);
+		$handle = substr($handle, strrpos($handle, "\\") + 1);
+		$handle = strtolower($handle);
 
-        $disableSize = false;
+		return $handle;
+	}
 
-        if(isset($options['disable_size']))
-        {
-            $disableSize = $options['disable_size'];
-        }
+	/**
+	 * OAuth Authorization Options
+	 *
+	 * @return array|null
+	 */
+	public function getOauthAuthorizationOptions()
+	{
+		return null;
+	}
 
-        if(!$disableSize)
-        {
-            if(isset($options['width']))
-            {
-                $embedAttributes['width'] = $options['width'];
-                unset($options['width']);
-            }
+	/**
+	 * OAuth Scope
+	 *
+	 * @return array|null
+	 */
+	public function getOauthScope()
+	{
+		return null;
+	}
 
-            if(isset($options['height']))
-            {
-                $embedAttributes['height'] = $options['height'];
-                unset($options['height']);
-            }
-        }
+	/**
+	 * Returns the gateway's settings as HTML
+	 *
+	 * @return string
+	 */
+	public function getSettingsHtml()
+	{
+		$oauthProviderHandle = $this->getOauthProviderHandle();
 
-        if(!empty($options['iframeClass']))
-        {
-            $embedAttributes['class'] = $options['iframeClass'];
-            unset($options['iframeClass']);
-        }
+		$variables = array(
+			'provider' => false,
+			'account' => false,
+			'token' => false,
+			'error' => false
+		);
 
-        $embedUrl = $this->getEmbedUrl($videoId, $options);
+		$oauthProvider = Craft::app()->oauth->getProvider($oauthProviderHandle, false);
 
-        $embedAttributesString = '';
+		if ($oauthProvider)
+		{
+			if($oauthProvider->isConfigured())
+			{
+				$token = Craft::app()->videos_oauth->getToken($oauthProviderHandle);
 
-        foreach($embedAttributes as $key => $value)
-        {
-            $embedAttributesString .= ' '.$key.'="'.$value.'"';
-        }
+				if ($token)
+				{
+					try
+					{
+						$account = Craft::app()->videos_cache->get(['getAccount', $token]);
 
-        return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
-    }
+						if(!$account)
+						{
+							try
+							{
+								$account = Craft::app()->videos_cache->get(['getAccount', $token]);
 
+								if(!$account)
+								{
+									$account = $oauthProvider->getResourceOwner($token);
+									Craft::app()->videos_cache->set(['getAccount', $token], $account);
+								}
+
+								if ($account)
+								{
+									$variables['account'] = $account;
+									// $variables['settings'] = $plugin->getSettings();
+								}
+							}
+							catch(\Exception $e)
+							{
+								VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+
+								$variables['error'] = $e->getMessage();
+							}
+						}
+
+						if ($account)
+						{
+							$variables['account'] = $account;
+							// $variables['settings'] = $plugin->getSettings();
+						}
+					}
+					catch(\Exception $e)
+					{
+						VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+
+						$variables['error'] = $e->getMessage();
+					}
+				}
+
+				$variables['token'] = $token;
+			}
+
+			$variables['provider'] = $oauthProvider;
+		}
+
+		$variables['gateway'] = $this;
+
+		return Craft::app()->templates->render('videos/settings/_oauth', $variables);
+	}
 
 	/**
 	 * Return a video from its public URL
@@ -259,7 +271,20 @@ abstract class BaseGateway implements IGateway
         }
     }
 
-    protected function apiGet($uri, $query = array(), $headers = null)
+	// Protected Methods
+	// =========================================================================
+
+	/**
+	 * Performs a GET request on the API
+	 *
+	 * @param       $uri
+	 * @param array $query
+	 * @param null  $headers
+	 *
+	 * @return mixed
+	 * @throws \Exception
+	 */
+	protected function apiGet($uri, $query = array(), $headers = null)
     {
         $client = $this->createClient();
 
