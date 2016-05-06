@@ -2,8 +2,6 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\LogLevel;
-use Craft\VideosPlugin;
 use Craft\Videos_CollectionModel;
 use Craft\Videos_SectionModel;
 use Craft\Videos_VideoModel;
@@ -124,7 +122,7 @@ class YouTube extends BaseGateway implements IGateway
      */
     public function getVideoById($id)
     {
-        $response = $this->apiPerformGetRequest('videos', array(
+        $response = $this->apiGet('videos', array(
             'part' => 'snippet,statistics,contentDetails',
             'id' => $id
         ));
@@ -138,29 +136,6 @@ class YouTube extends BaseGateway implements IGateway
         else
         {
             throw new \Exception('Video not found');
-        }
-    }
-
-    /**
-     * @inheritDoc IGateway::getVideos()
-     *
-     * @param $method
-     * @param $options
-     *
-     * @return mixed
-     * @throws \Exception
-     */
-    public function getVideos($method, $options)
-    {
-        $realMethod = 'getVideos'.ucwords($method);
-
-        if(method_exists($this, $realMethod))
-        {
-            return $this->{$realMethod}($options);
-        }
-        else
-        {
-            throw new \Exception("Method ".$realMethod." not found");
         }
     }
 
@@ -232,7 +207,7 @@ class YouTube extends BaseGateway implements IGateway
             $data['pageToken'] = $pagination['moreToken'];
         }
 
-        $playlistItemsResponse = $this->apiPerformGetRequest('playlistItems', $data);
+        $playlistItemsResponse = $this->apiGet('playlistItems', $data);
 
         $videoIds = array();
 
@@ -245,7 +220,7 @@ class YouTube extends BaseGateway implements IGateway
 
         $videoIds = implode(",", $videoIds);
 
-        $videosResponse = $this->apiPerformGetRequest('videos', array(
+        $videosResponse = $this->apiGet('videos', array(
             'part' => 'snippet,statistics,contentDetails',
             'id' => $videoIds
         ));
@@ -283,7 +258,7 @@ class YouTube extends BaseGateway implements IGateway
             $data['pageToken'] = $pagination['moreToken'];
         }
 
-        $response = $this->apiPerformGetRequest('search', $data);
+        $response = $this->apiGet('search', $data);
 
         foreach($response['items'] as $item)
         {
@@ -294,7 +269,7 @@ class YouTube extends BaseGateway implements IGateway
         {
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $this->apiPerformGetRequest('videos', array(
+            $videosResponse = $this->apiGet('videos', array(
                 'part' => 'snippet,statistics,contentDetails',
                 'id' => $videoIds
             ));
@@ -327,7 +302,7 @@ class YouTube extends BaseGateway implements IGateway
     // Private Methods
     // =========================================================================
 
-    private function apiCreateClient()
+    protected function createClient()
     {
         $apiUrl = $this->getApiUrl();
 
@@ -350,7 +325,7 @@ class YouTube extends BaseGateway implements IGateway
 
     private function getCollectionsPlaylists($params = array())
     {
-        $channelsResponse = $this->apiPerformGetRequest('playlists', array(
+        $channelsResponse = $this->apiGet('playlists', array(
                 'part' => 'snippet',
                 'mine' => 'true'
             ));
@@ -402,13 +377,6 @@ class YouTube extends BaseGateway implements IGateway
         }
 
         return $collections;
-    }
-
-    private function parseUser()
-    {
-        $this->id = (string) $response->id;
-        $this->id = substr($this->id, (strpos($this->id, ":user:") + 6));
-        $this->name = (string) $response->author->name;
     }
 
     private function parseVideo($data)
@@ -484,7 +452,7 @@ class YouTube extends BaseGateway implements IGateway
     {
         $pagination = $this->pagination($params);
 
-        $channelsResponse = $this->apiPerformGetRequest('channels', array(
+        $channelsResponse = $this->apiGet('channels', array(
             'part' => 'contentDetails',
             'mine' => 'true'
         ));
@@ -504,7 +472,7 @@ class YouTube extends BaseGateway implements IGateway
                 $data['pageToken'] = $pagination['moreToken'];
             }
 
-            $playlistItemsResponse = $this->apiPerformGetRequest('playlistItems', $data);
+            $playlistItemsResponse = $this->apiGet('playlistItems', $data);
 
             $videoIds = array();
 
@@ -517,7 +485,7 @@ class YouTube extends BaseGateway implements IGateway
 
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $this->apiPerformGetRequest('videos', array(
+            $videosResponse = $this->apiGet('videos', array(
                 'part' => 'snippet,statistics,contentDetails,status',
                 'id' => $videoIds
             ));
@@ -537,35 +505,6 @@ class YouTube extends BaseGateway implements IGateway
                     'videos' => $videos,
                     'more' => $more
                 );
-        }
-    }
-
-    private function apiPerformGetRequest($uri, $query = array(), $headers = null)
-    {
-        $client = $this->apiCreateClient();
-
-        $request = $client->get($uri, $headers, ['query' => $query]);
-
-        VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
-
-        try
-        {
-            $response = $request->send();
-
-            VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
-
-            return $response->json();
-        }
-        catch(\Exception $e)
-        {
-            VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
-
-            if(method_exists($e, 'getResponse'))
-            {
-                VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
-            }
-
-            throw $e;
         }
     }
 }

@@ -2,6 +2,8 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
+use Craft\VideosPlugin;
+use Craft\LogLevel;
 
 abstract class BaseGateway implements IGateway
 {
@@ -232,5 +234,57 @@ abstract class BaseGateway implements IGateway
         }
 
         return $this->getVideoById($videoId);
+    }
+
+    /**
+     * @inheritDoc IGateway::getVideos()
+     *
+     * @param $method
+     * @param $options
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getVideos($method, $options)
+    {
+        $realMethod = 'getVideos'.ucwords($method);
+
+        if(method_exists($this, $realMethod))
+        {
+            return $this->{$realMethod}($options);
+        }
+        else
+        {
+            throw new \Exception("Method ".$realMethod." not found");
+        }
+    }
+
+    protected function apiGet($uri, $query = array(), $headers = null)
+    {
+        $client = $this->createClient();
+
+        $request = $client->get($uri, $headers, ['query' => $query]);
+
+        VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
+
+        try
+        {
+            $response = $request->send();
+
+            VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
+
+            return $response->json();
+        }
+        catch(\Exception $e)
+        {
+            VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
+
+            if(method_exists($e, 'getResponse'))
+            {
+                VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
+            }
+
+            throw $e;
+        }
     }
 }

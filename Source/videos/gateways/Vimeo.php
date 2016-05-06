@@ -2,8 +2,6 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
-use Craft\LogLevel;
-use Craft\VideosPlugin;
 use Craft\Videos_CollectionModel;
 use Craft\Videos_SectionModel;
 use Craft\Videos_VideoModel;
@@ -127,36 +125,13 @@ class Vimeo extends BaseGateway implements IGateway
 	 */
 	public function getVideoById($id)
     {
-        $response = $this->apiPerformGetRequest('videos/'.$id);
+        $response = $this->apiGet('videos/'.$id);
 
         $data = $response;
 
         if($data)
         {
             return $this->parseVideo($data);
-        }
-    }
-
-	/**
-	 * @inheritDoc IGateway::getVideos()
-	 *
-	 * @param $method
-	 * @param $options
-	 *
-	 * @return mixed
-	 * @throws \Exception
-	 */
-	public function getVideos($method, $options)
-    {
-        $realMethod = 'getVideos'.ucwords($method);
-
-        if(method_exists($this, $realMethod))
-        {
-            return $this->{$realMethod}($options);
-        }
-        else
-        {
-            throw new \Exception("Method ".$realMethod." not found");
         }
     }
 
@@ -243,10 +218,7 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->performVideosRequest('me/videos', $params);
     }
 
-    // Private Methods
-    // =========================================================================
-
-    private function apiCreateClient()
+    protected function createClient()
     {
         $apiUrl = $this->getApiUrl();
 
@@ -264,6 +236,9 @@ class Vimeo extends BaseGateway implements IGateway
         return $client;
     }
 
+    // Private Methods
+    // =========================================================================
+
     private function getApiUrl()
     {
         return 'https://api.vimeo.com/';
@@ -277,7 +252,7 @@ class Vimeo extends BaseGateway implements IGateway
     private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->apiPerformGetRequest('me/albums', $query);
+        $response = $this->apiGet('me/albums', $query);
 
         return $this->parseCollections('album', $response['data']);
     }
@@ -285,7 +260,7 @@ class Vimeo extends BaseGateway implements IGateway
     private function getCollectionsChannels($params = array())
     {
         $query = $this->queryFromParams();
-        $response = $this->apiPerformGetRequest('me/channels', $query);
+        $response = $this->apiGet('me/channels', $query);
 
         return $this->parseCollections('channel', $response['data']);
     }
@@ -324,12 +299,6 @@ class Vimeo extends BaseGateway implements IGateway
         }
 
         return $collections;
-    }
-
-    private function parseUser()
-    {
-        $this->id = $response->id;
-        $this->name = $response->display_name;
     }
 
     private function parseVideo($data)
@@ -422,7 +391,7 @@ class Vimeo extends BaseGateway implements IGateway
     {
         $query = $this->queryFromParams($params);
 
-        $response = $this->apiPerformGetRequest($uri, $query);
+        $response = $this->apiGet($uri, $query);
         $videos = $this->parseVideos($response['data']);
 
         $more = false;
@@ -473,34 +442,5 @@ class Vimeo extends BaseGateway implements IGateway
         }
 
         return $query;
-    }
-
-    private function apiPerformGetRequest($uri, $query = array(), $headers = null)
-    {
-        $client = $this->apiCreateClient();
-
-        $request = $client->get($uri, $headers, ['query' => $query]);
-
-        VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
-
-        try
-        {
-            $response = $request->send();
-
-            VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
-
-            return $response->json();
-        }
-        catch(\Exception $e)
-        {
-            VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
-
-            if(method_exists($e, 'getResponse'))
-            {
-                VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
-            }
-
-            throw $e;
-        }
     }
 }
