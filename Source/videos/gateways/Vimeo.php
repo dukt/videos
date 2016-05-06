@@ -205,6 +205,42 @@ class Vimeo extends BaseGateway implements IGateway
         return $video_id;
     }
 
+
+    // Protected
+    // =========================================================================
+
+    protected function getVideosAlbum($params = array())
+    {
+        $albumId = $params['id'];
+        unset($params['id']);
+
+         // albums/#album_id
+        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
+    }
+
+    protected function getVideosChannel($params = array())
+    {
+        $params['channel_id'] = $params['id'];
+        unset($params['id']);
+
+        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
+    }
+
+    protected function getVideosFavorites($params = array())
+    {
+        return $this->performVideosRequest('me/likes', $params);
+    }
+
+    protected function getVideosSearch($params = array())
+    {
+        return $this->performVideosRequest('videos', $params);
+    }
+
+    protected function getVideosUploads($params = array())
+    {
+        return $this->performVideosRequest('me/videos', $params);
+    }
+
     // Private Methods
     // =========================================================================
 
@@ -463,40 +499,5 @@ class Vimeo extends BaseGateway implements IGateway
 
             throw $e;
         }
-    }
-
-    // Get Videos methods
-    // =========================================================================
-
-    private function getVideosAlbum($params = array())
-    {
-        $albumId = $params['id'];
-        unset($params['id']);
-
-         // albums/#album_id
-        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
-    }
-
-    private function getVideosChannel($params = array())
-    {
-        $params['channel_id'] = $params['id'];
-        unset($params['id']);
-
-        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
-    }
-
-    private function getVideosFavorites($params = array())
-    {
-        return $this->performVideosRequest('me/likes', $params);
-    }
-
-    private function getVideosSearch($params = array())
-    {
-        return $this->performVideosRequest('videos', $params);
-    }
-
-    private function getVideosUploads($params = array())
-    {
-        return $this->performVideosRequest('me/videos', $params);
     }
 }
