@@ -345,6 +345,8 @@ class Vimeo extends BaseGateway implements IGateway
         $video->plays = (isset($data['stats']['plays']) ? $data['stats']['plays'] : 0);
         $video->title = $data['name'];
         $video->url = $data['link'];
+        $video->width = $data['width'];
+        $video->height = $data['height'];
 
 
 	    // privacy
