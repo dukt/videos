@@ -156,7 +156,7 @@ class Vimeo extends BaseGateway implements IGateway
     {
         // check if url works with this service and extract video_id
 
-	    $video_id = false;
+	    $videoId = false;
 
         $regexp = array('/^https?:\/\/(www\.)?vimeo\.com\/([0-9]*)/', 2);
 
@@ -168,25 +168,32 @@ class Vimeo extends BaseGateway implements IGateway
 
 
             // define video id
-            $video_id = $matches[$match_key][0];
+            $videoId = $matches[$match_key][0];
 
 
             // Fixes the youtube &feature_gdata bug
-            if(strpos($video_id, "&"))
+            if(strpos($videoId, "&"))
             {
-                $video_id = substr($video_id, 0, strpos($video_id, "&"));
+                $videoId = substr($videoId, 0, strpos($videoId, "&"));
             }
         }
 
         // here we should have a valid video_id or false if service not matching
-        return $video_id;
+        return $videoId;
     }
 
 
     // Protected
     // =========================================================================
 
-    protected function getVideosAlbum($params = array())
+	/**
+	 * Returns a list of videos in an album
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	protected function getVideosAlbum($params = array())
     {
         $albumId = $params['id'];
         unset($params['id']);
@@ -195,7 +202,14 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
     }
 
-    protected function getVideosChannel($params = array())
+	/**
+	 * Returns a list of videos in a channel
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	protected function getVideosChannel($params = array())
     {
         $params['channel_id'] = $params['id'];
         unset($params['id']);
@@ -203,22 +217,48 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
     }
 
-    protected function getVideosFavorites($params = array())
+	/**
+	 * Returns a list of favorite videos
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	protected function getVideosFavorites($params = array())
     {
         return $this->performVideosRequest('me/likes', $params);
     }
 
-    protected function getVideosSearch($params = array())
+	/**
+	 * Returns a list of videos from a search request
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	protected function getVideosSearch($params = array())
     {
         return $this->performVideosRequest('videos', $params);
     }
 
-    protected function getVideosUploads($params = array())
+	/**
+	 * Returns a list of uploaded videos
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	protected function getVideosUploads($params = array())
     {
         return $this->performVideosRequest('me/videos', $params);
     }
 
-    protected function createClient()
+	/**
+	 * Returns an authenticated Guzzle client
+	 *
+	 * @return Client
+	 */
+	protected function createClient()
     {
         $apiUrl = $this->getApiUrl();
 
@@ -239,17 +279,29 @@ class Vimeo extends BaseGateway implements IGateway
     // Private Methods
     // =========================================================================
 
-    private function getApiUrl()
+	/**
+	 * @return string
+	 */
+	private function getApiUrl()
     {
         return 'https://api.vimeo.com/';
     }
 
-    private function getApiVersion()
+	/**
+	 * @return string
+	 */
+	private function getApiVersion()
     {
         return '3.0';
     }
 
-    private function getCollectionsAlbums($params = array())
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
         $response = $this->apiGet('me/albums', $query);
@@ -257,7 +309,13 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->parseCollections('album', $response['data']);
     }
 
-    private function getCollectionsChannels($params = array())
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function getCollectionsChannels($params = array())
     {
         $query = $this->queryFromParams();
         $response = $this->apiGet('me/channels', $query);
@@ -265,7 +323,12 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->parseCollections('channel', $response['data']);
     }
 
-    private function parseCollectionAlbum($data)
+	/**
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	private function parseCollectionAlbum($data)
     {
         $collection = array();
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
@@ -276,7 +339,12 @@ class Vimeo extends BaseGateway implements IGateway
         return $collection;
     }
 
-    private function parseCollectionChannel($data)
+	/**
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	private function parseCollectionChannel($data)
     {
         $collection = array();
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
@@ -287,7 +355,13 @@ class Vimeo extends BaseGateway implements IGateway
         return $collection;
     }
 
-    private function parseCollections($type, $data)
+	/**
+	 * @param $type
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	private function parseCollections($type, $data)
     {
         $collections = array();
 
@@ -301,7 +375,12 @@ class Vimeo extends BaseGateway implements IGateway
         return $collections;
     }
 
-    private function parseVideo($data)
+	/**
+	 * @param $data
+	 *
+	 * @return Videos_VideoModel
+	 */
+	private function parseVideo($data)
     {
         $video = new Videos_VideoModel;
         $video->raw = $data;
@@ -370,7 +449,12 @@ class Vimeo extends BaseGateway implements IGateway
         return $video;
     }
 
-    private function parseVideos($data)
+	/**
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	private function parseVideos($data)
     {
         $videos = array();
 
@@ -387,7 +471,15 @@ class Vimeo extends BaseGateway implements IGateway
         return $videos;
     }
 
-    private function performVideosRequest($uri, $params, $requireAuthentication = true)
+	/**
+	 * @param      $uri
+	 * @param      $params
+	 * @param bool $requireAuthentication
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function performVideosRequest($uri, $params, $requireAuthentication = true)
     {
         $query = $this->queryFromParams($params);
 
@@ -410,7 +502,12 @@ class Vimeo extends BaseGateway implements IGateway
         );
     }
 
-    private function queryFromParams($params = array())
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	private function queryFromParams($params = array())
     {
         $query = array();
 

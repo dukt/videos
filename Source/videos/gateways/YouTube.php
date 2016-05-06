@@ -187,11 +187,25 @@ class YouTube extends BaseGateway implements IGateway
     // Protected Methods
     // =========================================================================
 
+	/**
+	 * Returns a list of favorite videos
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
     protected function getVideosFavorites($params = array())
     {
         return $this->performVideosRequest('favorites', $params);
     }
 
+	/**
+	 * Returns a list of videos in a playlist
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
     protected function getVideosPlaylist($params = array())
     {
         $pagination = $this->pagination($params);
@@ -242,6 +256,13 @@ class YouTube extends BaseGateway implements IGateway
             );
     }
 
+	/**
+	 * Returns a list of videos from a search request
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
     protected function getVideosSearch($params = array())
     {
         $pagination = $this->pagination($params);
@@ -294,36 +315,57 @@ class YouTube extends BaseGateway implements IGateway
         return array();
     }
 
+	/**
+	 * Returns a list of uploaded videos
+	 *
+	 * @param array $params
+	 *
+	 * @return array
+	 */
     protected function getVideosUploads($params = array())
     {
         return $this->performVideosRequest('uploads', $params);
     }
 
+	/**
+	 * Returns an authenticated Guzzle client
+	 *
+	 * @return Client
+	 */
+	protected function createClient()
+	{
+		$apiUrl = $this->getApiUrl();
+
+		$client = new Client($apiUrl, array(
+			'request.options' => array(
+				'headers' => [],
+				'query' => [
+					'access_token' => $this->token->accessToken
+				],
+			)
+		));
+
+		return $client;
+	}
+
     // Private Methods
     // =========================================================================
 
-    protected function createClient()
-    {
-        $apiUrl = $this->getApiUrl();
-
-        $client = new Client($apiUrl, array(
-            'request.options' => array(
-                'headers' => [],
-                'query' => [
-                    'access_token' => $this->token->accessToken
-                ],
-            )
-        ));
-
-        return $client;
-    }
-
-    private function getApiUrl()
+	/**
+	 * @return string
+	 */
+	private function getApiUrl()
     {
         return 'https://www.googleapis.com/youtube/v3/';
     }
 
-    private function getCollectionsPlaylists($params = array())
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function getCollectionsPlaylists($params = array())
     {
         $channelsResponse = $this->apiGet('playlists', array(
                 'part' => 'snippet',
@@ -333,7 +375,12 @@ class YouTube extends BaseGateway implements IGateway
         return $this->parseCollections($channelsResponse['items']);
     }
 
-    private function pagination($params = array())
+	/**
+	 * @param array $params
+	 *
+	 * @return array
+	 */
+	private function pagination($params = array())
     {
         $pagination = array(
             'page' => 1,
@@ -354,7 +401,12 @@ class YouTube extends BaseGateway implements IGateway
         return $pagination;
     }
 
-    private function parseCollection($item)
+	/**
+	 * @param $item
+	 *
+	 * @return array
+	 */
+	private function parseCollection($item)
     {
         $collection = array();
         $collection['id']          = $item['id'];
@@ -365,7 +417,12 @@ class YouTube extends BaseGateway implements IGateway
         return $collection;
     }
 
-    private function parseCollections($items)
+	/**
+	 * @param $items
+	 *
+	 * @return array
+	 */
+	private function parseCollections($items)
     {
         $collections = array();
 
@@ -379,7 +436,12 @@ class YouTube extends BaseGateway implements IGateway
         return $collections;
     }
 
-    private function parseVideo($data)
+	/**
+	 * @param $data
+	 *
+	 * @return Videos_VideoModel
+	 */
+	private function parseVideo($data)
     {
         $video = new Videos_VideoModel;
         $video->raw = $data;
@@ -434,7 +496,12 @@ class YouTube extends BaseGateway implements IGateway
         return $video;
     }
 
-    private function parseVideos($data)
+	/**
+	 * @param $data
+	 *
+	 * @return array
+	 */
+	private function parseVideos($data)
     {
         $videos = array();
 
@@ -448,7 +515,14 @@ class YouTube extends BaseGateway implements IGateway
         return $videos;
     }
 
-    private function performVideosRequest($playlist, $params = array())
+	/**
+	 * @param       $playlist
+	 * @param array $params
+	 *
+	 * @return array
+	 * @throws \Exception
+	 */
+	private function performVideosRequest($playlist, $params = array())
     {
         $pagination = $this->pagination($params);
 
