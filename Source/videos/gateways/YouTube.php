@@ -414,6 +414,7 @@ class YouTube extends BaseGateway implements IGateway
     private function parseVideo($item)
     {
         $video = new Videos_VideoModel;
+        $video->raw = $item;
         $video->authorName = $item['snippet']['channelTitle'];
         $video->authorUrl = "http://youtube.com/channel/".$item['snippet']['channelId'];
         $video->date = strtotime($item['snippet']['publishedAt']);

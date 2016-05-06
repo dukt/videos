@@ -333,6 +333,7 @@ class Vimeo extends BaseGateway implements IGateway
     private function parseVideo($data)
     {
         $video = new Videos_VideoModel;
+        $video->raw = $data;
         $video->authorName = $data['user']['name'];
         $video->authorUrl = $data['user']['link'];
         $video->date = strtotime($data['created_time']);
