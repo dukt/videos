@@ -7,7 +7,7 @@ Connect to YouTube & Vimeo and publish social videos on your website.
 ## Requirements
 
 - Craft 2.5
-- Craft OAuth 1.0
+- Craft OAuth 1.0+
 
 ## Installation
 
