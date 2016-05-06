@@ -448,14 +448,18 @@ class YouTube extends BaseGateway implements IGateway
             }
         }
 
+
 	    // privacy
 
-	    switch($item['status']['privacyStatus'])
-	    {
-		    case 'private':
-				$video->private = true;
-			    break;
-	    }
+        if(isset($item['status']['privacyStatus']))
+        {
+            switch($item['status']['privacyStatus'])
+            {
+                case 'private':
+                    $video->private = true;
+                    break;
+            }
+        }
 
         return $video;
     }
