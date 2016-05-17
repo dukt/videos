@@ -183,7 +183,16 @@ abstract class BaseGateway implements IGateway
 
 								if(!$account)
 								{
-									$account = $oauthProvider->getResourceOwner($token);
+									if(method_exists($oauthProvider, 'getResourceOwner'))
+									{
+										$account = $oauthProvider->getResourceOwner($token);
+									}
+									elseif (method_exists($oauthProvider, 'getAccount'))
+									{
+										// Todo: Remove in OAuth 3.0
+										$account = $oauthProvider->getAccount($token);
+									}
+
 									Craft::app()->videos_cache->set(['getAccount', $token], $account);
 								}
 
