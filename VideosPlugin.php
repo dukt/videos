@@ -8,13 +8,18 @@
 namespace Craft;
 
 
-require_once(CRAFT_PLUGINS_PATH.'videos/gateways/IGateway.php');
-require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');
-
 class VideosPlugin extends BasePlugin
 {
     // Public Methods
     // =========================================================================
+
+    public function init()
+    {
+        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/IGateway.php');
+        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');
+
+        parent::init();
+    }
 
     /**
      * Get Name
