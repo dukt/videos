@@ -37,16 +37,7 @@ class VideosPlugin extends BasePlugin
 	 */
 	public function getVersion()
 	{
-		$path = CRAFT_PLUGINS_PATH.'videos/Info.php';
-
-		if(IOHelper::fileExists($path))
-		{
-			require_once($path);
-
-			return VIDEOS_VERSION;
-		}
-
-		return '1.1.0';
+		return '1.1.40';
 	}
 
     /**
