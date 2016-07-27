@@ -171,6 +171,12 @@ class VideosPlugin extends BasePlugin
             IOHelper::ensureFolderExists($basePath);
 
             $filename = pathinfo($url, PATHINFO_BASENAME);
+
+	        if(strpos($filename, '?') !== false)
+	        {
+	        	$filename = substr($filename, 0, strpos($filename, '?'));
+	        }
+
             $thumbnailsFolderPath = $basePath.$gateway.'/'.$videoId.'/';
 
             $originalFolderPath = $thumbnailsFolderPath.'original/';
