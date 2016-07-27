@@ -12,7 +12,11 @@
         <ul class="light">
             <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>
             <li>{{"By"|t}} <strong><a href="{{ video.authorUrl }}" class="light">{{ video.authorName }}</a></strong></li>
-            <li>{{ video.plays }} {{ "plays"|t }}</li>
+
+            {% if video.plays %}
+                <li>{{ video.plays }} {{ "plays"|t }}</li>
+            {% endif %}
+
             <li><a class="icon delete dk-remove"></a></li>
         </ul>
     </div>
