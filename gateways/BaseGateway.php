@@ -95,16 +95,21 @@ abstract class BaseGateway implements IGateway
 	 */
 	public function getEmbedUrl($videoId, $options = array())
     {
-        $queryMark = '?';
+	    $format = $this->getEmbedFormat();
 
-        if(strpos($this->getEmbedFormat(), "?") !== false)
-        {
-            $queryMark = "&";
-        }
+    	if(count($options) > 0)
+	    {
+		    $queryMark = '?';
 
-        $options = http_build_query($options);
+		    if(strpos($this->getEmbedFormat(), "?") !== false)
+		    {
+			    $queryMark = "&";
+		    }
 
-        $format = $this->getEmbedFormat().$queryMark.$options;
+		    $options = http_build_query($options);
+
+		    $format .= $queryMark.$options;
+	    }
 
         $embedUrl = sprintf($format, $videoId);
 
