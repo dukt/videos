@@ -125,7 +125,11 @@ class Vimeo extends BaseGateway implements IGateway
 	 */
 	public function getVideoById($id)
     {
-        $response = $this->apiGet('videos/'.$id);
+    	$query = [
+    		'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download'
+	    ];
+
+        $response = $this->apiGet('videos/'.$id, $query);
 
         $data = $response;
 
