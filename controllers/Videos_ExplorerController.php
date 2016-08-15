@@ -34,11 +34,26 @@ class Videos_ExplorerController extends BaseController
 	        $namespaceInputId = craft()->request->getPost('namespaceInputId');
             $nav = $this->getExplorerNav();
 
+	        $gateways = [];
+	        $allGateways = craft()->videos_gateways->getGateways();
+
+	        foreach($allGateways as $_gateway)
+	        {
+				$gateway = [
+					'name' => $_gateway->getName(),
+					'handle' => $_gateway->getHandle(),
+					'supportsSearch' => $_gateway->supportsSearch(),
+				];
+
+		        array_push($gateways, $gateway);
+	        }
+
             $this->returnJson(array(
                 'success' => true,
                 'html' => craft()->templates->render('videos/_elements/explorer', [
                     'namespaceInputId' => $namespaceInputId,
                     'nav' => $nav,
+	                'gateways' => $gateways
                 ])
             ));
         }
