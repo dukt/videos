@@ -5,8 +5,25 @@ if (typeof Videos == 'undefined')
 
 Videos.Explorer = Garnish.Base.extend({
 
+    $container: null,
+    $explorer: null,
+    $gateways: null,
+    $main: null,
+    $mainContent: null,
+    $modal: null,
+    $playBtns: null,
+    $scroller: null,
+    $search: null,
+    $sectionLinks: null,
+    $spinner: null,
+    $toolbar: null,
+    $videoElements: null,
+    $videos: null,
+
+    gateways: null,
     playerModal: null,
     searchTimeout: null,
+
 
     init: function($container, settings)
     {
@@ -30,71 +47,24 @@ Videos.Explorer = Garnish.Base.extend({
                     this.$spinner = $('.spinner', this.$modal);
                     this.$gateways = $('.gateways select', this.$modal);
                     this.$sectionLinks = $('nav a', this.$modal);
+                    this.$toolbar = $('.toolbar', this.$modal);
                     this.$search = $('.search', this.$modal);
                     this.$mainContent = $('.main .content', this.$modal);
                     this.$videos = $('.videos', this.$modal);
                     this.$scroller = this.$main;
+                    this.$explorer = $('.videos-explorer', this.$container);
 
+                    this.gateways = this.$explorer.data('gateways');
 
-                    // Section Links
-
-                    this.addListener(this.$sectionLinks, 'click', $.proxy(function(ev) {
-
-                        this.$sectionLinks.filter('.sel').removeClass('sel');
-
-                        $(ev.currentTarget).addClass('sel');
-
-                        gateway = $(ev.currentTarget).data('gateway');
-                        method = $(ev.currentTarget).data('method');
-                        options = $(ev.currentTarget).data('options');
-
-                        if(typeof(options) != 'undefined')
-                        {
-                            options = JSON.stringify(options);
-                            options = $.parseJSON(options);
-                        }
-
-                        this.getVideos(gateway, method, options);
-
-                        ev.preventDefault();
-                    }, this));
-
-
-                    // Search
-
-                    this.addListener(this.$search, 'textchange', $.proxy(function(ev)
-                    {
-                        if (this.searchTimeout)
-                        {
-                            clearTimeout(this.searchTimeout);
-                        }
-
-                        this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
-                    }, this));
-
-                    this.addListener(this.$search, 'blur', $.proxy(function(ev)
-                    {
-                        var q = $(ev.currentTarget).val();
-
-                        if(q.length == 0)
-                        {
-                            this.$sectionLinks.filter('.sel').trigger('click');
-                        }
-                    }, this));
-
-                    this.addListener(this.$search, 'keypress', function(ev)
-                    {
-                        if (ev.keyCode == Garnish.RETURN_KEY)
-                        {
-                            ev.preventDefault();
-
-                            this.search(ev);
-                        }
-                    });
+                    this.addListener(this.$gateways, 'change', 'handleGatewayChange');
+                    this.addListener(this.$sectionLinks, 'click', 'handleSectionClick');
+                    this.addListener(this.$search, 'textchange', 'handleSearchChange');
+                    this.addListener(this.$search, 'blur', 'handleSearchBlur');
+                    this.addListener(this.$search, 'keypress', 'handleSearchKeypress');
 
                     Craft.initUiElements();
 
-                    // Trigger first click
+                    this.selectGateway(this.$gateways.val());
 
                     $('nav div:not(.hidden) a:first', this.$modal).trigger('click');
                 }
@@ -121,6 +91,83 @@ Videos.Explorer = Garnish.Base.extend({
                 $error.appendTo(this.$container);
             }
         }, this));
+    },
+
+    handleSearchChange: function(ev)
+    {
+        if (this.searchTimeout)
+        {
+            clearTimeout(this.searchTimeout);
+        }
+
+        this.searchTimeout = setTimeout($.proxy(this, 'search', ev), 500);
+    },
+
+    handleSearchBlur: function(ev)
+    {
+        var q = $(ev.currentTarget).val();
+
+        if(q.length == 0)
+        {
+            this.$sectionLinks.filter('.sel').trigger('click');
+        }
+    },
+
+    handleSearchKeypress: function(ev)
+    {
+        if (ev.keyCode == Garnish.RETURN_KEY)
+        {
+            ev.preventDefault();
+
+            this.search(ev);
+        }
+    },
+
+    handleGatewayChange: function(ev)
+    {
+        this.selectGateway(ev.currentTarget.value);
+    },
+
+    selectGateway: function(gatewayHandle)
+    {
+        $.each(this.gateways, $.proxy(function(k, gateway)
+        {
+            if(gateway.handle == gatewayHandle)
+            {
+                if(!gateway.supportsSearch)
+                {
+                    this.$search.val('');
+                    this.$search.addClass('disabled');
+                    this.$search.attr('disabled', true);
+                }
+                else
+                {
+                    this.$search.removeClass('disabled');
+                    this.$search.attr('disabled', false);
+                }
+            }
+        }, this));
+    },
+
+    handleSectionClick: function(ev) {
+
+        this.$sectionLinks.filter('.sel').removeClass('sel');
+
+        $(ev.currentTarget).addClass('sel');
+
+        gateway = $(ev.currentTarget).data('gateway');
+        method = $(ev.currentTarget).data('method');
+        options = $(ev.currentTarget).data('options');
+
+        if(typeof(options) != 'undefined')
+        {
+            options = JSON.stringify(options);
+            options = $.parseJSON(options);
+        }
+
+        this.getVideos(gateway, method, options);
+
+        ev.preventDefault();
     },
 
     search: function(ev)
@@ -225,7 +272,7 @@ Videos.Explorer = Garnish.Base.extend({
                         $moreBtn = $('<a class="more btn">More</a>');
                         this.$videos.append($moreBtn);
 
-                        if(typeof(options) == 'undefined')
+                        if(typeof(options) == 'undefined' || !options)
                         {
                             var moreOptions = {};
                         }
