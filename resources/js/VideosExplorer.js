@@ -272,11 +272,9 @@ Videos.Explorer = Garnish.Base.extend({
                         $moreBtn = $('<a class="more btn">More</a>');
                         this.$videos.append($moreBtn);
 
-                        if(typeof(options) == 'undefined' || !options)
-                        {
-                            var moreOptions = {};
-                        }
-                        else
+                        var moreOptions = {};
+
+                        if(options)
                         {
                             var moreOptions = options;
                         }
