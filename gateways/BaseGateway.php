@@ -31,6 +31,17 @@ abstract class BaseGateway implements IGateway
     }
 
 	/**
+	 * Whether the gateway supports search or not
+	 *
+	 * @return bool
+	 */
+	public function supportsSearch()
+	{
+		// Deprecated in 2.0: Each gateway will need to specify its support for search
+		return true;
+	}
+
+	/**
 	 * Returns the HTML of the embed from a video ID
 	 * @param       $videoId
 	 * @param array $options
