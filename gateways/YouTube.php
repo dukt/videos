@@ -2,6 +2,8 @@
 namespace Dukt\Videos\Gateways;
 
 use Craft\Craft;
+use Craft\VideosPlugin;
+use Craft\LogLevel;
 use Craft\Videos_CollectionModel;
 use Craft\Videos_SectionModel;
 use Craft\Videos_VideoModel;
@@ -367,12 +369,19 @@ class YouTube extends BaseGateway implements IGateway
 	 */
 	private function getCollectionsPlaylists($params = array())
     {
-        $channelsResponse = $this->apiGet('playlists', array(
-                'part' => 'snippet',
-                'mine' => 'true'
-            ));
+    	try
+	    {
+		    $channelsResponse = $this->apiGet('playlists', array(
+			    'part' => 'snippet',
+			    'mine' => 'true'
+		    ));
 
-        return $this->parseCollections($channelsResponse['items']);
+		    return $this->parseCollections($channelsResponse['items']);
+	    }
+	    catch(\Exception $e)
+	    {
+		    VideosPlugin::log('Couldn’t get playlists: '.$e->getMessage(), LogLevel::Warning);
+	    }
     }
 
 	/**
