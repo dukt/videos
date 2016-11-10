@@ -465,15 +465,14 @@ class YouTube extends BaseGateway implements IGateway
         $video->title = $data['snippet']['title'];
         $video->url = 'http://youtu.be/'.$video->id;
 
+
         // Video Duration
 
         $interval = new \DateInterval($data['contentDetails']['duration']);
         $video->durationSeconds = ($interval->d * 86400) + ($interval->h * 3600) + ($interval->i * 60) + $interval->s;
 
-        // thumbnails
 
-
-        // Set thumbnail source from the largest thumbnail
+        // Thumbnails
 
         $largestSize = 0;
 
@@ -483,6 +482,7 @@ class YouTube extends BaseGateway implements IGateway
             {
                 if($thumbnail['width'] > $largestSize)
                 {
+                    // Set thumbnail source with the largest thumbnail
                     $video->thumbnailSource = $thumbnail['url'];
                     $largestSize = $thumbnail['width'];
                 }
