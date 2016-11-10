@@ -59,8 +59,6 @@ class Videos_ExplorerController extends BaseController
         }
         catch(\Exception $e)
         {
-            VideosPlugin::log("Couldn't load explorer: \r\n".$e->getMessage().'\r\n'.$e->getTraceAsString(), LogLevel::Error);
-
             // Don't need to log errors again as they are already logged by BaseGateway::api()
             $this->returnErrorJson('Couldn’t load explorer.');
         }
