@@ -20,9 +20,7 @@ class Videos_SettingsController extends BaseController
     public function actionIndex()
     {
         craft()->videos->requireDependencies();
-
-        $plugin = craft()->plugins->getPlugin('videos');
-
+        
         $variables['gateways'] = craft()->videos_gateways->getGateways(false);
 
         $this->renderTemplate('videos/settings/_index', $variables);
