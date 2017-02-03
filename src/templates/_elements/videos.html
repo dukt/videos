@@ -1,0 +1,23 @@
+{% if videos %}
+
+    {% for key, video in videos %}
+        <div class="video" data-url="{{ video.url }}">
+
+            <div class="thumb">
+                <img src="{{ video.thumbnailSource }}" />
+                <div class="duration">{{ video.duration }}</div>
+                <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+
+				{% if video.private %}
+					<div class="private icon secure"></div>
+				{% endif %}
+            </div>
+
+            <div class="title">{{ video.title }}</div>
+
+        </div>
+    {% endfor %}
+
+{% else %}
+    <p class="no-videos light">{{ "No Videos"|t('app') }}</p>
+{% endif %}
