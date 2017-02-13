@@ -7,6 +7,9 @@ use dukt\videos\models\Section;
 use dukt\videos\models\Video;
 use GuzzleHttp\Client;
 
+/**
+ * YouTube gateway
+ */
 class YouTube extends BaseGateway implements IGateway
 {
     // Public Methods

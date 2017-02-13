@@ -11,6 +11,9 @@ use craft\base\Model;
 
 class Collection extends Model
 {
+    // Properties
+    // =========================================================================
+
     public $name;
     public $method;
     public $options;

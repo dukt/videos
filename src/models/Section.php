@@ -11,6 +11,9 @@ use craft\base\Model;
 
 class Section extends Model
 {
+    // Properties
+    // =========================================================================
+
     public $name;
     public $collections;
 

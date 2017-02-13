@@ -4,6 +4,9 @@ namespace dukt\videos\gateways;
 use Craft;
 use dukt\videos\Plugin as Videos;
 
+/**
+ * Base gateway
+ */
 abstract class BaseGateway implements IGateway
 {
 	// Public Methods
