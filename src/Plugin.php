@@ -15,6 +15,8 @@ use dukt\videos\models\Settings;
 use craft\services\Fields;
 use dukt\videos\fields\Video as VideoField;
 use craft\events\RegisterComponentTypesEvent;
+use craft\helpers\UrlHelper;
+use dukt\oauth\Plugin as OauthPlugin;
 
 class Plugin extends \craft\base\Plugin
 {
@@ -230,9 +232,9 @@ class Plugin extends \craft\base\Plugin
      */
     public function onBeforeUninstall()
     {
-        if(isset(\dukt\oauth\Plugin::getInstance()->oauth))
+        if(isset(OauthPlugin::$plugin->oauth))
         {
-            \dukt\oauth\Plugin::getInstance()->oauth->deleteTokensByPlugin('videos');
+            OauthPlugin::$plugin->oauth->deleteTokensByPlugin('videos');
         }
     }
 
@@ -254,9 +256,9 @@ class Plugin extends \craft\base\Plugin
      */
     public function getSettingsResponse()
     {
-        $url = \craft\helpers\UrlHelper::cpUrl('videos/settings');
+        $url = UrlHelper::cpUrl('videos/settings');
 
-        \Craft::$app->controller->redirect($url);
+        Craft::$app->controller->redirect($url);
 
         return '';
     }
