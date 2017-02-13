@@ -5,7 +5,7 @@
  * @license   https://dukt.net/craft/videos/docs/license
  */
 
-namespace Craft;
+namespace dukt\videos\web\twig\variables;
 
 use dukt\videos\Plugin as Videos;
 
