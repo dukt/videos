@@ -13,6 +13,12 @@ use dukt\videos\Plugin as Videos;
 use craft\helpers\UrlHelper;
 use Twig_Markup;
 
+/**
+ * Video model class.
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Video extends Model
 {
     // Properties

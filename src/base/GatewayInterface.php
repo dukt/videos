@@ -1,8 +1,17 @@
 <?php
+/**
+ * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2017, Dukt
+ * @license   https://dukt.net/craft/videos/docs/license
+ */
+
 namespace dukt\videos\base;
 
 /**
- * Gateway Interface
+ * GatewayInterface defines the common interface to be implemented by gateway classes.
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
  */
 interface GatewayInterface
 {

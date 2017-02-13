@@ -12,8 +12,14 @@ use yii\base\Component;
 use dukt\videos\base\VideosTrait;
 use dukt\videos\Plugin as VideosPlugin;
 
-// require_once(CRAFT_PLUGINS_PATH.'videos/base/VideosTrait.php');
-
+/**
+ * Class Videos service.
+ *
+ * An instance of the Videos service is globally accessible via [[Plugin::videos `Videos::$plugin->getVideos()`]].
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Videos extends Component
 {
 	// Traits

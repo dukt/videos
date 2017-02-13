@@ -10,6 +10,14 @@ namespace dukt\videos\services;
 use Craft;
 use yii\base\Component;
 
+/**
+ * Class Cache service.
+ *
+ * An instance of the Cache service is globally accessible via [[Plugin::cache `Videos::$plugin->getCache()`]].
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Cache extends Component
 {
     // Public Methods

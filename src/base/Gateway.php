@@ -1,11 +1,20 @@
 <?php
+/**
+ * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2017, Dukt
+ * @license   https://dukt.net/craft/videos/docs/license
+ */
+
 namespace dukt\videos\base;
 
 use Craft;
 use dukt\videos\Plugin as Videos;
 
 /**
- * Gateway
+ * Gateway class
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
  */
 abstract class Gateway implements GatewayInterface
 {

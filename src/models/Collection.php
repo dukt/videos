@@ -9,6 +9,12 @@ namespace dukt\videos\models;
 
 use craft\base\Model;
 
+/**
+ * Collection model class.
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Collection extends Model
 {
     // Properties

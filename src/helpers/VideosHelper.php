@@ -7,6 +7,9 @@
 
 namespace dukt\videos\helpers;
 
+/**
+ * Videos helper
+ */
 class VideosHelper
 {
     // Public Methods

@@ -9,6 +9,12 @@ namespace dukt\videos\base;
 
 use Craft;
 
+/**
+ * Videos trait
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 trait VideosTrait
 {
 	// Public Methods

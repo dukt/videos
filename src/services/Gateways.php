@@ -11,6 +11,14 @@ use Craft;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;
 
+/**
+ * Class Gateways service.
+ *
+ * An instance of the Gateways service is globally accessible via [[Plugin::gateways `Videos::$plugin->getGateways()`]].
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Gateways extends Component
 {
     // Properties

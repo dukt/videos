@@ -10,6 +10,14 @@ namespace dukt\videos\services;
 use Craft;
 use yii\base\Component;
 
+/**
+ * Class Oauth service.
+ *
+ * An instance of the Oauth service is globally accessible via [[Plugin::oauth `Videos::$plugin->getOauth()`]].
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Oauth extends Component
 {
     // Properties

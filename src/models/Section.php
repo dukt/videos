@@ -9,6 +9,12 @@ namespace dukt\videos\models;
 
 use craft\base\Model;
 
+/**
+ * Section model class.
+ *
+ * @author Dukt <support@dukt.net>
+ * @since  2.0
+ */
 class Section extends Model
 {
     // Properties
