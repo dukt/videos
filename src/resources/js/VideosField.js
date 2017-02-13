@@ -135,7 +135,7 @@ Videos.Field = Garnish.Base.extend(
             this.$spinner.removeClass('hidden');
             $('.error', this.$container).addClass('hidden');
 
-            Craft.postActionRequest('videos/field-preview', { url: val }, $.proxy(function(response, textStatus)
+            Craft.postActionRequest('videos/videos/field-preview', { url: val }, $.proxy(function(response, textStatus)
             {
                 this.$spinner.addClass('hidden');
                 this.$preview.show();

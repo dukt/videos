@@ -7,6 +7,7 @@
 
 namespace dukt\videos\controllers;
 
+use Craft;
 use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
 
@@ -45,18 +46,18 @@ class VideosController extends Controller
                 Videos::$plugin->videos_cache->set(['fieldPreview', $url], $video);
             }
 
-            $this->returnJson(
+            return $this->asJson(
                 array(
                     'video' => $video,
-                    'preview' => Craft::$app->templates->render('videos/_elements/fieldPreview', array('video' => $video))
+                    'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', array('video' => $video))
                 )
             );
         }
         catch(\Exception $e)
         {
-            VideosPlugin::log('Couldn’t get field preview: '.$e->getMessage(), LogLevel::Error);
+            // VideosPlugin::log('Couldn’t get field preview: '.$e->getMessage(), LogLevel::Error);
 
-            $this->returnErrorJson($e->getMessage());
+            return $this->asErrorJson($e->getMessage());
         }
     }
 
@@ -84,7 +85,7 @@ class VideosController extends Controller
 
         if(isset($video))
         {
-            $html = Craft::$app->templates->render('videos/_elements/player', array(
+            $html = Craft::$app->getView()->renderTemplate('videos/_elements/player', array(
                 'video' => $video
             ));
 
@@ -94,13 +95,13 @@ class VideosController extends Controller
         }
         elseif(isset($errorMsg))
         {
-            VideosPlugin::log('Couldn’t get videos: '.$errorMsg, LogLevel::Error);
+            // VideosPlugin::log('Couldn’t get videos: '.$errorMsg, LogLevel::Error);
 
             $this->returnErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
-            VideosPlugin::log('Couldn’t get videos: Video not found', LogLevel::Error);
+            // VideosPlugin::log('Couldn’t get videos: Video not found', LogLevel::Error);
 
             $this->returnErrorJson("Video not found.");
         }

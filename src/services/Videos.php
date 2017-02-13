@@ -7,6 +7,7 @@
 
 namespace dukt\videos\services;
 
+use Craft;
 use yii\base\Component;
 use dukt\videos\base\VideosTrait;
 use dukt\videos\Plugin as VideosPlugin;
@@ -171,7 +172,7 @@ class Videos extends Component
             }
             catch(\Exception $e)
             {
-                VideosPlugin::log('Couldn’t get video: '.$e->getMessage(), LogLevel::Error);
+                // VideosPlugin::log('Couldn’t get video: '.$e->getMessage(), LogLevel::Error);
             }
         }
 

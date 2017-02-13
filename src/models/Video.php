@@ -10,9 +10,14 @@ namespace dukt\videos\models;
 use craft\base\Model;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
+use craft\helpers\UrlHelper;
+use Twig_Markup;
 
 class Video extends Model
 {
+    // Properties
+    // =========================================================================
+
     public $id;
 
     public $raw;
@@ -49,10 +54,8 @@ class Video extends Model
 
     public $height;
 
-    // Properties
-    // =========================================================================
-
     private $_video;
+    
     private $_gateway;
 
     // Public Methods
@@ -66,9 +69,9 @@ class Video extends Model
     public function getEmbed($opts = array())
     {
         $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
-        $charset = Craft::$app->templates->getTwig()->getCharset();
+        $charset = Craft::$app->getView()->getTwig()->getCharset();
 
-        return new \Twig_Markup($embed, $charset);
+        return new Twig_Markup($embed, $charset);
     }
 
     public function getEmbedUrl($opts = array())

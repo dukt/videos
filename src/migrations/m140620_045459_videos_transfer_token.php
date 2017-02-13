@@ -67,22 +67,22 @@ class m140620_045459_videos_transfer_token extends BaseMigration
                     }
                     else
                     {
-                        VideosPlugin::log('Token error.', LogLevel::Error);
+                        // VideosPlugin::log('Token error.', LogLevel::Error);
                     }
                 }
                 else
                 {
-                    VideosPlugin::log('Token record error.', LogLevel::Error);
+                    // VideosPlugin::log('Token record error.', LogLevel::Error);
                 }
             }
             else
             {
-                VideosPlugin::log('Class error.', LogLevel::Error);
+                // VideosPlugin::log('Class error.', LogLevel::Error);
             }
         }
         catch(\Exception $e)
         {
-            VideosPlugin::log($e->getMessage(), LogLevel::Error);
+            // VideosPlugin::log($e->getMessage(), LogLevel::Error);
         }
     }
 }
