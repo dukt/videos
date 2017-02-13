@@ -57,14 +57,6 @@ class Plugin extends \craft\base\Plugin
     }
 
     /**
-     * Get Name
-     */
-    public function getName()
-    {
-        return Craft::t('app', 'Videos');
-    }
-
-    /**
      * Get Required Plugins
      */
     public function getRequiredPlugins()
@@ -80,22 +72,6 @@ class Plugin extends \craft\base\Plugin
     }
 
     /**
-     * Get Developer
-     */
-    public function getDeveloper()
-    {
-        return 'Dukt';
-    }
-
-    /**
-     * Get Developer URL
-     */
-    public function getDeveloperUrl()
-    {
-        return 'https://dukt.net/';
-    }
-
-    /**
      * Get OAuth Providers
      */
     public function getVideosGateways()
@@ -104,38 +80,6 @@ class Plugin extends \craft\base\Plugin
             'dukt\videos\gateways\Vimeo',
             'dukt\videos\gateways\YouTube',
         ];
-    }
-
-    /**
-     * Get Documentation URL
-     */
-    public function getDocumentationUrl()
-    {
-        return 'https://dukt.net/craft/videos/docs/';
-    }
-
-	/**
-	 * Get Release Feed URL
-	 */
-	public function getReleaseFeedUrl()
-	{
-		return 'https://dukt.net/craft/videos/updates.json';
-	}
-
-    /**
-     * Has CP Section
-     */
-    public function hasCpSection()
-    {
-        return false;
-    }
-
-    /**
-     * Get Settings URL
-     */
-    public function getSettingsUrl()
-    {
-        return 'videos/settings';
     }
 
     /**
