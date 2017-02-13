@@ -2,6 +2,7 @@
 namespace dukt\videos\gateways;
 
 use Craft;
+use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
@@ -10,13 +11,13 @@ use GuzzleHttp\Client;
 /**
  * Vimeo gateway
  */
-class Vimeo extends BaseGateway implements IGateway
+class Vimeo extends Gateway
 {
     // Public Methods
     // =========================================================================
 
 	/**
-	 * @inheritDoc IGateway::getName()
+	 * @inheritDoc GatewayInterface::getName()
 	 *
 	 * @return string
 	 */
@@ -26,7 +27,7 @@ class Vimeo extends BaseGateway implements IGateway
     }
 
 	/**
-	 * @inheritDoc IGateway::getOauthProviderHandle()
+	 * @inheritDoc GatewayInterface::getOauthProviderHandle()
 	 *
 	 * @return string
 	 */
@@ -36,7 +37,7 @@ class Vimeo extends BaseGateway implements IGateway
     }
 
 	/**
-	 * @inheritDoc IGateway::getExplorerSections()
+	 * @inheritDoc GatewayInterface::getExplorerSections()
 	 *
 	 * @return array
 	 */
@@ -119,7 +120,7 @@ class Vimeo extends BaseGateway implements IGateway
     }
 
 	/**
-	 * @inheritDoc IGateway::getVideoById()
+	 * @inheritDoc GatewayInterface::getVideoById()
 	 *
 	 * @param $id
 	 *
@@ -143,7 +144,7 @@ class Vimeo extends BaseGateway implements IGateway
     }
 
 	/**
-	 * @inheritDoc IGateway::getEmbedFormat()
+	 * @inheritDoc GatewayInterface::getEmbedFormat()
 	 *
 	 * @return string
 	 */
@@ -153,7 +154,7 @@ class Vimeo extends BaseGateway implements IGateway
     }
 
 	/**
-	 * @inheritDoc IGateway::extractVideoIdFromUrl()
+	 * @inheritDoc GatewayInterface::extractVideoIdFromUrl()
 	 *
 	 * @param $url
 	 *

@@ -1,7 +1,10 @@
 <?php
-namespace dukt\videos\gateways;
+namespace dukt\videos\base;
 
-interface IGateway
+/**
+ * Gateway Interface
+ */
+interface GatewayInterface
 {
     // Public Methods
     // =========================================================================

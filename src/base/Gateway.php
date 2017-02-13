@@ -1,13 +1,13 @@
 <?php
-namespace dukt\videos\gateways;
+namespace dukt\videos\base;
 
 use Craft;
 use dukt\videos\Plugin as Videos;
 
 /**
- * Base gateway
+ * Gateway
  */
-abstract class BaseGateway implements IGateway
+abstract class Gateway implements GatewayInterface
 {
 	// Public Methods
 	// =========================================================================
@@ -276,7 +276,7 @@ abstract class BaseGateway implements IGateway
     }
 
     /**
-     * @inheritDoc IGateway::getVideos()
+     * @inheritDoc GatewayInterface::getVideos()
      *
      * @param $method
      * @param $options
