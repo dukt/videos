@@ -55,7 +55,7 @@ class Video extends Model
     public $height;
 
     private $_video;
-    
+
     private $_gateway;
 
     // Public Methods
@@ -91,7 +91,7 @@ class Video extends Model
 
     public function getThumbnail($size = 300)
     {
-        return UrlHelper::getResourceUrl('videosthumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
+        return UrlHelper::resourceUrl('videosthumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
     }
 
     // Protected Methods
