@@ -10,7 +10,7 @@ namespace dukt\videos\controllers;
 use craft\web\Controller;
 
 /**
- * Videos Settings controller
+ * Settings controller
  */
 class SettingsController extends Controller
 {

@@ -12,6 +12,9 @@ use craft\base\Field;
 use craft\helpers\StringHelper;
 use dukt\videos\web\assets\videos\VideosAsset;
 
+/**
+ * Video field
+ */
 class Video extends Field
 {
     // Public Methods

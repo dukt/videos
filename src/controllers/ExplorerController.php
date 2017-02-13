@@ -11,7 +11,7 @@ use Craft;
 use craft\web\Controller;
 
 /**
- * Videos controller
+ * Explorer controller
  */
 class ExplorerController extends Controller
 {

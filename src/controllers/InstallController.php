@@ -9,6 +9,9 @@ namespace dukt\videos\controllers;
 
 use craft\web\Controller;
 
+/**
+ * Install controller
+ */
 class InstallController extends Controller
 {
 	// Public Methods
