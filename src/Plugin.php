@@ -260,18 +260,4 @@ class Plugin extends \craft\base\Plugin
 
         return '';
     }
-
-    // Protected Methods
-    // =========================================================================
-
-    /**
-     * Settings
-     */
-    protected function defineSettings()
-    {
-        return array(
-            'youtubeParameters' => array(AttributeType::Mixed),
-            'tokens' => array(AttributeType::Mixed),
-        );
-    }
 }
