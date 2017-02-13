@@ -18,6 +18,9 @@ use craft\events\RegisterComponentTypesEvent;
 
 class Plugin extends \craft\base\Plugin
 {
+    // Properties
+    // =========================================================================
+
     public $hasSettings = true;
 
     // Public Methods
@@ -25,9 +28,6 @@ class Plugin extends \craft\base\Plugin
 
     public function init()
     {
-        /*require_once(CRAFT_PLUGINS_PATH.'videos/gateways/IGateway.php');
-        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/BaseGateway.php');*/
-
         parent::init();
 
         $this->setComponents([
@@ -60,32 +60,6 @@ class Plugin extends \craft\base\Plugin
     public function getName()
     {
         return Craft::t('app', 'Videos');
-    }
-
-    /**
-     * Get Description
-     */
-    public function getDescription()
-    {
-        return Craft::t('app', 'Connect to YouTube & Vimeo and publish social videos on your website.');
-    }
-
-	/**
-	 * Get Version
-	 */
-	public function getVersion()
-	{
-		return '1.2.2';
-	}
-
-    /**
-     * Get Schema Version
-     *
-     * @return string
-     */
-    public function getSchemaVersion()
-    {
-        return '1.0.0';
     }
 
     /**
@@ -124,9 +98,6 @@ class Plugin extends \craft\base\Plugin
      */
     public function getVideosGateways()
     {
-/*        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/Vimeo.php');
-        require_once(CRAFT_PLUGINS_PATH.'videos/gateways/YouTube.php');*/
-
         return [
             'dukt\videos\gateways\Vimeo',
             'dukt\videos\gateways\YouTube',
