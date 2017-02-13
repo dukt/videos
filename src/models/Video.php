@@ -9,6 +9,7 @@ namespace dukt\videos\models;
 
 use craft\base\Model;
 use dukt\videos\helpers\VideosHelper;
+use dukt\videos\Plugin as Videos;
 
 class Video extends Model
 {
@@ -79,7 +80,7 @@ class Video extends Model
     {
         if(!$this->_gateway)
         {
-            $this->_gateway = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateway($this->gatewayHandle);
+            $this->_gateway = Videos::$plugin->videos_gateways->getGateway($this->gatewayHandle);
         }
 
         return $this->_gateway;
@@ -124,7 +125,7 @@ class Video extends Model
     {
         if(!$this->_video)
         {
-            $this->_video = \dukt\videos\Plugin::getInstance()->videos->requestVideoByUrl($this->url);
+            $this->_video = Videos::$plugin->videos->requestVideoByUrl($this->url);
         }
 
         return $this->_video;

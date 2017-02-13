@@ -24,6 +24,7 @@ class Plugin extends \craft\base\Plugin
     // =========================================================================
 
     public $hasSettings = true;
+    public static $plugin;
 
     // Public Methods
     // =========================================================================
@@ -31,6 +32,7 @@ class Plugin extends \craft\base\Plugin
     public function init()
     {
         parent::init();
+        self::$plugin = $this;
 
         $this->setComponents([
             'videos' => \dukt\videos\services\Videos::class,
@@ -103,7 +105,7 @@ class Plugin extends \craft\base\Plugin
                 return false;
             }
 
-            $video = \dukt\videos\Plugin::getInstance()->videos->getVideoById($gateway, $videoId);
+            $video = self::$plugin->videos->getVideoById($gateway, $videoId);
             $url = $video->thumbnailSource;
 
             $basePath = Craft::$app->path->getRuntimePath().'videosthumbnails/';

@@ -9,6 +9,7 @@ namespace dukt\videos\services;
 
 use Craft;
 use yii\base\Component;
+use dukt\videos\Plugin as Videos;
 
 class Gateways extends Component
 {
@@ -104,7 +105,7 @@ class Gateways extends Component
 
 	            if($gateway->enableOauthFlow())
 	            {
-		            $token = \dukt\videos\Plugin::getInstance()->videos_oauth->getToken($oauthProviderHandle);
+		            $token = Videos::$plugin->videos_oauth->getToken($oauthProviderHandle);
 
 		            if($token)
 		            {

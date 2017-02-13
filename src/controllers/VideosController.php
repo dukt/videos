@@ -8,6 +8,7 @@
 namespace dukt\videos\controllers;
 
 use craft\web\Controller;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Videos controller
@@ -24,24 +25,24 @@ class VideosController extends Controller
      */
     public function actionFieldPreview()
     {
-        // $this->requireAjaxRequest();
+        $this->requireAcceptsJson();
 
         $url = Craft::$app->request->getParam('url');
 
         try
         {
-            $video = \dukt\videos\Plugin::getInstance()->videos_cache->get(['fieldPreview', $url]);
+            $video = Videos::$plugin->videos_cache->get(['fieldPreview', $url]);
 
             if(!$video)
             {
-                $video = \dukt\videos\Plugin::getInstance()->videos->getVideoByUrl($url);
+                $video = Videos::$plugin->videos->getVideoByUrl($url);
 
                 if(!$video)
                 {
                     throw new Exception("Video not found");
                 }
 
-                \dukt\videos\Plugin::getInstance()->videos_cache->set(['fieldPreview', $url], $video);
+                Videos::$plugin->videos_cache->set(['fieldPreview', $url], $video);
             }
 
             $this->returnJson(
@@ -74,7 +75,7 @@ class VideosController extends Controller
         $videoId = Craft::$app->request->getParam('videoId');
 
         try {
-            $video = \dukt\videos\Plugin::getInstance()->videos->getVideoById($gatewayHandle, $videoId);
+            $video = Videos::$plugin->videos->getVideoById($gatewayHandle, $videoId);
         }
         catch(\Exception $e)
         {

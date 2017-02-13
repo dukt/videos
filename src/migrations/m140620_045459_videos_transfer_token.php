@@ -1,6 +1,8 @@
 <?php
 namespace Craft;
 
+use dukt\videos\Plugin as Videos;
+
 /**
  * The class name is the UTC timestamp in the format of mYYMMDD_HHMMSS_pluginHandle_migrationName
  */
@@ -21,7 +23,7 @@ class m140620_045459_videos_transfer_token extends BaseMigration
 
     private function saveToken($handle, $token)
     {
-        \dukt\videos\Plugin::getInstance()->videos_oauth->saveToken($handle, $token);
+        Videos::$plugin->videos_oauth->saveToken($handle, $token);
     }
 
     private function transferSystemToken($handle, $namespace)

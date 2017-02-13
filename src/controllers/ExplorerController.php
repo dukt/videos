@@ -9,6 +9,7 @@ namespace dukt\videos\controllers;
 
 use Craft;
 use craft\web\Controller;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Explorer controller
@@ -38,7 +39,7 @@ class ExplorerController extends Controller
             $nav = $this->getExplorerNav();
 
 	        $gateways = [];
-	        $allGateways = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateways();
+	        $allGateways = Videos::$plugin->videos_gateways->getGateways();
 
 	        foreach($allGateways as $_gateway)
 	        {
@@ -84,7 +85,7 @@ class ExplorerController extends Controller
             $method = Craft::$app->request->getParam('method');
             $options = Craft::$app->request->getParam('options');
 
-            $gateway = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateway($gatewayHandle);
+            $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle);
 
             if($gateway)
             {
@@ -128,7 +129,7 @@ class ExplorerController extends Controller
 		{
 			$gatewaySections = [];
 
-			$gateways = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateways();
+			$gateways = Videos::$plugin->videos_gateways->getGateways();
 
 			foreach ($gateways as $gateway)
 			{

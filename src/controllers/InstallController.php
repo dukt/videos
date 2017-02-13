@@ -8,6 +8,7 @@
 namespace dukt\videos\controllers;
 
 use craft\web\Controller;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Install controller
@@ -24,7 +25,7 @@ class InstallController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$missingDependencies = \dukt\videos\Plugin::getInstance()->videos->getMissingDependencies();
+		$missingDependencies = Videos::$plugin->videos->getMissingDependencies();
 
 		if (count($missingDependencies) > 0)
 		{

@@ -7,6 +7,8 @@
 
 namespace Craft;
 
+use dukt\videos\Plugin as Videos;
+
 class VideosVariable
 {
     // Public Methods
@@ -17,7 +19,7 @@ class VideosVariable
      */
     public function getEmbed($videoUrl, $embedOptions = array())
     {
-        return \dukt\videos\Plugin::getInstance()->videos->getEmbed($videoUrl, $embedOptions);
+        return Videos::$plugin->videos->getEmbed($videoUrl, $embedOptions);
     }
 
     /**
@@ -27,7 +29,7 @@ class VideosVariable
     {
         try
         {
-            return \dukt\videos\Plugin::getInstance()->videos->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
+            return Videos::$plugin->videos->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
         }
         catch(\Exception $e)
         {

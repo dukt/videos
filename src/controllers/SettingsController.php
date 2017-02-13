@@ -8,6 +8,7 @@
 namespace dukt\videos\controllers;
 
 use craft\web\Controller;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Settings controller
@@ -21,9 +22,9 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        \dukt\videos\Plugin::getInstance()->videos->requireDependencies();
+        Videos::$plugin->videos->requireDependencies();
         
-        $variables['gateways'] = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateways(false);
+        $variables['gateways'] = Videos::$plugin->videos_gateways->getGateways(false);
 
         return $this->renderTemplate('videos/settings/_index', $variables);
     }

@@ -9,6 +9,7 @@ namespace dukt\videos\services;
 
 use yii\base\Component;
 use dukt\videos\base\VideosTrait;
+use dukt\videos\Plugin as VideosPlugin;
 
 // require_once(CRAFT_PLUGINS_PATH.'videos/base/VideosTrait.php');
 
@@ -96,7 +97,7 @@ class Videos extends Component
         {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
-            $response = \dukt\videos\Plugin::getInstance()->videos_cache->get([$key]);
+            $response = VideosPlugin::$plugin->videos_cache->get([$key]);
 
             if($response)
             {
@@ -104,7 +105,7 @@ class Videos extends Component
             }
         }
 
-        $gateway = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateway($gatewayHandle);
+        $gateway = VideosPlugin::$plugin->videos_gateways->getGateway($gatewayHandle);
 
         $response = $gateway->getVideoById($id);
 
@@ -112,7 +113,7 @@ class Videos extends Component
         {
             if($enableCache)
             {
-                \dukt\videos\Plugin::getInstance()->videos_cache->set([$key], $response, $cacheExpiry);
+                VideosPlugin::$plugin->videos_cache->set([$key], $response, $cacheExpiry);
             }
 
             return $response;
@@ -139,7 +140,7 @@ class Videos extends Component
         {
             $key = 'videos.video.'.md5($videoUrl);
 
-            $response = \dukt\videos\Plugin::getInstance()->videos_cache->get([$key]);
+            $response = VideosPlugin::$plugin->videos_cache->get([$key]);
 
             if($response)
             {
@@ -147,7 +148,7 @@ class Videos extends Component
             }
         }
 
-        $gateways = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateways();
+        $gateways = VideosPlugin::$plugin->videos_gateways->getGateways();
 
         foreach($gateways as $gateway)
         {
@@ -161,7 +162,7 @@ class Videos extends Component
                 {
                     if($enableCache)
                     {
-                        \dukt\videos\Plugin::getInstance()->videos_cache->set([$key], $video, $cacheExpiry);
+                        VideosPlugin::$plugin->videos_cache->set([$key], $video, $cacheExpiry);
                     }
 
                     return $video;

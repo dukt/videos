@@ -9,6 +9,7 @@ namespace dukt\videos\controllers;
 
 use Craft;
 use craft\web\Controller;
+use dukt\videos\Plugin as Videos;
 
 /**
  * OAuth controller
@@ -43,7 +44,7 @@ class OauthController extends Controller
 
         $gatewayHandle = Craft::$app->request->getParam('gateway');
 
-        $gateway = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle, false);
         
         if($response = \dukt\oauth\Plugin::getInstance()->oauth->connect(array(
             'plugin' => 'videos',
@@ -63,7 +64,7 @@ class OauthController extends Controller
                 $token = $response['token'];
 
                 // save token
-                \dukt\videos\Plugin::getInstance()->videos_oauth->saveToken($gateway->getOauthProviderHandle(), $token);
+                Videos::$plugin->videos_oauth->saveToken($gateway->getOauthProviderHandle(), $token);
 
                 // VideosPlugin::log('Videos OAuth Connect Step 2: '."\r\n".print_r(['token' => $token], true), LogLevel::Info);
 
@@ -98,11 +99,11 @@ class OauthController extends Controller
     public function actionDisconnect()
     {
         $gatewayHandle = Craft::$app->request->getParam('gateway');
-        $gateway = \dukt\videos\Plugin::getInstance()->videos_gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle, false);
 
         $oauthProviderHandle = $gateway->getOauthProviderHandle();
 
-        \dukt\videos\Plugin::getInstance()->videos_oauth->deleteToken($oauthProviderHandle);
+        Videos::$plugin->videos_oauth->deleteToken($oauthProviderHandle);
 
         // set notice
         Craft::$app->getSession()->setNotice(Craft::t('app', "Disconnected."));

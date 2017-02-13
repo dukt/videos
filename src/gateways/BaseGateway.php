@@ -2,6 +2,7 @@
 namespace dukt\videos\gateways;
 
 use Craft;
+use dukt\videos\Plugin as Videos;
 
 abstract class BaseGateway implements IGateway
 {
@@ -181,19 +182,19 @@ abstract class BaseGateway implements IGateway
 		{
 			if($oauthProvider->isConfigured())
 			{
-				$token = \dukt\videos\Plugin::getInstance()->videos_oauth->getToken($oauthProviderHandle);
+				$token = Videos::$plugin->videos_oauth->getToken($oauthProviderHandle);
 
 				if ($token)
 				{
 					try
 					{
-						$account = \dukt\videos\Plugin::getInstance()->videos_cache->get(['getAccount', $token]);
+						$account = Videos::$plugin->videos_cache->get(['getAccount', $token]);
 
 						if(!$account)
 						{
 							try
 							{
-								$account = \dukt\videos\Plugin::getInstance()->videos_cache->get(['getAccount', $token]);
+								$account = Videos::$plugin->videos_cache->get(['getAccount', $token]);
 
 								if(!$account)
 								{
@@ -207,7 +208,7 @@ abstract class BaseGateway implements IGateway
 										$account = $oauthProvider->getAccount($token);
 									}
 
-									\dukt\videos\Plugin::getInstance()->videos_cache->set(['getAccount', $token], $account);
+									Videos::$plugin->videos_cache->set(['getAccount', $token], $account);
 								}
 
 								if ($account)

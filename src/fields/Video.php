@@ -11,6 +11,7 @@ use Craft;
 use craft\base\Field;
 use craft\helpers\StringHelper;
 use dukt\videos\web\assets\videos\VideosAsset;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Video field
@@ -120,7 +121,7 @@ class Video extends Field
     {
         try
         {
-            $video = \dukt\videos\Plugin::getInstance()->videos->getVideoByUrl($videoUrl);
+            $video = Videos::$plugin->videos->getVideoByUrl($videoUrl);
 
             if($video)
             {
