@@ -109,18 +109,12 @@ class Gateways extends Component
 
             foreach($gateways as $gateway)
             {
-	            $oauthProviderHandle = strtolower($gateway->getOauthProviderHandle());
-
 	            if($gateway->enableOauthFlow())
 	            {
-/*		            $token = Videos::$plugin->oauth->getToken($oauthProviderHandle);
-
-		            if($token)
+		            if($gateway->hasToken())
 		            {
-			            $gateway->authenticationSetToken($token);*/
-
 			            $this->_gateways[] = $gateway;
-		            /*}*/
+		            }
 	            }
 	            else
 	            {

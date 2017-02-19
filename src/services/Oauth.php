@@ -22,49 +22,8 @@ use dukt\videos\Plugin as Videos;
  */
 class Oauth extends Component
 {
-    // Properties
-    // =========================================================================
-
-	/**
-	 * @var
-	 */
-	private $tokens;
-
     // Public Methods
     // =========================================================================
-
-	/**
-	 * Gets a token
-	 *
-	 * @param $handle
-	 *
-	 * @return mixed
-	 */
-	public function getToken($handle)
-    {
-        if(!empty($this->tokens[$handle]))
-        {
-            return $this->tokens[$handle];
-        }
-        else
-        {
-            // get plugin
-            $plugin = Craft::$app->plugins->getPlugin('videos');
-
-            // get settings
-            $settings = $plugin->getSettings();
-
-            // get tokens
-            $tokens = $settings->tokens;
-
-            if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
-            {
-                $gateway = Videos::$plugin->gateways->getGateway($handle, false);
-
-                return $gateway->createToken($tokens[$handle]);
-            }
-        }
-    }
 
 	/**
 	 * Saves a token

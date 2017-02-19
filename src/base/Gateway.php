@@ -23,7 +23,24 @@ abstract class Gateway implements GatewayInterface
 	// Public Methods
 	// =========================================================================
 
+    public function getToken()
+    {
+        $handle = $this->getHandle();
 
+        // get plugin
+        $plugin = Craft::$app->plugins->getPlugin('videos');
+
+        // get settings
+        $settings = $plugin->getSettings();
+
+        // get tokens
+        $tokens = $settings->tokens;
+
+        if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
+        {
+            return $this->createToken($tokens[$handle]);
+        }
+    }
 
     public function createToken($tokenData)
     {
@@ -96,7 +113,7 @@ abstract class Gateway implements GatewayInterface
 
     public function hasToken()
     {
-        $token = Videos::$plugin->oauth->getToken($this->getHandle());
+        $token = $this->getToken();
 
         if($token)
         {
@@ -115,11 +132,6 @@ abstract class Gateway implements GatewayInterface
 	{
 		$this->token = $token;
 	}
-
-	public function getToken()
-    {
-        return $this->token;
-    }
 
 	/**
 	 * Where the OAuth flow should be enable or not for this gateway
@@ -282,7 +294,7 @@ abstract class Gateway implements GatewayInterface
 
 		if($variables['isOauthProviderConfigured'])
         {
-            $token = Videos::$plugin->oauth->getToken($this->getHandle());
+            $token = $this->getToken();
 
             if ($token)
             {
