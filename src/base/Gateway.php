@@ -26,23 +26,17 @@ abstract class Gateway implements GatewayInterface
     public function getToken()
     {
         $handle = $this->getHandle();
-
-        // get plugin
         $plugin = Craft::$app->plugins->getPlugin('videos');
-
-        // get settings
         $settings = $plugin->getSettings();
-
-        // get tokens
         $tokens = $settings->tokens;
 
         if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
         {
-            return $this->createToken($tokens[$handle]);
+            return $this->createTokenFromData($tokens[$handle]);
         }
     }
 
-    public function createToken($tokenData)
+    public function createTokenFromData($tokenData)
     {
         if(isset($tokenData['accessToken']))
         {
@@ -102,14 +96,6 @@ abstract class Gateway implements GatewayInterface
 
         return Craft::$app->getResponse()->redirect($redirectUrl);
     }
-
-
-
-
-
-
-
-
 
     public function hasToken()
     {
