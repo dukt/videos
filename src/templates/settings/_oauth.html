@@ -1,9 +1,9 @@
-{% if provider and provider.isConfigured() %}
-    {% if account %}
+{% if isOauthProviderConfigured %}
+    {% if gateway.hasToken() and account %}
         <h2 class="first">{{ gateway.name }}</h2>
         <p>{{ 'You are authenticated to {gateway} with the following account'|t('app', { gateway: gateway.name }) }} :</p>
         <ul>
-            <li><strong>{{ 'UID'|t('app') }} : </strong> {{ account.uid }}</li>
+            <li><strong>{{ 'UID'|t('app') }} : </strong> {{ account.id }}</li>
             <li><strong>{{ 'Name'|t('app') }} : </strong> {{ account.name }}</li>
         </ul>
         <p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
@@ -17,14 +17,14 @@
             <p>{{'You need to connect Craft to {gateway} in order to get started.'|t('app', {gateway: gateway.name})}}</p>
         {% endif %}
 
-        <p>{{"Getting errors trying to connect ?"|t}} <a href="{{url('oauth/providers/'~provider.handle)}}">{{"Check {providerName} API key & secret in OAuth settings"|t('app', {providerName: provider.name})}}</a>.</p>
+        <p>{{"Getting errors trying to connect ?"|t}} <a href="{{url('oauth/providers/'~gateway.getOauthProviderHandle)}}">{{"Check {providerName} API key & secret in OAuth settings"|t('app', {providerName: gateway.getOauthProviderHandle})}}</a>.</p>
 
         <p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t('app', { gateway: gateway.name }) }}</a></p>
 
     {% endif %}
 
 {% else %}
-    <h2 class="first">{{'{provider} provider not configured'|t('app', {provider: provider.name})}}</h2>
+    <h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderHandle})}}</h2>
     <p>{{'Please fill API client id & secret for this provider.'|t}}</p>
-    <p><a class="btn" href="{{url('oauth/providers/'~provider.handle)}}">{{'{provider} OAuth settings'|t('app', {provider: provider.name})}}</a></p>
+    <p><a class="btn" href="{{url('oauth/providers/'~gateway.getOauthProviderHandle)}}">{{'{provider} OAuth settings'|t('app', {provider: gateway.getOauthProviderHandle})}}</a></p>
 {% endif %}

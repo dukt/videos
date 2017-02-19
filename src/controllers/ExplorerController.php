@@ -39,7 +39,7 @@ class ExplorerController extends Controller
             $nav = $this->getExplorerNav();
 
 	        $gateways = [];
-	        $allGateways = Videos::$plugin->videos_gateways->getGateways();
+	        $allGateways = Videos::$plugin->gateways->getGateways();
 
 	        foreach($allGateways as $_gateway)
 	        {
@@ -85,7 +85,7 @@ class ExplorerController extends Controller
             $method = Craft::$app->request->getParam('method');
             $options = Craft::$app->request->getParam('options');
 
-            $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle);
+            $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle);
 
             if($gateway)
             {
@@ -129,7 +129,7 @@ class ExplorerController extends Controller
 		{
 			$gatewaySections = [];
 
-			$gateways = Videos::$plugin->videos_gateways->getGateways();
+			$gateways = Videos::$plugin->gateways->getGateways();
 
 			foreach ($gateways as $gateway)
 			{

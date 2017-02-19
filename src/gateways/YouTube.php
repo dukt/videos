@@ -8,6 +8,7 @@
 namespace dukt\videos\gateways;
 
 use Craft;
+use dukt\videos\Plugin as Videos;
 use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
@@ -21,6 +22,11 @@ class YouTube extends Gateway
 {
     // Public Methods
     // =========================================================================
+
+    public function createOauthProvider($options)
+    {
+        return new \Dukt\OAuth2\Client\Provider\Google($options);
+    }
 
     /**
      * @inheritDoc GatewayInterface::getName()

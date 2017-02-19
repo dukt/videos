@@ -26,69 +26,27 @@ class OauthController extends Controller
      */
     public function actionConnect()
     {
-        // referer
-
-        $referer = Craft::$app->getSession()->get('videos.referer');
-
-        if(!$referer)
-        {
-            $referer = Craft::$app->request->referrer;
-
-            Craft::$app->getSession()->set('videos.referer', $referer);
-
-            // VideosPlugin::log('Videos OAuth Connect Step 1: '."\r\n".print_r(['referer' => $referer], true), LogLevel::Info);
-        }
-
-
-        // connect
-
         $gatewayHandle = Craft::$app->request->getParam('gateway');
 
-        $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle, false);
-        
-        if($response = \dukt\oauth\Plugin::getInstance()->oauth->connect(array(
-            'plugin' => 'videos',
-            'provider' => $gateway->getOauthProviderHandle(),
-            'scope' => $gateway->getOauthScope(),
-            'authorizationOptions' => $gateway->getOauthAuthorizationOptions(),
-        )))
-        {
-            if($response && is_object($response) && !$response->data)
-            {
-                return $response;
-            }
+        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
 
-            if($response['success'])
-            {
-                // token
-                $token = $response['token'];
+        Craft::$app->getSession()->set('videos.oauthGateway', $gatewayHandle);
 
-                // save token
-                Videos::$plugin->videos_oauth->saveToken($gateway->getOauthProviderHandle(), $token);
+        return $gateway->oauthConnect();
+    }
 
-                // VideosPlugin::log('Videos OAuth Connect Step 2: '."\r\n".print_r(['token' => $token], true), LogLevel::Info);
+    /**
+     * Callback
+     *
+     * @return null
+     */
+    public function actionCallback()
+    {
+        $gatewayHandle = Craft::$app->getSession()->get('videos.oauthGateway');
 
-                // session notice
-                Craft::$app->getSession()->setNotice(Craft::t('app', "Connected."));
-            }
-            else
-            {
-                // session notice
-                Craft::$app->getSession()->setError(Craft::t('app', $response['errorMsg']));
-            }
-        }
-        else
-        {
-            // session error
-            Craft::$app->getSession()->setError(Craft::t('app', "Couldn’t connect"));
-        }
+        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
 
-
-        // redirect
-
-        Craft::$app->getSession()->remove('videos.referer');
-
-        return $this->redirect($referer);
+        return $gateway->oauthCallback();
     }
 
     /**
@@ -99,11 +57,11 @@ class OauthController extends Controller
     public function actionDisconnect()
     {
         $gatewayHandle = Craft::$app->request->getParam('gateway');
-        $gateway = Videos::$plugin->videos_gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
 
         $oauthProviderHandle = $gateway->getOauthProviderHandle();
 
-        Videos::$plugin->videos_oauth->deleteToken($oauthProviderHandle);
+        Videos::$plugin->oauth->deleteToken($gateway->getHandle());
 
         // set notice
         Craft::$app->getSession()->setNotice(Craft::t('app', "Disconnected."));

@@ -89,7 +89,7 @@ class Video extends Model
     {
         if(!$this->_gateway)
         {
-            $this->_gateway = Videos::$plugin->videos_gateways->getGateway($this->gatewayHandle);
+            $this->_gateway = Videos::$plugin->gateways->getGateway($this->gatewayHandle);
         }
 
         return $this->_gateway;

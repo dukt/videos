@@ -8,7 +8,9 @@
 namespace dukt\videos\services;
 
 use Craft;
+use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
+use dukt\videos\Plugin as Videos;
 
 /**
  * Class Oauth service.
@@ -55,23 +57,11 @@ class Oauth extends Component
             // get tokens
             $tokens = $settings->tokens;
 
-            if(!empty($settings->tokens[$handle]))
+            if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
             {
-                // get tokenId
-                $tokenId = $tokens[$handle];
+                $gateway = Videos::$plugin->gateways->getGateway($handle, false);
 
-                // get token
-
-/*                if(isset(\dukt\oauth\Plugin::getInstance()->oauth))
-                {*/
-                    $token = \dukt\oauth\Plugin::getInstance()->oauth->getTokenById($tokenId);
-
-                    if($token)
-                    {
-                        $this->tokens[$handle] = $token;
-                        return $this->tokens[$handle];
-                    }
-                /*}*/
+                return $gateway->createToken($tokens[$handle]);
             }
         }
     }
@@ -82,7 +72,7 @@ class Oauth extends Component
 	 * @param $handle
 	 * @param $token
 	 */
-	public function saveToken($handle, $token)
+	public function saveToken($handle, AccessToken $token)
     {
         $handle = strtolower($handle);
 
@@ -95,42 +85,23 @@ class Oauth extends Component
         // get tokens
         $tokens = $settings->tokens;
 
-        // get token
-
-        if(!empty($tokens[$handle]))
+        if(!is_array($tokens))
         {
-            // get tokenId
-            $tokenId = $tokens[$handle];
-
-            // get token
-            // $model = \dukt\oauth\Plugin::getInstance()->oauth->getTokenById($tokenId);
-            // $token->id = $tokenId;
-            $existingToken = \dukt\oauth\Plugin::getInstance()->oauth->getTokenById($tokenId);
+            $tokens = [];
         }
-
-
-        if(!$token)
-        {
-            $token = new Oauth_TokenModel;
-        }
-
-        if(isset($existingToken))
-        {
-            $token->id = $existingToken->id;
-        }
-
-        $token->providerHandle = $handle;
-        $token->pluginHandle = 'videos';
-
-
-        // save token
-        \dukt\oauth\Plugin::getInstance()->oauth->saveToken($token);
 
         // set token ID
-        $tokens[$handle] = $token->id;
+        $tokens[$handle] = [
+            'accessToken' => $token->getToken(),
+            'expires' => $token->getExpires(),
+            'refreshToken' => $token->getRefreshToken(),
+            'resourceOwnerId' => $token->getResourceOwnerId(),
+            'values' => $token->getValues(),
+        ];
 
         // save plugin settings
         $settings->tokens = $tokens;
+
         Craft::$app->plugins->savePluginSettings($plugin, $settings->getAttributes());
     }
 
@@ -156,17 +127,6 @@ class Oauth extends Component
 
         if(!empty($tokens[$handle]))
         {
-            // get tokenId
-            $tokenId = $tokens[$handle];
-
-            // get token
-            $token = \dukt\oauth\Plugin::getInstance()->oauth->getTokenById($tokenId);
-
-            if($token)
-            {
-                \dukt\oauth\Plugin::getInstance()->oauth->deleteToken($token);
-            }
-
             unset($tokens[$handle]);
 
             // save plugin settings

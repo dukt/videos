@@ -22,6 +22,11 @@ class Vimeo extends Gateway
     // Public Methods
     // =========================================================================
 
+    public function createOauthProvider($options)
+    {
+        return new \Saf33r\OAuth2\Client\Provider\Vimeo($options);
+    }
+
 	/**
 	 * @inheritDoc GatewayInterface::getName()
 	 *

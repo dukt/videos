@@ -36,9 +36,9 @@ class Plugin extends \craft\base\Plugin
 
         $this->setComponents([
             'videos' => \dukt\videos\services\Videos::class,
-            'videos_cache' => \dukt\videos\services\Cache::class,
-            'videos_gateways' => \dukt\videos\services\Gateways::class,
-            'videos_oauth' => \dukt\videos\services\Oauth::class,
+            'cache' => \dukt\videos\services\Cache::class,
+            'gateways' => \dukt\videos\services\Gateways::class,
+            'oauth' => \dukt\videos\services\Oauth::class,
         ]);
 
         Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, [$this, 'registerCpUrlRules']);

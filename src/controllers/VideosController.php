@@ -32,7 +32,7 @@ class VideosController extends Controller
 
         try
         {
-            $video = Videos::$plugin->videos_cache->get(['fieldPreview', $url]);
+            $video = Videos::$plugin->cache->get(['fieldPreview', $url]);
 
             if(!$video)
             {
@@ -43,7 +43,7 @@ class VideosController extends Controller
                     throw new Exception("Video not found");
                 }
 
-                Videos::$plugin->videos_cache->set(['fieldPreview', $url], $video);
+                Videos::$plugin->cache->set(['fieldPreview', $url], $video);
             }
 
             return $this->asJson(

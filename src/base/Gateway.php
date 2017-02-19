@@ -8,7 +8,9 @@
 namespace dukt\videos\base;
 
 use Craft;
+use craft\helpers\UrlHelper;
 use dukt\videos\Plugin as Videos;
+use League\OAuth2\Client\Token\AccessToken;
 
 /**
  * Gateway class
@@ -21,6 +23,89 @@ abstract class Gateway implements GatewayInterface
 	// Public Methods
 	// =========================================================================
 
+
+
+    public function createToken($tokenData)
+    {
+        if(isset($tokenData['accessToken']))
+        {
+            $token = new AccessToken([
+                'access_token' => (isset($tokenData['accessToken']) ? $tokenData['accessToken'] : null),
+                'expires' => (isset($tokenData['expires']) ? $tokenData['expires'] : null),
+                'refresh_token' => (isset($tokenData['refreshToken']) ? $tokenData['refreshToken'] : null),
+                'resource_owner_id' => (isset($tokenData['resourceOwnerId']) ? $tokenData['resourceOwnerId'] : null),
+                'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
+            ]);
+
+            return $token;
+        }
+    }
+
+    public function oauthConnect()
+    {
+        $provider = $this->getOauthProvider();
+
+        Craft::$app->getSession()->set('videos.oauthState', $provider->getState());
+
+        $authorizationUrl = $provider->getAuthorizationUrl([
+            'scope' => $this->getOauthScope(),
+            'access_type' => 'offline',
+            'approval_prompt' => 'force'
+        ]);
+
+        return Craft::$app->getResponse()->redirect($authorizationUrl);
+    }
+
+    public function oauthCallback()
+    {
+        $provider = $this->getOauthProvider();
+
+        $code = Craft::$app->request->getParam('code');
+
+        try {
+            // Try to get an access token (using the authorization code grant)
+            $token = $provider->getAccessToken('authorization_code', [
+                'code' => $code
+            ]);
+
+            // Save token
+            Videos::$plugin->oauth->saveToken($this->getHandle(), $token);
+
+            // Reset session variables
+
+            // Redirect
+            Craft::$app->getSession()->setNotice(Craft::t('videos', "Connected to YouTube."));
+
+        } catch (Exception $e) {
+            // Failed to get the token credentials or user details.
+            Craft::$app->getSession()->setError($e->getMessage());
+        }
+
+        $redirectUrl = UrlHelper::cpUrl('videos/settings');
+
+        return Craft::$app->getResponse()->redirect($redirectUrl);
+    }
+
+
+
+
+
+
+
+
+
+    public function hasToken()
+    {
+        $token = Videos::$plugin->oauth->getToken($this->getHandle());
+
+        if($token)
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 	/**
 	 * Set authentication OAuth token
 	 *
@@ -30,6 +115,11 @@ abstract class Gateway implements GatewayInterface
 	{
 		$this->token = $token;
 	}
+
+	public function getToken()
+    {
+        return $this->token;
+    }
 
 	/**
 	 * Where the OAuth flow should be enable or not for this gateway
@@ -182,85 +272,106 @@ abstract class Gateway implements GatewayInterface
 		$oauthProviderHandle = $this->getOauthProviderHandle();
 
 		$variables = array(
-			'provider' => false,
+			'isOauthProviderConfigured' => false,
 			'account' => false,
 			'token' => false,
 			'error' => false
 		);
 
-		$oauthProvider = \dukt\oauth\Plugin::getInstance()->oauth->getProvider($oauthProviderHandle, false);
+        $variables['isOauthProviderConfigured'] = Videos::$plugin->videos->isOauthProviderConfigured($oauthProviderHandle);
 
-		if ($oauthProvider)
-		{
-			if($oauthProvider->isConfigured())
-			{
-				$token = Videos::$plugin->videos_oauth->getToken($oauthProviderHandle);
+		if($variables['isOauthProviderConfigured'])
+        {
+            $token = Videos::$plugin->oauth->getToken($this->getHandle());
 
-				if ($token)
-				{
-					try
-					{
-						$account = Videos::$plugin->videos_cache->get(['getAccount', $token]);
+            if ($token)
+            {
+                try
+                {
+                    $account = Videos::$plugin->cache->get(['getAccount', $token]);
 
-						if(!$account)
-						{
-							try
-							{
-								$account = Videos::$plugin->videos_cache->get(['getAccount', $token]);
+                    if(!$account)
+                    {
+                        try
+                        {
+                            $account = Videos::$plugin->cache->get(['getAccount', $token]);
 
-								if(!$account)
-								{
-									if(method_exists($oauthProvider, 'getResourceOwner'))
-									{
-										$account = $oauthProvider->getResourceOwner($token);
-									}
-									elseif (method_exists($oauthProvider, 'getAccount'))
-									{
-										// Todo: Remove in OAuth 3.0
-										$account = $oauthProvider->getAccount($token);
-									}
+                            if(!$account)
+                            {
+                                $oauthProvider = $this->getOauthProvider();
 
-									Videos::$plugin->videos_cache->set(['getAccount', $token], $account);
-								}
+                                if(method_exists($oauthProvider, 'getResourceOwner'))
+                                {
+                                    $account = $oauthProvider->getResourceOwner($token);
+                                }
+                                elseif (method_exists($oauthProvider, 'getAccount'))
+                                {
+                                    // Todo: Remove in OAuth 3.0
+                                    $account = $oauthProvider->getAccount($token);
+                                }
 
-								if ($account)
-								{
-									$variables['account'] = $account;
-									// $variables['settings'] = $plugin->getSettings();
-								}
-							}
-							catch(\Exception $e)
-							{
-								// VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+                                Videos::$plugin->cache->set(['getAccount', $token], $account);
+                            }
 
-								$variables['error'] = $e->getMessage();
-							}
-						}
+                            if ($account)
+                            {
+                                $variables['account'] = $account;
+                                // $variables['settings'] = $plugin->getSettings();
+                            }
+                        }
+                        catch(\Exception $e)
+                        {
+                            // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
-						if ($account)
-						{
-							$variables['account'] = $account;
-							// $variables['settings'] = $plugin->getSettings();
-						}
-					}
-					catch(\Exception $e)
-					{
-						// VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+                            $variables['error'] = $e->getMessage();
+                        }
+                    }
 
-						$variables['error'] = $e->getMessage();
-					}
-				}
+                    if ($account)
+                    {
+                        $variables['account'] = $account;
+                        // $variables['settings'] = $plugin->getSettings();
+                    }
+                }
+                catch(\Exception $e)
+                {
+                    // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
-				$variables['token'] = $token;
-			}
+                    $variables['error'] = $e->getMessage();
+                }
+            }
 
-			$variables['provider'] = $oauthProvider;
-		}
+            $variables['token'] = $token;
+        }
 
 		$variables['gateway'] = $this;
 
 		return Craft::$app->getView()->renderTemplate('videos/settings/_oauth', $variables);
 	}
+
+    /**
+     * Returns a Twitter provider (server) object.
+     *
+     * @return Google
+     */
+    public function getOauthProvider()
+    {
+        $oauthProviderOptions = Craft::$app->config->get('oauthProviderOptions', 'videos');
+
+        $options = [];
+
+        if(isset($oauthProviderOptions[$this->getOauthProviderHandle()]))
+        {
+            $options = $oauthProviderOptions[$this->getOauthProviderHandle()];
+        }
+
+        if(!isset($options['redirectUri']))
+        {
+            $options['redirectUri'] = UrlHelper::actionUrl('videos/oauth/callback');
+        }
+
+        return $this->createOauthProvider($options);
+    }
 
 	/**
 	 * Return a video from its public URL

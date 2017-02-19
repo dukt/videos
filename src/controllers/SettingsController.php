@@ -24,8 +24,10 @@ class SettingsController extends Controller
     {
         Videos::$plugin->videos->requireDependencies();
         
-        $variables['gateways'] = Videos::$plugin->videos_gateways->getGateways(false);
+        $gateways = Videos::$plugin->gateways->getGateways(false);
 
-        return $this->renderTemplate('videos/settings/_index', $variables);
+        return $this->renderTemplate('videos/settings/_index', [
+            'gateways' => $gateways,
+        ]);
     }
 }

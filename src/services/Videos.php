@@ -30,6 +30,23 @@ class Videos extends Component
     // Public Methods
     // =========================================================================
 
+    /**
+     * Checks if the OAuth provider is configured
+     *
+     * @return bool
+     */
+    public function isOauthProviderConfigured($oauthProviderHandle)
+    {
+        $options = Craft::$app->config->get('oauthProviderOptions', 'videos');
+
+        if(!empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret']))
+        {
+            return true;
+        }
+
+        return false;
+    }
+
 	/**
 	 * Returns the HTML of the embed from a video URL
 	 *
@@ -104,7 +121,7 @@ class Videos extends Component
         {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
-            $response = VideosPlugin::$plugin->videos_cache->get([$key]);
+            $response = VideosPlugin::$plugin->cache->get([$key]);
 
             if($response)
             {
@@ -112,7 +129,7 @@ class Videos extends Component
             }
         }
 
-        $gateway = VideosPlugin::$plugin->videos_gateways->getGateway($gatewayHandle);
+        $gateway = VideosPlugin::$plugin->gateways->getGateway($gatewayHandle);
 
         $response = $gateway->getVideoById($id);
 
@@ -120,7 +137,7 @@ class Videos extends Component
         {
             if($enableCache)
             {
-                VideosPlugin::$plugin->videos_cache->set([$key], $response, $cacheExpiry);
+                VideosPlugin::$plugin->cache->set([$key], $response, $cacheExpiry);
             }
 
             return $response;
@@ -147,7 +164,7 @@ class Videos extends Component
         {
             $key = 'videos.video.'.md5($videoUrl);
 
-            $response = VideosPlugin::$plugin->videos_cache->get([$key]);
+            $response = VideosPlugin::$plugin->cache->get([$key]);
 
             if($response)
             {
@@ -155,7 +172,7 @@ class Videos extends Component
             }
         }
 
-        $gateways = VideosPlugin::$plugin->videos_gateways->getGateways();
+        $gateways = VideosPlugin::$plugin->gateways->getGateways();
 
         foreach($gateways as $gateway)
         {
@@ -169,7 +186,7 @@ class Videos extends Component
                 {
                     if($enableCache)
                     {
-                        VideosPlugin::$plugin->videos_cache->set([$key], $video, $cacheExpiry);
+                        VideosPlugin::$plugin->cache->set([$key], $video, $cacheExpiry);
                     }
 
                     return $video;
