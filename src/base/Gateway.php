@@ -23,50 +23,37 @@ abstract class Gateway implements GatewayInterface
 	// Public Methods
 	// =========================================================================
 
-    public function getToken()
-    {
-        $handle = $this->getHandle();
-        $plugin = Craft::$app->plugins->getPlugin('videos');
-        $settings = $plugin->getSettings();
-        $tokens = $settings->tokens;
-
-        if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
-        {
-            return $this->createTokenFromData($tokens[$handle]);
-        }
-    }
-
-    public function createTokenFromData($tokenData)
-    {
-        if(isset($tokenData['accessToken']))
-        {
-            $token = new AccessToken([
-                'access_token' => (isset($tokenData['accessToken']) ? $tokenData['accessToken'] : null),
-                'expires' => (isset($tokenData['expires']) ? $tokenData['expires'] : null),
-                'refresh_token' => (isset($tokenData['refreshToken']) ? $tokenData['refreshToken'] : null),
-                'resource_owner_id' => (isset($tokenData['resourceOwnerId']) ? $tokenData['resourceOwnerId'] : null),
-                'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
-            ]);
-
-            return $token;
-        }
-    }
-
+    /**
+     * OAuth Connect
+     *
+     * @return null
+     */
     public function oauthConnect()
     {
         $provider = $this->getOauthProvider();
 
         Craft::$app->getSession()->set('videos.oauthState', $provider->getState());
 
-        $authorizationUrl = $provider->getAuthorizationUrl([
-            'scope' => $this->getOauthScope(),
-            'access_type' => 'offline',
-            'approval_prompt' => 'force'
-        ]);
+        $scope = $this->getOauthScope();
+        $options = $this->getOauthAuthorizationOptions();
+
+        if(!is_array($options))
+        {
+            $options = [];
+        }
+
+        $options['scope'] = $scope;
+
+        $authorizationUrl = $provider->getAuthorizationUrl($options);
 
         return Craft::$app->getResponse()->redirect($authorizationUrl);
     }
 
+    /**
+     * OAuth Callback
+     *
+     * @return null
+     */
     public function oauthCallback()
     {
         $provider = $this->getOauthProvider();
@@ -97,6 +84,44 @@ abstract class Gateway implements GatewayInterface
         return Craft::$app->getResponse()->redirect($redirectUrl);
     }
 
+    /**
+     * Create token from data (array)
+     *
+     * @param array $tokenData
+     *
+     * @return AccessToken
+     */
+    public function createTokenFromData(array $tokenData)
+    {
+        if(isset($tokenData['accessToken']))
+        {
+            $token = new AccessToken([
+                'access_token' => (isset($tokenData['accessToken']) ? $tokenData['accessToken'] : null),
+                'expires' => (isset($tokenData['expires']) ? $tokenData['expires'] : null),
+                'refresh_token' => (isset($tokenData['refreshToken']) ? $tokenData['refreshToken'] : null),
+                'resource_owner_id' => (isset($tokenData['resourceOwnerId']) ? $tokenData['resourceOwnerId'] : null),
+                'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
+            ]);
+
+            return $token;
+        }
+    }
+
+    /**
+     * Get Token
+     *
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return Videos::$plugin->oauth->getToken($this->getHandle());
+    }
+
+    /**
+     * Has Token
+     *
+     * @return bool
+     */
     public function hasToken()
     {
         $token = $this->getToken();

@@ -111,10 +111,15 @@ class Gateways extends Component
             {
 	            if($gateway->enableOauthFlow())
 	            {
-		            if($gateway->hasToken())
-		            {
-			            $this->_gateways[] = $gateway;
-		            }
+                    $handle = $gateway->getHandle();
+                    $plugin = Craft::$app->plugins->getPlugin('videos');
+                    $settings = $plugin->getSettings();
+                    $tokens = $settings->tokens;
+
+                    if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
+                    {
+                        $this->_gateways[] = $gateway;
+                    }
 	            }
 	            else
 	            {
