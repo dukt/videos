@@ -118,6 +118,10 @@ class Gateways extends Component
 
                     if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
                     {
+                        $token = $gateway->createTokenFromData($tokens[$handle]);
+
+                        $gateway->authenticationSetToken($token);
+
                         $this->_gateways[] = $gateway;
                     }
 	            }

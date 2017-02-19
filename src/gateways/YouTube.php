@@ -353,7 +353,7 @@ class YouTube extends Gateway
 	    $options =  [
             'base_uri' => $this->getApiUrl(),
             'headers' =>  [
-                'Authorization' => 'Bearer '.$this->token->accessToken
+                'Authorization' => 'Bearer '.$this->token->getToken()
             ]
             /*'query' => [
                 'access_token' => $this->token->accessToken
