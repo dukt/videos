@@ -14,7 +14,7 @@ trait PluginTrait
     /**
      * Returns the videos service.
      *
-     * @return \dukt\videos\services\Videos The config service
+     * @return \dukt\videos\services\Videos The videos service
      */
     public function getVideos()
     {
@@ -25,7 +25,7 @@ trait PluginTrait
     /**
      * Returns the cache service.
      *
-     * @return \dukt\videos\services\Cache The config service
+     * @return \dukt\videos\services\Cache The cache service
      */
     public function getCache()
     {
@@ -36,7 +36,7 @@ trait PluginTrait
     /**
      * Returns the gateways service.
      *
-     * @return \dukt\videos\services\Gateways The config service
+     * @return \dukt\videos\services\Gateways The gateways service
      */
     public function getGateways()
     {
@@ -47,7 +47,7 @@ trait PluginTrait
     /**
      * Returns the oauth service.
      *
-     * @return \dukt\videos\services\Oauth The config service
+     * @return \dukt\videos\services\Oauth The oauth service
      */
     public function getOauth()
     {
