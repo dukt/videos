@@ -126,10 +126,10 @@ class Plugin extends \craft\base\Plugin
 
             $filename = pathinfo($url, PATHINFO_BASENAME);
 
-	        if(strpos($filename, '?') !== false)
-	        {
-	        	$filename = substr($filename, 0, strpos($filename, '?'));
-	        }
+            if(strpos($filename, '?') !== false)
+            {
+                $filename = substr($filename, 0, strpos($filename, '?'));
+            }
 
             $thumbnailsFolderPath = $basePath.$gateway.'/'.$videoId.'/';
 
