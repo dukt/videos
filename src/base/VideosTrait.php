@@ -30,7 +30,7 @@ trait VideosTrait
 		if ($this->areDependenciesMissing())
 		{
 			$url = UrlHelper::getUrl('videos/install');
-			Craft::$app->request->redirect($url);
+			Craft::$app->getRequest()->redirect($url);
 			return false;
 		}
 		else
@@ -78,7 +78,7 @@ trait VideosTrait
 	{
 		$dependencies = array();
 
-		$plugin = Craft::$app->plugins->getPlugin('videos');
+		$plugin = Craft::$app->getPlugins()->getPlugin('videos');
 		$plugins = $plugin->getRequiredPlugins();
 
 		foreach($plugins as $key => $plugin)
@@ -110,7 +110,7 @@ trait VideosTrait
 	{
         $isMissing = true;
 
-        $plugin = Craft::$app->plugins->getPlugin($dependency['handle'], false);
+        $plugin = Craft::$app->getPlugins()->getPlugin($dependency['handle'], false);
 
         if($plugin)
         {
@@ -118,7 +118,7 @@ trait VideosTrait
 
             if(version_compare($currentVersion, $dependency['version']) >= 0)
             {
-                $allPluginInfo = Craft::$app->plugins->getAllPluginInfo();
+                $allPluginInfo = Craft::$app->getPlugins()->getAllPluginInfo();
 
                 if(isset($allPluginInfo[$dependency['handle']]))
                 {

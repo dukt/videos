@@ -58,7 +58,7 @@ abstract class Gateway implements GatewayInterface
     {
         $provider = $this->getOauthProvider();
 
-        $code = Craft::$app->request->getParam('code');
+        $code = Craft::$app->getRequest()->getParam('code');
 
         try {
             // Try to get an access token (using the authorization code grant)
@@ -379,7 +379,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getOauthProvider()
     {
-        $oauthProviderOptions = Craft::$app->config->get('oauthProviderOptions', 'videos');
+        $oauthProviderOptions = Craft::$app->getConfig()->get('oauthProviderOptions', 'videos');
 
         $options = [];
 

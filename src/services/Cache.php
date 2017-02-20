@@ -32,7 +32,7 @@ class Cache extends Component
 	 */
 	public function get($id)
     {
-        if(Craft::$app->config->get('enableCache', 'videos') == true)
+        if(Craft::$app->getConfig()->get('enableCache', 'videos') == true)
         {
             $cacheKey = $this->getCacheKey($id);
 
@@ -55,7 +55,7 @@ class Cache extends Component
     {
         if(is_null($enableCache))
         {
-            $enableCache = Craft::$app->config->get('enableCache', 'videos');
+            $enableCache = Craft::$app->getConfig()->get('enableCache', 'videos');
         }
 
         if($enableCache)
@@ -64,7 +64,7 @@ class Cache extends Component
 
             if(!$expire)
             {
-                $expire = Craft::$app->config->get('cacheDuration', 'videos');
+                $expire = Craft::$app->getConfig()->get('cacheDuration', 'videos');
                 $expire = new DateInterval($expire);
                 $expire = $expire->format('%s');
             }

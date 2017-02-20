@@ -112,7 +112,7 @@ class Gateways extends Component
 	            if($gateway->enableOauthFlow())
 	            {
                     $handle = $gateway->getHandle();
-                    $plugin = Craft::$app->plugins->getPlugin('videos');
+                    $plugin = Craft::$app->getPlugins()->getPlugin('videos');
                     $settings = $plugin->getSettings();
                     $tokens = $settings->tokens;
 
@@ -148,7 +148,7 @@ class Gateways extends Component
 
         $gatewayTypes = array();
 
-        foreach(Craft::$app->plugins->getAllPlugins() as $plugin)
+        foreach(Craft::$app->getPlugins()->getAllPlugins() as $plugin)
         {
             if(method_exists($plugin, 'getVideosGateways'))
             {

@@ -35,7 +35,7 @@ class ExplorerController extends Controller
 /*
         try
         {*/
-	        $namespaceInputId = Craft::$app->request->getBodyParam('namespaceInputId');
+	        $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
             $nav = $this->getExplorerNav();
 
 	        $gateways = [];
@@ -79,11 +79,11 @@ class ExplorerController extends Controller
 
         try
         {
-            $gatewayHandle = Craft::$app->request->getParam('gateway');
+            $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
             $gatewayHandle = strtolower($gatewayHandle);
 
-            $method = Craft::$app->request->getParam('method');
-            $options = Craft::$app->request->getParam('options');
+            $method = Craft::$app->getRequest()->getParam('method');
+            $options = Craft::$app->getRequest()->getParam('options');
 
             $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle);
 

@@ -27,7 +27,7 @@ class Oauth extends Component
 
     public function getToken($handle)
     {
-        $plugin = Craft::$app->plugins->getPlugin('videos');
+        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
         $settings = $plugin->getSettings();
         $tokens = $settings->tokens;
 
@@ -50,7 +50,7 @@ class Oauth extends Component
         $handle = strtolower($handle);
 
         // get plugin
-        $plugin = Craft::$app->plugins->getPlugin('videos');
+        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
 
         // get settings
         $settings = $plugin->getSettings();
@@ -75,7 +75,7 @@ class Oauth extends Component
         // save plugin settings
         $settings->tokens = $tokens;
 
-        Craft::$app->plugins->savePluginSettings($plugin, $settings->getAttributes());
+        Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
     }
 
 	/**
@@ -88,7 +88,7 @@ class Oauth extends Component
         $handle = strtolower($handle);
 
         // get plugin
-        $plugin = Craft::$app->plugins->getPlugin('videos');
+        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
 
         // get settings
         $settings = $plugin->getSettings();
@@ -104,7 +104,7 @@ class Oauth extends Component
 
             // save plugin settings
             $settings->tokens = $tokens;
-            Craft::$app->plugins->savePluginSettings($plugin, $settings->getAttributes());
+            Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
         }
     }
 }

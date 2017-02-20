@@ -548,7 +548,7 @@ class Vimeo extends Gateway
             unset($params['q']);
         }
 
-        $query['per_page'] = Craft::$app->config->get('videosPerPage', 'videos');
+        $query['per_page'] = Craft::$app->getConfig()->get('videosPerPage', 'videos');
 
         if(is_array($params))
         {

@@ -26,7 +26,7 @@ class OauthController extends Controller
      */
     public function actionConnect()
     {
-        $gatewayHandle = Craft::$app->request->getParam('gateway');
+        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
 
         $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
 
@@ -56,7 +56,7 @@ class OauthController extends Controller
      */
     public function actionDisconnect()
     {
-        $gatewayHandle = Craft::$app->request->getParam('gateway');
+        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
         $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
 
         $oauthProviderHandle = $gateway->getOauthProviderHandle();
@@ -69,7 +69,7 @@ class OauthController extends Controller
 
         // redirect
 
-        $redirect = Craft::$app->request->referrer;
+        $redirect = Craft::$app->getRequest()->referrer;
 
         return $this->redirect($redirect);
     }

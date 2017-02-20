@@ -28,7 +28,7 @@ class VideosController extends Controller
     {
         $this->requireAcceptsJson();
 
-        $url = Craft::$app->request->getParam('url');
+        $url = Craft::$app->getRequest()->getParam('url');
 
         try
         {
@@ -70,10 +70,10 @@ class VideosController extends Controller
     {
         // $this->requireAjaxRequest();
 
-        $gatewayHandle = Craft::$app->request->getParam('gateway');
+        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
         $gatewayHandle = strtolower($gatewayHandle);
 
-        $videoId = Craft::$app->request->getParam('videoId');
+        $videoId = Craft::$app->getRequest()->getParam('videoId');
 
         try {
             $video = Videos::$plugin->videos->getVideoById($gatewayHandle, $videoId);
