@@ -23,14 +23,14 @@ class Cache extends Component
     // Public Methods
     // =========================================================================
 
-	/**
-	 * Get cache
-	 *
-	 * @param $id
-	 *
-	 * @return mixed
-	 */
-	public function get($id)
+    /**
+     * Get cache
+     *
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function get($id)
     {
         if(Craft::$app->getConfig()->get('enableCache', 'videos') == true)
         {
@@ -40,18 +40,18 @@ class Cache extends Component
         }
     }
 
-	/**
-	 * Set cache
-	 *
-	 * @param      $id
-	 * @param      $value
-	 * @param null $expire
-	 * @param null $dependency
-	 * @param null $enableCache
-	 *
-	 * @return mixed
-	 */
-	public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
+    /**
+     * Set cache
+     *
+     * @param      $id
+     * @param      $value
+     * @param null $expire
+     * @param null $dependency
+     * @param null $enableCache
+     *
+     * @return mixed
+     */
+    public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
         if(is_null($enableCache))
         {
@@ -76,14 +76,14 @@ class Cache extends Component
     // Private Methods
     // =========================================================================
 
-	/**
-	 * Return the cache key
-	 *
-	 * @param array $request
-	 *
-	 * @return string
-	 */
-	private function getCacheKey(array $request)
+    /**
+     * Return the cache key
+     *
+     * @param array $request
+     *
+     * @return string
+     */
+    private function getCacheKey(array $request)
     {
         unset($request['CRAFT_CSRF_TOKEN']);
 

@@ -17,97 +17,97 @@ use Craft;
  */
 trait VideosTrait
 {
-	// Public Methods
-	// =========================================================================
+    // Public Methods
+    // =========================================================================
 
-	/**
-	 * Checks dependencies and redirects to install if one or more are missing
-	 *
-	 * @return bool
-	 */
-	public function requireDependencies()
-	{
-		if ($this->areDependenciesMissing())
-		{
-			$url = UrlHelper::getUrl('videos/install');
-			Craft::$app->getRequest()->redirect($url);
-			return false;
-		}
-		else
-		{
-			return true;
-		}
-	}
+    /**
+     * Checks dependencies and redirects to install if one or more are missing
+     *
+     * @return bool
+     */
+    public function requireDependencies()
+    {
+        if ($this->areDependenciesMissing())
+        {
+            $url = UrlHelper::getUrl('videos/install');
+            Craft::$app->getRequest()->redirect($url);
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 
-	/**
-	 * Get Missing Dependencies
-	 *
-	 * @return array
-	 */
-	public function getMissingDependencies()
-	{
-		return $this->getDependencies(true);
-	}
+    /**
+     * Get Missing Dependencies
+     *
+     * @return array
+     */
+    public function getMissingDependencies()
+    {
+        return $this->getDependencies(true);
+    }
 
-	// Private Methods
-	// =========================================================================
+    // Private Methods
+    // =========================================================================
 
-	/**
-	 * Returns `true` if dependencies are missing, and `false` otherwise
-	 *
-	 * @return bool
-	 */
-	private function areDependenciesMissing()
-	{
-		$missingDependencies = $this->getMissingDependencies();
+    /**
+     * Returns `true` if dependencies are missing, and `false` otherwise
+     *
+     * @return bool
+     */
+    private function areDependenciesMissing()
+    {
+        $missingDependencies = $this->getMissingDependencies();
 
-		if(count($missingDependencies) > 0)
-		{
-			return true;
-		}
+        if(count($missingDependencies) > 0)
+        {
+            return true;
+        }
 
-		return false;
-	}
+        return false;
+    }
 
-	/**
-	 * Get dependencies
-	 *
-	 * @return array
-	 */
-	private function getDependencies($missingOnly = false)
-	{
-		$dependencies = array();
+    /**
+     * Get dependencies
+     *
+     * @return array
+     */
+    private function getDependencies($missingOnly = false)
+    {
+        $dependencies = array();
 
-		$plugin = Craft::$app->getPlugins()->getPlugin('videos');
-		$plugins = $plugin->getRequiredPlugins();
+        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
+        $plugins = $plugin->getRequiredPlugins();
 
-		foreach($plugins as $key => $plugin)
-		{
-			$dependency = $this->getPluginDependency($plugin);
+        foreach($plugins as $key => $plugin)
+        {
+            $dependency = $this->getPluginDependency($plugin);
 
-			if($missingOnly)
-			{
-				if($dependency['isMissing'])
-				{
-					$dependencies[] = $dependency;
-				}
-			}
-			else
-			{
-				$dependencies[] = $dependency;
-			}
-		}
+            if($missingOnly)
+            {
+                if($dependency['isMissing'])
+                {
+                    $dependencies[] = $dependency;
+                }
+            }
+            else
+            {
+                $dependencies[] = $dependency;
+            }
+        }
 
-		return $dependencies;
-	}
+        return $dependencies;
+    }
 
-	/**
-	 * Get dependency
-	 *
-	 * @return array
-	 */
-	private function getPluginDependency($dependency)
-	{
+    /**
+     * Get dependency
+     *
+     * @return array
+     */
+    private function getPluginDependency($dependency)
+    {
         $isMissing = true;
 
         $plugin = Craft::$app->getPlugins()->getPlugin($dependency['handle'], false);
@@ -137,5 +137,5 @@ trait VideosTrait
         $dependency['pluginLink'] = 'https://dukt.net/craft/'.$dependency['handle'];
 
         return $dependency;
-	}
+    }
 }

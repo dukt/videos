@@ -22,10 +22,10 @@ use dukt\videos\Plugin as VideosPlugin;
  */
 class Videos extends Component
 {
-	// Traits
-	// =========================================================================
+    // Traits
+    // =========================================================================
 
-	use VideosTrait;
+    use VideosTrait;
 
     // Public Methods
     // =========================================================================
@@ -47,15 +47,15 @@ class Videos extends Component
         return false;
     }
 
-	/**
-	 * Returns the HTML of the embed from a video URL
-	 *
-	 * @param       $videoUrl
-	 * @param array $embedOptions
-	 *
-	 * @return mixed
-	 */
-	public function getEmbed($videoUrl, $embedOptions = array())
+    /**
+     * Returns the HTML of the embed from a video URL
+     *
+     * @param       $videoUrl
+     * @param array $embedOptions
+     *
+     * @return mixed
+     */
+    public function getEmbed($videoUrl, $embedOptions = array())
     {
         $video = $this->getVideoByUrl($videoUrl);
 
@@ -65,15 +65,15 @@ class Videos extends Component
         }
     }
 
-	/**
-	 * Get video by ID
-	 *
-	 * @param $gateway
-	 * @param $id
-	 *
-	 * @return mixed
-	 */
-	public function getVideoById($gateway, $id)
+    /**
+     * Get video by ID
+     *
+     * @param $gateway
+     * @param $id
+     *
+     * @return mixed
+     */
+    public function getVideoById($gateway, $id)
     {
         $video = $this->requestVideoById($gateway, $id);
 
@@ -83,16 +83,16 @@ class Videos extends Component
         }
     }
 
-	/**
-	 * Get video by URL
-	 *
-	 * @param      $videoUrl
-	 * @param bool $enableCache
-	 * @param int  $cacheExpiry
-	 *
-	 * @return bool
-	 */
-	public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    /**
+     * Get video by URL
+     *
+     * @param      $videoUrl
+     * @param bool $enableCache
+     * @param int  $cacheExpiry
+     *
+     * @return bool
+     */
+    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -105,17 +105,17 @@ class Videos extends Component
     // Private Methods
     // =========================================================================
 
-	/**
-	 * Request video by ID
-	 *
-	 * @param      $gatewayHandle
-	 * @param      $id
-	 * @param bool $enableCache
-	 * @param int  $cacheExpiry
-	 *
-	 * @return mixed
-	 */
-	private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    /**
+     * Request video by ID
+     *
+     * @param      $gatewayHandle
+     * @param      $id
+     * @param bool $enableCache
+     * @param int  $cacheExpiry
+     *
+     * @return mixed
+     */
+    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
         if($enableCache)
         {
@@ -144,16 +144,16 @@ class Videos extends Component
         }
     }
 
-	/**
-	 * Request video by URL
-	 *
-	 * @param      $videoUrl
-	 * @param bool $enableCache
-	 * @param int  $cacheExpiry
-	 *
-	 * @return bool
-	 */
-	private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    /**
+     * Request video by URL
+     *
+     * @param      $videoUrl
+     * @param bool $enableCache
+     * @param int  $cacheExpiry
+     *
+     * @return bool
+     */
+    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
         if(Craft::$app->getConfig()->get('enableCache', 'videos') === false)
         {

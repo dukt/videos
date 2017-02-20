@@ -18,19 +18,19 @@ interface GatewayInterface
     // Public Methods
     // =========================================================================
 
-	/**
-	 * Returns the name of the gateway
-	 */
+    /**
+     * Returns the name of the gateway
+     */
     public function getName();
-	
-	/**
-	 * Returns the sections for the explorer
-	 */
+
+    /**
+     * Returns the sections for the explorer
+     */
     public function getExplorerSections();
     
-	/**
-	 * Requests the video from the API and then returns it as video object
-	 */
+    /**
+     * Requests the video from the API and then returns it as video object
+     */
     public function getVideoById($id);
     
     /**

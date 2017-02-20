@@ -37,15 +37,15 @@ class Video extends Field
         return AttributeType::String;
     }
 
-	/**
-	 * Get Input HTML
-	 *
-	 * @param string $name
-	 * @param mixed  $value
-	 *
-	 * @return mixed
-	 */
-	public function getInputHtml($value, \craft\base\ElementInterface $element = NULL): string
+    /**
+     * Get Input HTML
+     *
+     * @param string $name
+     * @param mixed  $value
+     *
+     * @return mixed
+     */
+    public function getInputHtml($value, \craft\base\ElementInterface $element = NULL): string
     {
         $name = $this->handle;
         // $tweet = $this->prepValue($value);
@@ -110,14 +110,14 @@ class Video extends Field
     }
 
 
-	/**
-	 * Prep value
-	 *
-	 * @param mixed $videoUrl
-	 *
-	 * @return null
-	 */
-	public function prepValue($videoUrl)
+    /**
+     * Prep value
+     *
+     * @param mixed $videoUrl
+     *
+     * @return null
+     */
+    public function prepValue($videoUrl)
     {
         try
         {
@@ -136,14 +136,14 @@ class Video extends Field
         }
     }
 
-	/**
-	 * Get Search Keywords
-	 *
-	 * @param mixed $value
-	 *
-	 * @return string
-	 */
-	public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
+    /**
+     * Get Search Keywords
+     *
+     * @param mixed $value
+     *
+     * @return string
+     */
+    public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
     {
         // ignore "raw" attribute
         if(!empty($value->raw))

@@ -16,10 +16,10 @@ use dukt\videos\Plugin as Videos;
  */
 class ExplorerController extends Controller
 {
-	// Properties
-	// =========================================================================
+    // Properties
+    // =========================================================================
 
-	private $explorerNav;
+    private $explorerNav;
 
     // Public Methods
     // =========================================================================
@@ -31,33 +31,33 @@ class ExplorerController extends Controller
      */
     public function actionGetModal()
     {
-	    // $this->requireAjaxRequest();
+        // $this->requireAjaxRequest();
 /*
         try
         {*/
-	        $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
+            $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
             $nav = $this->getExplorerNav();
 
-	        $gateways = [];
-	        $allGateways = Videos::$plugin->getGateways()->getGateways();
+            $gateways = [];
+            $allGateways = Videos::$plugin->getGateways()->getGateways();
 
-	        foreach($allGateways as $_gateway)
-	        {
-				$gateway = [
-					'name' => $_gateway->getName(),
-					'handle' => $_gateway->getHandle(),
-					'supportsSearch' => $_gateway->supportsSearch(),
-				];
+            foreach($allGateways as $_gateway)
+            {
+                $gateway = [
+                    'name' => $_gateway->getName(),
+                    'handle' => $_gateway->getHandle(),
+                    'supportsSearch' => $_gateway->supportsSearch(),
+                ];
 
-		        array_push($gateways, $gateway);
-	        }
+                array_push($gateways, $gateway);
+            }
 
             return $this->asJson(array(
                 'success' => true,
                 'html' => Craft::$app->getView()->renderTemplate('videos/_elements/explorer', [
                     'namespaceInputId' => $namespaceInputId,
                     'nav' => $nav,
-	                'gateways' => $gateways
+                    'gateways' => $gateways
                 ])
             ));
 /*        }
@@ -114,34 +114,34 @@ class ExplorerController extends Controller
         }
     }
 
-	// Private Methods
-	// =========================================================================
+    // Private Methods
+    // =========================================================================
 
 
-	/**
-	 * Get Explorer Nav
-	 *
-	 * @return array
-	 */
-	private function getExplorerNav()
-	{
-		if(!$this->explorerNav)
-		{
-			$gatewaySections = [];
+    /**
+     * Get Explorer Nav
+     *
+     * @return array
+     */
+    private function getExplorerNav()
+    {
+        if(!$this->explorerNav)
+        {
+            $gatewaySections = [];
 
-			$gateways = Videos::$plugin->getGateways()->getGateways();
+            $gateways = Videos::$plugin->getGateways()->getGateways();
 
-			foreach ($gateways as $gateway)
-			{
-				$gatewaySections[] = $gateway->getExplorerSections();
-			}
+            foreach ($gateways as $gateway)
+            {
+                $gatewaySections[] = $gateway->getExplorerSections();
+            }
 
-			$this->explorerNav = [
-				'gateways' => $gateways,
-				'gatewaySections' => $gatewaySections
-			];
-		}
+            $this->explorerNav = [
+                'gateways' => $gateways,
+                'gatewaySections' => $gatewaySections
+            ];
+        }
 
-		return $this->explorerNav;
-	}
+        return $this->explorerNav;
+    }
 }

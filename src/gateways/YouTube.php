@@ -203,25 +203,25 @@ class YouTube extends Gateway
     // Protected Methods
     // =========================================================================
 
-	/**
-	 * Returns a list of favorite videos
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
+    /**
+     * Returns a list of favorite videos
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getVideosFavorites($params = array())
     {
         return $this->performVideosRequest('favorites', $params);
     }
 
-	/**
-	 * Returns a list of videos in a playlist
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
+    /**
+     * Returns a list of videos in a playlist
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getVideosPlaylist($params = array())
     {
         $pagination = $this->pagination($params);
@@ -272,13 +272,13 @@ class YouTube extends Gateway
             );
     }
 
-	/**
-	 * Returns a list of videos from a search request
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
+    /**
+     * Returns a list of videos from a search request
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getVideosSearch($params = array())
     {
         $pagination = $this->pagination($params);
@@ -331,26 +331,26 @@ class YouTube extends Gateway
         return array();
     }
 
-	/**
-	 * Returns a list of uploaded videos
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
+    /**
+     * Returns a list of uploaded videos
+     *
+     * @param array $params
+     *
+     * @return array
+     */
     protected function getVideosUploads($params = array())
     {
         return $this->performVideosRequest('uploads', $params);
     }
 
-	/**
-	 * Returns an authenticated Guzzle client
-	 *
-	 * @return Client
-	 */
-	protected function createClient()
-	{
-	    $options =  [
+    /**
+     * Returns an authenticated Guzzle client
+     *
+     * @return Client
+     */
+    protected function createClient()
+    {
+        $options =  [
             'base_uri' => $this->getApiUrl(),
             'headers' =>  [
                 'Authorization' => 'Bearer '.$this->token->getToken()
@@ -360,49 +360,49 @@ class YouTube extends Gateway
             ],*/
         ];
 
-		return new Client($options);
-	}
+        return new Client($options);
+    }
 
     // Private Methods
     // =========================================================================
 
-	/**
-	 * @return string
-	 */
-	private function getApiUrl()
+    /**
+     * @return string
+     */
+    private function getApiUrl()
     {
         return 'https://www.googleapis.com/youtube/v3/';
     }
 
-	/**
-	 * @param array $params
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function getCollectionsPlaylists($params = array())
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getCollectionsPlaylists($params = array())
     {
-    	try
-	    {
-		    $channelsResponse = $this->apiGet('playlists', array(
-			    'part' => 'snippet',
-			    'mine' => 'true'
-		    ));
+        try
+        {
+            $channelsResponse = $this->apiGet('playlists', array(
+                'part' => 'snippet',
+                'mine' => 'true'
+            ));
 
-		    return $this->parseCollections($channelsResponse['items']);
-	    }
-	    catch(\Exception $e)
-	    {
-		    // VideosPlugin::log('Couldn’t get playlists: '.$e->getMessage(), LogLevel::Warning);
-	    }
+            return $this->parseCollections($channelsResponse['items']);
+        }
+        catch(\Exception $e)
+        {
+            // VideosPlugin::log('Couldn’t get playlists: '.$e->getMessage(), LogLevel::Warning);
+        }
     }
 
-	/**
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	private function pagination($params = array())
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    private function pagination($params = array())
     {
         $pagination = array(
             'page' => 1,
@@ -423,12 +423,12 @@ class YouTube extends Gateway
         return $pagination;
     }
 
-	/**
-	 * @param $item
-	 *
-	 * @return array
-	 */
-	private function parseCollection($item)
+    /**
+     * @param $item
+     *
+     * @return array
+     */
+    private function parseCollection($item)
     {
         $collection = array();
         $collection['id']          = $item['id'];
@@ -439,12 +439,12 @@ class YouTube extends Gateway
         return $collection;
     }
 
-	/**
-	 * @param $items
-	 *
-	 * @return array
-	 */
-	private function parseCollections($items)
+    /**
+     * @param $items
+     *
+     * @return array
+     */
+    private function parseCollections($items)
     {
         $collections = array();
 
@@ -458,12 +458,12 @@ class YouTube extends Gateway
         return $collections;
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return Video
-	 */
-	private function parseVideo($data)
+    /**
+     * @param $data
+     *
+     * @return Video
+     */
+    private function parseVideo($data)
     {
         $video = new Video;
         $video->raw = $data;
@@ -503,7 +503,7 @@ class YouTube extends Gateway
         }
 
 
-	    // Privacy
+        // Privacy
 
         if(isset($data['status']['privacyStatus']))
         {
@@ -518,12 +518,12 @@ class YouTube extends Gateway
         return $video;
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	private function parseVideos($data)
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseVideos($data)
     {
         $videos = array();
 
@@ -537,14 +537,14 @@ class YouTube extends Gateway
         return $videos;
     }
 
-	/**
-	 * @param       $playlist
-	 * @param array $params
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function performVideosRequest($playlist, $params = array())
+    /**
+     * @param       $playlist
+     * @param array $params
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function performVideosRequest($playlist, $params = array())
     {
         $pagination = $this->pagination($params);
 

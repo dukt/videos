@@ -27,31 +27,31 @@ class Vimeo extends Gateway
         return new \Saf33r\OAuth2\Client\Provider\Vimeo($options);
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::getName()
-	 *
-	 * @return string
-	 */
-	public function getName()
+    /**
+     * @inheritDoc GatewayInterface::getName()
+     *
+     * @return string
+     */
+    public function getName()
     {
         return "Vimeo";
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::getOauthProviderHandle()
-	 *
-	 * @return string
-	 */
+    /**
+     * @inheritDoc GatewayInterface::getOauthProviderHandle()
+     *
+     * @return string
+     */
     public function getOauthProviderHandle()
     {
         return 'vimeo';
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::getExplorerSections()
-	 *
-	 * @return array
-	 */
+    /**
+     * @inheritDoc GatewayInterface::getExplorerSections()
+     *
+     * @return array
+     */
     public function getExplorerSections()
     {
         $sections = array();
@@ -130,19 +130,19 @@ class Vimeo extends Gateway
         return $sections;
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::getVideoById()
-	 *
-	 * @param $id
-	 *
-	 * @return Video
-	 * @throws \Exception
-	 */
-	public function getVideoById($id)
+    /**
+     * @inheritDoc GatewayInterface::getVideoById()
+     *
+     * @param $id
+     *
+     * @return Video
+     * @throws \Exception
+     */
+    public function getVideoById($id)
     {
-    	$query = [
-    		'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download'
-	    ];
+        $query = [
+            'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download'
+        ];
 
         $response = $this->apiGet('videos/'.$id, $query);
 
@@ -154,28 +154,28 @@ class Vimeo extends Gateway
         }
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::getEmbedFormat()
-	 *
-	 * @return string
-	 */
-	public function getEmbedFormat()
+    /**
+     * @inheritDoc GatewayInterface::getEmbedFormat()
+     *
+     * @return string
+     */
+    public function getEmbedFormat()
     {
         return "https://player.vimeo.com/video/%s";
     }
 
-	/**
-	 * @inheritDoc GatewayInterface::extractVideoIdFromUrl()
-	 *
-	 * @param $url
-	 *
-	 * @return bool|int
-	 */
-	public function extractVideoIdFromUrl($url)
+    /**
+     * @inheritDoc GatewayInterface::extractVideoIdFromUrl()
+     *
+     * @param $url
+     *
+     * @return bool|int
+     */
+    public function extractVideoIdFromUrl($url)
     {
         // check if url works with this service and extract video_id
 
-	    $videoId = false;
+        $videoId = false;
 
         $regexp = array('/^https?:\/\/(www\.)?vimeo\.com\/([0-9]*)/', 2);
 
@@ -205,14 +205,14 @@ class Vimeo extends Gateway
     // Protected
     // =========================================================================
 
-	/**
-	 * Returns a list of videos in an album
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	protected function getVideosAlbum($params = array())
+    /**
+     * Returns a list of videos in an album
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosAlbum($params = array())
     {
         $albumId = $params['id'];
         unset($params['id']);
@@ -221,14 +221,14 @@ class Vimeo extends Gateway
         return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
     }
 
-	/**
-	 * Returns a list of videos in a channel
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	protected function getVideosChannel($params = array())
+    /**
+     * Returns a list of videos in a channel
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosChannel($params = array())
     {
         $params['channel_id'] = $params['id'];
         unset($params['id']);
@@ -236,48 +236,48 @@ class Vimeo extends Gateway
         return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
     }
 
-	/**
-	 * Returns a list of favorite videos
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	protected function getVideosFavorites($params = array())
+    /**
+     * Returns a list of favorite videos
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosFavorites($params = array())
     {
         return $this->performVideosRequest('me/likes', $params);
     }
 
-	/**
-	 * Returns a list of videos from a search request
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	protected function getVideosSearch($params = array())
+    /**
+     * Returns a list of videos from a search request
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosSearch($params = array())
     {
         return $this->performVideosRequest('videos', $params);
     }
 
-	/**
-	 * Returns a list of uploaded videos
-	 *
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	protected function getVideosUploads($params = array())
+    /**
+     * Returns a list of uploaded videos
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosUploads($params = array())
     {
         return $this->performVideosRequest('me/videos', $params);
     }
 
-	/**
-	 * Returns an authenticated Guzzle client
-	 *
-	 * @return Client
-	 */
-	protected function createClient()
+    /**
+     * Returns an authenticated Guzzle client
+     *
+     * @return Client
+     */
+    protected function createClient()
     {
         $options = [
             'base_uri' => $this->getApiUrl(),
@@ -296,29 +296,29 @@ class Vimeo extends Gateway
     // Private Methods
     // =========================================================================
 
-	/**
-	 * @return string
-	 */
-	private function getApiUrl()
+    /**
+     * @return string
+     */
+    private function getApiUrl()
     {
         return 'https://api.vimeo.com/';
     }
 
-	/**
-	 * @return string
-	 */
-	private function getApiVersion()
+    /**
+     * @return string
+     */
+    private function getApiVersion()
     {
         return '3.0';
     }
 
-	/**
-	 * @param array $params
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function getCollectionsAlbums($params = array())
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getCollectionsAlbums($params = array())
     {
         $query = $this->queryFromParams();
         $response = $this->apiGet('me/albums', $query);
@@ -326,13 +326,13 @@ class Vimeo extends Gateway
         return $this->parseCollections('album', $response['data']);
     }
 
-	/**
-	 * @param array $params
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function getCollectionsChannels($params = array())
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function getCollectionsChannels($params = array())
     {
         $query = $this->queryFromParams();
         $response = $this->apiGet('me/channels', $query);
@@ -340,12 +340,12 @@ class Vimeo extends Gateway
         return $this->parseCollections('channel', $response['data']);
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	private function parseCollectionAlbum($data)
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseCollectionAlbum($data)
     {
         $collection = array();
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
@@ -356,12 +356,12 @@ class Vimeo extends Gateway
         return $collection;
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	private function parseCollectionChannel($data)
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseCollectionChannel($data)
     {
         $collection = array();
         $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
@@ -372,13 +372,13 @@ class Vimeo extends Gateway
         return $collection;
     }
 
-	/**
-	 * @param $type
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	private function parseCollections($type, $data)
+    /**
+     * @param $type
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseCollections($type, $data)
     {
         $collections = array();
 
@@ -392,12 +392,12 @@ class Vimeo extends Gateway
         return $collections;
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return Video
-	 */
-	private function parseVideo($data)
+    /**
+     * @param $data
+     *
+     * @return Video
+     */
+    private function parseVideo($data)
     {
         $video = new Video;
         $video->raw = $data;
@@ -416,18 +416,18 @@ class Vimeo extends Gateway
         $video->height = $data['height'];
 
 
-	    // privacy
+        // privacy
 
-	    switch($data['privacy']['view'])
-	    {
-		    case "nobody":
-		    case "contacts":
-		    case "password":
-		    case "users":
-		    case "disable":
-				$video->private = true;
-				break;
-	    }
+        switch($data['privacy']['view'])
+        {
+            case "nobody":
+            case "contacts":
+            case "password":
+            case "users":
+            case "disable":
+                $video->private = true;
+                break;
+        }
 
 
         // Retrieve largest thumbnail
@@ -466,12 +466,12 @@ class Vimeo extends Gateway
         return $video;
     }
 
-	/**
-	 * @param $data
-	 *
-	 * @return array
-	 */
-	private function parseVideos($data)
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseVideos($data)
     {
         $videos = array();
 
@@ -488,15 +488,15 @@ class Vimeo extends Gateway
         return $videos;
     }
 
-	/**
-	 * @param      $uri
-	 * @param      $params
-	 * @param bool $requireAuthentication
-	 *
-	 * @return array
-	 * @throws \Exception
-	 */
-	private function performVideosRequest($uri, $params, $requireAuthentication = true)
+    /**
+     * @param      $uri
+     * @param      $params
+     * @param bool $requireAuthentication
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function performVideosRequest($uri, $params, $requireAuthentication = true)
     {
         $query = $this->queryFromParams($params);
 
@@ -519,12 +519,12 @@ class Vimeo extends Gateway
         );
     }
 
-	/**
-	 * @param array $params
-	 *
-	 * @return array
-	 */
-	private function queryFromParams($params = array())
+    /**
+     * @param array $params
+     *
+     * @return array
+     */
+    private function queryFromParams($params = array())
     {
         $query = array();
 

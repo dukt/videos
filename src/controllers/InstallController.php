@@ -15,27 +15,27 @@ use dukt\videos\Plugin as Videos;
  */
 class InstallController extends Controller
 {
-	// Public Methods
-	// =========================================================================
+    // Public Methods
+    // =========================================================================
 
-	/**
-	 * Install Index
-	 *
-	 * @return null
-	 */
-	public function actionIndex()
-	{
-		$missingDependencies = Videos::$plugin->getVideos()->getMissingDependencies();
+    /**
+     * Install Index
+     *
+     * @return null
+     */
+    public function actionIndex()
+    {
+        $missingDependencies = Videos::$plugin->getVideos()->getMissingDependencies();
 
-		if (count($missingDependencies) > 0)
-		{
-			$this->renderTemplate('videos/_special/install/dependencies', [
-				'pluginDependencies' => $missingDependencies
-			]);
-		}
-		else
-		{
-			$this->redirect('videos/settings');
-		}
-	}
+        if (count($missingDependencies) > 0)
+        {
+            $this->renderTemplate('videos/_special/install/dependencies', [
+                'pluginDependencies' => $missingDependencies
+            ]);
+        }
+        else
+        {
+            $this->redirect('videos/settings');
+        }
+    }
 }

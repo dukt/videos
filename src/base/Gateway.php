@@ -20,8 +20,8 @@ use League\OAuth2\Client\Token\AccessToken;
  */
 abstract class Gateway implements GatewayInterface
 {
-	// Public Methods
-	// =========================================================================
+    // Public Methods
+    // =========================================================================
 
     /**
      * OAuth Connect
@@ -134,176 +134,176 @@ abstract class Gateway implements GatewayInterface
         return false;
     }
 
-	/**
-	 * Set authentication OAuth token
-	 *
-	 * @param $token
-	 */
-	public function authenticationSetToken($token)
-	{
-		$this->token = $token;
-	}
+    /**
+     * Set authentication OAuth token
+     *
+     * @param $token
+     */
+    public function authenticationSetToken($token)
+    {
+        $this->token = $token;
+    }
 
-	/**
-	 * Where the OAuth flow should be enable or not for this gateway
-	 *
-	 * @return bool
-	 */
-	public function enableOauthFlow()
+    /**
+     * Where the OAuth flow should be enable or not for this gateway
+     *
+     * @return bool
+     */
+    public function enableOauthFlow()
     {
         return true;
     }
 
-	/**
-	 * Whether the gateway supports search or not
-	 *
-	 * @return bool
-	 */
-	public function supportsSearch()
-	{
-		// Deprecated in 2.0: Each gateway will need to specify its support for search
-		return true;
-	}
-
-	/**
-	 * Returns the HTML of the embed from a video ID
-	 * @param       $videoId
-	 * @param array $options
-	 *
-	 * @return string
-	 */
-	public function getEmbedHtml($videoId, $options = array())
-	{
-		$embedAttributes = array(
-			'frameborder' => "0",
-			'allowfullscreen' => "true" ,
-			'allowscriptaccess' => "true"
-		);
-
-		$disableSize = false;
-
-		if(isset($options['disable_size']))
-		{
-			$disableSize = $options['disable_size'];
-		}
-
-		if(!$disableSize)
-		{
-			if(isset($options['width']))
-			{
-				$embedAttributes['width'] = $options['width'];
-				unset($options['width']);
-			}
-
-			if(isset($options['height']))
-			{
-				$embedAttributes['height'] = $options['height'];
-				unset($options['height']);
-			}
-		}
-
-		if(!empty($options['iframeClass']))
-		{
-			$embedAttributes['class'] = $options['iframeClass'];
-			unset($options['iframeClass']);
-		}
-
-		$embedUrl = $this->getEmbedUrl($videoId, $options);
-
-		$embedAttributesString = '';
-
-		foreach($embedAttributes as $key => $value)
-		{
-			$embedAttributesString .= ' '.$key.'="'.$value.'"';
-		}
-
-		return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
-	}
-	
-	/**
-	 * Returns the URL of the embed from a video ID
-	 *
-	 * @param       $videoId
-	 * @param array $options
-	 *
-	 * @return string
-	 */
-	public function getEmbedUrl($videoId, $options = array())
+    /**
+     * Whether the gateway supports search or not
+     *
+     * @return bool
+     */
+    public function supportsSearch()
     {
-	    $format = $this->getEmbedFormat();
+        // Deprecated in 2.0: Each gateway will need to specify its support for search
+        return true;
+    }
 
-    	if(count($options) > 0)
-	    {
-		    $queryMark = '?';
+    /**
+     * Returns the HTML of the embed from a video ID
+     * @param       $videoId
+     * @param array $options
+     *
+     * @return string
+     */
+    public function getEmbedHtml($videoId, $options = array())
+    {
+        $embedAttributes = array(
+            'frameborder' => "0",
+            'allowfullscreen' => "true" ,
+            'allowscriptaccess' => "true"
+        );
 
-		    if(strpos($this->getEmbedFormat(), "?") !== false)
-		    {
-			    $queryMark = "&";
-		    }
+        $disableSize = false;
 
-		    $options = http_build_query($options);
+        if(isset($options['disable_size']))
+        {
+            $disableSize = $options['disable_size'];
+        }
 
-		    $format .= $queryMark.$options;
-	    }
+        if(!$disableSize)
+        {
+            if(isset($options['width']))
+            {
+                $embedAttributes['width'] = $options['width'];
+                unset($options['width']);
+            }
+
+            if(isset($options['height']))
+            {
+                $embedAttributes['height'] = $options['height'];
+                unset($options['height']);
+            }
+        }
+
+        if(!empty($options['iframeClass']))
+        {
+            $embedAttributes['class'] = $options['iframeClass'];
+            unset($options['iframeClass']);
+        }
+
+        $embedUrl = $this->getEmbedUrl($videoId, $options);
+
+        $embedAttributesString = '';
+
+        foreach($embedAttributes as $key => $value)
+        {
+            $embedAttributesString .= ' '.$key.'="'.$value.'"';
+        }
+
+        return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
+    }
+
+    /**
+     * Returns the URL of the embed from a video ID
+     *
+     * @param       $videoId
+     * @param array $options
+     *
+     * @return string
+     */
+    public function getEmbedUrl($videoId, $options = array())
+    {
+        $format = $this->getEmbedFormat();
+
+        if(count($options) > 0)
+        {
+            $queryMark = '?';
+
+            if(strpos($this->getEmbedFormat(), "?") !== false)
+            {
+                $queryMark = "&";
+            }
+
+            $options = http_build_query($options);
+
+            $format .= $queryMark.$options;
+        }
 
         $embedUrl = sprintf($format, $videoId);
 
         return $embedUrl;
     }
 
-	/**
-	 * Return the handle of the gateway based on its class name
-	 *
-	 * @return string
-	 */
-	public function getHandle()
-	{
-		$handle = get_class($this);
-		$handle = substr($handle, strrpos($handle, "\\") + 1);
-		$handle = strtolower($handle);
+    /**
+     * Return the handle of the gateway based on its class name
+     *
+     * @return string
+     */
+    public function getHandle()
+    {
+        $handle = get_class($this);
+        $handle = substr($handle, strrpos($handle, "\\") + 1);
+        $handle = strtolower($handle);
 
-		return $handle;
-	}
+        return $handle;
+    }
 
-	/**
-	 * OAuth Authorization Options
-	 *
-	 * @return array|null
-	 */
-	public function getOauthAuthorizationOptions()
-	{
-		return null;
-	}
+    /**
+     * OAuth Authorization Options
+     *
+     * @return array|null
+     */
+    public function getOauthAuthorizationOptions()
+    {
+        return null;
+    }
 
-	/**
-	 * OAuth Scope
-	 *
-	 * @return array|null
-	 */
-	public function getOauthScope()
-	{
-		return null;
-	}
+    /**
+     * OAuth Scope
+     *
+     * @return array|null
+     */
+    public function getOauthScope()
+    {
+        return null;
+    }
 
-	/**
-	 * Returns the gateway's settings as HTML
-	 *
-	 * @return string
-	 */
-	public function getSettingsHtml()
-	{
-		$oauthProviderHandle = $this->getOauthProviderHandle();
+    /**
+     * Returns the gateway's settings as HTML
+     *
+     * @return string
+     */
+    public function getSettingsHtml()
+    {
+        $oauthProviderHandle = $this->getOauthProviderHandle();
 
-		$variables = array(
-			'isOauthProviderConfigured' => false,
-			'account' => false,
-			'token' => false,
-			'error' => false
-		);
+        $variables = array(
+            'isOauthProviderConfigured' => false,
+            'account' => false,
+            'token' => false,
+            'error' => false
+        );
 
         $variables['isOauthProviderConfigured'] = Videos::$plugin->getVideos()->isOauthProviderConfigured($oauthProviderHandle);
 
-		if($variables['isOauthProviderConfigured'])
+        if($variables['isOauthProviderConfigured'])
         {
             $token = $this->getToken();
 
@@ -367,10 +367,10 @@ abstract class Gateway implements GatewayInterface
             $variables['token'] = $token;
         }
 
-		$variables['gateway'] = $this;
+        $variables['gateway'] = $this;
 
-		return Craft::$app->getView()->renderTemplate('videos/settings/_oauth', $variables);
-	}
+        return Craft::$app->getView()->renderTemplate('videos/settings/_oauth', $variables);
+    }
 
     /**
      * Returns a Twitter provider (server) object.
@@ -396,15 +396,15 @@ abstract class Gateway implements GatewayInterface
         return $this->createOauthProvider($options);
     }
 
-	/**
-	 * Return a video from its public URL
-	 *
-	 * @param $url
-	 *
-	 * @return mixed
-	 * @throws \Exception
-	 */
-	public function getVideoByUrl($url)
+    /**
+     * Return a video from its public URL
+     *
+     * @param $url
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    public function getVideoByUrl($url)
     {
         $url = $url['url'];
 
@@ -441,20 +441,20 @@ abstract class Gateway implements GatewayInterface
         }
     }
 
-	// Protected Methods
-	// =========================================================================
+    // Protected Methods
+    // =========================================================================
 
-	/**
-	 * Performs a GET request on the API
-	 *
-	 * @param       $uri
-	 * @param array $query
-	 * @param null  $headers
-	 *
-	 * @return mixed
-	 * @throws \Exception
-	 */
-	protected function apiGet($uri, $query = array(), $headers = null)
+    /**
+     * Performs a GET request on the API
+     *
+     * @param       $uri
+     * @param array $query
+     * @param null  $headers
+     *
+     * @return mixed
+     * @throws \Exception
+     */
+    protected function apiGet($uri, $query = array(), $headers = null)
     {
         $options = [
             'query' => $query,

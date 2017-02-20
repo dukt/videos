@@ -39,13 +39,13 @@ class Oauth extends Component
         }
     }
 
-	/**
-	 * Saves a token
-	 *
-	 * @param $handle
-	 * @param $token
-	 */
-	public function saveToken($handle, AccessToken $token)
+    /**
+     * Saves a token
+     *
+     * @param $handle
+     * @param $token
+     */
+    public function saveToken($handle, AccessToken $token)
     {
         $handle = strtolower($handle);
 
@@ -78,12 +78,12 @@ class Oauth extends Component
         Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
     }
 
-	/**
-	 * Deletes a token
-	 *
-	 * @param $handle
-	 */
-	public function deleteToken($handle)
+    /**
+     * Deletes a token
+     *
+     * @param $handle
+     */
+    public function deleteToken($handle)
     {
         $handle = strtolower($handle);
 

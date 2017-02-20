@@ -24,33 +24,33 @@ class Gateways extends Component
     // Properties
     // =========================================================================
 
-	/**
-	 * @var array
-	 */
-	private $_gateways = array();
+    /**
+     * @var array
+     */
+    private $_gateways = array();
 
-	/**
-	 * @var array
-	 */
-	private $_allGateways = array();
+    /**
+     * @var array
+     */
+    private $_allGateways = array();
 
-	/**
-	 * @var bool
-	 */
-	private $_gatewaysLoaded = false;
+    /**
+     * @var bool
+     */
+    private $_gatewaysLoaded = false;
 
     // Public Methods
     // =========================================================================
 
-	/**
-	 * Get gateway by handle
-	 *
-	 * @param      $gatewayHandle
-	 * @param bool $enabledOnly
-	 *
-	 * @return null
-	 */
-	public function getGateway($gatewayHandle, $enabledOnly = true)
+    /**
+     * Get gateway by handle
+     *
+     * @param      $gatewayHandle
+     * @param bool $enabledOnly
+     *
+     * @return null
+     */
+    public function getGateway($gatewayHandle, $enabledOnly = true)
     {
         $this->loadGateways();
 
@@ -74,14 +74,14 @@ class Gateways extends Component
         return null;
     }
 
-	/**
-	 * Get gateways
-	 *
-	 * @param bool $enabledOnly
-	 *
-	 * @return array
-	 */
-	public function getGateways($enabledOnly = true)
+    /**
+     * Get gateways
+     *
+     * @param bool $enabledOnly
+     *
+     * @return array
+     */
+    public function getGateways($enabledOnly = true)
     {
         $this->loadGateways();
 
@@ -98,10 +98,10 @@ class Gateways extends Component
     // Private Methods
     // =========================================================================
 
-	/**
-	 * Load gateways
-	 */
-	private function loadGateways()
+    /**
+     * Load gateways
+     */
+    private function loadGateways()
     {
         if(!$this->_gatewaysLoaded)
         {
@@ -109,8 +109,8 @@ class Gateways extends Component
 
             foreach($gateways as $gateway)
             {
-	            if($gateway->enableOauthFlow())
-	            {
+                if($gateway->enableOauthFlow())
+                {
                     $handle = $gateway->getHandle();
                     $plugin = Craft::$app->getPlugins()->getPlugin('videos');
                     $settings = $plugin->getSettings();
@@ -124,11 +124,11 @@ class Gateways extends Component
 
                         $this->_gateways[] = $gateway;
                     }
-	            }
-	            else
-	            {
-		            $this->_gateways[] = $gateway;
-	            }
+                }
+                else
+                {
+                    $this->_gateways[] = $gateway;
+                }
 
                 $this->_allGateways[] = $gateway;
             }
@@ -137,12 +137,12 @@ class Gateways extends Component
         }
     }
 
-	/**
-	 * Real get gateways
-	 *
-	 * @return array
-	 */
-	private function _getGateways()
+    /**
+     * Real get gateways
+     *
+     * @return array
+     */
+    private function _getGateways()
     {
         // fetch all OAuth provider types
 
@@ -171,14 +171,14 @@ class Gateways extends Component
         return $gateways;
     }
 
-	/**
-	 * Instantiates a gateway
-	 *
-	 * @param $gatewayType
-	 *
-	 * @return mixed
-	 */
-	private function _createGateway($gatewayType)
+    /**
+     * Instantiates a gateway
+     *
+     * @param $gatewayType
+     *
+     * @return mixed
+     */
+    private function _createGateway($gatewayType)
     {
         $gateway = new $gatewayType;
 

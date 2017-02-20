@@ -1,4 +1,10 @@
 <?php
+/**
+ * @link      https://dukt.net/craft/videos/
+ * @copyright Copyright (c) 2017, Dukt
+ * @license   https://dukt.net/craft/videos/docs/license
+ */
+
 namespace dukt\videos\web\assets\videos;
 
 use craft\web\AssetBundle;

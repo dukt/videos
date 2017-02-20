@@ -300,10 +300,10 @@ Videos.Explorer = Garnish.Base.extend({
     maybeLoadMore: function(gateway, method, moreOptions)
     {
         if (this.canLoadMore())
-		{
+        {
 
-			this.loadMore(gateway, method, moreOptions);
-		}
+            this.loadMore(gateway, method, moreOptions);
+        }
     },
 
     canLoadMore: function()
