@@ -25,7 +25,7 @@ class InstallController extends Controller
 	 */
 	public function actionIndex()
 	{
-		$missingDependencies = Videos::$plugin->videos->getMissingDependencies();
+		$missingDependencies = Videos::$plugin->getVideos()->getMissingDependencies();
 
 		if (count($missingDependencies) > 0)
 		{

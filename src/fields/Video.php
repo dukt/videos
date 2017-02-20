@@ -121,7 +121,7 @@ class Video extends Field
     {
         try
         {
-            $video = Videos::$plugin->videos->getVideoByUrl($videoUrl);
+            $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
 
             if($video)
             {

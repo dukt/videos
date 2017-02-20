@@ -8,6 +8,7 @@
 namespace dukt\videos;
 
 use Craft;
+use dukt\videos\base\PluginTrait;
 use yii\base\Event;
 use craft\web\UrlManager;
 use craft\events\RegisterUrlRulesEvent;
@@ -20,10 +21,22 @@ use dukt\oauth\Plugin as OauthPlugin;
 
 class Plugin extends \craft\base\Plugin
 {
+    // Traits
+    // =========================================================================
+
+    use PluginTrait;
+
     // Properties
     // =========================================================================
 
+    /**
+     * @var bool
+     */
     public $hasSettings = true;
+
+    /**
+     * @var \dukt\facebook\Plugin The plugin instance.
+     */
     public static $plugin;
 
     // Public Methods
@@ -105,7 +118,7 @@ class Plugin extends \craft\base\Plugin
                 return false;
             }
 
-            $video = self::$plugin->videos->getVideoById($gateway, $videoId);
+            $video = self::$plugin->getVideos()->getVideoById($gateway, $videoId);
             $url = $video->thumbnailSource;
 
             $basePath = Craft::$app->path->getRuntimePath().'videosthumbnails/';
@@ -180,7 +193,7 @@ class Plugin extends \craft\base\Plugin
     {
         if(isset(OauthPlugin::$plugin->oauth))
         {
-            OauthPlugin::$plugin->oauth->deleteTokensByPlugin('videos');
+            OauthPlugin::$plugin->getOauth()->deleteTokensByPlugin('videos');
         }
     }
 

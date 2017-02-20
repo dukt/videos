@@ -22,9 +22,9 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        Videos::$plugin->videos->requireDependencies();
+        Videos::$plugin->getVideos()->requireDependencies();
         
-        $gateways = Videos::$plugin->gateways->getGateways(false);
+        $gateways = Videos::$plugin->getGateways()->getGateways(false);
 
         return $this->renderTemplate('videos/settings/_index', [
             'gateways' => $gateways,

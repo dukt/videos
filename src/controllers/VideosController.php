@@ -32,18 +32,18 @@ class VideosController extends Controller
 
         try
         {
-            $video = Videos::$plugin->cache->get(['fieldPreview', $url]);
+            $video = Videos::$plugin->getCache()->get(['fieldPreview', $url]);
 
             if(!$video)
             {
-                $video = Videos::$plugin->videos->getVideoByUrl($url);
+                $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
                 if(!$video)
                 {
                     throw new Exception("Video not found");
                 }
 
-                Videos::$plugin->cache->set(['fieldPreview', $url], $video);
+                Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);
             }
 
             return $this->asJson(
@@ -76,7 +76,7 @@ class VideosController extends Controller
         $videoId = Craft::$app->getRequest()->getParam('videoId');
 
         try {
-            $video = Videos::$plugin->videos->getVideoById($gatewayHandle, $videoId);
+            $video = Videos::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
         }
         catch(\Exception $e)
         {

@@ -28,7 +28,7 @@ class OauthController extends Controller
     {
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
 
-        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
         Craft::$app->getSession()->set('videos.oauthGateway', $gatewayHandle);
 
@@ -44,7 +44,7 @@ class OauthController extends Controller
     {
         $gatewayHandle = Craft::$app->getSession()->get('videos.oauthGateway');
 
-        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
         return $gateway->oauthCallback();
     }
@@ -57,11 +57,11 @@ class OauthController extends Controller
     public function actionDisconnect()
     {
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
-        $gateway = Videos::$plugin->gateways->getGateway($gatewayHandle, false);
+        $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
         $oauthProviderHandle = $gateway->getOauthProviderHandle();
 
-        Videos::$plugin->oauth->deleteToken($gateway->getHandle());
+        Videos::$plugin->getOauth()->deleteToken($gateway->getHandle());
 
         // set notice
         Craft::$app->getSession()->setNotice(Craft::t('app', "Disconnected."));

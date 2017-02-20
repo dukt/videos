@@ -67,7 +67,7 @@ abstract class Gateway implements GatewayInterface
             ]);
 
             // Save token
-            Videos::$plugin->oauth->saveToken($this->getHandle(), $token);
+            Videos::$plugin->getOauth()->saveToken($this->getHandle(), $token);
 
             // Reset session variables
 
@@ -114,7 +114,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getToken()
     {
-        return Videos::$plugin->oauth->getToken($this->getHandle());
+        return Videos::$plugin->getOauth()->getToken($this->getHandle());
     }
 
     /**
@@ -301,7 +301,7 @@ abstract class Gateway implements GatewayInterface
 			'error' => false
 		);
 
-        $variables['isOauthProviderConfigured'] = Videos::$plugin->videos->isOauthProviderConfigured($oauthProviderHandle);
+        $variables['isOauthProviderConfigured'] = Videos::$plugin->getVideos()->isOauthProviderConfigured($oauthProviderHandle);
 
 		if($variables['isOauthProviderConfigured'])
         {
@@ -311,13 +311,13 @@ abstract class Gateway implements GatewayInterface
             {
                 try
                 {
-                    $account = Videos::$plugin->cache->get(['getAccount', $token]);
+                    $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
                     if(!$account)
                     {
                         try
                         {
-                            $account = Videos::$plugin->cache->get(['getAccount', $token]);
+                            $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
                             if(!$account)
                             {
@@ -333,7 +333,7 @@ abstract class Gateway implements GatewayInterface
                                     $account = $oauthProvider->getAccount($token);
                                 }
 
-                                Videos::$plugin->cache->set(['getAccount', $token], $account);
+                                Videos::$plugin->getCache()->set(['getAccount', $token], $account);
                             }
 
                             if ($account)

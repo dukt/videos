@@ -19,7 +19,7 @@ class VideosVariable
      */
     public function getEmbed($videoUrl, $embedOptions = array())
     {
-        return Videos::$plugin->videos->getEmbed($videoUrl, $embedOptions);
+        return Videos::$plugin->getVideos()->getEmbed($videoUrl, $embedOptions);
     }
 
     /**
@@ -29,7 +29,7 @@ class VideosVariable
     {
         try
         {
-            return Videos::$plugin->videos->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
+            return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
         }
         catch(\Exception $e)
         {

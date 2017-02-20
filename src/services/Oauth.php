@@ -31,7 +31,7 @@ class Oauth extends Component
         $settings = $plugin->getSettings();
         $tokens = $settings->tokens;
 
-        $gateway = Videos::$plugin->gateways->getGateway($handle);
+        $gateway = Videos::$plugin->getGateways()->getGateway($handle);
 
         if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
         {
