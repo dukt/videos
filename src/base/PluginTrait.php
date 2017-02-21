@@ -9,6 +9,14 @@ namespace dukt\videos\base;
 
 use dukt\videos\Plugin as Videos;
 
+/**
+ * PluginTrait
+ *
+ * @property \dukt\videos\services\Videos       $videos     The videos service
+ * @property \dukt\videos\services\Cache        $cache      The cache service
+ * @property \dukt\videos\services\Gateways     $gateways   The gateways service
+ * @property \dukt\videos\services\Oauth        $oauth      The oauth service
+ */
 trait PluginTrait
 {
     /**
