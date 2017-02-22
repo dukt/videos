@@ -17,7 +17,6 @@ use craft\services\Fields;
 use dukt\videos\fields\Video as VideoField;
 use craft\events\RegisterComponentTypesEvent;
 use craft\helpers\UrlHelper;
-use dukt\oauth\Plugin as OauthPlugin;
 
 class Plugin extends \craft\base\Plugin
 {
