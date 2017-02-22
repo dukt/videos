@@ -35,7 +35,7 @@ class Plugin extends \craft\base\Plugin
     public $hasSettings = true;
 
     /**
-     * @var \dukt\facebook\Plugin The plugin instance.
+     * @var \dukt\videos\Plugin The plugin instance.
      */
     public static $plugin;
 
