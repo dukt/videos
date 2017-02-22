@@ -9,7 +9,6 @@ namespace dukt\videos\services;
 
 use Craft;
 use yii\base\Component;
-use dukt\videos\base\VideosTrait;
 use dukt\videos\Plugin as VideosPlugin;
 
 /**
@@ -22,11 +21,6 @@ use dukt\videos\Plugin as VideosPlugin;
  */
 class Videos extends Component
 {
-    // Traits
-    // =========================================================================
-
-    use VideosTrait;
-
     // Public Methods
     // =========================================================================
 

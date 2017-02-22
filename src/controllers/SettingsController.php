@@ -22,8 +22,6 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        Videos::$plugin->getVideos()->requireDependencies();
-        
         $gateways = Videos::$plugin->getGateways()->getGateways(false);
 
         return $this->renderTemplate('videos/settings/_index', [
