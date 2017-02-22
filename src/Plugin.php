@@ -71,21 +71,6 @@ class Plugin extends \craft\base\Plugin
     }
 
     /**
-     * Get Required Plugins
-     */
-    public function getRequiredPlugins()
-    {
-        return array(
-            array(
-                'name' => "OAuth",
-                'handle' => 'oauth',
-                'url' => 'https://dukt.net/craft/oauth',
-                'version' => '1.0.0'
-            )
-        );
-    }
-
-    /**
      * Get OAuth Providers
      */
     public function getVideosGateways()
