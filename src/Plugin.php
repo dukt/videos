@@ -65,7 +65,6 @@ class Plugin extends \craft\base\Plugin
     {
         $rules = [
             'videos/settings' => 'videos/settings/index',
-            'videos/install' => 'videos/install/index',
         ];
 
         $event->rules = array_merge($event->rules, $rules);
@@ -184,17 +183,6 @@ class Plugin extends \craft\base\Plugin
         return array(
             Craft::$app->path->getRuntimePath().'videos/' => Craft::t('app', 'Videos resources'),
         );
-    }
-
-    /**
-     * On Before Uninstall
-     */
-    public function onBeforeUninstall()
-    {
-        if(isset(OauthPlugin::$plugin->oauth))
-        {
-            OauthPlugin::$plugin->getOauth()->deleteTokensByPlugin('videos');
-        }
     }
 
     /**
