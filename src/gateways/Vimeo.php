@@ -168,7 +168,7 @@ class Vimeo extends Gateway
     public function getVideoById($id)
     {
         $query = [
-            'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download'
+            'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link'
         ];
 
         $response = $this->apiGet('videos/'.$id, $query);
