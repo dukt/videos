@@ -9,6 +9,7 @@ namespace dukt\videos;
 
 use Craft;
 use dukt\videos\base\PluginTrait;
+use dukt\videos\web\twig\variables\VideosVariable;
 use yii\base\Event;
 use craft\web\UrlManager;
 use craft\events\RegisterUrlRulesEvent;
@@ -167,6 +168,14 @@ class Plugin extends \craft\base\Plugin
         return array(
             Craft::$app->path->getRuntimePath().'videos/' => Craft::t('app', 'Videos resources'),
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function defineTemplateComponent()
+    {
+        return VideosVariable::class;
     }
 
     /**
