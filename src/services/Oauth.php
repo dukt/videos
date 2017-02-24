@@ -8,6 +8,7 @@
 namespace dukt\videos\services;
 
 use Craft;
+use craft\helpers\UrlHelper;
 use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;
@@ -106,5 +107,15 @@ class Oauth extends Component
             $settings->tokens = $tokens;
             Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
         }
+    }
+
+    public function getJavascriptOrigin()
+    {
+        return UrlHelper::baseUrl();
+    }
+
+    public function getRedirectUri()
+    {
+        return UrlHelper::actionUrl('videos/oauth/callback');
     }
 }

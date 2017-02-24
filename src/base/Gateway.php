@@ -24,6 +24,21 @@ abstract class Gateway implements GatewayInterface
     // =========================================================================
 
     /**
+     * Returns the icon URL.
+     *
+     * @return string|false|null
+     */
+    public function getIconUrl()
+    {
+        $iconAlias = '@dukt/videos/icons/'.$this->getHandle().'.svg';
+
+        if(file_exists(Craft::getAlias($iconAlias)))
+        {
+            return Craft::$app->assetManager->getPublishedUrl($iconAlias, true);
+        }
+    }
+
+    /**
      * OAuth Connect
      *
      * @return null
@@ -368,8 +383,17 @@ abstract class Gateway implements GatewayInterface
         }
 
         $variables['gateway'] = $this;
+        $allOauthProviderOptions = Craft::$app->getConfig()->get('oauthProviderOptions', 'videos');
 
-        return Craft::$app->getView()->renderTemplate('videos/settings/_oauth', $variables);
+        if(isset($allOauthProviderOptions[$this->getOauthProviderHandle()]))
+        {
+            $variables['oauthProviderOptions'] = $allOauthProviderOptions[$this->getOauthProviderHandle()];
+        }
+
+        $variables['javascriptOrigin'] = Videos::$plugin->oauth->getJavascriptOrigin();
+        $variables['redirectUri'] = Videos::$plugin->oauth->getRedirectUri();
+
+        return Craft::$app->getView()->renderTemplate('videos/settings/_gateways/'.$this->getHandle(), $variables);
     }
 
     /**

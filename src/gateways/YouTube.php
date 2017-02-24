@@ -23,6 +23,33 @@ class YouTube extends Gateway
     // Public Methods
     // =========================================================================
 
+    /**
+     * Returns the OAuth provider’s name.
+     *
+     * @return string
+     */
+    public function getOauthProviderName()
+    {
+        return 'Google';
+    }
+
+    /**
+     * Returns the OAuth provider’s API console URL.
+     *
+     * @return string
+     */
+    public function getOauthProviderApiConsoleUrl()
+    {
+        return 'https://code.google.com/apis/console/';
+    }
+
+    /**
+     * Creates the OAuth provider.
+     *
+     * @param $options
+     *
+     * @return \Dukt\OAuth2\Client\Provider\Google
+     */
     public function createOauthProvider($options)
     {
         return new \Dukt\OAuth2\Client\Provider\Google($options);

@@ -1,0 +1,67 @@
+{% import "_includes/forms" as forms %}
+
+
+{% if isOauthProviderConfigured %}
+
+	<img src="{{ gateway.getIconUrl() }}" width="36" />
+
+	<h2 class="first">{{ gateway.name }}</h2>
+
+
+	{% if gateway.hasToken() and account %}
+		<p>{{ 'You are authenticated to {gateway} with the following account'|t('app', { gateway: gateway.name }) }} :</p>
+		<ul>
+			<li><strong>{{ 'UID'|t('app') }} : </strong> {{ account.id }}</li>
+			<li><strong>{{ 'Name'|t('app') }} : </strong> {{ account.name }}</li>
+		</ul>
+		<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
+	{% else %}
+
+		{% if error %}
+			<p class="error">{{ error }}</p>
+			<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
+		{% else %}
+
+			<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
+			<p>{{ 'Go to the {link} and create a new project or use an existing one.'|t('videos', {link: '<a href="https://code.google.com/apis/console/">'~'Google API Console'|t('videos')~'</a>'})|raw }}</p>
+			<p>{{ "Under the API Manager → Credentials tab, click the “Create credential” button and create a new “OAuth client ID” of type “Web Application”."|t('videos', {link: '<a href="https://code.google.com/apis/console/">'~'Google API Console'|t('videos')~'</a>'})|raw }}</p>
+			<p>{{ "Configure the client using the following javascript origin and redirect urls."|t('videos') }}</p>
+
+			{{ forms.textField({
+				readonly: true,
+				label: "Javascript Origin",
+				value: (javascriptOrigin ?? null)
+			}) }}
+
+			{{ forms.textField({
+				readonly: true,
+				label: "Redirect URI",
+				value: (redirectUri ?? null)
+			}) }}
+
+			<h3>{{ 'Configure the OAuth client'|t('videos') }}</h3>
+			<p>{{ 'Once the OAuth client is created, Google will provide you with a client ID and secret.'|t('videos') }}</p>
+			<p>{{ ("Copy the client ID & secret from the <a href=\"https://code.google.com/apis/console/\">"~'Google API Console'|t('videos')~"</a> under the API Manager → Credentials tab, and paste them in the <code>craft/config/videos.php</code> config file.")|raw }}</p>
+
+			{{ forms.textField({
+				readonly: true,
+				label: "Client ID",
+				value: (oauthProviderOptions.clientId ?? null)
+			}) }}
+
+			{{ forms.textField({
+				readonly: true,
+				label: "Client Secret",
+				value: (oauthProviderOptions.clientSecret ?? null)
+			}) }}
+
+			<p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t('app', { gateway: gateway.name }) }}</a></p>
+		{% endif %}
+
+	{% endif %}
+
+{% else %}
+	<h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderHandle})}}</h2>
+	<p>{{'Please fill API client id & secret for this provider.'|t}}</p>
+	<p><a class="btn" href="{{url('oauth/providers/'~gateway.getOauthProviderHandle)}}">{{'{provider} OAuth settings'|t('app', {provider: gateway.getOauthProviderHandle})}}</a></p>
+{% endif %}

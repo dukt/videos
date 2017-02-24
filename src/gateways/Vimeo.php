@@ -22,11 +22,6 @@ class Vimeo extends Gateway
     // Public Methods
     // =========================================================================
 
-    public function createOauthProvider($options)
-    {
-        return new \Saf33r\OAuth2\Client\Provider\Vimeo($options);
-    }
-
     /**
      * @inheritDoc GatewayInterface::getName()
      *
@@ -45,6 +40,38 @@ class Vimeo extends Gateway
     public function getOauthProviderHandle()
     {
         return 'vimeo';
+    }
+
+    /**
+     * Returns the OAuth provider’s name.
+     *
+     * @return string
+     */
+    public function getOauthProviderName()
+    {
+        return 'Google';
+    }
+
+    /**
+     * Returns the OAuth provider’s API console URL.
+     *
+     * @return string
+     */
+    public function getOauthProviderApiConsoleUrl()
+    {
+        return 'https://code.google.com/apis/console/';
+    }
+
+    /**
+     * Creates the OAuth provider.
+     *
+     * @param $options
+     *
+     * @return \Saf33r\OAuth2\Client\Provider\Vimeo
+     */
+    public function createOauthProvider($options)
+    {
+        return new \Saf33r\OAuth2\Client\Provider\Vimeo($options);
     }
 
     /**
