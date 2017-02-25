@@ -20,9 +20,9 @@ class VideosHelper
      */
     public static function getDuration($seconds)
     {
-        $hours = intval(intval($seconds) / 3600);
-        $minutes = intval(($seconds / 60) % 60);
-        $seconds = intval($seconds % 60);
+        $hours = (int) ((int) ($seconds) / 3600);
+        $minutes = (int) (($seconds / 60) % 60);
+        $seconds = (int) ($seconds % 60);
 
         $hms = "";
 
