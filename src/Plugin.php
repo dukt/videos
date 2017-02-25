@@ -8,6 +8,8 @@
 namespace dukt\videos;
 
 use Craft;
+use craft\events\ResolveResourcePathEvent;
+use craft\helpers\FileHelper;
 use dukt\videos\base\PluginTrait;
 use dukt\videos\web\twig\variables\VideosVariable;
 use yii\base\Event;
@@ -18,6 +20,7 @@ use craft\services\Fields;
 use dukt\videos\fields\Video as VideoField;
 use craft\events\RegisterComponentTypesEvent;
 use craft\helpers\UrlHelper;
+use craft\services\Resources;
 
 class Plugin extends \craft\base\Plugin
 {
@@ -59,6 +62,17 @@ class Plugin extends \craft\base\Plugin
         Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
             $event->types[] = VideoField::class;
         });
+
+        Event::on(Resources::class, Resources::EVENT_RESOLVE_RESOURCE_PATH, function(ResolveResourcePathEvent $event) {
+            if (strpos($event->uri, 'videos/') === 0) {
+                $path = $this->getResourcePath($event->uri);
+                $event->path = $path;
+
+                // Prevent other event listeners from getting invoked
+                $event->handled = true;
+            }
+        });
+
     }
 
     public function registerCpUrlRules(RegisterUrlRulesEvent $event)
@@ -91,11 +105,11 @@ class Plugin extends \craft\base\Plugin
     {
         $segs = explode('/', $path);
 
-        if($segs[0] == 'videosthumbnails')
+        if($segs[0] == 'videos' && $segs[1] == 'thumbnails')
         {
-            $gateway = $segs[1];
-            $videoId = $segs[2];
-            $size = $segs[3];
+            $gateway = $segs[2];
+            $videoId = $segs[3];
+            $size = $segs[4];
 
             if (!is_numeric($size) && $size != "original")
             {
@@ -105,8 +119,11 @@ class Plugin extends \craft\base\Plugin
             $video = self::$plugin->getVideos()->getVideoById($gateway, $videoId);
             $url = $video->thumbnailSource;
 
-            $basePath = Craft::$app->path->getRuntimePath().'videosthumbnails/';
-            IOHelper::ensureFolderExists($basePath);
+            $basePath = Craft::$app->path->getRuntimePath().'/videos/thumbnails/';
+
+            if (!is_dir($basePath)) {
+                FileHelper::createDirectory($basePath);
+            }
 
             $filename = pathinfo($url, PATHINFO_BASENAME);
 
@@ -124,25 +141,32 @@ class Plugin extends \craft\base\Plugin
             $sizedThumbnailPath = $sizedThumbnailFolder.$filename;
 
             // If the photo doesn't exist at this size, create it.
-            if (!IOHelper::fileExists($sizedThumbnailPath))
+            if (!file_exists($sizedThumbnailPath))
             {
-                if (!IOHelper::fileExists($originalThumbnailPath))
+                if (!file_exists($originalThumbnailPath))
                 {
-                    IOHelper::ensureFolderExists($originalFolderPath);
+                    if (!is_dir($originalFolderPath)) {
+                        FileHelper::createDirectory($originalFolderPath);
+                    }
 
-                    $response = \Guzzle\Http\StaticClient::get($url, array(
+
+                    $client = new \GuzzleHttp\Client();
+
+                    $response = $client->request('GET', $url, array(
                         'save_to' => $originalThumbnailPath
                     ));
 
-                    if (!$response->isSuccessful())
+                    if (!$response->getStatusCode() != 200)
                     {
                         return;
                     }
                 }
 
-                IOHelper::ensureFolderExists($sizedThumbnailFolder);
+                if (!is_dir($sizedThumbnailFolder)) {
+                    FileHelper::createDirectory($sizedThumbnailFolder);
+                }
 
-                if (IOHelper::isWritable($sizedThumbnailFolder))
+                if (FileHelper::isWritable($sizedThumbnailFolder))
                 {
                     Craft::$app->images->loadImage($originalThumbnailPath, $size, $size)
                         ->resize($size)
