@@ -11,6 +11,7 @@ use Craft;
 use craft\helpers\UrlHelper;
 use dukt\videos\Plugin as Videos;
 use League\OAuth2\Client\Token\AccessToken;
+use Exception;
 
 /**
  * Gateway class
@@ -357,7 +358,7 @@ abstract class Gateway implements GatewayInterface
                                 // $variables['settings'] = $plugin->getSettings();
                             }
                         }
-                        catch(\Exception $e)
+                        catch(Exception $e)
                         {
                             // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
@@ -371,7 +372,7 @@ abstract class Gateway implements GatewayInterface
                         // $variables['settings'] = $plugin->getSettings();
                     }
                 }
-                catch(\Exception $e)
+                catch(Exception $e)
                 {
                     // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
 
@@ -399,7 +400,7 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns a Twitter provider (server) object.
      *
-     * @return Google
+     * @return mixed
      */
     public function getOauthProvider()
     {
@@ -426,7 +427,7 @@ abstract class Gateway implements GatewayInterface
      * @param $url
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getVideoByUrl($url)
     {
@@ -436,7 +437,7 @@ abstract class Gateway implements GatewayInterface
 
         if(!$videoId)
         {
-            throw new \Exception('Video not found with url given');
+            throw new Exception('Video not found with url given');
         }
 
         return $this->getVideoById($videoId);
@@ -449,7 +450,7 @@ abstract class Gateway implements GatewayInterface
      * @param $options
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     public function getVideos($method, $options)
     {
@@ -461,7 +462,7 @@ abstract class Gateway implements GatewayInterface
         }
         else
         {
-            throw new \Exception("Method ".$realMethod." not found");
+            throw new Exception("Method ".$realMethod." not found");
         }
     }
 
@@ -476,7 +477,7 @@ abstract class Gateway implements GatewayInterface
      * @param null  $headers
      *
      * @return mixed
-     * @throws \Exception
+     * @throws Exception
      */
     protected function apiGet($uri, $query = array(), $headers = null)
     {
@@ -499,7 +500,7 @@ abstract class Gateway implements GatewayInterface
 
             return $jsonResponse;
         }
-        catch(\Exception $e)
+        catch(Exception $e)
         {
             // VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
 
