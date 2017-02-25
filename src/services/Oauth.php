@@ -45,7 +45,15 @@ class Oauth extends Component
 
                 $grant = new RefreshToken();
 
-                $token = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+
+                $token = new AccessToken([
+                    'access_token' => $newToken->getToken(),
+                    'expires' => $newToken->getExpires(),
+                    'refresh_token' => $token->getRefreshToken(),
+                    'resource_owner_id' => $newToken->getResourceOwnerId(),
+                    'values' => $newToken->getValues(),
+                ]);
 
                 $this->saveToken($handle, $token);
             }
