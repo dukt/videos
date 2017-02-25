@@ -49,6 +49,7 @@ class Video extends Field
     {
         $name = $this->handle;
         // $tweet = $this->prepValue($value);
+        $value = $this->prepValue($value);
 
         $unpreppedValue = false;
         
@@ -92,7 +93,7 @@ class Video extends Field
 
         // Preview
 
-        if ($value instanceof Video)
+        if ($value instanceof \dukt\videos\models\Video)
         {
             $preview = Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
         }
