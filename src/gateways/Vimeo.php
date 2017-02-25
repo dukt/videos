@@ -228,7 +228,6 @@ class Vimeo extends Gateway
         return $videoId;
     }
 
-
     // Protected
     // =========================================================================
 
