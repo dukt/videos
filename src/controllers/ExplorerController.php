@@ -108,7 +108,7 @@ class ExplorerController extends Controller
         }
         catch(\Exception $e)
         {
-             // VideosPlugin::log('Couldn’t get videos: '.$e->getMessage(), LogLevel::Error);
+             Craft::trace('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
 
             return $this->asErrorJson($e->getMessage());
         }

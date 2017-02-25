@@ -360,7 +360,7 @@ abstract class Gateway implements GatewayInterface
                         }
                         catch(Exception $e)
                         {
-                            // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+                            Craft::trace('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                             $variables['error'] = $e->getMessage();
                         }
@@ -374,7 +374,7 @@ abstract class Gateway implements GatewayInterface
                 }
                 catch(Exception $e)
                 {
-                    // VideosPlugin::log('Couldn’t get account. '.$e->getMessage(), LogLevel::Error);
+                    Craft::trace('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                     $variables['error'] = $e->getMessage();
                 }
@@ -488,13 +488,9 @@ abstract class Gateway implements GatewayInterface
 
         $client = $this->createClient();
 
-        // VideosPlugin::log("GuzzleRequest: ".(string) $request, LogLevel::Info);
-
         try
         {
             $response = $client->request('GET', $uri, $options);
-
-            // VideosPlugin::log("GuzzleResponse: ".(string) $response, LogLevel::Info);
 
             $jsonResponse = json_decode($response->getBody(), true);
 
@@ -502,11 +498,11 @@ abstract class Gateway implements GatewayInterface
         }
         catch(Exception $e)
         {
-            // VideosPlugin::log("GuzzleError: ".$e->getMessage(), LogLevel::Error);
+            Craft::trace("GuzzleError: ".$e->getMessage(), __METHOD__);
 
             if(method_exists($e, 'getResponse'))
             {
-                // VideosPlugin::log("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), LogLevel::Error);
+                Craft::trace("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), __METHOD__);
             }
 
             throw $e;

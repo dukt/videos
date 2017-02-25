@@ -174,7 +174,7 @@ class Plugin extends \craft\base\Plugin
                 }
                 else
                 {
-                    // VideosPlugin::log('Tried to write to target folder and could not: '.$sizedIconFolder, LogLevel::Error);
+                    Craft::trace('Tried to write to target folder and could not: '.$sizedIconFolder, __METHOD__);
                 }
             }
 

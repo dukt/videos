@@ -24,6 +24,26 @@ class YouTube extends Gateway
     // =========================================================================
 
     /**
+     * @inheritDoc GatewayInterface::getName()
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return "YouTube";
+    }
+
+    /**
+     * @inheritDoc GatewayInterface::getOauthProviderHandle()
+     *
+     * @return string
+     */
+    public function getOauthProviderHandle()
+    {
+        return 'google';
+    }
+
+    /**
      * Returns the OAuth provider’s name.
      *
      * @return string
@@ -53,26 +73,6 @@ class YouTube extends Gateway
     public function createOauthProvider($options)
     {
         return new \Dukt\OAuth2\Client\Provider\Google($options);
-    }
-
-    /**
-     * @inheritDoc GatewayInterface::getName()
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return "YouTube";
-    }
-
-    /**
-     * @inheritDoc GatewayInterface::getOauthProviderHandle()
-     *
-     * @return string
-     */
-    public function getOauthProviderHandle()
-    {
-        return 'google';
     }
 
     /**
@@ -420,7 +420,7 @@ class YouTube extends Gateway
         }
         catch(\Exception $e)
         {
-            // VideosPlugin::log('Couldn’t get playlists: '.$e->getMessage(), LogLevel::Warning);
+            Craft::trace('Couldn’t get playlists: '.$e->getMessage(), __METHOD__);
         }
     }
 
