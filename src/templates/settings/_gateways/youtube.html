@@ -8,7 +8,6 @@
 	<h2 class="first">{{ gateway.name }}</h2>
 
 	{% if gateway.hasToken() and account %}
-
 		<p>{{ 'You are authenticated to {gateway} with the following account'|t('app', { gateway: gateway.name }) }} :</p>
 		<ul>
 			<li><strong>{{ 'UID'|t('app') }} : </strong> {{ account.id }}</li>
@@ -16,7 +15,6 @@
 		</ul>
 		<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
 	{% else %}
-
 		{% if error %}
 			<p class="error">{{ error }}</p>
 			<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
