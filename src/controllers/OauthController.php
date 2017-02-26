@@ -59,8 +59,6 @@ class OauthController extends Controller
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
-        $oauthProviderHandle = $gateway->getOauthProviderHandle();
-
         Videos::$plugin->getOauth()->deleteToken($gateway->getHandle());
 
         // set notice
