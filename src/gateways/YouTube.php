@@ -60,7 +60,7 @@ class YouTube extends Gateway
      */
     public function getOauthProviderApiConsoleUrl()
     {
-        return 'https://code.google.com/apis/console/';
+        return 'https://console.developers.google.com/';
     }
 
     /**
