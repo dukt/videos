@@ -59,7 +59,7 @@ class Vimeo extends Gateway
      */
     public function getOauthProviderApiConsoleUrl()
     {
-        return 'https://code.google.com/apis/console/';
+        return 'https://developer.vimeo.com/apps';
     }
 
     /**
