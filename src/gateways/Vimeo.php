@@ -49,7 +49,7 @@ class Vimeo extends Gateway
      */
     public function getOauthProviderName()
     {
-        return 'Google';
+        return 'Vimeo';
     }
 
     /**
