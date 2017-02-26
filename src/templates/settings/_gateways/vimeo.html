@@ -60,7 +60,6 @@
 	{% endif %}
 
 {% else %}
-	<h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderHandle})}}</h2>
+	<h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderName()})}}</h2>
 	<p>{{'Please fill API client id & secret for this provider.'|t}}</p>
-	<p><a class="btn" href="{{url('oauth/providers/'~gateway.getOauthProviderHandle)}}">{{'{provider} OAuth settings'|t('app', {provider: gateway.getOauthProviderHandle})}}</a></p>
 {% endif %}
