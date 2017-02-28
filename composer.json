@@ -17,5 +17,10 @@
     "psr-4": {
       "dukt\\videos\\": "src/"
     }
+  },
+  "require": {
+    "league/oauth2-client": "^2.2",
+    "dukt/oauth2-vimeo": "^2.0",
+    "dukt/oauth2-google": "^2.0"
   }
 }
