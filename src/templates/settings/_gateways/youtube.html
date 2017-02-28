@@ -61,5 +61,5 @@
 
 {% else %}
 	<h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderName()})}}</h2>
-	<p>{{'Please fill API client id & secret for this provider.'|t}}</p>
+	<p>{{'Please set the API client id & secret in the <code>craft/config/videos.php</code> file.'|t('videos')|raw }}</p>
 {% endif %}
