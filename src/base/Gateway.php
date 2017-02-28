@@ -88,7 +88,7 @@ abstract class Gateway implements GatewayInterface
             // Reset session variables
 
             // Redirect
-            Craft::$app->getSession()->setNotice(Craft::t('videos', "Connected to YouTube."));
+            Craft::$app->getSession()->setNotice(Craft::t('videos', "Connected to {gateway}.", ['gateway' => $this->getName()]));
 
         } catch (Exception $e) {
             // Failed to get the token credentials or user details.
