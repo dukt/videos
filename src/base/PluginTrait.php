@@ -10,7 +10,7 @@ namespace dukt\videos\base;
 use dukt\videos\Plugin as Videos;
 
 /**
- * PluginTrait
+ * PluginTrait implements the common methods and properties for plugin classes.
  *
  * @property \dukt\videos\services\Videos       $videos     The videos service
  * @property \dukt\videos\services\Cache        $cache      The cache service
