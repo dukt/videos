@@ -1,6 +1,7 @@
 {
   "name": "dukt/craft-videos",
   "description": "Connect to YouTube & Vimeo and publish social videos on your website.",
+  "version": "2.0.0-beta.1",
   "type": "craft-plugin",
   "extra": {
     "name": "Videos",
@@ -9,7 +10,6 @@
     "developerUrl": "https://dukt.net/",
     "documentationUrl": "https://dukt.net/craft/videos/docs",
     "class": "dukt\\videos\\Plugin",
-    "version": "2.0.0",
     "schemaVersion": "1.0.0",
     "changelogUrl": "https://dukt.net/craft/videos/updates.json"
   },
