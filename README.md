@@ -18,13 +18,13 @@ To install the plugin, follow these instructions.
 
 2. Then tell Composer to load the plugin:
 
-        composer require dukt/craft-videos
+        composer require dukt/videos:~2.0
 
 3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Videos.
 
 ## Learn more
 
-- [Videos Plugin Overview](https://dukt.net/craft/videos/)
-- [Videos Documentation](https://dukt.net/craft/videos/docs)
+- [Plugin Overview](https://dukt.net/videos)
+- [Documentation](https://dukt.net/videos/docs)
 
 [Dukt.net](https://dukt.net/) © 2017 - All rights reserved
