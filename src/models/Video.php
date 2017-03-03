@@ -7,6 +7,7 @@
 
 namespace dukt\videos\models;
 
+use Craft;
 use craft\base\Model;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;

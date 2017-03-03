@@ -68,6 +68,8 @@ class VideosController extends Controller
      */
     public function actionPlayer()
     {
+        $this->requireAcceptsJson();
+
         // $this->requireAjaxRequest();
 
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
@@ -89,7 +91,7 @@ class VideosController extends Controller
                 'video' => $video
             ));
 
-            $this->returnJson(array(
+            return $this->asJson(array(
                 'html' => $html
             ));
         }
@@ -97,13 +99,13 @@ class VideosController extends Controller
         {
             Craft::trace('Couldn’t get videos: '.$errorMsg, __METHOD__);
 
-            $this->returnErrorJson("Couldn't load video: ".$errorMsg);
+            return $this->asErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
             Craft::trace('Couldn’t get videos: Video not found', __METHOD__);
 
-            $this->returnErrorJson("Video not found.");
+            return $this->asErrorJson("Video not found.");
         }
     }
 }
