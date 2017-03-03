@@ -4,13 +4,13 @@
     {{ forms.text({
         id:id,
         name: name,
-        placeholder: "Enter a video URL from YouTube or Vimeo "|t,
+        placeholder: "Enter a video URL from YouTube or Vimeo "|t('videos'),
         value: value
     }) }}
 
     <div class="spinner hidden"></div>
 
-    <a class="small icon videos-add add-input">{{ "Browse videos..."|t('app') }}</a>
+    <a class="small icon videos-add add-input">{{ "Browse videos..."|t('videos') }}</a>
 
     <div class="preview">{{ preview|raw }}</div>
 

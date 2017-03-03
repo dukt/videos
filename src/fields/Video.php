@@ -26,7 +26,7 @@ class Video extends Field
      */
     public function getName()
     {
-        return Craft::t('app', 'Videos');
+        return Craft::t('videos', 'Videos');
     }
 
     /**

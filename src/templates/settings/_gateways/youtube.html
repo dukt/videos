@@ -8,16 +8,16 @@
 	<h2 class="first">{{ gateway.name }}</h2>
 
 	{% if gateway.hasToken() and account %}
-		<p>{{ 'You are authenticated to {gateway} with the following account'|t('app', { gateway: gateway.name }) }} :</p>
+		<p>{{ 'You are authenticated to {gateway} with the following account'|t('videos', { gateway: gateway.name }) }} :</p>
 		<ul>
-			<li><strong>{{ 'UID'|t('app') }} : </strong> {{ account.id }}</li>
-			<li><strong>{{ 'Name'|t('app') }} : </strong> {{ account.name }}</li>
+			<li><strong>{{ 'UID'|t('videos') }} : </strong> {{ account.id }}</li>
+			<li><strong>{{ 'Name'|t('videos') }} : </strong> {{ account.name }}</li>
 		</ul>
-		<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
+		<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('videos') }}</a></p>
 	{% else %}
 		{% if error %}
 			<p class="error">{{ error }}</p>
-			<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('app') }}</a></p>
+			<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('videos') }}</a></p>
 		{% else %}
 
 			<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
@@ -28,13 +28,13 @@
 
 			{{ forms.textField({
 				readonly: true,
-				label: "Javascript Origin",
+				label: "Javascript Origin"|t('videos'),
 				value: (javascriptOrigin ?? null)
 			}) }}
 
 			{{ forms.textField({
 				readonly: true,
-				label: "Redirect URI",
+				label: "Redirect URI"|t('videos'),
 				value: (redirectUri ?? null)
 			}) }}
 
@@ -44,22 +44,22 @@
 
 			{{ forms.textField({
 				readonly: true,
-				label: "Client ID",
+				label: "Client ID"|t('videos'),
 				value: (oauthProviderOptions.clientId ?? null)
 			}) }}
 
 			{{ forms.textField({
 				readonly: true,
-				label: "Client Secret",
+				label: "Client Secret"|t('videos'),
 				value: (oauthProviderOptions.clientSecret ?? null)
 			}) }}
 
-			<p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t('app', { gateway: gateway.name }) }}</a></p>
+			<p><a class="btn submit" href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{"Connect to {gateway}"|t('videos', { gateway: gateway.name }) }}</a></p>
 		{% endif %}
 
 	{% endif %}
 
 {% else %}
-	<h2 class="first">{{'{provider} provider not configured'|t('app', {provider: gateway.getOauthProviderName()})}}</h2>
+	<h2 class="first">{{'{provider} provider not configured'|t('videos', {provider: gateway.getOauthProviderName()})}}</h2>
 	<p>{{'Please set the API client id & secret in the <code>craft/config/videos.php</code> file.'|t('videos')|raw }}</p>
 {% endif %}

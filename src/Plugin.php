@@ -190,7 +190,7 @@ class Plugin extends \craft\base\Plugin
     public function registerCachePaths()
     {
         return array(
-            Craft::$app->path->getRuntimePath().'videos/' => Craft::t('app', 'Videos resources'),
+            Craft::$app->path->getRuntimePath().'videos/' => Craft::t('videos', 'Videos resources'),
         );
     }
 

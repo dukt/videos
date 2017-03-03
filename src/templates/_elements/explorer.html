@@ -12,7 +12,7 @@
 
                 {% set gatewayOptions = [] %}
                 {% for gateway in nav.gateways %}
-                    {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t, value: gateway.handle }]) %}
+                    {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t('videos'), value: gateway.handle }]) %}
                 {% endfor %}
 
 
