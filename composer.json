@@ -30,9 +30,8 @@
   "extra": {
     "name": "Videos",
     "handle": "videos",
-    "documentationUrl": "https://dukt.net/craft/videos/docs",
-    "class": "dukt\\videos\\Plugin",
     "schemaVersion": "1.0.0",
-    "changelogUrl": "https://dukt.net/craft/videos/updates.json"
+    "documentationUrl": "https://dukt.net/craft/videos/docs",
+    "changelogUrl": "https://dukt.net/videos/changelog.md?craft=3"
   }
 }
