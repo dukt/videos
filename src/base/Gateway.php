@@ -151,11 +151,11 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Set authentication OAuth token
+     * Sets the token for authenticating with the gateway’s API
      *
      * @param $token
      */
-    public function authenticationSetToken($token)
+    public function setAuthenticationToken($token)
     {
         $this->token = $token;
     }

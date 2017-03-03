@@ -120,7 +120,7 @@ class Gateways extends Component
                     {
                         $token = $gateway->createTokenFromData($tokens[$handle]);
 
-                        $gateway->authenticationSetToken($token);
+                        $gateway->setAuthenticationToken($token);
 
                         $this->_gateways[] = $gateway;
                     }
