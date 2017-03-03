@@ -420,7 +420,7 @@ class YouTube extends Gateway
         }
         catch(\Exception $e)
         {
-            Craft::trace('Couldn’t get playlists: '.$e->getMessage(), __METHOD__);
+            Craft::info('Couldn’t get playlists: '.$e->getMessage(), __METHOD__);
         }
     }
 

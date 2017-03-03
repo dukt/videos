@@ -108,7 +108,7 @@ class ExplorerController extends Controller
         }
         catch(\Exception $e)
         {
-             Craft::trace('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
+             Craft::info('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
 
             return $this->asErrorJson($e->getMessage());
         }

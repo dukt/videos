@@ -360,7 +360,7 @@ abstract class Gateway implements GatewayInterface
                         }
                         catch(Exception $e)
                         {
-                            Craft::trace('Couldn’t get account. '.$e->getMessage(), __METHOD__);
+                            Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                             $variables['error'] = $e->getMessage();
                         }
@@ -374,7 +374,7 @@ abstract class Gateway implements GatewayInterface
                 }
                 catch(Exception $e)
                 {
-                    Craft::trace('Couldn’t get account. '.$e->getMessage(), __METHOD__);
+                    Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                     $variables['error'] = $e->getMessage();
                 }
@@ -498,11 +498,11 @@ abstract class Gateway implements GatewayInterface
         }
         catch(Exception $e)
         {
-            Craft::trace("GuzzleError: ".$e->getMessage(), __METHOD__);
+            Craft::info("GuzzleError: ".$e->getMessage(), __METHOD__);
 
             if(method_exists($e, 'getResponse'))
             {
-                Craft::trace("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), __METHOD__);
+                Craft::info("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), __METHOD__);
             }
 
             throw $e;

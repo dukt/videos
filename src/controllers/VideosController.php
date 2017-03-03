@@ -55,7 +55,7 @@ class VideosController extends Controller
         }
         catch(\Exception $e)
         {
-            Craft::trace('Couldn’t get field preview: '.$e->getMessage(), __METHOD__);
+            Craft::info('Couldn’t get field preview: '.$e->getMessage(), __METHOD__);
 
             return $this->asErrorJson($e->getMessage());
         }
@@ -97,13 +97,13 @@ class VideosController extends Controller
         }
         elseif(isset($errorMsg))
         {
-            Craft::trace('Couldn’t get videos: '.$errorMsg, __METHOD__);
+            Craft::info('Couldn’t get videos: '.$errorMsg, __METHOD__);
 
             return $this->asErrorJson("Couldn't load video: ".$errorMsg);
         }
         else
         {
-            Craft::trace('Couldn’t get videos: Video not found', __METHOD__);
+            Craft::info('Couldn’t get videos: Video not found', __METHOD__);
 
             return $this->asErrorJson("Video not found.");
         }

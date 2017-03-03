@@ -131,7 +131,7 @@ class Video extends Field
         }
         catch(\Exception $e)
         {
-            Craft::trace("Couldn't get video in field prepValue: ".$e->getMessage(), __METHOD__);
+            Craft::info("Couldn't get video in field prepValue: ".$e->getMessage(), __METHOD__);
 
             return null;
         }

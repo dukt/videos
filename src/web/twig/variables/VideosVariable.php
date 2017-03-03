@@ -33,7 +33,7 @@ class VideosVariable
         }
         catch(\Exception $e)
         {
-            Craft::trace('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
+            Craft::info('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
         }
     }
 

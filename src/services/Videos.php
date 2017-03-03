@@ -189,7 +189,7 @@ class Videos extends Component
             }
             catch(\Exception $e)
             {
-                Craft::trace('Couldn’t get video: '.$e->getMessage(), __METHOD__);
+                Craft::info('Couldn’t get video: '.$e->getMessage(), __METHOD__);
             }
         }
 
