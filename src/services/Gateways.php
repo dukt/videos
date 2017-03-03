@@ -144,7 +144,7 @@ class Gateways extends Component
      */
     private function _getGateways()
     {
-        // fetch all OAuth provider types
+        // fetch all video gateways
 
         $gatewayTypes = array();
 
@@ -157,7 +157,7 @@ class Gateways extends Component
         }
 
 
-        // instantiate providers
+        // instantiate gateways
 
         $gateways = [];
 
