@@ -1,5 +1,5 @@
 {
-  "name": "dukt/craft-videos",
+  "name": "dukt/videos",
   "description": "Connect to YouTube & Vimeo and publish social videos on your website.",
   "version": "2.0.0-beta.1",
   "type": "craft-plugin",
