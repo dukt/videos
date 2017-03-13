@@ -174,7 +174,7 @@ class Plugin extends \craft\base\Plugin
                 }
                 else
                 {
-                    Craft::info('Tried to write to target folder and could not: '.$sizedIconFolder, __METHOD__);
+                    Craft::info('Tried to write to target folder and could not: '.$sizedThumbnailFolder, __METHOD__);
                 }
             }
 
