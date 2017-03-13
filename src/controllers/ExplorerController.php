@@ -19,6 +19,9 @@ class ExplorerController extends Controller
     // Properties
     // =========================================================================
 
+    /**
+     * @var
+     */
     private $explorerNav;
 
     // Public Methods
@@ -31,10 +34,10 @@ class ExplorerController extends Controller
      */
     public function actionGetModal()
     {
-        // $this->requireAjaxRequest();
-/*
+        $this->requireAcceptsJson();
+
         try
-        {*/
+        {
             $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
             $nav = $this->getExplorerNav();
 
@@ -60,12 +63,12 @@ class ExplorerController extends Controller
                     'gateways' => $gateways
                 ])
             ));
-/*        }
+        }
         catch(\Exception $e)
         {
             // Don't need to log errors again as they are already logged by BaseGateway::api()
             return $this->asErrorJson('Couldn’t load explorer.');
-        }*/
+        }
     }
 
     /**
@@ -75,7 +78,7 @@ class ExplorerController extends Controller
      */
     public function actionGetVideos()
     {
-        // $this->requireAjaxRequest();
+        $this->requireAcceptsJson();
 
         try
         {
