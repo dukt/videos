@@ -48,7 +48,7 @@ class Video extends Field
     public function getInputHtml($value, \craft\base\ElementInterface $element = NULL): string
     {
         $name = $this->handle;
-        // $tweet = $this->prepValue($value);
+
         $value = $this->prepValue($value);
 
         $unpreppedValue = false;
@@ -64,28 +64,14 @@ class Video extends Field
         // Reformat the input name into something that looks more like an ID
         $id = Craft::$app->getView()->formatInputId($name);
 
-        // Figure out what that ID is going to look like once it has been namespaced
-        $namespacedId = Craft::$app->getView()->namespaceInputId($id);
-
         // Init CSRF Token
         $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->get('csrfTokenName').'";';
         $jsTemplate .= 'window.csrfTokenValue = "'.Craft::$app->getRequest()->getCsrfToken().'";';
         $js = Craft::$app->getView()->renderString($jsTemplate);
         Craft::$app->getView()->registerJs($js);
 
-
         // Asset bundle
         Craft::$app->getView()->registerAssetBundle(VideoFieldAsset::class);
-
-        // CSS
-        // Craft::$app->getView()->registerCssFile('videos/css/videos.css');
-        // Craft::$app->getView()->registerCssFile('videos/css/VideosExplorer.css');
-        // Craft::$app->getView()->registerCssFile('videos/css/VideosField.css');
-
-        // JS
-        // Craft::$app->getView()->registerJsFile('videos/js/Videos.js');
-        // Craft::$app->getView()->registerJsFile('videos/js/VideosExplorer.js');
-        // Craft::$app->getView()->registerJsFile('videos/js/VideosField.js');
 
         // Instantiate Videos Field
         Craft::$app->getView()->registerJs('new Videos.Field("'.Craft::$app->getView()->namespaceInputId($id).'");');

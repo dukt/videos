@@ -69,9 +69,7 @@ class VideosController extends Controller
     public function actionPlayer()
     {
         $this->requireAcceptsJson();
-
-        // $this->requireAjaxRequest();
-
+        
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
         $gatewayHandle = strtolower($gatewayHandle);
 
