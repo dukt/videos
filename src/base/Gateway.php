@@ -140,11 +140,16 @@ abstract class Gateway implements GatewayInterface
      */
     public function hasToken()
     {
-        $token = $this->getToken();
+        try {
+            $token = $this->getToken();
 
-        if($token)
+            if($token)
+            {
+                return true;
+            }
+        } catch(\Exception $e)
         {
-            return true;
+            // Todo: log error
         }
 
         return false;
