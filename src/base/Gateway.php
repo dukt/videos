@@ -403,7 +403,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Returns a Twitter provider (server) object.
+     * Returns the gateway's OAuth provider
      *
      * @return mixed
      */
