@@ -105,13 +105,13 @@ class Plugin extends \craft\base\Plugin
     {
         $segs = explode('/', $path);
 
-        if($segs[0] == 'videos' && $segs[1] == 'thumbnails')
+        if($segs[0] === 'videos' && $segs[1] === 'thumbnails')
         {
             $gateway = $segs[2];
             $videoId = $segs[3];
             $size = $segs[4];
 
-            if (!is_numeric($size) && $size != "original")
+            if (!is_numeric($size) && $size !== "original")
             {
                 return false;
             }
@@ -158,7 +158,7 @@ class Plugin extends \craft\base\Plugin
 
                     if (!$response->getStatusCode() != 200)
                     {
-                        return;
+                        return null;
                     }
                 }
 
