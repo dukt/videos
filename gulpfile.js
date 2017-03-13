@@ -1,59 +1,57 @@
 var gulp = require('gulp'),
     sass = require('gulp-sass'),
-    livereload = require('gulp-livereload'),
-    del = require('del'),
     uglify = require('gulp-uglify'),
-    rename = require('gulp-rename');
+    rename = require('gulp-rename'),
+    plumber = require('gulp-plumber');
 
-var paths = {
-    sass: './src/resources/sass',
-    css: './src/resources/css',
-    js: './src/resources/js',
-    jsCompressed: './src/resources/js/compressed',
-}
+var plumberErrorHandler = function(err) {
 
-/* sass */
+    notify.onError({
+        title: "Videos",
+        message:  "Error: <%= error.message %>",
+        sound:    "Beep"
+    })(err);
 
-gulp.task('css', function () {
-  return gulp.src(paths.sass+'/*.scss')
-    .pipe(sass().on('error', sass.logError))
-    .pipe(gulp.dest(paths.css));
+    console.log( 'plumber error!' );
+
+    this.emit('end');
+};
+
+/* Tasks */
+
+gulp.task('sass', function () {
+    return gulp.src('./src/web/assets/**/*.scss')
+        .pipe(plumber({ errorHandler: plumberErrorHandler }))
+        .pipe(sass().on('error', sass.logError))
+        .pipe(gulp.dest('./src/web/assets/'));
 });
 
-
-/* JS */
-
-gulp.task('scripts', function() {
+gulp.task('compressJs', function() {
     return gulp.src([
-        paths.js+'/*.js'
-    ])
-    .pipe(uglify())
-    .pipe(gulp.dest(paths.jsCompressed));
+            './src/web/assets/**/dist/**/*.js',
+            '!./src/web/assets/**/dist/**/*.min.js',
+        ])
+        .pipe(plumber({ errorHandler: plumberErrorHandler }))
+        .pipe(uglify())
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(gulp.dest('./src/web/assets/'));
 });
 
-/* Clean */
+gulp.task('js', ['compressJs']);
 
-gulp.task('clean', function(cb) {
-    del([paths.css, paths.jsCompressed], cb)
+
+gulp.task('build', function() {
+    gulp.start('sass', 'js');
 });
-
-
-/* Default Task */
-
-gulp.task('default', ['clean'], function() {
-    gulp.start('css', 'scripts');
-});
-
-
-/* Watch */
 
 gulp.task('watch', function() {
-
-    gulp.watch(paths.sass+'/*.scss', ['css']);
-    gulp.watch(paths.js+'/*.js', ['scripts']);
-
-    livereload.listen();
-
-    gulp.watch([paths.css+'/**', paths.jsCompressed]).on('change', livereload.changed);
-
+    gulp.watch([
+        './src/web/assets/**/*.scss'
+    ], ['sass']);
+    gulp.watch([
+        './src/web/assets/**/*.js',
+        '!./src/web/assets/**/*.min.js',
+    ], ['js']);
 });
+
+gulp.task('default', ['build']);

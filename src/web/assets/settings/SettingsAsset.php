@@ -5,12 +5,12 @@
  * @license   https://dukt.net/craft/videos/docs/license
  */
 
-namespace dukt\videos\web\assets\videos;
+namespace dukt\videos\web\assets\settings;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 
-class VideosAsset extends AssetBundle
+class SettingsAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
@@ -27,16 +27,8 @@ class VideosAsset extends AssetBundle
 
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
-        $this->js = [
-            'js/Videos.js',
-            'js/VideosExplorer.js',
-            'js/VideosField.js',
-        ];
-
         $this->css = [
-            'css/videos.css',
-            'css/VideosExplorer.css',
-            'css/VideosField.css',
+            'settings.css',
         ];
 
         parent::init();

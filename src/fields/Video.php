@@ -10,7 +10,7 @@ namespace dukt\videos\fields;
 use Craft;
 use craft\base\Field;
 use craft\helpers\StringHelper;
-use dukt\videos\web\assets\videos\VideosAsset;
+use dukt\videos\web\assets\videofield\VideoFieldAsset;
 use dukt\videos\Plugin as Videos;
 
 /**
@@ -75,7 +75,7 @@ class Video extends Field
 
 
         // Asset bundle
-        Craft::$app->getView()->registerAssetBundle(VideosAsset::class);
+        Craft::$app->getView()->registerAssetBundle(VideoFieldAsset::class);
 
         // CSS
         // Craft::$app->getView()->registerCssFile('videos/css/videos.css');
