@@ -24,7 +24,7 @@ Videos.Player = Garnish.Modal.extend(
             videoId: this.settings.videoId
         };
 
-        Craft.postActionRequest('videos/videos/player', data, $.proxy(function(response, textStatus)
+        Craft.postActionRequest('videos/explorer/player', data, $.proxy(function(response, textStatus)
         {
             if (textStatus == 'success')
             {
