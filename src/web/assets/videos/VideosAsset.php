@@ -30,13 +30,11 @@ class VideosAsset extends AssetBundle
         $this->js = [
             'js/Videos.js',
             'js/VideosExplorer.js',
-            'js/VideosField.js',
         ];
 
         $this->css = [
             'css/videos.css',
             'css/VideosExplorer.css',
-            'css/VideosField.css',
         ];
 
         parent::init();

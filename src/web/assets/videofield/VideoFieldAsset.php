@@ -34,8 +34,6 @@ class VideoFieldAsset extends AssetBundle
         ];
 
         $this->css = [
-            'css/videos.css',
-            'css/VideosExplorer.css',
             'css/VideosField.css',
         ];
 
