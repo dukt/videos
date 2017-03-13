@@ -117,6 +117,48 @@ class ExplorerController extends Controller
         }
     }
 
+    /**
+     * Field Preview
+     *
+     * @return null
+     */
+    public function actionFieldPreview()
+    {
+        $this->requireAcceptsJson();
+
+        $url = Craft::$app->getRequest()->getParam('url');
+
+        try
+        {
+            $video = Videos::$plugin->getCache()->get(['fieldPreview', $url]);
+
+            if(!$video)
+            {
+                $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
+
+                if(!$video)
+                {
+                    throw new Exception("Video not found");
+                }
+
+                Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);
+            }
+
+            return $this->asJson(
+                array(
+                    'video' => $video,
+                    'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', array('video' => $video))
+                )
+            );
+        }
+        catch(\Exception $e)
+        {
+            Craft::info('Couldn’t get field preview: '.$e->getMessage(), __METHOD__);
+
+            return $this->asErrorJson($e->getMessage());
+        }
+    }
+
     // Private Methods
     // =========================================================================
 
