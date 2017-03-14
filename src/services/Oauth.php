@@ -27,6 +27,13 @@ class Oauth extends Component
     // Public Methods
     // =========================================================================
 
+    /**
+     * Get token from gateway handle
+     * 
+     * @param $handle
+     *
+     * @return mixed
+     */
     public function getToken($handle)
     {
         $plugin = Craft::$app->getPlugins()->getPlugin('videos');
@@ -40,7 +47,6 @@ class Oauth extends Component
             return $gateway->createTokenFromData($tokens[$handle]);
         }
     }
-    
 
     /**
      * Saves a token
