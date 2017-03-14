@@ -122,27 +122,6 @@ class Gateways extends Component
                     {
                         $token = $gateway->createTokenFromData($tokens[$gatewayHandle]);
 
-                        $refreshToken = $token->getRefreshToken();
-
-                        if(!empty($refreshToken) && $token->hasExpired())
-                        {
-                            $provider = $gateway->getOauthProvider();
-
-                            $grant = new RefreshToken();
-
-                            $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
-
-                            $token = new AccessToken([
-                                'access_token' => $newToken->getToken(),
-                                'expires' => $newToken->getExpires(),
-                                'refresh_token' => $token->getRefreshToken(),
-                                'resource_owner_id' => $newToken->getResourceOwnerId(),
-                                'values' => $newToken->getValues(),
-                            ]);
-
-                            Videos::$plugin->getOauth()->saveToken($gatewayHandle, $token);
-                        }
-
                         $gateway->setAuthenticationToken($token);
 
                         $this->_gateways[] = $gateway;

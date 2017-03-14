@@ -37,30 +37,10 @@ class Oauth extends Component
 
         if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
         {
-            $token = $gateway->createTokenFromData($tokens[$handle]);
-
-            if(!empty($token->getRefreshToken()) && $token->hasExpired())
-            {
-                $provider = $gateway->getOauthProvider();
-
-                $grant = new RefreshToken();
-
-                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
-
-                $token = new AccessToken([
-                    'access_token' => $newToken->getToken(),
-                    'expires' => $newToken->getExpires(),
-                    'refresh_token' => $token->getRefreshToken(),
-                    'resource_owner_id' => $newToken->getResourceOwnerId(),
-                    'values' => $newToken->getValues(),
-                ]);
-
-                $this->saveToken($handle, $token);
-            }
-
-            return $token;
+            return $gateway->createTokenFromData($tokens[$handle]);
         }
     }
+    
 
     /**
      * Saves a token

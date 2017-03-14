@@ -11,6 +11,7 @@ use Craft;
 use craft\helpers\UrlHelper;
 use dukt\videos\Plugin as Videos;
 use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Grant\RefreshToken;
 use Exception;
 
 /**
@@ -118,6 +119,25 @@ abstract class Gateway implements GatewayInterface
                 'resource_owner_id' => (isset($tokenData['resourceOwnerId']) ? $tokenData['resourceOwnerId'] : null),
                 'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
             ]);
+
+            if(!empty($token->getRefreshToken()) && $token->hasExpired())
+            {
+                $provider = $this->getOauthProvider();
+
+                $grant = new RefreshToken();
+
+                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+
+                $token = new AccessToken([
+                    'access_token' => $newToken->getToken(),
+                    'expires' => $newToken->getExpires(),
+                    'refresh_token' => $token->getRefreshToken(),
+                    'resource_owner_id' => $newToken->getResourceOwnerId(),
+                    'values' => $newToken->getValues(),
+                ]);
+
+                Videos::$plugin->getOauth()->saveToken($this->getHandle(), $token);
+            }
 
             return $token;
         }
