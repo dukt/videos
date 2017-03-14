@@ -10,6 +10,8 @@ namespace dukt\videos\services;
 use Craft;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;
+use League\OAuth2\Client\Token\AccessToken;
+use League\OAuth2\Client\Grant\RefreshToken;
 
 /**
  * Class Gateways service.
@@ -119,6 +121,27 @@ class Gateways extends Component
                     if(!empty($tokens[$gatewayHandle]) && is_array($tokens[$gatewayHandle]))
                     {
                         $token = $gateway->createTokenFromData($tokens[$gatewayHandle]);
+
+                        $refreshToken = $token->getRefreshToken();
+
+                        if(!empty($refreshToken) && $token->hasExpired())
+                        {
+                            $provider = $gateway->getOauthProvider();
+
+                            $grant = new RefreshToken();
+
+                            $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+
+                            $token = new AccessToken([
+                                'access_token' => $newToken->getToken(),
+                                'expires' => $newToken->getExpires(),
+                                'refresh_token' => $token->getRefreshToken(),
+                                'resource_owner_id' => $newToken->getResourceOwnerId(),
+                                'values' => $newToken->getValues(),
+                            ]);
+
+                            Videos::$plugin->getOauth()->saveToken($gatewayHandle, $token);
+                        }
 
                         $gateway->setAuthenticationToken($token);
 
