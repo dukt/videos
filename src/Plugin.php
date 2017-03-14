@@ -8,8 +8,10 @@
 namespace dukt\videos;
 
 use Craft;
+use craft\events\RegisterCacheOptionsEvent;
 use craft\events\ResolveResourcePathEvent;
 use craft\helpers\FileHelper;
+use craft\utilities\ClearCaches;
 use dukt\videos\base\PluginTrait;
 use dukt\videos\web\twig\variables\VideosVariable;
 use yii\base\Event;
@@ -73,6 +75,13 @@ class Plugin extends \craft\base\Plugin
             }
         });
 
+        Event::on(ClearCaches::class, ClearCaches::EVENT_REGISTER_CACHE_OPTIONS, function(RegisterCacheOptionsEvent $event) {
+            $event->options[] = [
+                'key' => 'videos-caches',
+                'label' => Craft::t('videos', 'Videos caches'),
+                'action' => Craft::$app->path->getRuntimePath().'/videos'
+            ];
+        });
     }
 
     public function registerCpUrlRules(RegisterUrlRulesEvent $event)
@@ -180,18 +189,6 @@ class Plugin extends \craft\base\Plugin
 
             return $sizedThumbnailPath;
         }
-    }
-
-    /**
-     * Adds craft/storage/runtime/videos/ to the list of things the Clear Caches tool can delete.
-     *
-     * @return array
-     */
-    public function registerCachePaths()
-    {
-        return array(
-            Craft::$app->path->getRuntimePath().'videos/' => Craft::t('videos', 'Videos resources'),
-        );
     }
 
     /**
