@@ -29,7 +29,7 @@ class Oauth extends Component
 
     /**
      * Get token from gateway handle
-     * 
+     *
      * @param $handle
      *
      * @return mixed
