@@ -20,19 +20,18 @@ class Collection extends Model
     // Properties
     // =========================================================================
 
+    /**
+     * @var string|null Name
+     */
     public $name;
+
+    /**
+     * @var string|null Method
+     */
     public $method;
+
+    /**
+     * @var mixed|null Options
+     */
     public $options;
-
-    // Protected Methods
-    // =========================================================================
-
-    protected function defineAttributes()
-    {
-        return array(
-            'name' => AttributeType::String,
-            'method' => AttributeType::String,
-            'options' => AttributeType::Mixed,
-        );
-    }
 }

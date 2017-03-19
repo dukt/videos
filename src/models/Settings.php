@@ -20,6 +20,13 @@ class Settings extends Model
     // Properties
     // =========================================================================
 
+    /**
+     * @var mixed|null YouTube parameters
+     */
     public $youtubeParameters;
+
+    /**
+     * @var mixed|null Tokens
+     */
     public $tokens;
 }

@@ -20,17 +20,13 @@ class Section extends Model
     // Properties
     // =========================================================================
 
+    /**
+     * @var string|null Name
+     */
     public $name;
+
+    /**
+     * @var mixed|null Collections
+     */
     public $collections;
-
-    // Protected Methods
-    // =========================================================================
-
-    protected function defineAttributes()
-    {
-        return array(
-            'name' => AttributeType::String,
-            'collections' => AttributeType::Mixed,
-        );
-    }
 }
