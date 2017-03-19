@@ -27,27 +27,27 @@ class Video extends Model
     // =========================================================================
 
     /**
-     * @var int|null
+     * @var int|null ID
      */
     public $id;
 
     /**
-     * @var mixed|null
+     * @var mixed|null Raw response object
      */
     public $raw;
 
     /**
-     * @var string|null
+     * @var string|null Video URL
      */
     public $url;
 
     /**
-     * @var string|null
+     * @var string|null Gateway Handle
      */
     public $gatewayHandle;
 
     /**
-     * @var string|null
+     * @var string|null Gateway Name
      */
     public $gatewayName;
 
@@ -57,67 +57,67 @@ class Video extends Model
     public $date;
 
     /**
-     * @var int|null
+     * @var int|null Number of plays
      */
     public $plays;
 
     /**
-     * @var int|null
+     * @var int|null Duration in seconds
      */
     public $durationSeconds;
 
     /**
-     * @var string|null
+     * @var string|null Author Name
      */
     public $authorName;
 
     /**
-     * @var string|null
+     * @var string|null Author URL
      */
     public $authorUrl;
 
     /**
-     * @var string|null
+     * @var string|null Author Username
      */
     public $authorUsername;
 
     /**
-     * @var string|null
+     * @var string|null Thumbnail Source
      */
     public $thumbnailSource;
 
     /**
-     * @var string|null
+     * @var string|null Thumbnail Large Source
      */
     public $thumbnailLargeSource;
 
     /**
-     * @var string|null
+     * @var string|null Title
      */
     public $title;
 
     /**
-     * @var string|null
+     * @var string|null Description
      */
     public $description;
 
     /**
-     * @var bool
+     * @var bool Is video private?
      */
     public $private = false;
 
     /**
-     * @var int|null
+     * @var int|null Width
      */
     public $width;
 
     /**
-     * @var int|null
+     * @var int|null Height
      */
     public $height;
 
     /**
-     * @var string
+     * @var string Video
      */
     private $_video;
 
