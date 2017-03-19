@@ -8,6 +8,7 @@
 namespace dukt\videos\services;
 
 use Craft;
+use dukt\videos\base\Gateway;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;
 use League\OAuth2\Client\Token\AccessToken;
@@ -50,7 +51,7 @@ class Gateways extends Component
      * @param      $gatewayHandle
      * @param bool $enabledOnly
      *
-     * @return null
+     * @return Gateway
      */
     public function getGateway($gatewayHandle, $enabledOnly = true)
     {
