@@ -9,6 +9,7 @@ namespace dukt\videos\models;
 
 use Craft;
 use craft\base\Model;
+use dukt\videos\base\Gateway;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
 use craft\helpers\UrlHelper;
@@ -25,44 +26,104 @@ class Video extends Model
     // Properties
     // =========================================================================
 
+    /**
+     * @var int|null
+     */
     public $id;
 
+    /**
+     * @var mixed|null
+     */
     public $raw;
 
+    /**
+     * @var string|null
+     */
     public $url;
 
+    /**
+     * @var string|null
+     */
     public $gatewayHandle;
 
+    /**
+     * @var string|null
+     */
     public $gatewayName;
 
+    /**
+     * @var \DateTime|null Date
+     */
     public $date;
 
+    /**
+     * @var int|null
+     */
     public $plays;
 
+    /**
+     * @var int|null
+     */
     public $durationSeconds;
 
+    /**
+     * @var string|null
+     */
     public $authorName;
 
+    /**
+     * @var string|null
+     */
     public $authorUrl;
 
+    /**
+     * @var string|null
+     */
     public $authorUsername;
 
+    /**
+     * @var string|null
+     */
     public $thumbnailSource;
 
+    /**
+     * @var string|null
+     */
     public $thumbnailLargeSource;
 
+    /**
+     * @var string|null
+     */
     public $title;
 
+    /**
+     * @var string|null
+     */
     public $description;
 
-    public $private;
+    /**
+     * @var bool
+     */
+    public $private = false;
 
+    /**
+     * @var int|null
+     */
     public $width;
 
+    /**
+     * @var int|null
+     */
     public $height;
 
+    /**
+     * @var string
+     */
     private $_video;
 
+    /**
+     * @var Gateway|null Gateway
+     */
     private $_gateway;
 
     // Public Methods
@@ -99,33 +160,6 @@ class Video extends Model
     public function getThumbnail($size = 300)
     {
         return UrlHelper::resourceUrl('videos/thumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
-    }
-
-    // Protected Methods
-    // =========================================================================
-
-    protected function defineAttributes()
-    {
-        return array(
-            'id'      => AttributeType::Number,
-            'raw'    => array(AttributeType::Mixed),
-            'url'    => array(AttributeType::String),
-            'gatewayHandle' => array(AttributeType::String),
-            'gatewayName' => array(AttributeType::String),
-            'date' => array(AttributeType::DateTime),
-            'plays' => array(AttributeType::String),
-            'durationSeconds' => array(AttributeType::String),
-            'authorName' => array(AttributeType::String),
-            'authorUrl' => array(AttributeType::String),
-            'authorUsername' => array(AttributeType::String),
-            'thumbnailSource' => array(AttributeType::String),
-            'thumbnailLargeSource' => array(AttributeType::String),
-            'title' => array(AttributeType::String),
-            'description' => array(AttributeType::String, 'column' => ColumnType::Text),
-            'private' => array(AttributeType::Bool, 'default' => false),
-            'width' => AttributeType::Number,
-            'height' => AttributeType::Number,
-        );
     }
 
     // Private Methods
