@@ -89,8 +89,6 @@ class Cache extends Component
 
         $hash = md5(serialize($request));
 
-        $cacheKey = 'videos.'.$hash;
-
-        return $cacheKey;
+        return 'videos.'.$hash;
     }
 }
