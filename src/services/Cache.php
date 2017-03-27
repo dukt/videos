@@ -10,6 +10,7 @@ namespace dukt\videos\services;
 use Craft;
 use dukt\videos\Plugin as Videos;
 use yii\base\Component;
+use DateInterval;
 
 /**
  * Class Cache service.
