@@ -12,6 +12,7 @@ use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
+use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Client;
 
 /**
@@ -574,7 +575,7 @@ class Vimeo extends Gateway
             unset($params['q']);
         }
 
-        $query['per_page'] = Craft::$app->getConfig()->get('videosPerPage', 'videos');
+        $query['per_page'] = Videos::$plugin->getSettings()->videosPerPage;
 
         if(is_array($params))
         {

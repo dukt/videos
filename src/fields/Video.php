@@ -65,7 +65,7 @@ class Video extends Field
         $id = Craft::$app->getView()->formatInputId($name);
 
         // Init CSRF Token
-        $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->get('csrfTokenName').'";';
+        $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->getGeneral()->csrfTokenName.'";';
         $jsTemplate .= 'window.csrfTokenValue = "'.Craft::$app->getRequest()->getCsrfToken().'";';
         $js = Craft::$app->getView()->renderString($jsTemplate);
         Craft::$app->getView()->registerJs($js);

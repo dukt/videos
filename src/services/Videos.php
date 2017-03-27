@@ -31,7 +31,7 @@ class Videos extends Component
      */
     public function isOauthProviderConfigured($oauthProviderHandle)
     {
-        $options = Craft::$app->getConfig()->get('oauthProviderOptions', 'videos');
+        $options = VideosPlugin::$plugin->getSettings()->oauthProviderOptions;
 
         if(!empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret']))
         {
@@ -149,7 +149,7 @@ class Videos extends Component
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        if(Craft::$app->getConfig()->get('enableCache', 'videos') === false)
+        if(VideosPlugin::$plugin->getSettings()->enableCache === false)
         {
             $enableCache = false;
         }

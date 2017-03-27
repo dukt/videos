@@ -29,4 +29,26 @@ class Settings extends Model
      * @var mixed|null Tokens
      */
     public $tokens;
+
+    /**
+     * @var string The amount of time cache should last.
+     *
+     * @see http://www.php.net/manual/en/dateinterval.construct.php
+     */
+    public $cacheDuration = 'PT15M';
+
+    /**
+     * @var bool Whether request to APIs should be cached or not
+     */
+    public $enableCache = true;
+
+    /**
+     * @var int The number of videos per page in the explorer
+     */
+    public $videosPerPage = 3;
+
+    /**
+     * @var array OAuth provider options
+     */
+    public $oauthProviderOptions = [];
 }

@@ -409,7 +409,7 @@ abstract class Gateway implements GatewayInterface
         }
 
         $variables['gateway'] = $this;
-        $allOauthProviderOptions = Craft::$app->getConfig()->get('oauthProviderOptions', 'videos');
+        $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
 
         if(isset($allOauthProviderOptions[$this->getOauthProviderHandle()]))
         {
@@ -429,7 +429,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getOauthProvider()
     {
-        $oauthProviderOptions = Craft::$app->getConfig()->get('oauthProviderOptions', 'videos');
+        $oauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
 
         $options = [];
 

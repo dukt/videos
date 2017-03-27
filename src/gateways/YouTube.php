@@ -433,7 +433,7 @@ class YouTube extends Gateway
     {
         $pagination = array(
             'page' => 1,
-            'perPage' => Craft::$app->getConfig()->get('videosPerPage', 'videos'),
+            'perPage' => Videos::$plugin->getSettings()->videosPerPage,
             'moreToken' => false
         );
 

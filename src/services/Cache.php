@@ -8,6 +8,7 @@
 namespace dukt\videos\services;
 
 use Craft;
+use dukt\videos\Plugin as Videos;
 use yii\base\Component;
 
 /**
@@ -32,7 +33,7 @@ class Cache extends Component
      */
     public function get($id)
     {
-        if(Craft::$app->getConfig()->get('enableCache', 'videos') == true)
+        if(Videos::$plugin->getSettings()->cacheDuration == true)
         {
             $cacheKey = $this->getCacheKey($id);
 
@@ -55,7 +56,7 @@ class Cache extends Component
     {
         if(is_null($enableCache))
         {
-            $enableCache = Craft::$app->getConfig()->get('enableCache', 'videos');
+            $enableCache = Videos::$plugin->getSettings()->cacheDuration;
         }
 
         if($enableCache)
@@ -64,7 +65,7 @@ class Cache extends Component
 
             if(!$expire)
             {
-                $expire = Craft::$app->getConfig()->get('cacheDuration', 'videos');
+                $expire = Videos::$plugin->getSettings()->cacheDuration;
                 $expire = new DateInterval($expire);
                 $expire = $expire->format('%s');
             }
