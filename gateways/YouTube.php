@@ -461,7 +461,7 @@ class YouTube extends BaseGateway implements IGateway
         $video->gatewayHandle = 'youtube';
         $video->gatewayName = 'YouTube';
         $video->id = $data['id'];
-        $video->plays = $data['statistics']['viewCount'];
+        $video->plays = (isset($data['statistics']['viewCount']) ? $data['statistics']['viewCount'] : 0);
         $video->title = $data['snippet']['title'];
         $video->url = 'http://youtu.be/'.$video->id;
 
