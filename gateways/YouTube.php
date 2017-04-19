@@ -148,7 +148,7 @@ class YouTube extends BaseGateway implements IGateway
      */
     public function getEmbedFormat()
     {
-        return "https://www.youtube.com/embed/%s?wmode=transparent";
+        return "//www.youtube.com/embed/%s?wmode=transparent";
     }
 
     /**

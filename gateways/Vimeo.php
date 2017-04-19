@@ -146,7 +146,7 @@ class Vimeo extends BaseGateway implements IGateway
 	 */
 	public function getEmbedFormat()
     {
-        return "https://player.vimeo.com/video/%s";
+        return "//player.vimeo.com/video/%s";
     }
 
 	/**
