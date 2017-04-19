@@ -455,7 +455,7 @@ class YouTube extends BaseGateway implements IGateway
         $video = new Videos_VideoModel;
         $video->raw = $data;
         $video->authorName = $data['snippet']['channelTitle'];
-        $video->authorUrl = "http://youtube.com/channel/".$data['snippet']['channelId'];
+        $video->authorUrl = "https://youtube.com/channel/".$data['snippet']['channelId'];
         $video->date = strtotime($data['snippet']['publishedAt']);
         $video->description = $data['snippet']['description'];
         $video->gatewayHandle = 'youtube';
@@ -463,7 +463,7 @@ class YouTube extends BaseGateway implements IGateway
         $video->id = $data['id'];
         $video->plays = (isset($data['statistics']['viewCount']) ? $data['statistics']['viewCount'] : 0);
         $video->title = $data['snippet']['title'];
-        $video->url = 'http://youtu.be/'.$video->id;
+        $video->url = 'https://youtu.be/'.$video->id;
 
 
         // Video Duration
