@@ -86,7 +86,7 @@ class Plugin extends \craft\base\Plugin
         });
 
         Event::on(CraftVariable::class, CraftVariable::EVENT_DEFINE_COMPONENTS, function(DefineComponentsEvent $event) {
-            $event->components['social'] = VideosVariable::class;
+            $event->components['videos'] = VideosVariable::class;
         });
     }
 
