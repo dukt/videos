@@ -8,21 +8,23 @@
 namespace dukt\videos;
 
 use Craft;
+use craft\events\DefineComponentsEvent;
 use craft\events\RegisterCacheOptionsEvent;
+use craft\events\RegisterComponentTypesEvent;
+use craft\events\RegisterUrlRulesEvent;
 use craft\events\ResolveResourcePathEvent;
 use craft\helpers\FileHelper;
+use craft\helpers\UrlHelper;
+use craft\services\Fields;
+use craft\services\Resources;
 use craft\utilities\ClearCaches;
+use craft\web\twig\variables\CraftVariable;
+use craft\web\UrlManager;
 use dukt\videos\base\PluginTrait;
+use dukt\videos\fields\Video as VideoField;
+use dukt\videos\models\Settings;
 use dukt\videos\web\twig\variables\VideosVariable;
 use yii\base\Event;
-use craft\web\UrlManager;
-use craft\events\RegisterUrlRulesEvent;
-use dukt\videos\models\Settings;
-use craft\services\Fields;
-use dukt\videos\fields\Video as VideoField;
-use craft\events\RegisterComponentTypesEvent;
-use craft\helpers\UrlHelper;
-use craft\services\Resources;
 
 class Plugin extends \craft\base\Plugin
 {
@@ -81,6 +83,10 @@ class Plugin extends \craft\base\Plugin
                 'label' => Craft::t('videos', 'Videos caches'),
                 'action' => Craft::$app->path->getRuntimePath().'/videos'
             ];
+        });
+
+        Event::on(CraftVariable::class, CraftVariable::EVENT_DEFINE_COMPONENTS, function(DefineComponentsEvent $event) {
+            $event->components['social'] = VideosVariable::class;
         });
     }
 
@@ -189,14 +195,6 @@ class Plugin extends \craft\base\Plugin
 
             return $sizedThumbnailPath;
         }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function defineTemplateComponent()
-    {
-        return VideosVariable::class;
     }
 
     /**
