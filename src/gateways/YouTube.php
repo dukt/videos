@@ -26,7 +26,7 @@ class YouTube extends Gateway
     // =========================================================================
 
     /**
-     * @inheritDoc GatewayInterface::getName()
+     * @inheritDoc
      *
      * @return string
      */
@@ -36,7 +36,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getOauthProviderHandle()
+     * @inheritDoc
      *
      * @return string
      */
@@ -66,7 +66,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getOauthScope()
+     * @inheritDoc
      *
      * @return array
      */
@@ -81,7 +81,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getOauthAurizationOptions()
+     * @inheritDoc
      *
      * @return array
      */
@@ -106,7 +106,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getExplorerSections()
+     * @inheritDoc
      *
      * @return array
      */
@@ -155,7 +155,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getVideoById()
+     * @inheritDoc
      *
      * @param $id
      *
@@ -179,7 +179,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::getEmbedFormat()
+     * @inheritDoc
      *
      * @return string
      */
@@ -189,7 +189,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc GatewayInterface::extractVideoIdFromUrl()
+     * @inheritDoc
      *
      * @param $url
      *
