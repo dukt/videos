@@ -125,7 +125,7 @@ class ExplorerController extends Controller
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
                 if (!$video) {
-                    throw new Exception("Video not found");
+                    throw new \Exception("Video not found");
                 }
 
                 Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);
