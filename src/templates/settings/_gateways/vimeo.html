@@ -1,11 +1,33 @@
 {% import "_includes/forms" as forms %}
 
+<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
+<p>{{ 'Go to the {link} and create a new app by clicking the “Create a new app” button, or use one of your existing apps.'|t('videos', {link: '<a href="https://developer.vimeo.com/apps">'~'Vimeo API Console'|t('videos')~'</a>'})|raw }}</p>
+<p>{{ "Under the Your App → OAuth2 section,  add the following callback URL."|t('videos') }}</p>
 
+<ul class="bullets">
+	<li><strong>Javascript Origin:</strong> <code>{{ javascriptOrigin }}</code></li>
+	<li><strong>Redirect URI:</strong> <code>{{ redirectUri }}</code></li>
+</ul>
+
+<h3>{{ 'Configure the OAuth client'|t('videos') }}</h3>
+<p>{{ 'Once the OAuth client is created, Vimeo will provide you with a client ID and secret.'|t('videos') }}</p>
+<p>{{ ("Copy the client ID & secret from the <a href=\"https://developer.vimeo.com/apps\">"~'Vimeo API Console'|t('videos')~"</a> under the Your App → OAuth2 section, and paste them in the <code>craft/config/videos.php</code> config file.")|raw }}</p>
+
+{{ forms.textField({
+	name: 'clientId',
+	label: "Client ID"|t('videos'),
+	value: (oauthProviderOptions.clientId ?? null)
+}) }}
+
+{{ forms.textField({
+	name: 'clientSecret',
+	label: "Client Secret"|t('videos'),
+	value: (oauthProviderOptions.clientSecret ?? null)
+}) }}
+
+
+{#
 {% if isOauthProviderConfigured %}
-
-	<img src="{{ gateway.getIconUrl() }}" width="36" />
-
-	<h2 class="first">{{ gateway.name }}</h2>
 
 	{% if gateway.hasToken() and account %}
 		<p>{{ 'You are authenticated to {gateway} with the following account'|t('videos', { gateway: gateway.name }) }} :</p>
@@ -25,17 +47,10 @@
 			<p>{{ 'Go to the {link} and create a new app by clicking the “Create a new app” button, or use one of your existing apps.'|t('videos', {link: '<a href="https://developer.vimeo.com/apps">'~'Vimeo API Console'|t('videos')~'</a>'})|raw }}</p>
 			<p>{{ "Under the Your App → OAuth2 section,  add the following callback URL."|t('videos') }}</p>
 
-			{{ forms.textField({
-				readonly: true,
-				label: "App URL"|t('videos'),
-				value: (javascriptOrigin ?? null)
-			}) }}
-
-			{{ forms.textField({
-				readonly: true,
-				label: "App Callback URL"|t('videos'),
-				value: (redirectUri ?? null)
-			}) }}
+			<ul class="bullets">
+				<li><strong>Javascript Origin:</strong> <code>{{ javascriptOrigin }}</code></li>
+				<li><strong>Redirect URI:</strong> <code>{{ redirectUri }}</code></li>
+			</ul>
 
 			<h3>{{ 'Configure the OAuth client'|t('videos') }}</h3>
 			<p>{{ 'Once the OAuth client is created, Vimeo will provide you with a client ID and secret.'|t('videos') }}</p>
@@ -63,3 +78,4 @@
 	<p>{{'The Vimeo gateway is not configured.'|t('videos')|raw }}</p>
 	<p>{{'Please set Vimeo’s OAuth API client id & secret in the <code>craft/config/videos.php</code> file.'|t('videos')|raw }}</p>
 {% endif %}
+#}

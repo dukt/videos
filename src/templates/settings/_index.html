@@ -4,14 +4,35 @@
 
 {% set content %}
 
-    {% for gateway in gateways %}
+    <table class="data fullwidth">
+        <thead>
+            <tr>
+                <th></th>
+                <th>{{ "Gateway"|t('videos') }}</th>
+                {#<th>{{ "Status"|t('videos') }}</th>#}
+                <th>{{ "Account"|t('videos') }}</th>
+            </tr>
+        </thead>
+		<tbody>
+            {% for gateway in gateways %}
 
-        {{ gateway.getSettingsHtml()|raw }}
+                {% set account = accounts[gateway.handle] %}
 
-        {% if not loop.last %}
-            <hr />
-        {% endif %}
-
-    {% endfor %}
+                <tr>
+                    <td class="thin">
+                        <a href="{{ url('videos/settings/'~gateway.handle) }}"><img src="{{ gateway.getIconUrl() }}" width="24" /></a>
+                    </td>
+                    <th><a href="{{ url('videos/settings/'~gateway.handle) }}">{{ gateway.name }}</a></th>
+                    <td>
+						{% if account %}
+							{{ account.name }} <span class="light">— {{ account.id }}</span>
+                        {% else %}
+                            <span class="light">—</span>
+						{% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
 {% endset %}

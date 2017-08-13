@@ -1,33 +1,36 @@
+{% extends "_layouts/cp" %}
+
+{% set crumbs = [
+	{ label: "Settings"|t('videos'), url: url('settings') },
+	{ label: "Plugins"|t('videos'), url: url('settings/plugins') },
+	{ label: "Videos"|t('videos'), url: url('videos/settings') },
+	{ label: gateway.name, url: url('videos/settings/'~gateway.handle) }
+] %}
+
+{% set title = "{gateway} OAuth Settings"|t('videos', { gateway: gateway.name }) %}
+
 {% import "_includes/forms" as forms %}
 
-<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
-<p>{{ 'Go to the {link} and create a new project or use an existing one.'|t('videos', {link: '<a href="https://console.developers.google.com/">'~'Google API Console'|t('videos')~'</a>'})|raw }}</p>
-<p>{{ "In API Manager → Library, search for “youtube”  and enable the “YouTube Data API v3”."|t('videos') }}</p>
-<p>{{ "In API Manager → Credentials, click the “Create credential” button and create a new “OAuth client ID” of type “Web Application”."|t('videos', {link: '<a href="https://console.developers.google.com/">'~'Google API Console'|t('videos')~'</a>'})|raw }}</p>
-<p>{{ "Configure the client using the following javascript origin and redirect urls."|t('videos') }}</p>
+{% set content %}
 
-<ul class="bullets">
-	<li><strong>Javascript Origin:</strong> <code>{{ javascriptOrigin }}</code></li>
-	<li><strong>Redirect URI:</strong> <code>{{ redirectUri }}</code></li>
-</ul>
+	<form method="post" accept-charset="UTF-8" data-saveshortcut>
+		{{ csrfInput() }}
 
-<h3>{{ 'Configure the OAuth client'|t('videos') }}</h3>
-<p>{{ 'Once the OAuth client is created, Google will provide you with a client ID and secret.'|t('videos') }}</p>
-<p>{{ ("Copy the client ID & secret from the <a href=\"https://console.developers.google.com/\">"~'Google API Console'|t('videos')~"</a> under the API Manager → Credentials tab, and paste them in the <code>craft/config/videos.php</code> config file.")|raw }}</p>
+		<input type="hidden" name="action" value="videos/settings/save-gateway">
+		{{ redirectInput('videos/settings/'~gateway.handle) }}
+		<input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
 
-{{ forms.textField({
-	name: 'clientId',
-	label: "Client ID"|t('videos'),
-	value: (oauthProviderOptions.clientId ?? null)
-}) }}
+		{{ gateway.getSettingsHtml()|raw }}
 
-{{ forms.textField({
-	name: 'clientSecret',
-	label: "Client Secret"|t('videos'),
-	value: (oauthProviderOptions.clientSecret ?? null)
-}) }}
+		<div class="buttons">
+			<input type="submit" class="btn submit force" value="{{ 'Save'|t('videos') }}">
+		</div>
+	</form>
+
+{% endset %}
 
 {#
+
 {% if isOauthProviderConfigured %}
 
 	{% if gateway.hasToken() and account %}

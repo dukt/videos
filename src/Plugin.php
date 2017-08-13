@@ -94,6 +94,8 @@ class Plugin extends \craft\base\Plugin
     {
         $rules = [
             'videos/settings' => 'videos/settings/index',
+            'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
+            'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
         ];
 
         $event->rules = array_merge($event->rules, $rules);

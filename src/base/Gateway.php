@@ -422,6 +422,38 @@ abstract class Gateway implements GatewayInterface
         return Craft::$app->getView()->renderTemplate('videos/settings/_gateways/'.$this->getHandle(), $variables);
     }
 
+    public function getAccount()
+    {
+        $token = $this->getToken();
+
+        if($token) {
+            try {
+                $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
+
+                if (!$account) {
+                    $oauthProvider = $this->getOauthProvider();
+
+                    if (method_exists($oauthProvider, 'getResourceOwner')) {
+                        $account = $oauthProvider->getResourceOwner($token);
+                    } elseif (method_exists($oauthProvider, 'getAccount')) {
+                        // Todo: Remove in OAuth 3.0
+                        $account = $oauthProvider->getAccount($token);
+                    }
+
+                    Videos::$plugin->getCache()->set(['getAccount', $token], $account);
+                }
+
+                if ($account) {
+                    return $account;
+                }
+            } catch (Exception $e) {
+                Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
+
+                throw $e;
+            }
+        }
+    }
+
     /**
      * Returns the gateway's OAuth provider
      *
@@ -518,6 +550,9 @@ abstract class Gateway implements GatewayInterface
             $response = $client->request('GET', $uri, $options);
 
             $jsonResponse = json_decode($response->getBody(), true);
+
+            var_dump($jsonResponse['items'][0]['snippet']);
+            die();
 
             return $jsonResponse;
         }
