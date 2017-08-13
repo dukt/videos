@@ -172,8 +172,8 @@ class Plugin extends \craft\base\Plugin
                     $response = $client->request('GET', $url, array(
                         'save_to' => $originalThumbnailPath
                     ));
-
-                    if (!$response->getStatusCode() != 200)
+                    
+                    if ($response->getStatusCode() != 200)
                     {
                         return null;
                     }
