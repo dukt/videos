@@ -33,8 +33,7 @@ class Videos extends Component
     {
         $options = VideosPlugin::$plugin->getSettings()->oauthProviderOptions;
 
-        if(!empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret']))
-        {
+        if (!empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret'])) {
             return true;
         }
 
@@ -49,12 +48,11 @@ class Videos extends Component
      *
      * @return mixed
      */
-    public function getEmbed($videoUrl, $embedOptions = array())
+    public function getEmbed($videoUrl, $embedOptions = [])
     {
         $video = $this->getVideoByUrl($videoUrl);
 
-        if($video)
-        {
+        if ($video) {
             return $video->getEmbed($embedOptions);
         }
     }
@@ -71,8 +69,7 @@ class Videos extends Component
     {
         $video = $this->requestVideoById($gateway, $id);
 
-        if($video)
-        {
+        if ($video) {
             return $video;
         }
     }
@@ -90,8 +87,7 @@ class Videos extends Component
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
-        if($video)
-        {
+        if ($video) {
             return $video;
         }
     }
@@ -111,14 +107,12 @@ class Videos extends Component
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
-        if($enableCache)
-        {
+        if ($enableCache) {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
             $response = VideosPlugin::$plugin->getCache()->get([$key]);
 
-            if($response)
-            {
+            if ($response) {
                 return $response;
             }
         }
@@ -127,10 +121,8 @@ class Videos extends Component
 
         $response = $gateway->getVideoById($id);
 
-        if($response)
-        {
-            if($enableCache)
-            {
+        if ($response) {
+            if ($enableCache) {
                 VideosPlugin::$plugin->getCache()->set([$key], $response, $cacheExpiry);
             }
 
@@ -149,46 +141,36 @@ class Videos extends Component
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        if(VideosPlugin::$plugin->getSettings()->enableCache === false)
-        {
+        if (VideosPlugin::$plugin->getSettings()->enableCache === false) {
             $enableCache = false;
         }
 
-        if($enableCache)
-        {
+        if ($enableCache) {
             $key = 'videos.video.'.md5($videoUrl);
 
             $response = VideosPlugin::$plugin->getCache()->get([$key]);
 
-            if($response)
-            {
+            if ($response) {
                 return $response;
             }
         }
 
         $gateways = VideosPlugin::$plugin->getGateways()->getGateways();
 
-        foreach($gateways as $gateway)
-        {
+        foreach ($gateways as $gateway) {
             $params['url'] = $videoUrl;
 
-            try
-            {
+            try {
                 $video = $gateway->getVideoByUrl($params);
 
-                if($video)
-                {
-                    if($enableCache)
-                    {
+                if ($video) {
+                    if ($enableCache) {
                         VideosPlugin::$plugin->getCache()->set([$key], $video, $cacheExpiry);
                     }
 
                     return $video;
                 }
-
-            }
-            catch(\Exception $e)
-            {
+            } catch (\Exception $e) {
                 Craft::info('Couldn’t get video: '.$e->getMessage(), __METHOD__);
             }
         }

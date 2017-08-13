@@ -28,7 +28,7 @@ class SettingsController extends Controller
 
         $accounts = [];
 
-        foreach($gateways as $gateway) {
+        foreach ($gateways as $gateway) {
             $accounts[$gateway->getHandle()] = $gateway->getAccount();
         }
 
@@ -70,7 +70,7 @@ class SettingsController extends Controller
 
         $plugin = Craft::$app->getPlugins()->getPlugin('videos');
 
-        $settings = (array) $plugin->getSettings();
+        $settings = (array)$plugin->getSettings();
 
         $settings['oauthProviderOptions'][$gateway->getOauthProviderHandle()] = [
             'clientId' => $clientId,

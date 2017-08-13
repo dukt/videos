@@ -42,8 +42,7 @@ class Oauth extends Component
 
         $gateway = Videos::$plugin->getGateways()->getGateway($handle);
 
-        if(!empty($tokens[$handle]) && is_array($tokens[$handle]))
-        {
+        if (!empty($tokens[$handle]) && is_array($tokens[$handle])) {
             return $gateway->createTokenFromData($tokens[$handle]);
         }
     }
@@ -67,8 +66,7 @@ class Oauth extends Component
         // get tokens
         $tokens = $settings->tokens;
 
-        if(!is_array($tokens))
-        {
+        if (!is_array($tokens)) {
             $tokens = [];
         }
 
@@ -80,8 +78,7 @@ class Oauth extends Component
             'values' => $token->getValues(),
         ];
 
-        if(!empty($token->getRefreshToken()))
-        {
+        if (!empty($token->getRefreshToken())) {
             $tokens[$handle]['refreshToken'] = $token->getRefreshToken();
         }
 
@@ -111,8 +108,7 @@ class Oauth extends Component
 
         // get token
 
-        if(!empty($tokens[$handle]))
-        {
+        if (!empty($tokens[$handle])) {
             unset($tokens[$handle]);
 
             // save plugin settings

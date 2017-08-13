@@ -20,18 +20,17 @@ class VideosHelper
      */
     public static function getDuration($seconds)
     {
-        $hours = (int) ((int) ($seconds) / 3600);
-        $minutes = (int) (($seconds / 60) % 60);
-        $seconds = (int) ($seconds % 60);
+        $hours = (int)((int)($seconds) / 3600);
+        $minutes = (int)(($seconds / 60) % 60);
+        $seconds = (int)($seconds % 60);
 
         $hms = "";
 
-        if($hours > 0)
-        {
+        if ($hours > 0) {
             $hms .= str_pad($hours, 2, "0", STR_PAD_LEFT).":";
         }
 
-        $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT). ":";
+        $hms .= str_pad($minutes, 2, "0", STR_PAD_LEFT).":";
 
         $hms .= str_pad($seconds, 2, "0", STR_PAD_LEFT);
 

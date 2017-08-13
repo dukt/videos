@@ -34,8 +34,7 @@ abstract class Gateway implements GatewayInterface
     {
         $iconAlias = '@dukt/videos/icons/'.$this->getHandle().'.svg';
 
-        if(file_exists(Craft::getAlias($iconAlias)))
-        {
+        if (file_exists(Craft::getAlias($iconAlias))) {
             return Craft::$app->assetManager->getPublishedUrl($iconAlias, true);
         }
     }
@@ -54,8 +53,7 @@ abstract class Gateway implements GatewayInterface
         $scope = $this->getOauthScope();
         $options = $this->getOauthAuthorizationOptions();
 
-        if(!is_array($options))
-        {
+        if (!is_array($options)) {
             $options = [];
         }
 
@@ -90,7 +88,6 @@ abstract class Gateway implements GatewayInterface
 
             // Redirect
             Craft::$app->getSession()->setNotice(Craft::t('videos', "Connected to {gateway}.", ['gateway' => $this->getName()]));
-
         } catch (Exception $e) {
             // Failed to get the token credentials or user details.
             Craft::$app->getSession()->setError($e->getMessage());
@@ -110,8 +107,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function createTokenFromData(array $tokenData)
     {
-        if(isset($tokenData['accessToken']))
-        {
+        if (isset($tokenData['accessToken'])) {
             $token = new AccessToken([
                 'access_token' => (isset($tokenData['accessToken']) ? $tokenData['accessToken'] : null),
                 'expires' => (isset($tokenData['expires']) ? $tokenData['expires'] : null),
@@ -120,8 +116,7 @@ abstract class Gateway implements GatewayInterface
                 'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
             ]);
 
-            if(!empty($token->getRefreshToken()) && $token->hasExpired())
-            {
+            if (!empty($token->getRefreshToken()) && $token->hasExpired()) {
                 $provider = $this->getOauthProvider();
 
                 $grant = new RefreshToken();
@@ -163,12 +158,10 @@ abstract class Gateway implements GatewayInterface
         try {
             $token = $this->getToken();
 
-            if($token)
-            {
+            if ($token) {
                 return true;
             }
-        } catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             // Todo: log error
         }
 
@@ -208,43 +201,39 @@ abstract class Gateway implements GatewayInterface
 
     /**
      * Returns the HTML of the embed from a video ID
+     *
      * @param       $videoId
      * @param array $options
      *
      * @return string
      */
-    public function getEmbedHtml($videoId, $options = array())
+    public function getEmbedHtml($videoId, $options = [])
     {
-        $embedAttributes = array(
+        $embedAttributes = [
             'frameborder' => "0",
-            'allowfullscreen' => "true" ,
+            'allowfullscreen' => "true",
             'allowscriptaccess' => "true"
-        );
+        ];
 
         $disableSize = false;
 
-        if(isset($options['disable_size']))
-        {
+        if (isset($options['disable_size'])) {
             $disableSize = $options['disable_size'];
         }
 
-        if(!$disableSize)
-        {
-            if(isset($options['width']))
-            {
+        if (!$disableSize) {
+            if (isset($options['width'])) {
                 $embedAttributes['width'] = $options['width'];
                 unset($options['width']);
             }
 
-            if(isset($options['height']))
-            {
+            if (isset($options['height'])) {
                 $embedAttributes['height'] = $options['height'];
                 unset($options['height']);
             }
         }
 
-        if(!empty($options['iframeClass']))
-        {
+        if (!empty($options['iframeClass'])) {
             $embedAttributes['class'] = $options['iframeClass'];
             unset($options['iframeClass']);
         }
@@ -253,12 +242,11 @@ abstract class Gateway implements GatewayInterface
 
         $embedAttributesString = '';
 
-        foreach($embedAttributes as $key => $value)
-        {
+        foreach ($embedAttributes as $key => $value) {
             $embedAttributesString .= ' '.$key.'="'.$value.'"';
         }
 
-        return '<iframe src="'. $embedUrl.'"'.$embedAttributesString.'></iframe>';
+        return '<iframe src="'.$embedUrl.'"'.$embedAttributesString.'></iframe>';
     }
 
     /**
@@ -269,16 +257,14 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getEmbedUrl($videoId, $options = array())
+    public function getEmbedUrl($videoId, $options = [])
     {
         $format = $this->getEmbedFormat();
 
-        if(count($options) > 0)
-        {
+        if (count($options) > 0) {
             $queryMark = '?';
 
-            if(strpos($this->getEmbedFormat(), "?") !== false)
-            {
+            if (strpos($this->getEmbedFormat(), "?") !== false) {
                 $queryMark = "&";
             }
 
@@ -335,41 +321,32 @@ abstract class Gateway implements GatewayInterface
     {
         $oauthProviderHandle = $this->getOauthProviderHandle();
 
-        $variables = array(
+        $variables = [
             'isOauthProviderConfigured' => false,
             'account' => false,
             'token' => false,
             'error' => false
-        );
+        ];
 
         $variables['isOauthProviderConfigured'] = Videos::$plugin->getVideos()->isOauthProviderConfigured($oauthProviderHandle);
 
-        if($variables['isOauthProviderConfigured'])
-        {
+        if ($variables['isOauthProviderConfigured']) {
             $token = $this->getToken();
 
-            if ($token)
-            {
-                try
-                {
+            if ($token) {
+                try {
                     $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
-                    if(!$account)
-                    {
-                        try
-                        {
+                    if (!$account) {
+                        try {
                             $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
-                            if(!$account)
-                            {
+                            if (!$account) {
                                 $oauthProvider = $this->getOauthProvider();
 
-                                if(method_exists($oauthProvider, 'getResourceOwner'))
-                                {
+                                if (method_exists($oauthProvider, 'getResourceOwner')) {
                                     $account = $oauthProvider->getResourceOwner($token);
-                                }
-                                elseif (method_exists($oauthProvider, 'getAccount'))
-                                {
+                                } elseif (method_exists($oauthProvider, 'getAccount')) {
                                     // Todo: Remove in OAuth 3.0
                                     $account = $oauthProvider->getAccount($token);
                                 }
@@ -377,28 +354,22 @@ abstract class Gateway implements GatewayInterface
                                 Videos::$plugin->getCache()->set(['getAccount', $token], $account);
                             }
 
-                            if ($account)
-                            {
+                            if ($account) {
                                 $variables['account'] = $account;
                                 // $variables['settings'] = $plugin->getSettings();
                             }
-                        }
-                        catch(Exception $e)
-                        {
+                        } catch (Exception $e) {
                             Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                             $variables['error'] = $e->getMessage();
                         }
                     }
 
-                    if ($account)
-                    {
+                    if ($account) {
                         $variables['account'] = $account;
                         // $variables['settings'] = $plugin->getSettings();
                     }
-                }
-                catch(Exception $e)
-                {
+                } catch (Exception $e) {
                     Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
 
                     $variables['error'] = $e->getMessage();
@@ -411,8 +382,7 @@ abstract class Gateway implements GatewayInterface
         $variables['gateway'] = $this;
         $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
 
-        if(isset($allOauthProviderOptions[$this->getOauthProviderHandle()]))
-        {
+        if (isset($allOauthProviderOptions[$this->getOauthProviderHandle()])) {
             $variables['oauthProviderOptions'] = $allOauthProviderOptions[$this->getOauthProviderHandle()];
         }
 
@@ -426,7 +396,7 @@ abstract class Gateway implements GatewayInterface
     {
         $token = $this->getToken();
 
-        if($token) {
+        if ($token) {
             try {
                 $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
@@ -465,13 +435,11 @@ abstract class Gateway implements GatewayInterface
 
         $options = [];
 
-        if(isset($oauthProviderOptions[$this->getOauthProviderHandle()]))
-        {
+        if (isset($oauthProviderOptions[$this->getOauthProviderHandle()])) {
             $options = $oauthProviderOptions[$this->getOauthProviderHandle()];
         }
 
-        if(!isset($options['redirectUri']))
-        {
+        if (!isset($options['redirectUri'])) {
             $options['redirectUri'] = UrlHelper::actionUrl('videos/oauth/callback');
         }
 
@@ -492,8 +460,7 @@ abstract class Gateway implements GatewayInterface
 
         $videoId = $this->extractVideoIdFromUrl($url);
 
-        if(!$videoId)
-        {
+        if (!$videoId) {
             throw new Exception('Video not found with url given');
         }
 
@@ -513,12 +480,9 @@ abstract class Gateway implements GatewayInterface
     {
         $realMethod = 'getVideos'.ucwords($method);
 
-        if(method_exists($this, $realMethod))
-        {
+        if (method_exists($this, $realMethod)) {
             return $this->{$realMethod}($options);
-        }
-        else
-        {
+        } else {
             throw new Exception("Method ".$realMethod." not found");
         }
     }
@@ -536,7 +500,7 @@ abstract class Gateway implements GatewayInterface
      * @return mixed
      * @throws Exception
      */
-    protected function apiGet($uri, $query = array(), $headers = null)
+    protected function apiGet($uri, $query = [], $headers = null)
     {
         $options = [
             'query' => $query,
@@ -545,20 +509,16 @@ abstract class Gateway implements GatewayInterface
 
         $client = $this->createClient();
 
-        try
-        {
+        try {
             $response = $client->request('GET', $uri, $options);
 
             $jsonResponse = json_decode($response->getBody(), true);
 
             return $jsonResponse;
-        }
-        catch(Exception $e)
-        {
+        } catch (Exception $e) {
             Craft::info("GuzzleError: ".$e->getMessage(), __METHOD__);
 
-            if(method_exists($e, 'getResponse'))
-            {
+            if (method_exists($e, 'getResponse')) {
                 Craft::info("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), __METHOD__);
             }
 

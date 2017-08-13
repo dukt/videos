@@ -116,20 +116,19 @@ class Plugin extends \craft\base\Plugin
      * Adds support for video thumbnail resource paths.
      *
      * @param string $path
+     *
      * @return string|null
      */
     public function getResourcePath($path)
     {
         $segs = explode('/', $path);
 
-        if($segs[0] === 'videos' && $segs[1] === 'thumbnails')
-        {
+        if ($segs[0] === 'videos' && $segs[1] === 'thumbnails') {
             $gateway = $segs[2];
             $videoId = $segs[3];
             $size = $segs[4];
 
-            if (!is_numeric($size) && $size !== "original")
-            {
+            if (!is_numeric($size) && $size !== "original") {
                 return false;
             }
 
@@ -144,8 +143,7 @@ class Plugin extends \craft\base\Plugin
 
             $filename = pathinfo($url, PATHINFO_BASENAME);
 
-            if(strpos($filename, '?') !== false)
-            {
+            if (strpos($filename, '?') !== false) {
                 $filename = substr($filename, 0, strpos($filename, '?'));
             }
 
@@ -158,10 +156,8 @@ class Plugin extends \craft\base\Plugin
             $sizedThumbnailPath = $sizedThumbnailFolder.$filename;
 
             // If the photo doesn't exist at this size, create it.
-            if (!file_exists($sizedThumbnailPath))
-            {
-                if (!file_exists($originalThumbnailPath))
-                {
+            if (!file_exists($sizedThumbnailPath)) {
+                if (!file_exists($originalThumbnailPath)) {
                     if (!is_dir($originalFolderPath)) {
                         FileHelper::createDirectory($originalFolderPath);
                     }
@@ -169,12 +165,11 @@ class Plugin extends \craft\base\Plugin
 
                     $client = new \GuzzleHttp\Client();
 
-                    $response = $client->request('GET', $url, array(
+                    $response = $client->request('GET', $url, [
                         'save_to' => $originalThumbnailPath
-                    ));
-                    
-                    if ($response->getStatusCode() != 200)
-                    {
+                    ]);
+
+                    if ($response->getStatusCode() != 200) {
                         return null;
                     }
                 }
@@ -183,14 +178,11 @@ class Plugin extends \craft\base\Plugin
                     FileHelper::createDirectory($sizedThumbnailFolder);
                 }
 
-                if (FileHelper::isWritable($sizedThumbnailFolder))
-                {
+                if (FileHelper::isWritable($sizedThumbnailFolder)) {
                     Craft::$app->images->loadImage($originalThumbnailPath, $size, $size)
                         ->resize($size)
                         ->saveAs($sizedThumbnailPath);
-                }
-                else
-                {
+                } else {
                     Craft::info('Tried to write to target folder and could not: '.$sizedThumbnailFolder, __METHOD__);
                 }
             }

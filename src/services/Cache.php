@@ -34,8 +34,7 @@ class Cache extends Component
      */
     public function get($id)
     {
-        if(Videos::$plugin->getSettings()->cacheDuration == true)
-        {
+        if (Videos::$plugin->getSettings()->cacheDuration == true) {
             $cacheKey = $this->getCacheKey($id);
 
             return Craft::$app->cache->get($cacheKey);
@@ -55,17 +54,14 @@ class Cache extends Component
      */
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
-        if(is_null($enableCache))
-        {
+        if (is_null($enableCache)) {
             $enableCache = Videos::$plugin->getSettings()->cacheDuration;
         }
 
-        if($enableCache)
-        {
+        if ($enableCache) {
             $cacheKey = $this->getCacheKey($id);
 
-            if(!$expire)
-            {
+            if (!$expire) {
                 $expire = Videos::$plugin->getSettings()->cacheDuration;
                 $expire = new DateInterval($expire);
                 $expire = $expire->format('%s');

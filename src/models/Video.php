@@ -134,7 +134,7 @@ class Video extends Model
         return VideosHelper::getDuration($this->durationSeconds);
     }
 
-    public function getEmbed($opts = array())
+    public function getEmbed($opts = [])
     {
         $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
         $charset = Craft::$app->getView()->getTwig()->getCharset();
@@ -142,15 +142,14 @@ class Video extends Model
         return new Twig_Markup($embed, $charset);
     }
 
-    public function getEmbedUrl($opts = array())
+    public function getEmbedUrl($opts = [])
     {
         return $this->getGateway()->getEmbedUrl($this->id, $opts);
     }
 
     public function getGateway()
     {
-        if(!$this->_gateway)
-        {
+        if (!$this->_gateway) {
             $this->_gateway = Videos::$plugin->getGateways()->getGateway($this->gatewayHandle);
         }
 
@@ -167,8 +166,7 @@ class Video extends Model
 
     private function getVideoById()
     {
-        if(!$this->_video)
-        {
+        if (!$this->_video) {
             $this->_video = Videos::$plugin->getVideos()->requestVideoByUrl($this->url);
         }
 

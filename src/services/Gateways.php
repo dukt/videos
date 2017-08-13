@@ -30,12 +30,12 @@ class Gateways extends Component
     /**
      * @var array
      */
-    private $_gateways = array();
+    private $_gateways = [];
 
     /**
      * @var array
      */
-    private $_allGateways = array();
+    private $_allGateways = [];
 
     /**
      * @var bool
@@ -57,19 +57,14 @@ class Gateways extends Component
     {
         $this->loadGateways();
 
-        if($enabledOnly)
-        {
+        if ($enabledOnly) {
             $gateways = $this->_gateways;
-        }
-        else
-        {
+        } else {
             $gateways = $this->_allGateways;
         }
 
-        foreach($gateways as $g)
-        {
-            if($g->getHandle() == $gatewayHandle)
-            {
+        foreach ($gateways as $g) {
+            if ($g->getHandle() == $gatewayHandle) {
                 return $g;
             }
         }
@@ -88,12 +83,9 @@ class Gateways extends Component
     {
         $this->loadGateways();
 
-        if($enabledOnly)
-        {
+        if ($enabledOnly) {
             return $this->_gateways;
-        }
-        else
-        {
+        } else {
             return $this->_allGateways;
         }
     }
@@ -106,30 +98,24 @@ class Gateways extends Component
      */
     private function loadGateways()
     {
-        if(!$this->_gatewaysLoaded)
-        {
+        if (!$this->_gatewaysLoaded) {
             $gateways = $this->_getGateways();
 
-            foreach($gateways as $gateway)
-            {
-                if($gateway->enableOauthFlow())
-                {
+            foreach ($gateways as $gateway) {
+                if ($gateway->enableOauthFlow()) {
                     $gatewayHandle = $gateway->getHandle();
                     $plugin = Craft::$app->getPlugins()->getPlugin('videos');
                     $settings = $plugin->getSettings();
                     $tokens = $settings->tokens;
 
-                    if(!empty($tokens[$gatewayHandle]) && is_array($tokens[$gatewayHandle]))
-                    {
+                    if (!empty($tokens[$gatewayHandle]) && is_array($tokens[$gatewayHandle])) {
                         $token = $gateway->createTokenFromData($tokens[$gatewayHandle]);
 
                         $gateway->setAuthenticationToken($token);
 
                         $this->_gateways[] = $gateway;
                     }
-                }
-                else
-                {
+                } else {
                     $this->_gateways[] = $gateway;
                 }
 
@@ -149,12 +135,10 @@ class Gateways extends Component
     {
         // fetch all video gateways
 
-        $gatewayTypes = array();
+        $gatewayTypes = [];
 
-        foreach(Craft::$app->getPlugins()->getAllPlugins() as $plugin)
-        {
-            if(method_exists($plugin, 'getVideosGateways'))
-            {
+        foreach (Craft::$app->getPlugins()->getAllPlugins() as $plugin) {
+            if (method_exists($plugin, 'getVideosGateways')) {
                 $gatewayTypes = array_merge($gatewayTypes, $plugin->getVideosGateways());
             }
         }
@@ -164,8 +148,7 @@ class Gateways extends Component
 
         $gateways = [];
 
-        foreach($gatewayTypes as $gatewayType)
-        {
+        foreach ($gatewayTypes as $gatewayType) {
             $gateways[$gatewayType] = $this->_createGateway($gatewayType);
         }
 

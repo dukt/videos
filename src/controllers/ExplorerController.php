@@ -36,16 +36,14 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        try
-        {
+        try {
             $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
             $nav = $this->getExplorerNav();
 
             $gateways = [];
             $allGateways = Videos::$plugin->getGateways()->getGateways();
 
-            foreach($allGateways as $_gateway)
-            {
+            foreach ($allGateways as $_gateway) {
                 $gateway = [
                     'name' => $_gateway->getName(),
                     'handle' => $_gateway->getHandle(),
@@ -55,17 +53,15 @@ class ExplorerController extends Controller
                 array_push($gateways, $gateway);
             }
 
-            return $this->asJson(array(
+            return $this->asJson([
                 'success' => true,
                 'html' => Craft::$app->getView()->renderTemplate('videos/_elements/explorer', [
                     'namespaceInputId' => $namespaceInputId,
                     'nav' => $nav,
                     'gateways' => $gateways
                 ])
-            ));
-        }
-        catch(\Exception $e)
-        {
+            ]);
+        } catch (\Exception $e) {
             // Don't need to log errors again as they are already logged by BaseGateway::api()
             return $this->asErrorJson('Couldn’t load explorer.');
         }
@@ -80,8 +76,7 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        try
-        {
+        try {
             $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
             $gatewayHandle = strtolower($gatewayHandle);
 
@@ -90,28 +85,23 @@ class ExplorerController extends Controller
 
             $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
-            if($gateway)
-            {
+            if ($gateway) {
                 $videosResponse = $gateway->getVideos($method, $options);
 
-                $html = Craft::$app->getView()->renderTemplate('videos/_elements/videos', array(
+                $html = Craft::$app->getView()->renderTemplate('videos/_elements/videos', [
                     'videos' => $videosResponse['videos']
-                ));
+                ]);
 
-                return $this->asJson(array(
+                return $this->asJson([
                     'html' => $html,
                     'more' => $videosResponse['more'],
                     'moreToken' => $videosResponse['moreToken']
-                ));
-            }
-            else
-            {
+                ]);
+            } else {
                 throw new \Exception("Gateway not available");
             }
-        }
-        catch(\Exception $e)
-        {
-             Craft::info('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
+        } catch (\Exception $e) {
+            Craft::info('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
 
             return $this->asErrorJson($e->getMessage());
         }
@@ -128,16 +118,13 @@ class ExplorerController extends Controller
 
         $url = Craft::$app->getRequest()->getParam('url');
 
-        try
-        {
+        try {
             $video = Videos::$plugin->getCache()->get(['fieldPreview', $url]);
 
-            if(!$video)
-            {
+            if (!$video) {
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
-                if(!$video)
-                {
+                if (!$video) {
                     throw new Exception("Video not found");
                 }
 
@@ -145,14 +132,12 @@ class ExplorerController extends Controller
             }
 
             return $this->asJson(
-                array(
+                [
                     'video' => $video,
-                    'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', array('video' => $video))
-                )
+                    'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $video])
+                ]
             );
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             Craft::info('Couldn’t get field preview: '.$e->getMessage(), __METHOD__);
 
             return $this->asErrorJson($e->getMessage());
@@ -175,30 +160,23 @@ class ExplorerController extends Controller
 
         try {
             $video = Videos::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             $errorMsg = $e->getMessage();
         }
 
-        if(isset($video))
-        {
-            $html = Craft::$app->getView()->renderTemplate('videos/_elements/player', array(
+        if (isset($video)) {
+            $html = Craft::$app->getView()->renderTemplate('videos/_elements/player', [
                 'video' => $video
-            ));
+            ]);
 
-            return $this->asJson(array(
+            return $this->asJson([
                 'html' => $html
-            ));
-        }
-        elseif(isset($errorMsg))
-        {
+            ]);
+        } elseif (isset($errorMsg)) {
             Craft::info('Couldn’t get videos: '.$errorMsg, __METHOD__);
 
             return $this->asErrorJson("Couldn't load video: ".$errorMsg);
-        }
-        else
-        {
+        } else {
             Craft::info('Couldn’t get videos: Video not found', __METHOD__);
 
             return $this->asErrorJson("Video not found.");
@@ -216,14 +194,12 @@ class ExplorerController extends Controller
      */
     private function getExplorerNav()
     {
-        if(!$this->explorerNav)
-        {
+        if (!$this->explorerNav) {
             $gatewaySections = [];
 
             $gateways = Videos::$plugin->getGateways()->getGateways();
 
-            foreach ($gateways as $gateway)
-            {
+            foreach ($gateways as $gateway) {
                 $gatewaySections[] = $gateway->getExplorerSections();
             }
 

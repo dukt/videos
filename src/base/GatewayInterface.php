@@ -27,17 +27,17 @@ interface GatewayInterface
      * Returns the sections for the explorer
      */
     public function getExplorerSections();
-    
+
     /**
      * Requests the video from the API and then returns it as video object
      */
     public function getVideoById($id);
-    
+
     /**
      * Returns the URL format of the embed
      */
     public function getEmbedFormat();
-    
+
     /**
      * Extracts the video ID from the video URL
      */

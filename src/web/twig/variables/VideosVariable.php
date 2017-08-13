@@ -17,7 +17,7 @@ class VideosVariable
     /**
      * Get Embed
      */
-    public function getEmbed($videoUrl, $embedOptions = array())
+    public function getEmbed($videoUrl, $embedOptions = [])
     {
         return Videos::$plugin->getVideos()->getEmbed($videoUrl, $embedOptions);
     }
@@ -27,12 +27,9 @@ class VideosVariable
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        try
-        {
+        try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             Craft::info('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
         }
     }
