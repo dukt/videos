@@ -551,9 +551,6 @@ abstract class Gateway implements GatewayInterface
 
             $jsonResponse = json_decode($response->getBody(), true);
 
-            var_dump($jsonResponse['items'][0]['snippet']);
-            die();
-
             return $jsonResponse;
         }
         catch(Exception $e)
