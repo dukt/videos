@@ -368,6 +368,36 @@ class Vimeo extends Gateway
     }
 
     /**
+     * @param $type
+     * @param $collections
+     *
+     * @return array
+     */
+    private function parseCollections($type, $collections)
+    {
+        $parseCollections = [];
+
+        foreach ($collections as $collection) {
+
+            switch($type) {
+                case 'album':
+                    $parsedCollection = $this->parseCollectionAlbum($collection);
+                    break;
+                case 'channel':
+                    $parsedCollection = $this->parseCollectionChannel($collection);
+                    break;
+
+                default:
+                    throw new \Exception("Couldn't parse collection");
+            }
+
+            array_push($parseCollections, $parsedCollection);
+        }
+
+        return $parseCollections;
+    }
+
+    /**
      * @param $data
      *
      * @return array
@@ -397,25 +427,6 @@ class Vimeo extends Gateway
         $collection['totalVideos'] = $data['stats']['videos'];
 
         return $collection;
-    }
-
-    /**
-     * @param $type
-     * @param $data
-     *
-     * @return array
-     */
-    private function parseCollections($type, $data)
-    {
-        $collections = [];
-
-        foreach ($data as $channel) {
-            $collection = $this->{'parseCollection'.ucwords($type)}($channel);
-
-            array_push($collections, $collection);
-        }
-
-        return $collections;
     }
 
     /**
