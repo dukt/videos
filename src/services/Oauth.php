@@ -115,24 +115,4 @@ class Oauth extends Component
             Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
         }
     }
-
-    /**
-     * Returns the javascript origin URL.
-     *
-     * @return string
-     */
-    public function getJavascriptOrigin()
-    {
-        return UrlHelper::baseUrl();
-    }
-
-    /**
-     * Returns the redirect URI.
-     *
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return UrlHelper::actionUrl('videos/oauth/callback');
-    }
 }

@@ -386,10 +386,35 @@ abstract class Gateway implements GatewayInterface
             $variables['oauthProviderOptions'] = $allOauthProviderOptions[$this->getOauthProviderHandle()];
         }
 
-        $variables['javascriptOrigin'] = Videos::$plugin->oauth->getJavascriptOrigin();
-        $variables['redirectUri'] = Videos::$plugin->oauth->getRedirectUri();
+        $variables['javascriptOrigin'] = $this->getJavascriptOrigin();
+        $variables['redirectUri'] = $this->getRedirectUri();
 
-        return Craft::$app->getView()->renderTemplate('videos/settings/_gateways/'.$this->getHandle(), $variables);
+        return Craft::$app->getView()->renderTemplate($this->getSettingsTemplatePath(), $variables);
+    }
+
+    /**
+     * Returns the javascript origin URL.
+     *
+     * @return string
+     */
+    public function getJavascriptOrigin()
+    {
+        return UrlHelper::baseUrl();
+    }
+
+    /**
+     * Returns the redirect URI.
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return UrlHelper::actionUrl('videos/oauth/callback');
+    }
+
+    public function getSettingsTemplatePath()
+    {
+        return 'videos/settings/_gateways/'.$this->getHandle();
     }
 
     public function getAccount()
@@ -440,7 +465,7 @@ abstract class Gateway implements GatewayInterface
         }
 
         if (!isset($options['redirectUri'])) {
-            $options['redirectUri'] = UrlHelper::actionUrl('videos/oauth/callback');
+            $options['redirectUri'] = $this->getRedirectUri();
         }
 
         return $this->createOauthProvider($options);
@@ -506,12 +531,13 @@ abstract class Gateway implements GatewayInterface
             'query' => $query,
         ];
 
-
         $client = $this->createClient();
 
         try {
             $response = $client->request('GET', $uri, $options);
 
+            var_dump($response->getBody());
+            die();
             $jsonResponse = json_decode($response->getBody(), true);
 
             return $jsonResponse;
