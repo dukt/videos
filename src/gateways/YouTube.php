@@ -8,7 +8,6 @@
 namespace dukt\videos\gateways;
 
 use Craft;
-use dukt\videos\Plugin as Videos;
 use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
