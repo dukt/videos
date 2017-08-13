@@ -415,7 +415,7 @@ class YouTube extends Gateway
     {
         $pagination = [
             'page' => 1,
-            'perPage' => Videos::$plugin->getSettings()->videosPerPage,
+            'perPage' => $this->getVideosPerPage(),
             'moreToken' => false
         ];
 

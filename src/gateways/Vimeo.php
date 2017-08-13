@@ -560,7 +560,7 @@ class Vimeo extends Gateway
             unset($params['q']);
         }
 
-        $query['per_page'] = Videos::$plugin->getSettings()->videosPerPage;
+        $query['per_page'] = $this->getVideosPerPage();
 
         if (is_array($params)) {
             $query = array_merge($query, $params);
