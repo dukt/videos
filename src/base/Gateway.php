@@ -512,6 +512,11 @@ abstract class Gateway implements GatewayInterface
         }
     }
 
+    public function getVideosPerPage()
+    {
+        return Videos::$plugin->getSettings()->videosPerPage;
+    }
+
     // Protected Methods
     // =========================================================================
 
