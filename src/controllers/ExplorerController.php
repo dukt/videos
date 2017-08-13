@@ -81,7 +81,7 @@ class ExplorerController extends Controller
             $gatewayHandle = strtolower($gatewayHandle);
 
             $method = Craft::$app->getRequest()->getParam('method');
-            $options = Craft::$app->getRequest()->getParam('options');
+            $options = Craft::$app->getRequest()->getParam('options', []);
 
             $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
