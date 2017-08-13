@@ -28,7 +28,7 @@ class Oauth extends Component
     // =========================================================================
 
     /**
-     * Get token from gateway handle
+     * Get token from gateway handle.
      *
      * @param $handle
      *
@@ -48,7 +48,7 @@ class Oauth extends Component
     }
 
     /**
-     * Saves a token
+     * Saves a token.
      *
      * @param $handle
      * @param $token
@@ -89,7 +89,7 @@ class Oauth extends Component
     }
 
     /**
-     * Deletes a token
+     * Deletes a token.
      *
      * @param $handle
      */
@@ -117,11 +117,21 @@ class Oauth extends Component
         }
     }
 
+    /**
+     * Returns the javascript origin URL.
+     *
+     * @return string
+     */
     public function getJavascriptOrigin()
     {
         return UrlHelper::baseUrl();
     }
 
+    /**
+     * Returns the redirect URI.
+     *
+     * @return string
+     */
     public function getRedirectUri()
     {
         return UrlHelper::actionUrl('videos/oauth/callback');
