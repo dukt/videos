@@ -15,7 +15,10 @@ use dukt\videos\models\Video;
 use GuzzleHttp\Client;
 
 /**
- * YouTube gateway
+ * YouTube represents the YouTube gateway
+ *
+ * @author    Dukt <support@dukt.net>
+ * @since     1.0
  */
 class YouTube extends Gateway
 {

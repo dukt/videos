@@ -14,7 +14,10 @@ use dukt\videos\models\Video;
 use GuzzleHttp\Client;
 
 /**
- * Vimeo gateway
+ * Vimeo represents the Vimeo gateway
+ *
+ * @author    Dukt <support@dukt.net>
+ * @since     1.0
  */
 class Vimeo extends Gateway
 {
@@ -544,7 +547,7 @@ class Vimeo extends Gateway
             'more' => $more
         ];
     }
-    
+
     /**
      * @param array $params
      *
