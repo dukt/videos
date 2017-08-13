@@ -7,7 +7,6 @@
 
 namespace dukt\videos\gateways;
 
-use Craft;
 use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
@@ -303,9 +302,6 @@ class Vimeo extends Gateway
                 'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
                 'Authorization' => 'Bearer '.$this->token->getToken()
             ],
-            /*            'query' => [
-                            'access_token' => $this->token->accessToken
-                        ]*/
         ];
 
         return new Client($options);
