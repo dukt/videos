@@ -151,7 +151,9 @@ Videos.Field = Garnish.Base.extend(
                         this.$preview.html(response.preview);
 
                         $playBtn = $('.play', this.$container);
+                        $removeBtn = $('.delete', this.$container);
                         this.addListener($playBtn, 'click', 'playVideo');
+                        this.addListener($removeBtn, 'click', 'removeVideo');
                     }
                 }
 
