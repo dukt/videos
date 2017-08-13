@@ -320,6 +320,19 @@ class Vimeo extends Gateway
         return new Client($options);
     }
 
+    /**
+     * @inheritDoc GatewayInterface::getOauthScope()
+     *
+     * @return array
+     */
+    public function getOauthScope()
+    {
+        return array(
+            'public',
+            'private',
+        );
+    }
+
     // Private Methods
     // =========================================================================
 
