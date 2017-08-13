@@ -339,36 +339,6 @@ class Vimeo extends Gateway
     }
 
     /**
-     * @param      $uri
-     * @param      $params
-     * @param bool $requireAuthentication
-     *
-     * @return array
-     * @throws \Exception
-     */
-    private function performVideosRequest($uri, $params, $requireAuthentication = true)
-    {
-        $query = $this->queryFromParams($params);
-
-        $response = $this->apiGet($uri, $query);
-        $videos = $this->parseVideos($response['data']);
-
-        $more = false;
-        $moreToken = null;
-
-        if ($response['paging']['next']) {
-            $more = true;
-            $moreToken = $query['page'] + 1;
-        }
-
-        return [
-            'videos' => $videos,
-            'moreToken' => $moreToken,
-            'more' => $more
-        ];
-    }
-
-    /**
      * @param array $params
      *
      * @return array
@@ -545,6 +515,36 @@ class Vimeo extends Gateway
         return $video;
     }
 
+    /**
+     * @param      $uri
+     * @param      $params
+     * @param bool $requireAuthentication
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function performVideosRequest($uri, $params, $requireAuthentication = true)
+    {
+        $query = $this->queryFromParams($params);
+
+        $response = $this->apiGet($uri, $query);
+        $videos = $this->parseVideos($response['data']);
+
+        $more = false;
+        $moreToken = null;
+
+        if ($response['paging']['next']) {
+            $more = true;
+            $moreToken = $query['page'] + 1;
+        }
+
+        return [
+            'videos' => $videos,
+            'moreToken' => $moreToken,
+            'more' => $more
+        ];
+    }
+    
     /**
      * @param array $params
      *
