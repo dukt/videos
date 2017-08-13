@@ -61,13 +61,15 @@
 
             <div class="main">
                 <div class="toolbar">
-                    {{ forms.text({
-                        class: 'search',
-                        name: 'search',
-                        placeholder: 'Search videos'
-                    }) }}
+                    <div class="flex">
+						{{ forms.text({
+							class: 'search',
+							name: 'search',
+							placeholder: 'Search videos'
+						}) }}
 
-                    <div class="spinner right hidden"></div>
+                        <div class="spinner right invisible"></div>
+                    </div>
                 </div>
 
                 <div class="content">

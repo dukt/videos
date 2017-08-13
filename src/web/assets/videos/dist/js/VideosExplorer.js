@@ -238,12 +238,12 @@ Videos.Explorer = Garnish.Base.extend({
             options: options
         };
 
-        this.$spinner.removeClass('hidden');
+        this.$spinner.removeClass('invisible');
 
         Craft.postActionRequest('videos/explorer/get-videos', data, $.proxy(function(response, textStatus)
         {
             this.deselectVideos();
-            this.$spinner.addClass('hidden');
+            this.$spinner.addClass('invisible');
             this.$videos.html('');
 
             if(textStatus == 'success')
@@ -321,7 +321,7 @@ Videos.Explorer = Garnish.Base.extend({
 
         $('.more', this.$videos).remove();
 
-        this.$spinner.removeClass('hidden');
+        this.$spinner.removeClass('invisible');
         $videosSpinner = $('<div class="spinner" />');
         this.$videos.append($videosSpinner);
 
@@ -335,7 +335,7 @@ Videos.Explorer = Garnish.Base.extend({
         {
             this.deselectVideos();
 
-            this.$spinner.addClass('hidden');
+            this.$spinner.addClass('invisible');
             $videosSpinner.remove();
 
             if(textStatus == 'success')
