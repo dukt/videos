@@ -64,18 +64,6 @@ class YouTube extends Gateway
     }
 
     /**
-     * Creates the OAuth provider.
-     *
-     * @param $options
-     *
-     * @return \Dukt\OAuth2\Client\Provider\Google
-     */
-    public function createOauthProvider($options)
-    {
-        return new \Dukt\OAuth2\Client\Provider\Google($options);
-    }
-
-    /**
      * @inheritDoc GatewayInterface::getOauthScope()
      *
      * @return array
@@ -101,6 +89,18 @@ class YouTube extends Gateway
             'access_type' => 'offline',
             'approval_prompt' => 'force'
         ];
+    }
+
+    /**
+     * Creates the OAuth provider.
+     *
+     * @param $options
+     *
+     * @return \Dukt\OAuth2\Client\Provider\Google
+     */
+    public function createOauthProvider($options)
+    {
+        return new \Dukt\OAuth2\Client\Provider\Google($options);
     }
 
     /**
@@ -218,9 +218,28 @@ class YouTube extends Gateway
         return $video_id;
     }
 
-
     // Protected Methods
     // =========================================================================
+
+    /**
+     * Returns an authenticated Guzzle client
+     *
+     * @return Client
+     */
+    protected function createClient()
+    {
+        $options = [
+            'base_uri' => $this->getApiUrl(),
+            'headers' => [
+                'Authorization' => 'Bearer '.$this->token->getToken()
+            ]
+            /*'query' => [
+                'access_token' => $this->token->accessToken
+            ],*/
+        ];
+
+        return new Client($options);
+    }
 
     /**
      * Returns a list of favorite videos
@@ -353,26 +372,6 @@ class YouTube extends Gateway
     protected function getVideosUploads($params = [])
     {
         return $this->performVideosRequest('uploads', $params);
-    }
-
-    /**
-     * Returns an authenticated Guzzle client
-     *
-     * @return Client
-     */
-    protected function createClient()
-    {
-        $options = [
-            'base_uri' => $this->getApiUrl(),
-            'headers' => [
-                'Authorization' => 'Bearer '.$this->token->getToken()
-            ]
-            /*'query' => [
-                'access_token' => $this->token->accessToken
-            ],*/
-        ];
-
-        return new Client($options);
     }
 
     // Private Methods

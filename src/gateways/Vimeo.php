@@ -63,6 +63,19 @@ class Vimeo extends Gateway
     }
 
     /**
+     * @inheritDoc GatewayInterface::getOauthScope()
+     *
+     * @return array
+     */
+    public function getOauthScope()
+    {
+        return [
+            'public',
+            'private',
+        ];
+    }
+
+    /**
      * Creates the OAuth provider.
      *
      * @param $options
@@ -223,6 +236,24 @@ class Vimeo extends Gateway
     // =========================================================================
 
     /**
+     * Returns an authenticated Guzzle client
+     *
+     * @return Client
+     */
+    protected function createClient()
+    {
+        $options = [
+            'base_uri' => $this->getApiUrl(),
+            'headers' => [
+                'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
+                'Authorization' => 'Bearer '.$this->token->getToken()
+            ],
+        ];
+
+        return new Client($options);
+    }
+
+    /**
      * Returns a list of videos in an album
      *
      * @param array $params
@@ -289,37 +320,6 @@ class Vimeo extends Gateway
         return $this->performVideosRequest('me/videos', $params);
     }
 
-    /**
-     * Returns an authenticated Guzzle client
-     *
-     * @return Client
-     */
-    protected function createClient()
-    {
-        $options = [
-            'base_uri' => $this->getApiUrl(),
-            'headers' => [
-                'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
-                'Authorization' => 'Bearer '.$this->token->getToken()
-            ],
-        ];
-
-        return new Client($options);
-    }
-
-    /**
-     * @inheritDoc GatewayInterface::getOauthScope()
-     *
-     * @return array
-     */
-    public function getOauthScope()
-    {
-        return [
-            'public',
-            'private',
-        ];
-    }
-
     // Private Methods
     // =========================================================================
 
@@ -337,6 +337,36 @@ class Vimeo extends Gateway
     private function getApiVersion()
     {
         return '3.0';
+    }
+
+    /**
+     * @param      $uri
+     * @param      $params
+     * @param bool $requireAuthentication
+     *
+     * @return array
+     * @throws \Exception
+     */
+    private function performVideosRequest($uri, $params, $requireAuthentication = true)
+    {
+        $query = $this->queryFromParams($params);
+
+        $response = $this->apiGet($uri, $query);
+        $videos = $this->parseVideos($response['data']);
+
+        $more = false;
+        $moreToken = null;
+
+        if ($response['paging']['next']) {
+            $more = true;
+            $moreToken = $query['page'] + 1;
+        }
+
+        return [
+            'videos' => $videos,
+            'moreToken' => $moreToken,
+            'more' => $more
+        ];
     }
 
     /**
@@ -432,6 +462,26 @@ class Vimeo extends Gateway
     /**
      * @param $data
      *
+     * @return array
+     */
+    private function parseVideos($data)
+    {
+        $videos = [];
+
+        if (!empty($data)) {
+            foreach ($data as $videoData) {
+                $video = $this->parseVideo($videoData);
+
+                array_push($videos, $video);
+            }
+        }
+
+        return $videos;
+    }
+
+    /**
+     * @param $data
+     *
      * @return Video
      */
     private function parseVideo($data)
@@ -494,56 +544,6 @@ class Vimeo extends Gateway
         }
 
         return $video;
-    }
-
-    /**
-     * @param $data
-     *
-     * @return array
-     */
-    private function parseVideos($data)
-    {
-        $videos = [];
-
-        if (!empty($data)) {
-            foreach ($data as $videoData) {
-                $video = $this->parseVideo($videoData);
-
-                array_push($videos, $video);
-            }
-        }
-
-        return $videos;
-    }
-
-    /**
-     * @param      $uri
-     * @param      $params
-     * @param bool $requireAuthentication
-     *
-     * @return array
-     * @throws \Exception
-     */
-    private function performVideosRequest($uri, $params, $requireAuthentication = true)
-    {
-        $query = $this->queryFromParams($params);
-
-        $response = $this->apiGet($uri, $query);
-        $videos = $this->parseVideos($response['data']);
-
-        $more = false;
-        $moreToken = null;
-
-        if ($response['paging']['next']) {
-            $more = true;
-            $moreToken = $query['page'] + 1;
-        }
-
-        return [
-            'videos' => $videos,
-            'moreToken' => $moreToken,
-            'more' => $more
-        ];
     }
 
     /**

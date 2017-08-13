@@ -40,6 +40,20 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
+     * Return the handle of the gateway based on its class name
+     *
+     * @return string
+     */
+    public function getHandle()
+    {
+        $handle = get_class($this);
+        $handle = substr($handle, strrpos($handle, "\\") + 1);
+        $handle = strtolower($handle);
+
+        return $handle;
+    }
+
+    /**
      * OAuth Connect
      *
      * @return null
@@ -62,6 +76,58 @@ abstract class Gateway implements GatewayInterface
         $authorizationUrl = $provider->getAuthorizationUrl($options);
 
         return Craft::$app->getResponse()->redirect($authorizationUrl);
+    }
+
+    /**
+     * Returns the gateway's OAuth provider
+     *
+     * @return mixed
+     */
+    public function getOauthProvider()
+    {
+        $oauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
+
+        $options = [];
+
+        if (isset($oauthProviderOptions[$this->getOauthProviderHandle()])) {
+            $options = $oauthProviderOptions[$this->getOauthProviderHandle()];
+        }
+
+        if (!isset($options['redirectUri'])) {
+            $options['redirectUri'] = $this->getRedirectUri();
+        }
+
+        return $this->createOauthProvider($options);
+    }
+
+    /**
+     * Returns the redirect URI.
+     *
+     * @return string
+     */
+    public function getRedirectUri()
+    {
+        return UrlHelper::actionUrl('videos/oauth/callback');
+    }
+
+    /**
+     * OAuth Scope
+     *
+     * @return array|null
+     */
+    public function getOauthScope()
+    {
+        return null;
+    }
+
+    /**
+     * OAuth Authorization Options
+     *
+     * @return array|null
+     */
+    public function getOauthAuthorizationOptions()
+    {
+        return null;
     }
 
     /**
@@ -139,16 +205,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Get Token
-     *
-     * @return mixed
-     */
-    public function getToken()
-    {
-        return Videos::$plugin->getOauth()->getToken($this->getHandle());
-    }
-
-    /**
      * Has Token
      *
      * @return bool
@@ -166,6 +222,16 @@ abstract class Gateway implements GatewayInterface
         }
 
         return false;
+    }
+
+    /**
+     * Get Token
+     *
+     * @return mixed
+     */
+    public function getToken()
+    {
+        return Videos::$plugin->getOauth()->getToken($this->getHandle());
     }
 
     /**
@@ -279,40 +345,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Return the handle of the gateway based on its class name
-     *
-     * @return string
-     */
-    public function getHandle()
-    {
-        $handle = get_class($this);
-        $handle = substr($handle, strrpos($handle, "\\") + 1);
-        $handle = strtolower($handle);
-
-        return $handle;
-    }
-
-    /**
-     * OAuth Authorization Options
-     *
-     * @return array|null
-     */
-    public function getOauthAuthorizationOptions()
-    {
-        return null;
-    }
-
-    /**
-     * OAuth Scope
-     *
-     * @return array|null
-     */
-    public function getOauthScope()
-    {
-        return null;
-    }
-
-    /**
      * Returns the gateway's settings as HTML
      *
      * @return string
@@ -402,16 +434,6 @@ abstract class Gateway implements GatewayInterface
         return UrlHelper::baseUrl();
     }
 
-    /**
-     * Returns the redirect URI.
-     *
-     * @return string
-     */
-    public function getRedirectUri()
-    {
-        return UrlHelper::actionUrl('videos/oauth/callback');
-    }
-
     public function getSettingsTemplatePath()
     {
         return 'videos/settings/_gateways/'.$this->getHandle();
@@ -447,28 +469,6 @@ abstract class Gateway implements GatewayInterface
                 throw $e;
             }
         }
-    }
-
-    /**
-     * Returns the gateway's OAuth provider
-     *
-     * @return mixed
-     */
-    public function getOauthProvider()
-    {
-        $oauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
-
-        $options = [];
-
-        if (isset($oauthProviderOptions[$this->getOauthProviderHandle()])) {
-            $options = $oauthProviderOptions[$this->getOauthProviderHandle()];
-        }
-
-        if (!isset($options['redirectUri'])) {
-            $options['redirectUri'] = $this->getRedirectUri();
-        }
-
-        return $this->createOauthProvider($options);
     }
 
     /**
