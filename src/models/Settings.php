@@ -45,7 +45,7 @@ class Settings extends Model
     /**
      * @var int The number of videos per page in the explorer
      */
-    public $videosPerPage = 3;
+    public $videosPerPage = 30;
 
     /**
      * @var array OAuth provider options
