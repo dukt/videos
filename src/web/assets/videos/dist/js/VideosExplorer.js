@@ -158,7 +158,7 @@ Videos.Explorer = Garnish.Base.extend({
         gateway = $(ev.currentTarget).data('gateway');
         method = $(ev.currentTarget).data('method');
         options = $(ev.currentTarget).data('options');
-        
+
         if(!options) {
             options = [];
         }
