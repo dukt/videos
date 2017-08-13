@@ -160,7 +160,7 @@ Videos.Explorer = Garnish.Base.extend({
         options = $(ev.currentTarget).data('options');
 
         if(!options) {
-            options = [];
+            options = {};
         }
         this.getVideos(gateway, method, options);
 
