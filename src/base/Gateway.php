@@ -345,86 +345,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Returns the gateway's settings as HTML
-     *
-     * @return string
-     */
-    public function getSettingsHtml()
-    {
-        $oauthProviderHandle = $this->getOauthProviderHandle();
-
-        $variables = [
-            'isOauthProviderConfigured' => false,
-            'account' => false,
-            'token' => false,
-            'error' => false
-        ];
-
-        $variables['isOauthProviderConfigured'] = Videos::$plugin->getVideos()->isOauthProviderConfigured($oauthProviderHandle);
-
-        if ($variables['isOauthProviderConfigured']) {
-            $token = $this->getToken();
-
-            if ($token) {
-                try {
-                    $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
-
-                    if (!$account) {
-                        try {
-                            $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
-
-                            if (!$account) {
-                                $oauthProvider = $this->getOauthProvider();
-
-                                if (method_exists($oauthProvider, 'getResourceOwner')) {
-                                    $account = $oauthProvider->getResourceOwner($token);
-                                } elseif (method_exists($oauthProvider, 'getAccount')) {
-                                    // Todo: Remove in OAuth 3.0
-                                    $account = $oauthProvider->getAccount($token);
-                                }
-
-                                Videos::$plugin->getCache()->set(['getAccount', $token], $account);
-                            }
-
-                            if ($account) {
-                                $variables['account'] = $account;
-                                // $variables['settings'] = $plugin->getSettings();
-                            }
-                        } catch (Exception $e) {
-                            Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
-
-                            $variables['error'] = $e->getMessage();
-                        }
-                    }
-
-                    if ($account) {
-                        $variables['account'] = $account;
-                        // $variables['settings'] = $plugin->getSettings();
-                    }
-                } catch (Exception $e) {
-                    Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
-
-                    $variables['error'] = $e->getMessage();
-                }
-            }
-
-            $variables['token'] = $token;
-        }
-
-        $variables['gateway'] = $this;
-        $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
-
-        if (isset($allOauthProviderOptions[$this->getOauthProviderHandle()])) {
-            $variables['oauthProviderOptions'] = $allOauthProviderOptions[$this->getOauthProviderHandle()];
-        }
-
-        $variables['javascriptOrigin'] = $this->getJavascriptOrigin();
-        $variables['redirectUri'] = $this->getRedirectUri();
-
-        return Craft::$app->getView()->renderTemplate($this->getSettingsTemplatePath(), $variables);
-    }
-
-    /**
      * Returns the javascript origin URL.
      *
      * @return string
@@ -432,11 +352,6 @@ abstract class Gateway implements GatewayInterface
     public function getJavascriptOrigin()
     {
         return UrlHelper::baseUrl();
-    }
-
-    public function getSettingsTemplatePath()
-    {
-        return 'videos/settings/_gateways/'.$this->getHandle();
     }
 
     public function getAccount()
@@ -515,6 +430,15 @@ abstract class Gateway implements GatewayInterface
     public function getVideosPerPage()
     {
         return Videos::$plugin->getSettings()->videosPerPage;
+    }
+
+    public function getOauthProviderOptions()
+    {
+        $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
+
+        if (isset($allOauthProviderOptions[$this->getOauthProviderHandle()])) {
+            return $allOauthProviderOptions[$this->getOauthProviderHandle()];
+        }
     }
 
     // Protected Methods
