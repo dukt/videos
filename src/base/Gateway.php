@@ -525,21 +525,18 @@ abstract class Gateway implements GatewayInterface
      *
      * @param       $uri
      * @param array $query
-     * @param null  $headers
      *
      * @return mixed
      * @throws Exception
      */
-    protected function apiGet($uri, $query = [], $headers = null)
+    protected function apiGet($uri, $query = [])
     {
-        $options = [
-            'query' => $query,
-        ];
-
         $client = $this->createClient();
 
         try {
-            $response = $client->request('GET', $uri, $options);
+            $response = $client->request('GET', $uri, [
+                'query' => $query,
+            ]);
 
             $jsonResponse = json_decode($response->getBody(), true);
 
