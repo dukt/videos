@@ -21,7 +21,7 @@
 		<input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
 
 		<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
-		<p>{{ 'Go to the {link} and create a new app.'|t('videos', {link: '<a href="https://developer.vimeo.com/apps">'~'{oauthProvider} API Console'|t('videos', { oauthProvider: gateway.oauthProviderName })~'</a>'})|raw }}</p>
+		<p>{{ 'Go to the {link} and create a new app.'|t('videos', {link: '<a href="'~gateway.getOauthProviderApiConsoleUrl()~'">'~'{oauthProvider} API Console'|t('videos', { oauthProvider: gateway.oauthProviderName })~'</a>'})|raw }}</p>
 		<p>{{ "Setup the app OAuth settings with the following parameters:"|t('videos') }}</p>
 
 		<ul class="bullets">
