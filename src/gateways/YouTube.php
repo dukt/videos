@@ -29,7 +29,7 @@ class YouTube extends Gateway
      *
      * @return string
      */
-    public function getIconAlias()
+    public function getIconAlias(): string
     {
         return '@dukt/videos/icons/youtube.svg';
     }
@@ -39,7 +39,7 @@ class YouTube extends Gateway
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return "YouTube";
     }
@@ -59,7 +59,7 @@ class YouTube extends Gateway
      *
      * @return string
      */
-    public function getOauthProviderApiConsoleUrl()
+    public function getOauthProviderApiConsoleUrl(): string
     {
         return 'https://console.developers.google.com/';
     }
@@ -93,13 +93,13 @@ class YouTube extends Gateway
     }
 
     /**
-     * Creates the OAuth provider.
+     * @inheritDoc
      *
-     * @param $options
+     * @param array $options
      *
      * @return \Dukt\OAuth2\Client\Provider\Google
      */
-    public function createOauthProvider($options)
+    public function createOauthProvider(array $options)
     {
         return new \Dukt\OAuth2\Client\Provider\Google($options);
     }
@@ -109,7 +109,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    public function getExplorerSections()
+    public function getExplorerSections(): array
     {
         $sections = [];
 
@@ -156,12 +156,13 @@ class YouTube extends Gateway
     /**
      * @inheritDoc
      *
-     * @param $id
+     * @param string $id
      *
      * @return Video
+     *
      * @throws \Exception
      */
-    public function getVideoById($id)
+    public function getVideoById(string $id)
     {
         $data = $this->get('videos', [
             'query' => [
@@ -184,7 +185,7 @@ class YouTube extends Gateway
      *
      * @return string
      */
-    public function getEmbedFormat()
+    public function getEmbedFormat(): string
     {
         return "https://www.youtube.com/embed/%s?wmode=transparent";
     }
@@ -194,9 +195,9 @@ class YouTube extends Gateway
      *
      * @param $url
      *
-     * @return bool|int
+     * @return bool|string
      */
-    public function extractVideoIdFromUrl($url)
+    public function extractVideoIdFromUrl(string $url)
     {
         // check if url works with this service and extract video_id
 

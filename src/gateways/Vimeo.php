@@ -29,7 +29,7 @@ class Vimeo extends Gateway
      *
      * @return string
      */
-    public function getIconAlias()
+    public function getIconAlias(): string
     {
         return '@dukt/videos/icons/vimeo.svg';
     }
@@ -39,7 +39,7 @@ class Vimeo extends Gateway
      *
      * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return "Vimeo";
     }
@@ -49,7 +49,7 @@ class Vimeo extends Gateway
      *
      * @return string
      */
-    public function getOauthProviderApiConsoleUrl()
+    public function getOauthProviderApiConsoleUrl(): string
     {
         return 'https://developer.vimeo.com/apps';
     }
@@ -70,11 +70,11 @@ class Vimeo extends Gateway
     /**
      * Creates the OAuth provider.
      *
-     * @param $options
+     * @param array $options
      *
      * @return \Dukt\OAuth2\Client\Provider\Vimeo
      */
-    public function createOauthProvider($options)
+    public function createOauthProvider(array $options)
     {
         return new \Dukt\OAuth2\Client\Provider\Vimeo($options);
     }
@@ -84,7 +84,7 @@ class Vimeo extends Gateway
      *
      * @return array
      */
-    public function getExplorerSections()
+    public function getExplorerSections(): array
     {
         $sections = [];
 
@@ -159,12 +159,12 @@ class Vimeo extends Gateway
     /**
      * @inheritDoc
      *
-     * @param $id
+     * @param string $id
      *
      * @return Video
      * @throws \Exception
      */
-    public function getVideoById($id)
+    public function getVideoById(string $id)
     {
         $data = $this->get('videos/'.$id, [
             'query' => [
@@ -182,19 +182,17 @@ class Vimeo extends Gateway
      *
      * @return string
      */
-    public function getEmbedFormat()
+    public function getEmbedFormat(): string
     {
         return "https://player.vimeo.com/video/%s";
     }
 
     /**
-     * @inheritDoc
+     * @param string $url
      *
-     * @param $url
-     *
-     * @return bool|int
+     * @return bool|string
      */
-    public function extractVideoIdFromUrl($url)
+    public function extractVideoIdFromUrl(string $url)
     {
         // check if url works with this service and extract video_id
 

@@ -20,43 +20,63 @@ interface GatewayInterface
 
     /**
      * Returns the OAuth provider’s instance.
+     *
+     * @param array $options
+     *
+     * @return mixed
      */
     public function createOauthProvider(array $options);
 
     /**
      * Returns the OAuth provider’s API console URL.
+     *
+     * @return string
      */
-    public function getOauthProviderApiConsoleUrl();
+    public function getOauthProviderApiConsoleUrl(): string;
 
     /**
-     * Returns the name of the gateway
+     * Returns the name of the gateway.
+     *
+     * @return string
      */
-    public function getName();
+    public function getName(): string;
 
     /**
      * Returns the sections for the explorer
+     *
+     * @return array
      */
-    public function getExplorerSections();
+    public function getExplorerSections(): array;
 
     /**
      * Return the icon’s alias.
      *
      * @return string
      */
-    public function getIconAlias();
+    public function getIconAlias(): string;
 
     /**
-     * Requests the video from the API and then returns it as video object
+     * Requests the video from the API and then returns it as video object.
+     *
+     * @param string $id
+     *
+     * @return string
      */
-    public function getVideoById($id);
+    public function getVideoById(string $id);
 
     /**
-     * Returns the URL format of the embed
+     * Returns the URL format of the embed.
+     *
+     * @return string
      */
-    public function getEmbedFormat();
+    public function getEmbedFormat(): string;
 
     /**
-     * Extracts the video ID from the video URL
+     * Extracts the video ID from the video URL.
+     *
+     * @param string $url
+     *
+     * @return bool|string
      */
-    public function extractVideoIdFromUrl($url);
+    public function extractVideoIdFromUrl(string $url);
 }
