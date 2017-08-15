@@ -19,6 +19,16 @@ interface GatewayInterface
     // =========================================================================
 
     /**
+     * Returns the OAuth provider’s instance.
+     */
+    public function createOauthProvider(array $options);
+
+    /**
+     * Returns the OAuth provider’s API console URL.
+     */
+    public function getOauthProviderApiConsoleUrl();
+
+    /**
      * Returns the name of the gateway
      */
     public function getName();
