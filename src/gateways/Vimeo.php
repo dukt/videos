@@ -45,16 +45,6 @@ class Vimeo extends Gateway
     }
 
     /**
-     * @inheritDoc
-     *
-     * @return string
-     */
-    public function getOauthProviderHandle()
-    {
-        return 'vimeo';
-    }
-
-    /**
      * Returns the OAuth provider’s name.
      *
      * @return string
