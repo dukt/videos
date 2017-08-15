@@ -30,6 +30,16 @@ class YouTube extends Gateway
      *
      * @return string
      */
+    public function getIconAlias()
+    {
+        return '@dukt/videos/icons/youtube.svg';
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @return string
+     */
     public function getName()
     {
         return "YouTube";

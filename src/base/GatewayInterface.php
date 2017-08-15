@@ -29,6 +29,13 @@ interface GatewayInterface
     public function getExplorerSections();
 
     /**
+     * Return the icon’s alias.
+     *
+     * @return string
+     */
+    public function getIconAlias();
+
+    /**
      * Requests the video from the API and then returns it as video object
      */
     public function getVideoById($id);

@@ -26,20 +26,6 @@ abstract class Gateway implements GatewayInterface
     // =========================================================================
 
     /**
-     * Returns the icon URL.
-     *
-     * @return string|false|null
-     */
-    public function getIconUrl()
-    {
-        $iconAlias = '@dukt/videos/icons/'.$this->getHandle().'.svg';
-
-        if (file_exists(Craft::getAlias($iconAlias))) {
-            return Craft::$app->assetManager->getPublishedUrl($iconAlias, true);
-        }
-    }
-
-    /**
      * Return the handle of the gateway based on its class name
      *
      * @return string
@@ -51,6 +37,20 @@ abstract class Gateway implements GatewayInterface
         $handle = strtolower($handle);
 
         return $handle;
+    }
+
+    /**
+     * Returns the icon URL.
+     *
+     * @return string|false|null
+     */
+    public function getIconUrl()
+    {
+        $iconAlias = $this->getIconAlias();
+
+        if (file_exists(Craft::getAlias($iconAlias))) {
+            return Craft::$app->assetManager->getPublishedUrl($iconAlias, true);
+        }
     }
 
     /**

@@ -29,6 +29,16 @@ class Vimeo extends Gateway
      *
      * @return string
      */
+    public function getIconAlias()
+    {
+        return '@dukt/videos/icons/vimeo.svg';
+    }
+
+    /**
+     * @inheritDoc
+     *
+     * @return string
+     */
     public function getName()
     {
         return "Vimeo";
