@@ -366,6 +366,12 @@ abstract class Gateway implements GatewayInterface
         return UrlHelper::baseUrl();
     }
 
+    /**
+     * Returns the account.
+     * 
+     * @return mixed
+     * @throws Exception
+     */
     public function getAccount()
     {
         $token = $this->getToken();
@@ -488,7 +494,6 @@ abstract class Gateway implements GatewayInterface
 
         return $data;
     }
-
 
     /**
      * Checks a provider response for errors.
