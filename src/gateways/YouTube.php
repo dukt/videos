@@ -46,16 +46,6 @@ class YouTube extends Gateway
     }
 
     /**
-     * @inheritDoc
-     *
-     * @return string
-     */
-    public function getOauthProviderHandle()
-    {
-        return 'google';
-    }
-
-    /**
      * Returns the OAuth provider’s name.
      *
      * @return string
