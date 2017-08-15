@@ -36,35 +36,30 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        try {
-            $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
-            $nav = $this->getExplorerNav();
+        $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
+        $nav = $this->getExplorerNav();
 
-            $gateways = [];
-            $allGateways = Videos::$plugin->getGateways()->getGateways();
+        $gateways = [];
+        $allGateways = Videos::$plugin->getGateways()->getGateways();
 
-            foreach ($allGateways as $_gateway) {
-                $gateway = [
-                    'name' => $_gateway->getName(),
-                    'handle' => $_gateway->getHandle(),
-                    'supportsSearch' => $_gateway->supportsSearch(),
-                ];
+        foreach ($allGateways as $_gateway) {
+            $gateway = [
+                'name' => $_gateway->getName(),
+                'handle' => $_gateway->getHandle(),
+                'supportsSearch' => $_gateway->supportsSearch(),
+            ];
 
-                array_push($gateways, $gateway);
-            }
-
-            return $this->asJson([
-                'success' => true,
-                'html' => Craft::$app->getView()->renderTemplate('videos/_elements/explorer', [
-                    'namespaceInputId' => $namespaceInputId,
-                    'nav' => $nav,
-                    'gateways' => $gateways
-                ])
-            ]);
-        } catch (\Exception $e) {
-            // Don't need to log errors again as they are already logged by BaseGateway::api()
-            return $this->asErrorJson('Couldn’t load explorer.');
+            array_push($gateways, $gateway);
         }
+
+        return $this->asJson([
+            'success' => true,
+            'html' => Craft::$app->getView()->renderTemplate('videos/_elements/explorer', [
+                'namespaceInputId' => $namespaceInputId,
+                'nav' => $nav,
+                'gateways' => $gateways
+            ])
+        ]);
     }
 
     /**
