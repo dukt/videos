@@ -9,6 +9,7 @@ namespace dukt\videos\base;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use dukt\videos\errors\JsonParsingException;
 use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Exception\BadResponseException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -485,7 +486,7 @@ abstract class Gateway implements GatewayInterface
 
             try {
                 $data = $this->parseJson($body);
-            } catch (Exception $jsonParsingException) {
+            } catch (JsonParsingException $e) {
                 throw $badResponseException;
             }
         }
@@ -530,7 +531,7 @@ abstract class Gateway implements GatewayInterface
         $content = json_decode($content, true);
 
         if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new Exception(sprintf(
+            throw new JsonParsingException(sprintf(
                 "Failed to parse JSON response: %s",
                 json_last_error_msg()
             ));
