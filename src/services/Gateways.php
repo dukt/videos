@@ -166,8 +166,6 @@ class Gateways extends Component
      */
     private function _createGateway($gatewayType)
     {
-        $gateway = new $gatewayType;
-
-        return $gateway;
+        return new $gatewayType;
     }
 }
