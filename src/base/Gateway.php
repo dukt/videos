@@ -352,9 +352,7 @@ abstract class Gateway implements GatewayInterface
             $format .= $queryMark.$options;
         }
 
-        $embedUrl = sprintf($format, $videoId);
-
-        return $embedUrl;
+        return sprintf($format, $videoId);
     }
 
     /**
