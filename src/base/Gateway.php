@@ -89,8 +89,8 @@ abstract class Gateway implements GatewayInterface
 
         $options = [];
 
-        if (isset($oauthProviderOptions[$this->getOauthProviderHandle()])) {
-            $options = $oauthProviderOptions[$this->getOauthProviderHandle()];
+        if (isset($oauthProviderOptions[$this->getHandle()])) {
+            $options = $oauthProviderOptions[$this->getHandle()];
         }
 
         if (!isset($options['redirectUri'])) {
@@ -446,8 +446,8 @@ abstract class Gateway implements GatewayInterface
     {
         $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
 
-        if (isset($allOauthProviderOptions[$this->getOauthProviderHandle()])) {
-            return $allOauthProviderOptions[$this->getOauthProviderHandle()];
+        if (isset($allOauthProviderOptions[$this->getHandle()])) {
+            return $allOauthProviderOptions[$this->getHandle()];
         }
     }
 

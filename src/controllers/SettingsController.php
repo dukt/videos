@@ -72,7 +72,7 @@ class SettingsController extends Controller
 
         $settings = (array)$plugin->getSettings();
 
-        $settings['oauthProviderOptions'][$gateway->getOauthProviderHandle()] = [
+        $settings['oauthProviderOptions'][$gateway->getHandle()] = [
             'clientId' => $clientId,
             'clientSecret' => $clientSecret,
         ];
