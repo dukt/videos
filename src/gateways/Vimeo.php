@@ -337,7 +337,7 @@ class Vimeo extends Gateway
      */
     private function getCollectionsAlbums($params = [])
     {
-        $data = $this->get('me/abums', [
+        $data = $this->get('me/albums', [
             'query' => $this->queryFromParams($params)
         ]);
 
