@@ -10,9 +10,11 @@ namespace dukt\videos\base;
 use Craft;
 use craft\helpers\UrlHelper;
 use dukt\videos\Plugin as Videos;
+use GuzzleHttp\Exception\BadResponseException;
 use League\OAuth2\Client\Token\AccessToken;
 use League\OAuth2\Client\Grant\RefreshToken;
 use Exception;
+use Psr\Http\Message\ResponseInterface;
 
 /**
  * Gateway class
@@ -457,32 +459,78 @@ abstract class Gateway implements GatewayInterface
     /**
      * Performs a GET request on the API
      *
-     * @param       $uri
+     * @param string $uri
      * @param array $query
      *
      * @return mixed
      * @throws Exception
      */
-    protected function apiGet($uri, $query = [])
+    protected function get($uri, array $options = [])
     {
         $client = $this->createClient();
 
         try {
-            $response = $client->request('GET', $uri, [
-                'query' => $query,
-            ]);
+            $response = $client->request('GET', $uri, $options);
+            $body = (string) $response->getBody();
+            $data = $this->parseJson($body);
+        } catch (BadResponseException $badResponseException) {
+            $response = $badResponseException->getResponse();
+            $body = (string) $response->getBody();
 
-            $jsonResponse = json_decode($response->getBody(), true);
+            try {
+                $data = $this->parseJson($body);
+            } catch (Exception $jsonParsingException) {
+                throw $badResponseException;
+            }
+        }
 
-            return $jsonResponse;
-        } catch (Exception $e) {
-            Craft::info("GuzzleError: ".$e->getMessage(), __METHOD__);
+        $this->checkResponse($response, $data);
 
-            if (method_exists($e, 'getResponse')) {
-                Craft::info("GuzzleErrorResponse: ".$e->getResponse()->getBody(true), __METHOD__);
+        return $data;
+    }
+
+
+    /**
+     * Checks a provider response for errors.
+     *
+     * @throws Exception
+     * @param  ResponseInterface $response
+     * @param  array|string $data Parsed response data
+     * @return void
+     */
+    protected function checkResponse(ResponseInterface $response, $data)
+    {
+        if (!empty($data['error'])) {
+            $code  = 0;
+            $error = $data['error'];
+
+            if (is_array($error)) {
+                $code  = $error['code'];
+                $error = $error['message'];
             }
 
-            throw $e;
+            throw new \Exception($error, $code);
         }
+    }
+
+    /**
+     * Attempts to parse a JSON response.
+     *
+     * @param  string $content JSON content from response body
+     * @return array Parsed JSON data
+     * @throws Exception if the content could not be parsed
+     */
+    protected function parseJson($content)
+    {
+        $content = json_decode($content, true);
+
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            throw new Exception(sprintf(
+                "Failed to parse JSON response: %s",
+                json_last_error_msg()
+            ));
+        }
+
+        return $content;
     }
 }

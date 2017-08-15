@@ -7,7 +7,6 @@
 
 namespace dukt\videos\gateways;
 
-use Craft;
 use dukt\videos\base\Gateway;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
@@ -164,18 +163,20 @@ class YouTube extends Gateway
      */
     public function getVideoById($id)
     {
-        $response = $this->apiGet('videos', [
-            'part' => 'snippet,statistics,contentDetails',
-            'id' => $id
+        $data = $this->get('videos', [
+            'query' => [
+                'part' => 'snippet,statistics,contentDetails',
+                'id' => $id
+            ]
         ]);
 
-        $videos = $this->parseVideos($response['items']);
+        $videos = $this->parseVideos($data['items']);
 
         if (count($videos) == 1) {
             return array_pop($videos);
-        } else {
-            throw new \Exception('Video not found');
         }
+
+        throw new \Exception('Video not found');
     }
 
     /**
@@ -266,21 +267,21 @@ class YouTube extends Gateway
     {
         $pagination = $this->pagination($params);
 
-        $data = [
+        $query = [
             'part' => 'id,snippet',
             'playlistId' => $params['id'],
             'maxResults' => $pagination['perPage']
         ];
 
         if (!empty($pagination['moreToken'])) {
-            $data['pageToken'] = $pagination['moreToken'];
+            $query['pageToken'] = $pagination['moreToken'];
         }
 
-        $playlistItemsResponse = $this->apiGet('playlistItems', $data);
+        $playlistItemsData = $this->get('playlistItems', ['query' => $query]);
 
         $videoIds = [];
 
-        foreach ($playlistItemsResponse['items'] as $item) {
+        foreach ($playlistItemsData['items'] as $item) {
             $videoId = $item['snippet']['resourceId']['videoId'];
 
             array_push($videoIds, $videoId);
@@ -288,22 +289,24 @@ class YouTube extends Gateway
 
         $videoIds = implode(",", $videoIds);
 
-        $videosResponse = $this->apiGet('videos', [
-            'part' => 'snippet,statistics,contentDetails',
-            'id' => $videoIds
+        $videosData = $this->get('videos', [
+            'query' => [
+                'part' => 'snippet,statistics,contentDetails',
+                'id' => $videoIds
+            ]
         ]);
 
-        $videos = $this->parseVideos($videosResponse['items']);
+        $videos = $this->parseVideos($videosData['items']);
 
         $more = false;
 
-        if (!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0) {
+        if (!empty($playlistItemsData['nextPageToken']) && count($videos) > 0) {
             $more = true;
         }
 
         return [
-            'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-            'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+            'prevPage' => (isset($playlistItemsData['prevPageToken']) ? $playlistItemsData['prevPageToken'] : null),
+            'moreToken' => (isset($playlistItemsData['nextPageToken']) ? $playlistItemsData['nextPageToken'] : null),
             'videos' => $videos,
             'more' => $more
         ];
@@ -320,7 +323,7 @@ class YouTube extends Gateway
     {
         $pagination = $this->pagination($params);
 
-        $data = [
+        $query = [
             'part' => 'id',
             'type' => 'video',
             'q' => $params['q'],
@@ -328,34 +331,36 @@ class YouTube extends Gateway
         ];
 
         if (!empty($pagination['moreToken'])) {
-            $data['pageToken'] = $pagination['moreToken'];
+            $query['pageToken'] = $pagination['moreToken'];
         }
 
-        $response = $this->apiGet('search', $data);
+        $data = $this->get('search', ['query' => $query]);
 
-        foreach ($response['items'] as $item) {
+        foreach ($data['items'] as $item) {
             $videoIds[] = $item['id']['videoId'];
         }
 
         if (!empty($videoIds)) {
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $this->apiGet('videos', [
-                'part' => 'snippet,statistics,contentDetails',
-                'id' => $videoIds
+            $videosData = $this->get('videos', [
+                'query' => [
+                    'part' => 'snippet,statistics,contentDetails',
+                    'id' => $videoIds
+                ]
             ]);
 
-            $videos = $this->parseVideos($videosResponse['items']);
+            $videos = $this->parseVideos($videosData['items']);
 
             $more = false;
 
-            if (!empty($response['nextPageToken']) && count($videos) > 0) {
+            if (!empty($data['nextPageToken']) && count($videos) > 0) {
                 $more = true;
             }
 
             return [
-                'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
-                'moreToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
+                'prevPage' => (isset($data['prevPageToken']) ? $data['prevPageToken'] : null),
+                'moreToken' => (isset($data['nextPageToken']) ? $data['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             ];
@@ -395,16 +400,14 @@ class YouTube extends Gateway
      */
     private function getCollectionsPlaylists($params = [])
     {
-        try {
-            $channelsResponse = $this->apiGet('playlists', [
+        $data = $this->get('playlists', [
+            'query' => [
                 'part' => 'snippet',
                 'mine' => 'true'
-            ]);
+            ]
+        ]);
 
-            return $this->parseCollections($channelsResponse['items']);
-        } catch (\Exception $e) {
-            Craft::info('Couldn’t get playlists: '.$e->getMessage(), __METHOD__);
-        }
+        return $this->parseCollections($data['items']);
     }
 
     /**
@@ -549,29 +552,31 @@ class YouTube extends Gateway
     {
         $pagination = $this->pagination($params);
 
-        $channelsResponse = $this->apiGet('channels', [
-            'part' => 'contentDetails',
-            'mine' => 'true'
+        $channelsResponse = $this->get('channels', [
+            'query' => [
+                'part' => 'contentDetails',
+                'mine' => 'true'
+            ]
         ]);
 
         foreach ($channelsResponse['items'] as $channel) {
             $uploadsListId = $channel['contentDetails']['relatedPlaylists'][$playlist];
 
-            $data = [
+            $query = [
                 'part' => 'id,snippet',
                 'playlistId' => $uploadsListId,
                 'maxResults' => $pagination['perPage']
             ];
 
             if (!empty($pagination['moreToken'])) {
-                $data['pageToken'] = $pagination['moreToken'];
+                $query['pageToken'] = $pagination['moreToken'];
             }
 
-            $playlistItemsResponse = $this->apiGet('playlistItems', $data);
+            $playlistItemsData = $this->get('playlistItems', ['query' => $query]);
 
             $videoIds = [];
 
-            foreach ($playlistItemsResponse['items'] as $item) {
+            foreach ($playlistItemsData['items'] as $item) {
                 $videoId = $item['snippet']['resourceId']['videoId'];
 
                 array_push($videoIds, $videoId);
@@ -579,22 +584,24 @@ class YouTube extends Gateway
 
             $videoIds = implode(",", $videoIds);
 
-            $videosResponse = $this->apiGet('videos', [
-                'part' => 'snippet,statistics,contentDetails,status',
-                'id' => $videoIds
+            $videosData = $this->get('videos', [
+                'query' => [
+                    'part' => 'snippet,statistics,contentDetails,status',
+                    'id' => $videoIds
+                ]
             ]);
 
-            $videos = $this->parseVideos($videosResponse['items']);
+            $videos = $this->parseVideos($videosData['items']);
 
             $more = false;
 
-            if (!empty($playlistItemsResponse['nextPageToken']) && count($videos) > 0) {
+            if (!empty($playlistItemsData['nextPageToken']) && count($videos) > 0) {
                 $more = true;
             }
 
             return [
-                'prevPage' => (isset($playlistItemsResponse['prevPageToken']) ? $playlistItemsResponse['prevPageToken'] : null),
-                'moreToken' => (isset($playlistItemsResponse['nextPageToken']) ? $playlistItemsResponse['nextPageToken'] : null),
+                'prevPage' => (isset($playlistItemsData['prevPageToken']) ? $playlistItemsData['prevPageToken'] : null),
+                'moreToken' => (isset($playlistItemsData['nextPageToken']) ? $playlistItemsData['nextPageToken'] : null),
                 'videos' => $videos,
                 'more' => $more
             ];

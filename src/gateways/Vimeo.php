@@ -166,13 +166,11 @@ class Vimeo extends Gateway
      */
     public function getVideoById($id)
     {
-        $query = [
-            'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link'
-        ];
-
-        $response = $this->apiGet('videos/'.$id, $query);
-
-        $data = $response;
+        $data = $this->get('videos/'.$id, [
+            'query' => [
+                'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link'
+            ],
+        ]);
 
         if ($data) {
             return $this->parseVideo($data);
@@ -339,10 +337,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsAlbums($params = [])
     {
-        $query = $this->queryFromParams();
-        $response = $this->apiGet('me/albums', $query);
+        $data = $this->get('me/abums', [
+            'query' => $this->queryFromParams($params)
+        ]);
 
-        return $this->parseCollections('album', $response['data']);
+        return $this->parseCollections('album', $data['data']);
     }
 
     /**
@@ -353,10 +352,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsChannels($params = [])
     {
-        $query = $this->queryFromParams();
-        $response = $this->apiGet('me/channels', $query);
+        $data = $this->get('me/channels', [
+            'query' => $this->queryFromParams($params)
+        ]);
 
-        return $this->parseCollections('channel', $response['data']);
+        return $this->parseCollections('channel', $data['data']);
     }
 
     /**
@@ -511,22 +511,24 @@ class Vimeo extends Gateway
     /**
      * @param      $uri
      * @param      $params
-     * @param bool $requireAuthentication
      *
      * @return array
      * @throws \Exception
      */
-    private function performVideosRequest($uri, $params, $requireAuthentication = true)
+    private function performVideosRequest($uri, $params)
     {
         $query = $this->queryFromParams($params);
 
-        $response = $this->apiGet($uri, $query);
-        $videos = $this->parseVideos($response['data']);
+        $data = $this->get($uri, [
+            'query' => $query
+        ]);
+
+        $videos = $this->parseVideos($data['data']);
 
         $more = false;
         $moreToken = null;
 
-        if ($response['paging']['next']) {
+        if ($data['paging']['next']) {
             $more = true;
             $moreToken = $query['page'] + 1;
         }
