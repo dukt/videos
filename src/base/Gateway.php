@@ -368,7 +368,7 @@ abstract class Gateway implements GatewayInterface
 
     /**
      * Returns the account.
-     * 
+     *
      * @return mixed
      * @throws Exception
      */
