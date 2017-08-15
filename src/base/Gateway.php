@@ -101,6 +101,16 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
+     * Returns the OAuth provider’s name.
+     *
+     * @return string
+     */
+    public function getOauthProviderName()
+    {
+        return $this->getName();
+    }
+
+    /**
      * Returns the redirect URI.
      *
      * @return string
