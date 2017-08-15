@@ -8,7 +8,6 @@
 namespace dukt\videos\services;
 
 use Craft;
-use craft\helpers\UrlHelper;
 use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;

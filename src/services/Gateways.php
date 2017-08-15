@@ -10,9 +10,6 @@ namespace dukt\videos\services;
 use Craft;
 use dukt\videos\base\Gateway;
 use yii\base\Component;
-use dukt\videos\Plugin as Videos;
-use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Grant\RefreshToken;
 
 /**
  * Class Gateways service.
