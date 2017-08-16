@@ -110,30 +110,24 @@ class ExplorerController extends Controller
 
         $url = Craft::$app->getRequest()->getParam('url');
 
-        try {
-            $video = Videos::$plugin->getCache()->get(['fieldPreview', $url]);
+        $video = Videos::$plugin->getCache()->get(['fieldPreview', $url]);
+
+        if (!$video) {
+            $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
             if (!$video) {
-                $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
-
-                if (!$video) {
-                    throw new VideoNotFoundException("Video not found.");
-                }
-
-                Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);
+                throw new VideoNotFoundException("Video not found.");
             }
 
-            return $this->asJson(
-                [
-                    'video' => $video,
-                    'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $video])
-                ]
-            );
-        } catch (\Exception $e) {
-            Craft::info('Couldn’t get field preview: '.$e->getMessage(), __METHOD__);
-
-            return $this->asErrorJson($e->getMessage());
+            Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);
         }
+
+        return $this->asJson(
+            [
+                'video' => $video,
+                'preview' => Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $video])
+            ]
+        );
     }
 
     /**
