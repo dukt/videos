@@ -271,17 +271,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Whether the gateway supports search or not
-     *
-     * @return bool
-     */
-    public function supportsSearch()
-    {
-        // Deprecated in 2.0: Each gateway will need to specify its support for search
-        return true;
-    }
-
-    /**
      * Returns the HTML of the embed from a video ID
      *
      * @param       $videoId
@@ -383,13 +372,7 @@ abstract class Gateway implements GatewayInterface
 
             if (!$account) {
                 $oauthProvider = $this->getOauthProvider();
-
-                if (method_exists($oauthProvider, 'getResourceOwner')) {
-                    $account = $oauthProvider->getResourceOwner($token);
-                } elseif (method_exists($oauthProvider, 'getAccount')) {
-                    // Todo: Remove in OAuth 3.0
-                    $account = $oauthProvider->getAccount($token);
-                }
+                $account = $oauthProvider->getResourceOwner($token);
 
                 Videos::$plugin->getCache()->set(['getAccount', $token], $account);
             }
@@ -463,6 +446,16 @@ abstract class Gateway implements GatewayInterface
         if (isset($allOauthProviderOptions[$this->getHandle()])) {
             return $allOauthProviderOptions[$this->getHandle()];
         }
+    }
+
+    /**
+     * Whether the gateway supports search or not
+     *
+     * @return bool
+     */
+    public function supportsSearch(): bool
+    {
+        return false;
     }
 
     // Protected Methods

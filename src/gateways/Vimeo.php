@@ -224,6 +224,16 @@ class Vimeo extends Gateway
         return $videoId;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @return bool
+     */
+    public function supportsSearch(): bool
+    {
+        return true;
+    }
+
     // Protected
     // =========================================================================
 

@@ -222,6 +222,16 @@ class YouTube extends Gateway
         return $video_id;
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @return bool
+     */
+    public function supportsSearch(): bool
+    {
+        return true;
+    }
+
     // Protected Methods
     // =========================================================================
 
