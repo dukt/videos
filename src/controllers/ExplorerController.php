@@ -9,8 +9,8 @@ namespace dukt\videos\controllers;
 
 use Craft;
 use craft\web\Controller;
-use dukt\videos\errors\GatewayNotFound;
-use dukt\videos\errors\VideoNotFound;
+use dukt\videos\errors\GatewayNotFoundException;
+use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 
 /**
@@ -82,7 +82,7 @@ class ExplorerController extends Controller
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
         if (!$gateway) {
-            throw new GatewayNotFound("Gateway not available");
+            throw new GatewayNotFoundException("Gateway not found.");
         }
 
         $videosResponse = $gateway->getVideos($method, $options);
@@ -117,7 +117,7 @@ class ExplorerController extends Controller
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
                 if (!$video) {
-                    throw new VideoNotFound("Video not found");
+                    throw new VideoNotFoundException("Video not found.");
                 }
 
                 Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);

@@ -8,7 +8,8 @@
 namespace dukt\videos\gateways;
 
 use dukt\videos\base\Gateway;
-use dukt\videos\errors\VideoNotFound;
+use dukt\videos\errors\CollectionParsingException;
+use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
@@ -163,8 +164,7 @@ class Vimeo extends Gateway
      * @param string $id
      *
      * @return Video
-     * 
-     * @throws VideoNotFound
+     * @throws VideoNotFoundException
      */
     public function getVideoById(string $id)
     {
@@ -178,7 +178,7 @@ class Vimeo extends Gateway
             return $this->parseVideo($data);
         }
 
-        throw new VideoNotFound('Video not found');
+        throw new VideoNotFoundException('Video not found.');
     }
 
     /**
@@ -335,7 +335,6 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
-     * @throws \Exception
      */
     private function getCollectionsAlbums($params = [])
     {
@@ -350,7 +349,6 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
-     * @throws \Exception
      */
     private function getCollectionsChannels($params = [])
     {
@@ -382,7 +380,7 @@ class Vimeo extends Gateway
                     break;
 
                 default:
-                    throw new \Exception("Couldn't parse collection");
+                    throw new CollectionParsingException('Couldn’t parse collection of type ”'.$type.'“.');
             }
 
             array_push($parseCollections, $parsedCollection);
@@ -515,7 +513,6 @@ class Vimeo extends Gateway
      * @param      $params
      *
      * @return array
-     * @throws \Exception
      */
     private function performVideosRequest($uri, $params)
     {

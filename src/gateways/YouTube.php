@@ -8,7 +8,7 @@
 namespace dukt\videos\gateways;
 
 use dukt\videos\base\Gateway;
-use dukt\videos\errors\VideoNotFound;
+use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
@@ -160,8 +160,7 @@ class YouTube extends Gateway
      * @param string $id
      *
      * @return Video
-     *
-     * @throws \Exception
+     * @throws VideoNotFoundException
      */
     public function getVideoById(string $id)
     {
@@ -178,7 +177,7 @@ class YouTube extends Gateway
             return array_pop($videos);
         }
 
-        throw new VideoNotFound('Video not found');
+        throw new VideoNotFoundException('Video not found.');
     }
 
     /**
@@ -548,7 +547,6 @@ class YouTube extends Gateway
      * @param array $params
      *
      * @return array
-     * @throws \Exception
      */
     private function performVideosRequest($playlist, $params = [])
     {

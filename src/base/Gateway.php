@@ -9,8 +9,10 @@ namespace dukt\videos\base;
 
 use Craft;
 use craft\helpers\UrlHelper;
+use dukt\videos\errors\ApiResponseException;
+use dukt\videos\errors\GatewayMethodNotFoundException;
 use dukt\videos\errors\JsonParsingException;
-use dukt\videos\errors\VideoNotFound;
+use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Exception\BadResponseException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -410,7 +412,7 @@ abstract class Gateway implements GatewayInterface
      * @param $url
      *
      * @return mixed
-     * @throws Exception
+     * @throws VideoNotFoundException
      */
     public function getVideoByUrl($url)
     {
@@ -419,20 +421,20 @@ abstract class Gateway implements GatewayInterface
         $videoId = $this->extractVideoIdFromUrl($url);
 
         if (!$videoId) {
-            throw new VideoNotFound('Video not found with url given');
+            throw new VideoNotFoundException('Video not found with url given.');
         }
 
         return $this->getVideoById($videoId);
     }
 
     /**
-     * @inheritDoc GatewayInterface::getVideos()
+     * Returns a list of videos.
      *
      * @param $method
      * @param $options
      *
      * @return mixed
-     * @throws Exception
+     * @throws GatewayMethodNotFoundException
      */
     public function getVideos($method, $options)
     {
@@ -440,9 +442,9 @@ abstract class Gateway implements GatewayInterface
 
         if (method_exists($this, $realMethod)) {
             return $this->{$realMethod}($options);
-        } else {
-            throw new Exception("Method ".$realMethod." not found");
         }
+
+        throw new GatewayMethodNotFoundException('Gateway method “'.$realMethod.'” not found.');
     }
 
     public function getVideosPerPage()
@@ -498,10 +500,10 @@ abstract class Gateway implements GatewayInterface
     /**
      * Checks a provider response for errors.
      *
-     * @throws Exception
-     * @param  ResponseInterface $response
-     * @param  array|string $data Parsed response data
-     * @return void
+     * @param ResponseInterface $response
+     * @param                   $data
+     *
+     * @throws ApiResponseException
      */
     protected function checkResponse(ResponseInterface $response, $data)
     {
@@ -514,18 +516,17 @@ abstract class Gateway implements GatewayInterface
                 $error = $error['message'];
             }
 
-            throw new \Exception($error, $code);
+            throw new ApiResponseException($error, $code);
         }
     }
 
     /**
-     * Attempts to parse a JSON response.
+     * @param string $content JSON content from response body
      *
-     * @param  string $content JSON content from response body
      * @return array Parsed JSON data
-     * @throws Exception if the content could not be parsed
+     * @throws JsonParsingException If the content could not be parsed
      */
-    protected function parseJson($content)
+    protected function parseJson(string $content)
     {
         $content = json_decode($content, true);
 
