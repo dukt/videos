@@ -34,6 +34,7 @@ class Video extends Field
      */
     public function defineContentAttribute()
     {
+        // Todo: remove ?
         return AttributeType::String;
     }
 
