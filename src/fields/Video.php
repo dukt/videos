@@ -109,11 +109,13 @@ class Video extends Field
     {
         try
         {
-            $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
+            if(!empty($videoUrl)) {
+                $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
 
-            if($video)
-            {
-                return $video;
+                if($video)
+                {
+                    return $video;
+                }
             }
         }
         catch(\Exception $e)
