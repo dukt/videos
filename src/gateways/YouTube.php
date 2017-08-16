@@ -394,12 +394,9 @@ class YouTube extends Gateway
     }
 
     /**
-     * @param array $params
-     *
      * @return array
-     * @throws \Exception
      */
-    private function getCollectionsPlaylists($params = [])
+    private function getCollectionsPlaylists()
     {
         $data = $this->get('playlists', [
             'query' => [
