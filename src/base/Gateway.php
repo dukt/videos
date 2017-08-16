@@ -447,11 +447,21 @@ abstract class Gateway implements GatewayInterface
         throw new GatewayMethodNotFoundException('Gateway method “'.$realMethod.'” not found.');
     }
 
+    /**
+     * Number of videos per page.
+     *
+     * @return mixed
+     */
     public function getVideosPerPage()
     {
         return Videos::$plugin->getSettings()->videosPerPage;
     }
 
+    /**
+     * Returns the OAuth provider options.
+     *
+     * @return array|null
+     */
     public function getOauthProviderOptions()
     {
         $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
@@ -464,14 +474,14 @@ abstract class Gateway implements GatewayInterface
     // Protected Methods
     // =========================================================================
 
+
     /**
-     * Performs a GET request on the API
+     * Performs a GET request on the API.
      *
-     * @param string $uri
-     * @param array $query
+     * @param       $uri
+     * @param array $options
      *
-     * @return mixed
-     * @throws Exception
+     * @return array
      */
     protected function get($uri, array $options = [])
     {
