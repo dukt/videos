@@ -234,7 +234,7 @@ abstract class Gateway implements GatewayInterface
                 return true;
             }
         } catch (\Exception $e) {
-            // Todo: log error
+            Craft::info('Couldn’t get token: '.$e->getMessage(), __METHOD__);
         }
 
         return false;
@@ -377,31 +377,25 @@ abstract class Gateway implements GatewayInterface
     public function getAccount()
     {
         $token = $this->getToken();
-
+        
         if ($token) {
-            try {
-                $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
+            $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
-                if (!$account) {
-                    $oauthProvider = $this->getOauthProvider();
+            if (!$account) {
+                $oauthProvider = $this->getOauthProvider();
 
-                    if (method_exists($oauthProvider, 'getResourceOwner')) {
-                        $account = $oauthProvider->getResourceOwner($token);
-                    } elseif (method_exists($oauthProvider, 'getAccount')) {
-                        // Todo: Remove in OAuth 3.0
-                        $account = $oauthProvider->getAccount($token);
-                    }
-
-                    Videos::$plugin->getCache()->set(['getAccount', $token], $account);
+                if (method_exists($oauthProvider, 'getResourceOwner')) {
+                    $account = $oauthProvider->getResourceOwner($token);
+                } elseif (method_exists($oauthProvider, 'getAccount')) {
+                    // Todo: Remove in OAuth 3.0
+                    $account = $oauthProvider->getAccount($token);
                 }
 
-                if ($account) {
-                    return $account;
-                }
-            } catch (Exception $e) {
-                Craft::info('Couldn’t get account. '.$e->getMessage(), __METHOD__);
+                Videos::$plugin->getCache()->set(['getAccount', $token], $account);
+            }
 
-                throw $e;
+            if ($account) {
+                return $account;
             }
         }
     }

@@ -139,34 +139,18 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
-        $gatewayHandle = strtolower($gatewayHandle);
-
+        $gatewayHandle = strtolower(Craft::$app->getRequest()->getParam('gateway'));
         $videoId = Craft::$app->getRequest()->getParam('videoId');
 
-        try {
-            $video = Videos::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
-        } catch (\Exception $e) {
-            $errorMsg = $e->getMessage();
-        }
+        $video = Videos::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
 
-        if (isset($video)) {
-            $html = Craft::$app->getView()->renderTemplate('videos/_elements/player', [
-                'video' => $video
-            ]);
+        $html = Craft::$app->getView()->renderTemplate('videos/_elements/player', [
+            'video' => $video
+        ]);
 
-            return $this->asJson([
-                'html' => $html
-            ]);
-        } elseif (isset($errorMsg)) {
-            Craft::info('Couldn’t get videos: '.$errorMsg, __METHOD__);
-
-            return $this->asErrorJson("Couldn't load video: ".$errorMsg);
-        } else {
-            Craft::info('Couldn’t get videos: Video not found', __METHOD__);
-
-            return $this->asErrorJson("Video not found.");
-        }
+        return $this->asJson([
+            'html' => $html
+        ]);
     }
 
     // Private Methods
