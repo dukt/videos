@@ -287,6 +287,8 @@ Videos.Explorer = Garnish.Base.extend({
                         }, this));
                     }
                 }
+            } else {
+                this.$mainContent.html('<p class="error">Couldn’t load videos.</p>');
             }
 
             $('.main', this.$modal).animate({scrollTop:0}, 0);

@@ -8,6 +8,7 @@
 namespace dukt\videos\gateways;
 
 use dukt\videos\base\Gateway;
+use dukt\videos\errors\VideoNotFound;
 use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
@@ -162,7 +163,8 @@ class Vimeo extends Gateway
      * @param string $id
      *
      * @return Video
-     * @throws \Exception
+     * 
+     * @throws VideoNotFound
      */
     public function getVideoById(string $id)
     {
@@ -175,6 +177,8 @@ class Vimeo extends Gateway
         if ($data) {
             return $this->parseVideo($data);
         }
+
+        throw new VideoNotFound('Video not found');
     }
 
     /**

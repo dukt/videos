@@ -9,6 +9,8 @@ namespace dukt\videos\controllers;
 
 use Craft;
 use craft\web\Controller;
+use dukt\videos\errors\GatewayNotFound;
+use dukt\videos\errors\VideoNotFound;
 use dukt\videos\Plugin as Videos;
 
 /**
@@ -71,35 +73,30 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        try {
-            $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
-            $gatewayHandle = strtolower($gatewayHandle);
+        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
+        $gatewayHandle = strtolower($gatewayHandle);
 
-            $method = Craft::$app->getRequest()->getParam('method');
-            $options = Craft::$app->getRequest()->getParam('options', []);
+        $method = Craft::$app->getRequest()->getParam('method');
+        $options = Craft::$app->getRequest()->getParam('options', []);
 
-            $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
+        $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
-            if ($gateway) {
-                $videosResponse = $gateway->getVideos($method, $options);
-
-                $html = Craft::$app->getView()->renderTemplate('videos/_elements/videos', [
-                    'videos' => $videosResponse['videos']
-                ]);
-
-                return $this->asJson([
-                    'html' => $html,
-                    'more' => $videosResponse['more'],
-                    'moreToken' => $videosResponse['moreToken']
-                ]);
-            } else {
-                throw new \Exception("Gateway not available");
-            }
-        } catch (\Exception $e) {
-            Craft::info('Couldn’t get videos: '.$e->getMessage(), __METHOD__);
-
-            return $this->asErrorJson($e->getMessage());
+        if (!$gateway) {
+            throw new GatewayNotFound("Gateway not available");
         }
+
+        $videosResponse = $gateway->getVideos($method, $options);
+
+        $html = Craft::$app->getView()->renderTemplate('videos/_elements/videos', [
+            'videos' => $videosResponse['videos']
+        ]);
+
+        return $this->asJson([
+            'html' => $html,
+            'more' => $videosResponse['more'],
+            'moreToken' => $videosResponse['moreToken']
+        ]);
+
     }
 
     /**
@@ -120,7 +117,7 @@ class ExplorerController extends Controller
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($url);
 
                 if (!$video) {
-                    throw new \Exception("Video not found");
+                    throw new VideoNotFound("Video not found");
                 }
 
                 Videos::$plugin->getCache()->set(['fieldPreview', $url], $video);

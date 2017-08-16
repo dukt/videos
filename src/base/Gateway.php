@@ -10,6 +10,7 @@ namespace dukt\videos\base;
 use Craft;
 use craft\helpers\UrlHelper;
 use dukt\videos\errors\JsonParsingException;
+use dukt\videos\errors\VideoNotFound;
 use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Exception\BadResponseException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -418,7 +419,7 @@ abstract class Gateway implements GatewayInterface
         $videoId = $this->extractVideoIdFromUrl($url);
 
         if (!$videoId) {
-            throw new Exception('Video not found with url given');
+            throw new VideoNotFound('Video not found with url given');
         }
 
         return $this->getVideoById($videoId);
