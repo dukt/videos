@@ -30,15 +30,6 @@ class Video extends Field
     }
 
     /**
-     * Content Attributes
-     */
-    public function defineContentAttribute()
-    {
-        // Todo: remove ?
-        return AttributeType::String;
-    }
-
-    /**
      * Get Input HTML
      *
      * @param string $name
