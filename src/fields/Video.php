@@ -46,18 +46,17 @@ class Video extends Field
      *
      * @return mixed
      */
-    public function getInputHtml($value, \craft\base\ElementInterface $element = NULL): string
+    public function getInputHtml($value, \craft\base\ElementInterface $element = null): string
     {
         $name = $this->handle;
 
         $value = $this->prepValue($value);
 
         $unpreppedValue = false;
-        
+
         // get the unprepped value (the video url)
 
-        if($element)
-        {
+        if ($element) {
             $unpreppedValue = $element->{$this->handle};
         }
 
@@ -80,18 +79,15 @@ class Video extends Field
 
         // Preview
 
-        if ($value instanceof \dukt\videos\models\Video)
-        {
+        if ($value instanceof \dukt\videos\models\Video) {
             $preview = Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
-        }
-        else
-        {
+        } else {
             $preview = null;
         }
 
         return Craft::$app->getView()->renderTemplate('videos/_components/fieldtypes/Video/input', [
-            'id'    => $id,
-            'name'  => $name,
+            'id' => $id,
+            'name' => $name,
             'value' => $unpreppedValue,
             'preview' => $preview
         ]);
@@ -107,19 +103,15 @@ class Video extends Field
      */
     public function prepValue($videoUrl)
     {
-        try
-        {
-            if(!empty($videoUrl)) {
+        try {
+            if (!empty($videoUrl)) {
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
 
-                if($video)
-                {
+                if ($video) {
                     return $video;
                 }
             }
-        }
-        catch(\Exception $e)
-        {
+        } catch (\Exception $e) {
             Craft::info("Couldn't get video in field prepValue: ".$e->getMessage(), __METHOD__);
 
             return null;
@@ -136,8 +128,7 @@ class Video extends Field
     public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
     {
         // ignore "raw" attribute
-        if(!empty($value->raw))
-        {
+        if (!empty($value->raw)) {
             $value->setAttribute('raw', null);
         }
 
