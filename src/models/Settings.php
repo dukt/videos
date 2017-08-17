@@ -21,7 +21,7 @@ class Settings extends Model
     // =========================================================================
 
     /**
-     * @var mixed|null YouTube parameters
+     * @var mixed|null YouTube parameters.
      */
     public $youtubeParameters;
 
@@ -38,17 +38,17 @@ class Settings extends Model
     public $cacheDuration = 'PT15M';
 
     /**
-     * @var bool Whether request to APIs should be cached or not
+     * @var bool Whether request to APIs should be cached or not.
      */
     public $enableCache = true;
 
     /**
-     * @var int The number of videos per page in the explorer
+     * @var int The number of videos per page in the explorer.
      */
     public $videosPerPage = 30;
 
     /**
-     * @var array OAuth provider options
+     * @var array OAuth provider options.
      */
     public $oauthProviderOptions = [];
 }
