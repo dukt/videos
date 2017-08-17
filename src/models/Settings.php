@@ -21,11 +21,6 @@ class Settings extends Model
     // =========================================================================
 
     /**
-     * @var mixed|null YouTube parameters.
-     */
-    public $youtubeParameters;
-
-    /**
      * @var mixed|null Tokens
      */
     public $tokens;
