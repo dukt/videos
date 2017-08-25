@@ -6,7 +6,7 @@ Connect to YouTube & Vimeo and publish social videos on your website.
 
 ## Requirements
 
-This plugin requires Craft CMS 3.0.0-beta.1 or later.
+This plugin requires Craft CMS 3.0.0-beta.20 or later.
 
 ## Installation
 
@@ -24,7 +24,5 @@ To install the plugin, follow these instructions.
 
 ## Learn more
 
+- [Documentation](https://github.com/dukt/videos-docs)
 - [Plugin Overview](https://dukt.net/videos)
-- [Documentation](https://dukt.net/videos/docs)
-
-[Dukt.net](https://dukt.net/) © 2017 - All rights reserved
