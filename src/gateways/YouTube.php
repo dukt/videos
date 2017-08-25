@@ -359,9 +359,9 @@ class YouTube extends Gateway
         }
 
         return [
+            'videos' => $videos,
             'prevPage' => (isset($playlistItemsData['prevPageToken']) ? $playlistItemsData['prevPageToken'] : null),
             'moreToken' => (isset($playlistItemsData['nextPageToken']) ? $playlistItemsData['nextPageToken'] : null),
-            'videos' => $videos,
             'more' => $more
         ];
     }
