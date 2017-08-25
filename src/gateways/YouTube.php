@@ -379,7 +379,7 @@ class YouTube extends Gateway
             return [];
         }
 
-        
+
         // Retrieve video IDs
 
         $query = [];
