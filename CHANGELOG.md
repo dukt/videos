@@ -3,7 +3,7 @@ Changelog
 
 ## 2.0.0-beta.1 - Unreleased
 
-# Added
+### Added
 
 - Craft 3 compatibility.
 - Added `review_link` to the list of fields returned by the Vimeo API for a video.
@@ -28,7 +28,7 @@ Changelog
 - Added `dukt\videos\web\assets\videofield\VideoFieldAsset`.
 - Added `dukt\videos\web\assets\videos\VideosAsset`.
 
-# Changed
+### Changed
 
 - OAuth provider options are now using gateway’s handle instead of oauth provider’s handle as a key.
 - Removed dependency with `dukt/oauth`
@@ -59,7 +59,7 @@ Changelog
 - Renamed `Dukt\Videos\Gateways\Youtube` to `dukt\videos\gateways\YouTube`.
 
 
-# Fixed
+### Fixed
 
 - Fixed a bug where token when not being properly refreshed in `dukt\videos\services\Gateways::loadGateways()`.
 - Fixed success message when connecting to Vimeo.
