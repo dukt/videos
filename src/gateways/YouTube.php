@@ -123,6 +123,10 @@ class YouTube extends Gateway
                 new Collection([
                     'name' => "Uploads",
                     'method' => 'uploads',
+                ]),
+                new Collection([
+                    'name' => "Liked videos",
+                    'method' => 'liked',
                 ])
             ]
         ]);
@@ -253,6 +257,45 @@ class YouTube extends Gateway
         ];
 
         return new Client($options);
+    }
+
+    /**
+     * Returns a list of liked videos
+     *
+     * @param array $params
+     *
+     * @return array
+     */
+    protected function getVideosLiked($params = [])
+    {
+        $pagination = $this->pagination($params);
+
+        $query = [
+            'part' => 'snippet,statistics,contentDetails',
+            'myRating' => 'like',
+            'maxResults' => $pagination['perPage']
+        ];
+
+        if (!empty($pagination['moreToken'])) {
+            $query['pageToken'] = $pagination['moreToken'];
+        }
+
+        $videosResponse = $this->get('videos', ['query' => $query]);
+
+        $videos = $this->parseVideos($videosResponse['items']);
+
+        $more = false;
+
+        if (!empty($videosResponse['nextPageToken']) && count($videos) > 0) {
+            $more = true;
+        }
+
+        return [
+            'videos' => $videos,
+            'prevPage' => (isset($videosResponse['prevPageToken']) ? $videosResponse['prevPageToken'] : null),
+            'moreToken' => (isset($videosResponse['nextPageToken']) ? $videosResponse['nextPageToken'] : null),
+            'more' => $more
+        ];
     }
 
     /**
