@@ -11,6 +11,7 @@ use Craft;
 use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\web\assets\settings\SettingsAsset;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 /**
  * Settings controller
@@ -24,12 +25,29 @@ class SettingsController extends Controller
      */
     public function actionIndex()
     {
-        $gateways = Videos::$plugin->getGateways()->getGateways(false);
-
         $accounts = [];
+        $accountErrors = [];
+
+        $gateways = Videos::$plugin->getGateways()->getGateways(false, false);
 
         foreach ($gateways as $gateway) {
-            $accounts[$gateway->getHandle()] = $gateway->getAccount();
+            try {
+                $token = Videos::$plugin->getOauth()->getToken($gateway->getHandle());
+                $gateway->setAuthenticationToken($token);
+                $accounts[$gateway->getHandle()] = $gateway->getAccount();
+                $accountErrors[$gateway->getHandle()] = false;
+            } catch (IdentityProviderException $e) {
+                $errorMsg = $e->getMessage();
+
+                $data = $e->getResponseBody();
+
+                if (isset($data['error_description'])) {
+                    $errorMsg = $data['error_description'];
+                }
+
+                $accounts[$gateway->getHandle()] = false;
+                $accountErrors[$gateway->getHandle()] = $errorMsg;
+            }
         }
 
         Craft::$app->getView()->registerAssetBundle(SettingsAsset::class);
@@ -37,6 +55,7 @@ class SettingsController extends Controller
         return $this->renderTemplate('videos/settings/_index', [
             'gateways' => $gateways,
             'accounts' => $accounts,
+            'accountErrors' => $accountErrors,
         ]);
     }
 

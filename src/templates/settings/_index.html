@@ -16,7 +16,8 @@
 		<tbody>
             {% for gateway in gateways %}
 
-                {% set account = accounts[gateway.handle] %}
+				{% set account = accounts[gateway.handle] %}
+				{% set accountError = accountErrors[gateway.handle] %}
 
                 <tr>
                     <td class="thin">
@@ -26,6 +27,8 @@
                     <td>
 						{% if account %}
 							{{ account.name }} <span class="light">— {{ account.id }}</span>
+                        {% elseif accountError %}
+                            <div class="error">{{ accountError }}</div>
                         {% else %}
                             <span class="light">—</span>
 						{% endif %}
