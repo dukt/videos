@@ -228,9 +228,9 @@ abstract class Gateway implements GatewayInterface
     public function hasToken()
     {
         try {
-            $token = $this->getToken();
+            $tokenData = Videos::$plugin->getOauth()->getTokenData($this->getHandle());
 
-            if ($token) {
+            if ($tokenData) {
                 return true;
             }
         } catch (\Exception $e) {
