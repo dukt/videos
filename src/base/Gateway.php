@@ -198,7 +198,7 @@ abstract class Gateway implements GatewayInterface
                 'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
             ]);
 
-            if (!empty($token->getRefreshToken()) && $token->hasExpired()) {
+            if (!empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
                 $provider = $this->getOauthProvider();
 
                 $grant = new RefreshToken();
