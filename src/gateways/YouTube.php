@@ -373,54 +373,42 @@ class YouTube extends Gateway
      */
     protected function getVideosUploads($params = [])
     {
-        $playlist = 'uploads';
+        $uploadsListId = $this->getSpecialPlaylistId('uploads');
 
-        $channelsQuery = [
-            'part' => 'contentDetails',
-            'mine' => 'true'
-        ];
-
-
-        // Retrieve Uploads playlist
-
-        $channelsResponse = $this->get('channels', ['query' => $channelsQuery]);
-
-        foreach ($channelsResponse['items'] as $channel) {
-
-
-            // Retrieve video IDs
-
-            $uploadsListId = $channel['contentDetails']['relatedPlaylists'][$playlist];
-
-            $query = [];
-            $query['part'] = 'id,snippet';
-            $query['playlistId'] = $uploadsListId;
-            $query = array_merge($query, $this->paginationQueryFromParams($params));
-
-            $playlistItemsResponse = $this->get('playlistItems', ['query' => $query]);
-
-            $videoIds = [];
-
-            foreach ($playlistItemsResponse['items'] as $item) {
-                $videoId = $item['snippet']['resourceId']['videoId'];
-                $videoIds[] = $videoId;
-            }
-
-
-            // Retrieve videos from video IDs
-
-            $query = [];
-            $query['part'] = 'snippet,statistics,contentDetails,status';
-            $query['id'] = implode(",", $videoIds);
-
-            $videosResponse = $this->get('videos', ['query' => $query]);
-
-            $videos = $this->parseVideos($videosResponse['items']);
-
-            return array_merge([
-                'videos' => $videos,
-            ], $this->paginationResponse($playlistItemsResponse, $videos));
+        if(!$uploadsListId) {
+            return [];
         }
+
+        // Retrieve video IDs
+
+        $query = [];
+        $query['part'] = 'id,snippet';
+        $query['playlistId'] = $uploadsListId;
+        $query = array_merge($query, $this->paginationQueryFromParams($params));
+
+        $playlistItemsResponse = $this->get('playlistItems', ['query' => $query]);
+
+        $videoIds = [];
+
+        foreach ($playlistItemsResponse['items'] as $item) {
+            $videoId = $item['snippet']['resourceId']['videoId'];
+            $videoIds[] = $videoId;
+        }
+
+
+        // Retrieve videos from video IDs
+
+        $query = [];
+        $query['part'] = 'snippet,statistics,contentDetails,status';
+        $query['id'] = implode(",", $videoIds);
+
+        $videosResponse = $this->get('videos', ['query' => $query]);
+
+        $videos = $this->parseVideos($videosResponse['items']);
+
+        return array_merge([
+            'videos' => $videos,
+        ], $this->paginationResponse($playlistItemsResponse, $videos));
     }
 
     // Private Methods
@@ -447,6 +435,39 @@ class YouTube extends Gateway
         ]);
 
         return $this->parseCollections($data['items']);
+    }
+
+    /**
+     * @return array|null
+     */
+    private function getSpecialPlaylists()
+    {
+        $channelsQuery = [
+            'part' => 'contentDetails',
+            'mine' => 'true'
+        ];
+
+        $channelsResponse = $this->get('channels', ['query' => $channelsQuery]);
+
+        if(isset($channelsResponse['items'][0])) {
+            $channel = $channelsResponse['items'][0];
+
+            return $channel['contentDetails']['relatedPlaylists'];
+        }
+    }
+
+    /**
+     * @param string $key
+     *
+     * @return array|null
+     */
+    private function getSpecialPlaylistId(string $key)
+    {
+        $specialPlaylists = $this->getSpecialPlaylists();
+
+        if(isset($specialPlaylists[$key])) {
+            return $specialPlaylists[$key];
+        }
     }
 
     /**
