@@ -1,6 +1,20 @@
 Changelog
 =========
 
+## 2.0.0-beta.2 - Unreleased
+
+### Added
+
+- Added `dukt\videos\services\Oauth::getTokenData()`.
+
+### Improved
+
+- Improved error handling for Settings index.
+- Token authentication is now optional when loading or retrieving gateways.
+- Check that there is an `expires` value before trying to refresh the token in `dukt\videos\base\Gateway::createTokenFromData()`.
+- Improved `dukt\videos\base\Gateway::hasToken()` to work with the token’s data instead of a token instance in order to prevent the token from automatically refreshing itself if expired.
+
+
 ## 2.0.0-beta.1 - 2017-08-25
 
 ### Added
