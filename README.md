@@ -8,21 +8,11 @@ Connect to YouTube & Vimeo and publish social videos on your website.
 
 This plugin requires Craft CMS 3.0.0-beta.20 or later.
 
-## Installation
+## How to install Videos 2 Beta
 
-To install the plugin, follow these instructions.
+Installation instructions can be found in the [Videos 2 documentation](https://github.com/dukt/videos-docs/blob/master/en/installation.md).
 
-1. Open your terminal and go to your Craft project:
+## Resources
 
-        cd /path/to/project
-
-2. Then tell Composer to load the plugin:
-
-        composer require dukt/videos:~2.0
-
-3. In the Control Panel, go to Settings → Plugins and click the “Install” button for Videos.
-
-## Learn more
-
-- [Documentation](https://github.com/dukt/videos-docs)
-- [Plugin Overview](https://dukt.net/videos)
+- [Videos 2 Documentation](https://github.com/dukt/videos-docs)
+- [Videos 2 Plugin Overview](https://dukt.net/videos)
