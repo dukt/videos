@@ -126,7 +126,7 @@ class YouTube extends Gateway
                 ]),
                 new Collection([
                     'name' => "Liked videos",
-                    'method' => 'liked',
+                    'method' => 'likes',
                 ])
             ]
         ]);
@@ -263,7 +263,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    protected function getVideosLiked($params = [])
+    protected function getVideosLikes($params = [])
     {
         $query = [];
         $query['part'] = 'snippet,statistics,contentDetails';
@@ -373,17 +373,18 @@ class YouTube extends Gateway
      */
     protected function getVideosUploads($params = [])
     {
-        $uploadsListId = $this->getSpecialPlaylistId('uploads');
+        $uploadsPlaylistId = $this->getSpecialPlaylistId('uploads');
 
-        if(!$uploadsListId) {
+        if(!$uploadsPlaylistId) {
             return [];
         }
 
+        
         // Retrieve video IDs
 
         $query = [];
         $query['part'] = 'id,snippet';
-        $query['playlistId'] = $uploadsListId;
+        $query['playlistId'] = $uploadsPlaylistId;
         $query = array_merge($query, $this->paginationQueryFromParams($params));
 
         $playlistItemsResponse = $this->get('playlistItems', ['query' => $query]);
@@ -457,16 +458,18 @@ class YouTube extends Gateway
     }
 
     /**
-     * @param string $key
+     * Retrieves playlist ID for special playlists of type: likes, favorites, uploads
+     *
+     * @param string $type
      *
      * @return array|null
      */
-    private function getSpecialPlaylistId(string $key)
+    private function getSpecialPlaylistId(string $type)
     {
         $specialPlaylists = $this->getSpecialPlaylists();
 
-        if(isset($specialPlaylists[$key])) {
-            return $specialPlaylists[$key];
+        if(isset($specialPlaylists[$type])) {
+            return $specialPlaylists[$type];
         }
     }
 
