@@ -10,7 +10,7 @@ This plugin requires Craft CMS 3.0.0-beta.20 or later.
 
 ## How to install Videos 2 Beta
 
-Installation instructions can be found in the [Videos 2 documentation](https://github.com/dukt/videos-docs/blob/master/en/installation.md).
+Installation instructions can be found in the [Videos 2 documentation](https://github.com/dukt/videos-docs/blob/v2/en/installation.md).
 
 ## Resources
 
