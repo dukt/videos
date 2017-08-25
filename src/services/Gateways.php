@@ -9,6 +9,7 @@ namespace dukt\videos\services;
 
 use Craft;
 use dukt\videos\base\Gateway;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\Component;
 
 /**
@@ -47,12 +48,13 @@ class Gateways extends Component
      *
      * @param      $gatewayHandle
      * @param bool $enabledOnly
+     * @param bool $authenticate
      *
      * @return Gateway
      */
-    public function getGateway($gatewayHandle, $enabledOnly = true)
+    public function getGateway($gatewayHandle, $enabledOnly = true, $authenticate = true)
     {
-        $this->loadGateways();
+        $this->loadGateways($authenticate);
 
         if ($enabledOnly) {
             $gateways = $this->_gateways;
@@ -73,12 +75,13 @@ class Gateways extends Component
      * Get gateways
      *
      * @param bool $enabledOnly
+     * @param bool $authenticate
      *
      * @return array
      */
-    public function getGateways($enabledOnly = true)
+    public function getGateways($enabledOnly = true, $authenticate = true)
     {
-        $this->loadGateways();
+        $this->loadGateways($authenticate);
 
         if ($enabledOnly) {
             return $this->_gateways;
@@ -92,8 +95,10 @@ class Gateways extends Component
 
     /**
      * Load gateways
+     *
+     * @param bool $authenticate
      */
-    private function loadGateways()
+    private function loadGateways($authenticate = true)
     {
         if (!$this->_gatewaysLoaded) {
             $gateways = $this->_getGateways();
@@ -106,11 +111,23 @@ class Gateways extends Component
                     $tokens = $settings->tokens;
 
                     if (!empty($tokens[$gatewayHandle]) && is_array($tokens[$gatewayHandle])) {
-                        $token = $gateway->createTokenFromData($tokens[$gatewayHandle]);
+                        try {
+                            if($authenticate) {
+                                $token = $gateway->createTokenFromData($tokens[$gatewayHandle]);
+                                $gateway->setAuthenticationToken($token);
+                            }
+                            $this->_gateways[] = $gateway;
+                        } catch (IdentityProviderException $e) {
+                            $errorMsg = $e->getMessage();
 
-                        $gateway->setAuthenticationToken($token);
+                            $data = $e->getResponseBody();
 
-                        $this->_gateways[] = $gateway;
+                            if (isset($data['error_description'])) {
+                                $errorMsg = $data['error_description'];
+                            }
+
+                            Craft::info('Couldn’t load gateway `'.$gatewayHandle.'`: '.$errorMsg, __METHOD__);
+                        }
                     }
                 } else {
                     $this->_gateways[] = $gateway;
