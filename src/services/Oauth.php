@@ -34,14 +34,30 @@ class Oauth extends Component
      */
     public function getToken($handle)
     {
+        $tokenData = $this->getTokenData($handle);
+
+        $gateway = Videos::$plugin->getGateways()->getGateway($handle);
+
+        if ($gateway && $tokenData) {
+            return $gateway->createTokenFromData($tokenData);
+        }
+    }
+
+    /**
+     * Returns token data from settings.
+     *
+     * @param $handle
+     *
+     * @return mixed
+     */
+    public function getTokenData($handle)
+    {
         $plugin = Craft::$app->getPlugins()->getPlugin('videos');
         $settings = $plugin->getSettings();
         $tokens = $settings->tokens;
 
-        $gateway = Videos::$plugin->getGateways()->getGateway($handle);
-
-        if (!empty($tokens[$handle]) && is_array($tokens[$handle])) {
-            return $gateway->createTokenFromData($tokens[$handle]);
+        if(isset($tokens[$handle])) {
+            return $tokens[$handle];
         }
     }
 
