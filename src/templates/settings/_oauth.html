@@ -1,5 +1,7 @@
 {% extends "_layouts/cp" %}
 
+{% set fullPageForm = true %}
+
 {% set crumbs = [
 	{ label: "Settings"|t('videos'), url: url('settings') },
 	{ label: "Plugins"|t('videos'), url: url('settings/plugins') },
@@ -13,40 +15,32 @@
 
 {% set content %}
 
-	<form method="post" accept-charset="UTF-8" data-saveshortcut>
-		{{ csrfInput() }}
+	<input type="hidden" name="action" value="videos/settings/save-gateway">
+	{{ redirectInput('videos/settings/'~gateway.handle) }}
+	<input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
 
-		<input type="hidden" name="action" value="videos/settings/save-gateway">
-		{{ redirectInput('videos/settings/'~gateway.handle) }}
-		<input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
+	<h2 class="first">{{ 'Create the OAuth application'|t('videos') }}</h2>
+	<p>{{ 'Go to the {link} and create a new app.'|t('videos', {link: '<a href="'~gateway.getOauthProviderApiConsoleUrl()~'">'~'{oauthProvider} API Console'|t('videos', { oauthProvider: gateway.oauthProviderName })~'</a>'})|raw }}</p>
+	<p>{{ "Setup the app OAuth settings with the following parameters:"|t('videos') }}</p>
 
-		<h3>{{ 'Create the OAuth application'|t('videos') }}</h3>
-		<p>{{ 'Go to the {link} and create a new app.'|t('videos', {link: '<a href="'~gateway.getOauthProviderApiConsoleUrl()~'">'~'{oauthProvider} API Console'|t('videos', { oauthProvider: gateway.oauthProviderName })~'</a>'})|raw }}</p>
-		<p>{{ "Setup the app OAuth settings with the following parameters:"|t('videos') }}</p>
+	<ul class="bullets">
+		<li><strong>Javascript Origin:</strong> <code>{{ gateway.javascriptOrigin }}</code></li>
+		<li><strong>Redirect URI:</strong> <code>{{ gateway.redirectUri }}</code></li>
+	</ul>
 
-		<ul class="bullets">
-			<li><strong>Javascript Origin:</strong> <code>{{ gateway.javascriptOrigin }}</code></li>
-			<li><strong>Redirect URI:</strong> <code>{{ gateway.redirectUri }}</code></li>
-		</ul>
+	<h2>{{ 'Configure the OAuth client'|t('videos') }}</h2>
+	<p>{{ '{oauthProvider} will provide you with a client ID and secret, paste them below and save.'|t('videos', { oauthProvider: gateway.oauthProviderName }) }}</p>
 
-		<h3>{{ 'Configure the OAuth client'|t('videos') }}</h3>
-		<p>{{ '{oauthProvider} will provide you with a client ID and secret, paste them below and save.'|t('videos', { oauthProvider: gateway.oauthProviderName }) }}</p>
+	{{ forms.textField({
+		name: 'clientId',
+		label: "Client ID"|t('videos'),
+		value: (gateway.oauthProviderOptions.clientId ?? null)
+	}) }}
 
-		{{ forms.textField({
-			name: 'clientId',
-			label: "Client ID"|t('videos'),
-			value: (gateway.oauthProviderOptions.clientId ?? null)
-		}) }}
-
-		{{ forms.textField({
-			name: 'clientSecret',
-			label: "Client Secret"|t('videos'),
-			value: (gateway.oauthProviderOptions.clientSecret ?? null)
-		}) }}
-
-		<div class="buttons">
-			<input type="submit" class="btn submit force" value="{{ 'Save'|t('videos') }}">
-		</div>
-	</form>
+	{{ forms.textField({
+		name: 'clientSecret',
+		label: "Client Secret"|t('videos'),
+		value: (gateway.oauthProviderOptions.clientSecret ?? null)
+	}) }}
 
 {% endset %}
