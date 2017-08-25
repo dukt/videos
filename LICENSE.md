@@ -1,4 +1,4 @@
-# Craft Videos for Craft License Agreement
+# Videos for Craft CMS License Agreement
 
 ## Usage
 
