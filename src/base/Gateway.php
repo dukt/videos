@@ -21,10 +21,10 @@ use Exception;
 use Psr\Http\Message\ResponseInterface;
 
 /**
- * Gateway class
+ * Gateway is the base class for classes representing video gateways.
  *
  * @author Dukt <support@dukt.net>
- * @since  2.0
+ * @since  1.0
  */
 abstract class Gateway implements GatewayInterface
 {
@@ -211,7 +211,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Sets the token for authenticating with the gateway’s API
+     * Sets the token for authenticating with the gateway’s API.
      *
      * @param $token
      */
@@ -221,7 +221,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Where the OAuth flow should be enable or not for this gateway
+     * Whether the OAuth flow should be enable or not for this gateway.
      *
      * @return bool
      */
@@ -231,7 +231,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Returns the HTML of the embed from a video ID
+     * Returns the HTML of the embed from a video ID.
      *
      * @param       $videoId
      * @param array $options
@@ -281,7 +281,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Returns the URL of the embed from a video ID
+     * Returns the URL of the embed from a video ID.
      *
      * @param       $videoId
      * @param array $options
@@ -344,7 +344,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Return a video from its public URL
+     * Returns a video from its public URL.
      *
      * @param $url
      *
@@ -409,7 +409,7 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Whether the gateway supports search or not
+     * Whether the gateway supports search or not.
      *
      * @return bool
      */
