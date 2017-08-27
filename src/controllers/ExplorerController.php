@@ -8,10 +8,12 @@
 namespace dukt\videos\controllers;
 
 use Craft;
+use craft\helpers\Json;
 use craft\web\Controller;
 use dukt\videos\errors\GatewayNotFoundException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
 /**
  * Explorer controller
@@ -39,27 +41,46 @@ class ExplorerController extends Controller
         $this->requireAcceptsJson();
 
         $namespaceInputId = Craft::$app->getRequest()->getBodyParam('namespaceInputId');
-        $nav = $this->getExplorerNav();
 
         $gateways = [];
+        $gatewaySections = [];
         $allGateways = Videos::$plugin->getGateways()->getGateways();
 
         foreach ($allGateways as $_gateway) {
-            $gateway = [
-                'name' => $_gateway->getName(),
-                'handle' => $_gateway->getHandle(),
-                'supportsSearch' => $_gateway->supportsSearch(),
-            ];
+            try {
+                $gatewaySection = $_gateway->getExplorerSections();
 
-            array_push($gateways, $gateway);
+                if($gatewaySection) {
+                    $gatewaySections[] = $gatewaySection;
+
+                    $gateway = [
+                        'name' => $_gateway->getName(),
+                        'handle' => $_gateway->getHandle(),
+                        'supportsSearch' => $_gateway->supportsSearch(),
+                    ];
+
+                    $gateways[] = $gateway;
+                }
+            } catch (IdentityProviderException $e) {
+                $errorMsg = $e->getMessage();
+
+                $data = $e->getResponseBody();
+
+                if (isset($data['error_description'])) {
+                    $errorMsg = $data['error_description'];
+                }
+
+                Craft::error('Couldn’t load gateway `'.$_gateway->getHandle().'`: '.$errorMsg, __METHOD__);
+            }
         }
 
         return $this->asJson([
             'success' => true,
             'html' => Craft::$app->getView()->renderTemplate('videos/_elements/explorer', [
                 'namespaceInputId' => $namespaceInputId,
-                'nav' => $nav,
-                'gateways' => $gateways
+                'gateways' => $gateways,
+                'gatewaySections' => $gatewaySections,
+                'jsonGateways' => Json::encode($gateways)
             ])
         ]);
     }
@@ -151,34 +172,5 @@ class ExplorerController extends Controller
         return $this->asJson([
             'html' => $html
         ]);
-    }
-
-    // Private Methods
-    // =========================================================================
-
-
-    /**
-     * Get Explorer Nav
-     *
-     * @return array
-     */
-    private function getExplorerNav()
-    {
-        if (!$this->explorerNav) {
-            $gatewaySections = [];
-
-            $gateways = Videos::$plugin->getGateways()->getGateways();
-
-            foreach ($gateways as $gateway) {
-                $gatewaySections[] = $gateway->getExplorerSections();
-            }
-
-            $this->explorerNav = [
-                'gateways' => $gateways,
-                'gatewaySections' => $gatewaySections
-            ];
-        }
-
-        return $this->explorerNav;
     }
 }
