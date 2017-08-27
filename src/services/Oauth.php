@@ -11,6 +11,7 @@ use Craft;
 use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
 use dukt\videos\Plugin as Videos;
+use League\OAuth2\Client\Grant\RefreshToken;
 
 /**
  * Class Oauth service.
@@ -26,21 +27,58 @@ class Oauth extends Component
     // =========================================================================
 
     /**
+     * Create token from data (array)
+     *
+     * @param string $gatewayHandle
+     * @param array $data
+     * @param bool $refreshToken
+     *
+     * @return AccessToken
+     */
+    public function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
+    {
+        if (isset($data['accessToken'])) {
+            $token = new AccessToken([
+                'access_token' => (isset($data['accessToken']) ? $data['accessToken'] : null),
+                'expires' => (isset($data['expires']) ? $data['expires'] : null),
+                'refresh_token' => (isset($data['refreshToken']) ? $data['refreshToken'] : null),
+                'resource_owner_id' => (isset($data['resourceOwnerId']) ? $data['resourceOwnerId'] : null),
+                'values' => (isset($data['values']) ? $data['values'] : null),
+            ]);
+
+            if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
+                $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
+                $provider = $gateway->getOauthProvider();
+                $grant = new RefreshToken();
+                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+
+                $token = new AccessToken([
+                    'access_token' => $newToken->getToken(),
+                    'expires' => $newToken->getExpires(),
+                    'refresh_token' => $token->getRefreshToken(),
+                    'resource_owner_id' => $newToken->getResourceOwnerId(),
+                    'values' => $newToken->getValues(),
+                ]);
+
+                Videos::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
+            }
+
+            return $token;
+        }
+    }
+
+    /**
      * Get token from gateway handle.
      *
      * @param $handle
      *
      * @return mixed
      */
-    public function getToken($handle)
+    public function getToken($gatewayHandle)
     {
-        $tokenData = $this->getTokenData($handle);
+        $tokenData = $this->getTokenData($gatewayHandle);
 
-        $gateway = Videos::$plugin->getGateways()->getGateway($handle);
-
-        if ($gateway && $tokenData) {
-            return $gateway->createTokenFromData($tokenData);
-        }
+        return $this->createTokenFromData($gatewayHandle, $tokenData);
     }
 
     /**

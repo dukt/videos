@@ -181,46 +181,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Create token from data (array)
-     *
-     * @param array $tokenData
-     *
-     * @return AccessToken
-     */
-    public function createTokenFromData(array $tokenData)
-    {
-        if (isset($tokenData['accessToken'])) {
-            $token = new AccessToken([
-                'access_token' => (isset($tokenData['accessToken']) ? $tokenData['accessToken'] : null),
-                'expires' => (isset($tokenData['expires']) ? $tokenData['expires'] : null),
-                'refresh_token' => (isset($tokenData['refreshToken']) ? $tokenData['refreshToken'] : null),
-                'resource_owner_id' => (isset($tokenData['resourceOwnerId']) ? $tokenData['resourceOwnerId'] : null),
-                'values' => (isset($tokenData['values']) ? $tokenData['values'] : null),
-            ]);
-
-            if (!empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
-                $provider = $this->getOauthProvider();
-
-                $grant = new RefreshToken();
-
-                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
-
-                $token = new AccessToken([
-                    'access_token' => $newToken->getToken(),
-                    'expires' => $newToken->getExpires(),
-                    'refresh_token' => $token->getRefreshToken(),
-                    'resource_owner_id' => $newToken->getResourceOwnerId(),
-                    'values' => $newToken->getValues(),
-                ]);
-
-                Videos::$plugin->getOauth()->saveToken($this->getHandle(), $token);
-            }
-
-            return $token;
-        }
-    }
-
-    /**
      * Has Token
      *
      * @return bool
@@ -241,11 +201,11 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Get Token
+     * Returns the gateway's OAuth token.
      *
      * @return mixed
      */
-    public function getToken()
+    public function getOauthToken()
     {
         return Videos::$plugin->getOauth()->getToken($this->getHandle());
     }
@@ -365,7 +325,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getAccount()
     {
-        $token = $this->getToken();
+        $token = $this->getOauthToken();
         
         if ($token) {
             $account = Videos::$plugin->getCache()->get(['getAccount', $token]);

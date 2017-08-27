@@ -248,7 +248,7 @@ class Vimeo extends Gateway
             'base_uri' => $this->getApiUrl(),
             'headers' => [
                 'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
-                'Authorization' => 'Bearer '.$this->token->getToken()
+                'Authorization' => 'Bearer '.$this->getOauthToken()->getToken()
             ],
         ];
 

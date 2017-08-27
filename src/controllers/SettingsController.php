@@ -28,12 +28,10 @@ class SettingsController extends Controller
         $accounts = [];
         $accountErrors = [];
 
-        $gateways = Videos::$plugin->getGateways()->getGateways(false, false);
+        $gateways = Videos::$plugin->getGateways()->getGateways(false);
 
         foreach ($gateways as $gateway) {
             try {
-                $token = Videos::$plugin->getOauth()->getToken($gateway->getHandle());
-                $gateway->setAuthenticationToken($token);
                 $accounts[$gateway->getHandle()] = $gateway->getAccount();
                 $accountErrors[$gateway->getHandle()] = false;
             } catch (IdentityProviderException $e) {
