@@ -35,16 +35,16 @@ class SettingsController extends Controller
                 $accounts[$gateway->getHandle()] = $gateway->getAccount();
                 $accountErrors[$gateway->getHandle()] = false;
             } catch (IdentityProviderException $e) {
-                $errorMsg = $e->getMessage();
+                $error = $e->getMessage();
 
                 $data = $e->getResponseBody();
 
                 if (isset($data['error_description'])) {
-                    $errorMsg = $data['error_description'];
+                    $error = $data['error_description'];
                 }
 
                 $accounts[$gateway->getHandle()] = false;
-                $accountErrors[$gateway->getHandle()] = $errorMsg;
+                $accountErrors[$gateway->getHandle()] = $error;
             }
         }
 
