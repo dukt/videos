@@ -12,7 +12,7 @@ Changelog
 - Check that there is an `expires` value before trying to refresh the token in `dukt\videos\base\Gateway::createTokenFromData()`.
 - Moved `dukt\videos\base\Gateway::createTokenFromData()` to `dukt\videos\services\Oauth::createTokenFromData()`.
 - Renamed `dukt\videos\base\Gateway::getToken()` to `getOauthToken()`.
-- Video gateways are now getting instantiated with an unrefreshed token to prevent early API calls.
+- Instantiating video gateways doesn’t require a refreshed token anymore.
 - Improved error handling for the settings index page.
 - Improved error handling for the gateway details page.
 - Replaced `dukt\videos\base\Gateway::parseJson()` with `craft\helpers\Json::decode()`.
