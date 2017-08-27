@@ -13,7 +13,8 @@ Changelog
 - Moved `dukt\videos\base\Gateway::createTokenFromData()` to `dukt\videos\services\Oauth::createTokenFromData()`.
 - Renamed `dukt\videos\base\Gateway::getToken()` to `getOauthToken()`.
 - Video gateways are now getting instantiated with an unrefreshed token to prevent early API calls.
-- Improved error handling for Settings index.
+- Improved error handling for the settings index page.
+- Improved error handling for the gateway details page.
 
 
 ## 2.0.0-beta.1 - 2017-08-25
