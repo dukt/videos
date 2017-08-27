@@ -16,6 +16,7 @@ Changelog
 - Improved error handling for the settings index page.
 - Improved error handling for the gateway details page.
 - Replaced `dukt\videos\base\Gateway::parseJson()` with `craft\helpers\Json::decode()`.
+- Replaced `dukt\videos\fields\Video::prepValue()` with `normalizeValue()`. ([#1](https://github.com/dukt/videos/issues/1))
 
 ### Fixed
 

@@ -8,6 +8,7 @@
 namespace dukt\videos\fields;
 
 use Craft;
+use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\StringHelper;
 use dukt\videos\web\assets\videofield\VideoFieldAsset;
@@ -84,15 +85,10 @@ class Video extends Field
         ]);
     }
 
-
     /**
-     * Prep value
-     *
-     * @param mixed $videoUrl
-     *
-     * @return null
+     * @inheritdoc
      */
-    public function prepValue($videoUrl)
+    public function normalizeValue($videoUrl, ElementInterface $element = null)
     {
         try {
             if (!empty($videoUrl)) {
