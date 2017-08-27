@@ -15,6 +15,11 @@ Changelog
 - Video gateways are now getting instantiated with an unrefreshed token to prevent early API calls.
 - Improved error handling for the settings index page.
 - Improved error handling for the gateway details page.
+- Replaced `dukt\videos\base\Gateway::parseJson()` with `craft\helpers\Json::decode()`.
+
+### Fixed
+
+- Fixed a bug where `dukt\videos\services\Oauth::getToken()` would crash if the token didn’t exists for the given gateway.
 
 
 ## 2.0.0-beta.1 - 2017-08-25
