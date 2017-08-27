@@ -78,7 +78,9 @@ class Oauth extends Component
     {
         $tokenData = $this->getTokenData($gatewayHandle);
 
-        return $this->createTokenFromData($gatewayHandle, $tokenData);
+        if($tokenData) {
+            return $this->createTokenFromData($gatewayHandle, $tokenData);
+        }
     }
 
     /**
