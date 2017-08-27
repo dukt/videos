@@ -15,8 +15,6 @@ use dukt\videos\errors\JsonParsingException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Exception\BadResponseException;
-use League\OAuth2\Client\Token\AccessToken;
-use League\OAuth2\Client\Grant\RefreshToken;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 
