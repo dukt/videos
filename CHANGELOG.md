@@ -11,7 +11,7 @@ Changelog
 
 - Improved error handling for Settings index.
 - Check that there is an `expires` value before trying to refresh the token in `dukt\videos\base\Gateway::createTokenFromData()`.
-- Video gateways are now getting instantiated with an unrefreshed token to prevent early API calls
+- Video gateways are now getting instantiated with an unrefreshed token to prevent early API calls.
 - Moved `dukt\videos\base\Gateway::createTokenFromData()` to `dukt\videos\services\Oauth::createTokenFromData()`.
 - Renamed `dukt\videos\base\Gateway::getToken()` to `getOauthToken()`.
 
