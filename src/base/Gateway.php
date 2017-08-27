@@ -8,6 +8,7 @@
 namespace dukt\videos\base;
 
 use Craft;
+use craft\helpers\Json;
 use craft\helpers\UrlHelper;
 use dukt\videos\errors\ApiResponseException;
 use dukt\videos\errors\GatewayMethodNotFoundException;
@@ -435,13 +436,13 @@ abstract class Gateway implements GatewayInterface
         try {
             $response = $client->request('GET', $uri, $options);
             $body = (string) $response->getBody();
-            $data = $this->parseJson($body);
+            $data = Json::decode($body);
         } catch (BadResponseException $badResponseException) {
             $response = $badResponseException->getResponse();
             $body = (string) $response->getBody();
 
             try {
-                $data = $this->parseJson($body);
+                $data = Json::decode($body);
             } catch (JsonParsingException $e) {
                 throw $badResponseException;
             }
@@ -473,25 +474,5 @@ abstract class Gateway implements GatewayInterface
 
             throw new ApiResponseException($error, $code);
         }
-    }
-
-    /**
-     * @param string $content JSON content from response body
-     *
-     * @return array Parsed JSON data
-     * @throws JsonParsingException If the content could not be parsed
-     */
-    protected function parseJson(string $content)
-    {
-        $content = json_decode($content, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            throw new JsonParsingException(sprintf(
-                "Failed to parse JSON response: %s",
-                json_last_error_msg()
-            ));
-        }
-
-        return $content;
     }
 }
