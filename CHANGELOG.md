@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## 2.0.0-beta.3 - Unreleased
+
+### Fixed
+
+- Fixed `\dukt\videos\fields\Video` to use `normalizeValue()`. ([#2](https://github.com/dukt/videos/issues/2))
+
 ## 2.0.0-beta.2 - 2017-08-28
 
 ### Added

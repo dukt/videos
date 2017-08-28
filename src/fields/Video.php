@@ -10,6 +10,7 @@ namespace dukt\videos\fields;
 use Craft;
 use craft\base\ElementInterface;
 use craft\base\Field;
+use craft\helpers\Db;
 use craft\helpers\StringHelper;
 use dukt\videos\web\assets\videofield\VideoFieldAsset;
 use dukt\videos\Plugin as Videos;
@@ -42,16 +43,6 @@ class Video extends Field
     {
         $name = $this->handle;
 
-        $value = $this->prepValue($value);
-
-        $unpreppedValue = false;
-
-        // get the unprepped value (the video url)
-
-        if ($element) {
-            $unpreppedValue = $element->{$this->handle};
-        }
-
 
         // Reformat the input name into something that looks more like an ID
         $id = Craft::$app->getView()->formatInputId($name);
@@ -80,9 +71,20 @@ class Video extends Field
         return Craft::$app->getView()->renderTemplate('videos/_components/fieldtypes/Video/input', [
             'id' => $id,
             'name' => $name,
-            'value' => $unpreppedValue,
+            'value' => $value,
             'preview' => $preview
         ]);
+    }
+    /**
+     * @inheritdoc
+     */
+    public function serializeValue($value, ElementInterface $element = null)
+    {
+        if(!empty($value->url)) {
+            return Db::prepareValueForDb($value->url);
+        }
+
+        parent::serializeValue($value, $element);
     }
 
     /**
@@ -90,6 +92,10 @@ class Video extends Field
      */
     public function normalizeValue($videoUrl, ElementInterface $element = null)
     {
+        if($videoUrl instanceof \dukt\videos\models\Video) {
+            return $videoUrl;
+        }
+
         try {
             if (!empty($videoUrl)) {
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
@@ -99,7 +105,7 @@ class Video extends Field
                 }
             }
         } catch (\Exception $e) {
-            Craft::info("Couldn't get video in field prepValue: ".$e->getMessage(), __METHOD__);
+            Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
 
             return null;
         }
@@ -114,11 +120,19 @@ class Video extends Field
      */
     public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
     {
-        // ignore "raw" attribute
-        if (!empty($value->raw)) {
-            $value->setAttribute('raw', null);
+        $keywords = [];
+
+        if($value instanceof \dukt\videos\models\Video) {
+            $keywords[] = $value->id;
+            $keywords[] = $value->url;
+            $keywords[] = $value->gatewayHandle;
+            $keywords[] = $value->gatewayName;
+            $keywords[] = $value->authorName;
+            $keywords[] = $value->authorUsername;
+            $keywords[] = $value->title;
+            $keywords[] = $value->description;
         }
 
-        return StringHelper::toString($value, ' ');
+        return StringHelper::toString($keywords, ' ');
     }
 }

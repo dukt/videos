@@ -5,7 +5,7 @@
         id:id,
         name: name,
         placeholder: "Enter a video URL from YouTube or Vimeo "|t('videos'),
-        value: value
+        value: (value ? value.url : '')
     }) }}
 
     <div class="spinner hidden"></div>
