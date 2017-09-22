@@ -158,7 +158,7 @@ class Video extends Model
 
     public function getThumbnail($size = 300)
     {
-        return UrlHelper::resourceUrl('videos/thumbnails/'.$this->gatewayHandle.'/'.$this->id.'/'.$size);
+        return VideosHelper::getVideoThumbnail($this->gatewayHandle, $this->id, $size);
     }
 
     // Private Methods
