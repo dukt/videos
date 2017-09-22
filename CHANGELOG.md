@@ -3,6 +3,9 @@ Changelog
 
 ## 2.0.0-beta.4 - Unreleased
 
+### Changed
+- The plugin now requires Craft 3.0.0-beta.27 or above.
+
 ### Fixed 
 - Fixed video thumbnails for Craft 3.0.0-beta.27 and above where resource URLs are not supported anymore.
 
