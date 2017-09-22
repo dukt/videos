@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 2.0.0-beta.4 - Unreleased
+
+### Fixed 
+- Fixed video thumbnails for Craft 3.0.0-beta.27 and above where resource URLs are not supported anymore.
+
 ## 2.0.0-beta.3 - 2017-08-28
 
 ### Fixed
