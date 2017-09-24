@@ -92,17 +92,6 @@ class Plugin extends \craft\base\Plugin
     }
 
     /**
-     * Get OAuth Providers
-     */
-    public function getVideosGateways()
-    {
-        return [
-            'dukt\videos\gateways\Vimeo',
-            'dukt\videos\gateways\YouTube',
-        ];
-    }
-
-    /**
      * Creates and returns the model used to store the plugin’s settings.
      *
      * @return \craft\base\Model|null
