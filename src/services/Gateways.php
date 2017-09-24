@@ -9,6 +9,7 @@ namespace dukt\videos\services;
 
 use Craft;
 use dukt\videos\base\Gateway;
+use dukt\videos\events\RegisterGatewayTypesEvent;
 use dukt\videos\Plugin;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\Component;
@@ -23,6 +24,14 @@ use yii\base\Component;
  */
 class Gateways extends Component
 {
+    // Constants
+    // =========================================================================
+
+    /**
+     * @event RegisterLoginProviderTypesEvent The event that is triggered when registering login providers.
+     */
+    const EVENT_REGISTER_GATEWAY_TYPES = 'registerGatewayTypes';
+
     // Properties
     // =========================================================================
 
@@ -134,24 +143,13 @@ class Gateways extends Component
     }
 
     /**
-     * Real get gateways
+     * Returns all gateway instances.
      *
      * @return array
      */
     private function _getGateways()
     {
-        // fetch all video gateways
-
-        $gatewayTypes = [];
-
-        foreach (Craft::$app->getPlugins()->getAllPlugins() as $plugin) {
-            if (method_exists($plugin, 'getVideosGateways')) {
-                $gatewayTypes = array_merge($gatewayTypes, $plugin->getVideosGateways());
-            }
-        }
-
-
-        // instantiate gateways
+        $gatewayTypes = $this->_getGatewayTypes();
 
         $gateways = [];
 
@@ -162,6 +160,29 @@ class Gateways extends Component
         ksort($gateways);
 
         return $gateways;
+    }
+
+    /**
+     * Returns gateway types.
+     *
+     * @return array
+     */
+    private function _getGatewayTypes()
+    {
+        $gatewayTypes = [
+            'dukt\videos\gateways\Vimeo',
+            'dukt\videos\gateways\YouTube',
+        ];
+
+        $eventName = self::EVENT_REGISTER_GATEWAY_TYPES;
+
+        $event = new RegisterGatewayTypesEvent([
+            'gatewayTypes' => $gatewayTypes
+        ]);
+
+        $this->trigger($eventName, $event);
+
+        return $event->gatewayTypes;
     }
 
     /**
