@@ -63,7 +63,15 @@ class Plugin extends \craft\base\Plugin
             'oauth' => \dukt\videos\services\Oauth::class,
         ]);
 
-        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, [$this, 'registerCpUrlRules']);
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
+            $rules = [
+                'videos/settings' => 'videos/settings/index',
+                'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
+                'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
+            ];
+
+            $event->rules = array_merge($event->rules, $rules);
+        });
 
         Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
             $event->types[] = VideoField::class;
@@ -82,17 +90,6 @@ class Plugin extends \craft\base\Plugin
             $variable = $event->sender;
             $variable->set('videos', VideosVariable::class);
         });
-    }
-
-    public function registerCpUrlRules(RegisterUrlRulesEvent $event)
-    {
-        $rules = [
-            'videos/settings' => 'videos/settings/index',
-            'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
-            'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
-        ];
-
-        $event->rules = array_merge($event->rules, $rules);
     }
 
     /**
