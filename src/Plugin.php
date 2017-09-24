@@ -22,6 +22,12 @@ use dukt\videos\models\Settings;
 use dukt\videos\web\twig\variables\VideosVariable;
 use yii\base\Event;
 
+/**
+ * Videos plugin class.
+ *
+ * @author Dukt <support@dukt.net>
+ * @since   1.0
+ */
 class Plugin extends \craft\base\Plugin
 {
     // Traits
