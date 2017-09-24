@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 2.0.0-beta.5 - Unreleased
+## 2.0.0-beta.5 - 2017-09-24
 
 ### Added
 - Added the `registerGatewayTypes` to `dukt\videos\services\Gateways`, giving plugins a chance to register gateway types (replacing `getVideosGateways()`).
