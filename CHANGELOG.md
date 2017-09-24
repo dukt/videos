@@ -1,6 +1,16 @@
 Changelog
 =========
 
+## 2.0.0-beta.5 - Unreleased
+
+### Added
+- Added the `registerGatewayTypes` to `dukt\videos\services\Gateways`, giving plugins a chance to register gateway types (replacing `getVideosGateways()`).
+- Added `dukt\videos\events\RegisterGatewayTypesEvent`.
+
+### Improved
+- Now using the `craft\web\twig\variables\CraftVariable`’s `init` event to register Videos’ variable class, replacing the now-deprecated `defineComponents`.
+- Removed `dukt\videos\Plugin::getVideosGateways()`.
+
 ## 2.0.0-beta.4 - 2017-09-22
 
 ### Changed
