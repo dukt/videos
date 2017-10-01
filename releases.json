@@ -1,0 +1,76 @@
+[
+  {
+    "version": "1.2.4",
+    "downloadUrl": "https://github.com/dukt/videos/archive/1.2.4.zip",
+    "date": "2017-06-22T11:00:00-02:00",
+    "notes": [
+      "[Improved] Embed URLs are now provided without protocol (Example: //player.vimeo.com/video/…).",
+      "[Improved] The YouTube gateway now provides secure URLs for videos.",
+      "[Fixed] Fixed a bug where Vimeo videos using custom URLs could not be found."
+    ]
+  },
+  {
+    "version": "1.2.3",
+    "downloadUrl": "https://github.com/dukt/videos/archive/1.2.3.zip",
+    "date": "2017-04-07T11:00:00-02:00",
+    "notes": [
+      "[Fixed] Fixed a bug with statistics for YouTube videos."
+    ]
+  },
+  {
+    "version": "1.2.2",
+    "downloadUrl": "https://github.com/dukt/videos/archive/1.2.2.zip",
+    "date": "2017-11-11T11:00:00-02:00",
+    "notes": [
+      "[Fixed] Fixed a bug where the plugin was throwing an error when the connected YouTube account had no playlist."
+    ]
+  },
+  {
+    "version": "1.2.1",
+    "downloadUrl": "https://github.com/dukt/videos/archive/1.2.1.zip",
+    "date": "2017-08-15T11:00:00-02:00",
+    "notes": [
+      "[Added] Added BaseGateway::supportsSearch().",
+      "[Added] Data for video gateways is now being passed to the Explorer.",
+      "[Improved] Optimized API responses to increase Vimeo’s rate limits.",
+      "[Improved] The video field’s preview only show plays if available.",
+      "[Improved] Improved the Explorer to handle gateways that don’t support search.",
+      "[Fixed] Fixed a bug where the Explorer couldn’t load more videos.",
+      "[Fixed] Fixed a bug with video thumbnails."
+    ]
+  },
+  {
+    "version": "1.2.0",
+    "downloadUrl": "https://github.com/dukt/videos/archive/1.2.0.zip",
+    "date": "2016-06-06T11:00:00-02:00",
+    "notes": [
+      "[Added] Added VideosPlugin::getDescription().",
+      "[Added] Added VideosPlugin::getReleaseFeedUrl().",
+      "[Added] Added width and height attribute to Videos_VideoModel (only supported by the Vimeo gateway so far).",
+      "[Added] Showing a lock icon to private videos in video listings.",
+      "[Added] The OAuth flow can now be customized for video gateways with enableOauthFlow() which returns `true` by default.",
+      "[Added] Videos gateway classes can now be extended by defining a getVideosGateways() on a Craft plugin class.",
+      "[Added] Videos_VideoModel now has a `raw` attribute which gets populated with the raw response from the gateway's API.",
+      "[Fixed] Fixed a bug where $explorerNav property was missing from VideosController.",
+      "[Fixed] Fixed a bug where `Browse videos...` link could overlap the input's placeholder.",
+      "[Fixed] Fixed a bug where explorer modal had wrong dimensions on large screens.",
+      "[Fixed] Fixed a bug where the plugin couldn't get the account when used with OAuth 1.0.",
+      "[Fixed] Fixed a bug where Videos field type was not working with Quick Post widget.",
+      "[Fixed] Fixed a bug where Videos_GatewaysService::loadGateways() was trying to retrieve the token from the gateway handle instead of the oauth provider handle.",
+      "[Fixed] Fixed a bug where YouTube gateway was complaining when stats.privacyStatus was not part of the API response.",
+      "[Fixed] Fixed compatibility with OAuth 2.0 where getAccount() method has been replaced by getResourceOwner() for OAuth providers.",
+      "[Improved] Gateway's extractVideoIdFromUrl(), apiCreateClient(), getEmbedFormat() methods are now public.",
+      "[Improved] Improved explorer modal error handling.",
+      "[Improved] Improved installation process.",
+      "[Improved] Improved VideosController::actionGetExplorerModal() error handling.",
+      "[Improved] Moved BaseGateway::apiPerformGetRequest() to YouTube and Vimeo gateway classes.",
+      "[Improved] Moved VideosController::actionSettings() to Videos_SettingsController::actionIndex().",
+      "[Improved] Moved VideosService::getExplorerNav() to VideosController::getExplorerNav().",
+      "[Improved] Removed unused variable $explorerNav.",
+      "[Improved] Videos Explorer now has its own controller (Videos_ExplorerController).",
+      "[Improved] Videos now has its own logs.",
+      "[Improved] VideosController::actionGetExplorerModal() is now always returning a json response.",
+      "[Improved] VideosController::actionGetExplorerModal() now requires an AJAX request."
+    ]
+  }
+]
