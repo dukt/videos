@@ -1,4 +1,4 @@
-# Craft Videos for Craft License Agreement
+# Videos License Agreement
 
 ## Usage
 
