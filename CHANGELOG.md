@@ -3,6 +3,9 @@ Changelog
 
 ## 2.0.0-beta.6 - Unreleased
 
+### Changed
+- Updated to require craftcms/cms `^3.0.0-RC1`.
+
 ### Fixed
 - Fixed layout bug with the video explorer.
 
