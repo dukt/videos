@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 2.0.0-beta.6 - Unreleased
+
+### Fixed
+- Fixed layout bug with the video explorer.
+
 ## 2.0.0-beta.5 - 2017-09-24
 
 ### Added
