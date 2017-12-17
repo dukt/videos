@@ -1,14 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="128px" height="87px" viewBox="0 0 128 87" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
-    <!-- Generator: Sketch 3.4.2 (15855) - http://www.bohemiancoding.com/sketch -->
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200px" height="200px" viewBox="0 0 200 200" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 48.1 (47250) - http://www.bohemiancoding.com/sketch -->
     <title>videos</title>
     <desc>Created with Sketch.</desc>
     <defs></defs>
-    <g id="New-Icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="dukt-plugin-icons" sketch:type="MSArtboardGroup" transform="translate(-320.000000, -341.000000)" fill="#27AE60">
-            <g id="Rectangle-47-+-Rectangle-2-Copy-2" sketch:type="MSLayerGroup" transform="translate(256.000000, 256.000000)">
-                <path d="M160,116.334759 L160,88.9957998 C160,86.7919844 158.207895,85 155.997221,85 L68.0027785,85 C65.7898769,85 64,86.7889805 64,88.9957998 L64,167.7542 C64,169.958016 65.792105,171.75 68.0027785,171.75 L155.997221,171.75 C158.210123,171.75 160,169.961019 160,167.7542 L160,140.834759 L188.623627,169.458386 C190.196786,171.031545 191.455209,170.498782 191.452092,168.286124 L191.340404,89.0063714 C191.337272,86.783257 190.069456,86.2653039 188.508624,87.8261354 L160,116.334759 Z" id="videos" sketch:type="MSShapeGroup"></path>
-            </g>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="videos">
+            <rect id="Rectangle" fill="#27AE60" x="0" y="0" width="200" height="200" rx="100"></rect>
+            <path d="M125.324943,90.5524015 L147.084552,68.7927923 C148.646299,67.2310458 149.914876,67.7618859 149.917985,69.9688044 L150.0032,130.456875 C150.006315,132.668115 148.747551,133.199389 147.180376,131.632215 L125.324943,109.776782 L125.324943,130.031042 C125.324943,132.242367 123.537186,134.035 121.328158,134.035 L53.9935442,134.035 C51.7861806,134.035 49.9967589,132.249281 49.9967589,130.031042 L49.9967589,69.9689584 C49.9967589,67.7576333 51.7845164,65.9650002 53.9935442,65.9650002 L121.328158,65.9650002 C123.535521,65.9650002 125.324943,67.7507188 125.324943,69.9689584 L125.324943,90.5524015 Z" fill="#FFFFFF"></path>
         </g>
     </g>
 </svg>
