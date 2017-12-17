@@ -5,9 +5,13 @@ Changelog
 
 ### Changed
 - Updated to require craftcms/cms `^3.0.0-RC1`.
+- Updated plugin icon.
 
 ### Fixed
 - Fixed layout bug with the video explorer.
+
+### Removed
+- Removed ununsed mask icon.
 
 ## 2.0.0-beta.5 - 2017-09-24
 
