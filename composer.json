@@ -39,6 +39,6 @@
     "handle": "videos",
     "schemaVersion": "1.0.0",
     "documentationUrl": "https://github.com/dukt/videos-docs",
-    "changelogUrl": "https://raw.githubusercontent.com/dukt/videos/develop/CHANGELOG.md"
+    "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
   }
 }
