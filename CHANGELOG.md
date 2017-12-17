@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 2.0.0-beta.6 - Unreleased
+## 2.0.0-beta.6 - 2017-12-17
 
 ### Changed
 - Updated to require craftcms/cms `^3.0.0-RC1`.
