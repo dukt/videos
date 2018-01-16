@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed namespacing bug in `\dukt\videos\services\Cache`. ([#4](https://github.com/dukt/videos/issues/4))
+
 ## 2.0.0-beta.6 - 2017-12-17
 
 ### Changed

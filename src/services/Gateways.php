@@ -10,7 +10,6 @@ namespace dukt\videos\services;
 use Craft;
 use dukt\videos\base\Gateway;
 use dukt\videos\events\RegisterGatewayTypesEvent;
-use dukt\videos\Plugin;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\Component;
 

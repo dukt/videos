@@ -8,14 +8,14 @@
 namespace dukt\videos\services;
 
 use Craft;
-use dukt\videos\Plugin as Videos;
+use dukt\videos\Plugin as VideosPlugin;
 use yii\base\Component;
 use DateInterval;
 
 /**
  * Class Cache service.
  *
- * An instance of the Cache service is globally accessible via [[Plugin::cache `Videos::$plugin->getCache()`]].
+ * An instance of the Cache service is globally accessible via [[Plugin::cache `VideosPlugin::$plugin->getCache()`]].
  *
  * @author Dukt <support@dukt.net>
  * @since  2.0
@@ -34,7 +34,7 @@ class Cache extends Component
      */
     public function get($id)
     {
-        if (Videos::$plugin->getSettings()->cacheDuration == true) {
+        if (VideosPlugin::$plugin->getSettings()->cacheDuration == true) {
             $cacheKey = $this->getCacheKey($id);
 
             return Craft::$app->cache->get($cacheKey);
@@ -55,14 +55,14 @@ class Cache extends Component
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
         if (is_null($enableCache)) {
-            $enableCache = Videos::$plugin->getSettings()->cacheDuration;
+            $enableCache = VideosPlugin::$plugin->getSettings()->cacheDuration;
         }
 
         if ($enableCache) {
             $cacheKey = $this->getCacheKey($id);
 
             if (!$expire) {
-                $expire = Videos::$plugin->getSettings()->cacheDuration;
+                $expire = VideosPlugin::$plugin->getSettings()->cacheDuration;
                 $expire = new DateInterval($expire);
                 $expire = $expire->format('%s');
             }

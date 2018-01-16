@@ -10,13 +10,13 @@ namespace dukt\videos\services;
 use Craft;
 use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
-use dukt\videos\Plugin as Videos;
+use dukt\videos\Plugin as VideosPlugin;
 use League\OAuth2\Client\Grant\RefreshToken;
 
 /**
  * Class Oauth service.
  *
- * An instance of the Oauth service is globally accessible via [[Plugin::oauth `Videos::$plugin->getOauth()`]].
+ * An instance of the Oauth service is globally accessible via [[Plugin::oauth `VideosPlugin::$plugin->getOauth()`]].
  *
  * @author Dukt <support@dukt.net>
  * @since  2.0
@@ -47,7 +47,7 @@ class Oauth extends Component
             ]);
 
             if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
-                $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
+                $gateway = VideosPlugin::$plugin->getGateways()->getGateway($gatewayHandle);
                 $provider = $gateway->getOauthProvider();
                 $grant = new RefreshToken();
                 $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
@@ -60,7 +60,7 @@ class Oauth extends Component
                     'values' => $newToken->getValues(),
                 ]);
 
-                Videos::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
+                VideosPlugin::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
             }
 
             return $token;
