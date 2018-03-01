@@ -170,7 +170,7 @@ class Vimeo extends Gateway
     {
         $data = $this->get('videos/'.$id, [
             'query' => [
-                'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link'
+                'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files'
             ],
         ]);
 
