@@ -14,6 +14,7 @@ use dukt\videos\errors\GatewayNotFoundException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use yii\web\Response;
 
 /**
  * Explorer controller
@@ -32,9 +33,13 @@ class ExplorerController extends Controller
     // =========================================================================
 
     /**
-     * Get Explorer Modal
+     * Get the explorer modal.
      *
-     * @return null
+     * @return Response
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionGetModal()
     {
@@ -86,9 +91,15 @@ class ExplorerController extends Controller
     }
 
     /**
-     * Get Videos
+     * Get videos.
      *
-     * @return null
+     * @return Response
+     * @throws GatewayNotFoundException
+     * @throws \Twig_Error_Loader
+     * @throws \dukt\videos\errors\GatewayMethodNotFoundException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionGetVideos()
     {
@@ -121,9 +132,14 @@ class ExplorerController extends Controller
     }
 
     /**
-     * Field Preview
+     * Field preview.
      *
-     * @return null
+     * @return Response
+     * @throws VideoNotFoundException
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionFieldPreview()
     {
@@ -152,9 +168,13 @@ class ExplorerController extends Controller
     }
 
     /**
-     * Player
+     * Player.
      *
-     * @return null
+     * @return Response
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\web\BadRequestHttpException
      */
     public function actionPlayer()
     {

@@ -129,11 +129,19 @@ class Video extends Model
     // Public Methods
     // =========================================================================
 
+    /**
+     * @return string
+     */
     public function getDuration()
     {
         return VideosHelper::getDuration($this->durationSeconds);
     }
 
+    /**
+     * @param array $opts
+     *
+     * @return Twig_Markup
+     */
     public function getEmbed($opts = [])
     {
         $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
@@ -142,11 +150,20 @@ class Video extends Model
         return new Twig_Markup($embed, $charset);
     }
 
+    /**
+     * @param array $opts
+     *
+     * @return string
+     */
     public function getEmbedUrl($opts = [])
     {
         return $this->getGateway()->getEmbedUrl($this->id, $opts);
     }
 
+    /**
+     * @return Gateway|null
+     * @throws \yii\base\InvalidConfigException
+     */
     public function getGateway()
     {
         if (!$this->_gateway) {
@@ -156,6 +173,15 @@ class Video extends Model
         return $this->_gateway;
     }
 
+    /**
+     * @param int $size
+     *
+     * @return null|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \craft\errors\ImageException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
     public function getThumbnail($size = 300)
     {
         return VideosHelper::getVideoThumbnail($this->gatewayHandle, $this->id, $size);
@@ -164,6 +190,10 @@ class Video extends Model
     // Private Methods
     // =========================================================================
 
+    /**
+     * @return bool|string
+     * @throws \yii\base\InvalidConfigException
+     */
     private function getVideoById()
     {
         if (!$this->_video) {

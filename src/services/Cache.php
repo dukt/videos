@@ -26,7 +26,7 @@ class Cache extends Component
     // =========================================================================
 
     /**
-     * Get cache
+     * Get cache.
      *
      * @param $id
      *
@@ -42,7 +42,7 @@ class Cache extends Component
     }
 
     /**
-     * Set cache
+     * Set cache.
      *
      * @param      $id
      * @param      $value
@@ -50,7 +50,8 @@ class Cache extends Component
      * @param null $dependency
      * @param null $enableCache
      *
-     * @return mixed
+     * @return bool
+     * @throws \Exception
      */
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {

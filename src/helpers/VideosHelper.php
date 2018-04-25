@@ -20,7 +20,7 @@ class VideosHelper
     // =========================================================================
 
     /**
-     * Formats seconds to hh:mm:ss
+     * Formats seconds to hh:mm:ss.
      */
     public static function getDuration($seconds)
     {
@@ -49,6 +49,10 @@ class VideosHelper
      * @param $size
      *
      * @return null|string
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \craft\errors\ImageException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public static function getVideoThumbnail($gatewayHandle, $videoId, $size)
     {

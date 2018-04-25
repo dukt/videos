@@ -51,6 +51,9 @@ class Plugin extends \craft\base\Plugin
     // Public Methods
     // =========================================================================
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         parent::init();

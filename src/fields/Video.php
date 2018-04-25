@@ -32,12 +32,15 @@ class Video extends Field
     }
 
     /**
-     * Get Input HTML
+     * Get Input HTML.
      *
-     * @param string $name
-     * @param mixed  $value
+     * @param                       $value
+     * @param ElementInterface|null $element
      *
-     * @return mixed
+     * @return string
+     * @throws \Twig_Error_Loader
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
      */
     public function getInputHtml($value, \craft\base\ElementInterface $element = null): string
     {
@@ -75,6 +78,7 @@ class Video extends Field
             'preview' => $preview
         ]);
     }
+
     /**
      * @inheritdoc
      */

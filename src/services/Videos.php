@@ -96,14 +96,15 @@ class Videos extends Component
     // =========================================================================
 
     /**
-     * Request video by ID
+     * Request video by ID.
      *
      * @param      $gatewayHandle
      * @param      $id
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return mixed
+     * @return mixed|string
+     * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -131,13 +132,14 @@ class Videos extends Component
     }
 
     /**
-     * Request video by URL
+     * Request video by URL.
      *
      * @param      $videoUrl
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return bool
+     * @return bool|mixed
+     * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {

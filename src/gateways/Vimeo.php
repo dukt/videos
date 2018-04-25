@@ -163,8 +163,9 @@ class Vimeo extends Gateway
      *
      * @param string $id
      *
-     * @return Video
+     * @return Video|string
      * @throws VideoNotFoundException
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     public function getVideoById(string $id)
     {
@@ -345,6 +346,8 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getCollectionsAlbums($params = [])
     {
@@ -359,6 +362,8 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getCollectionsChannels($params = [])
     {
@@ -374,6 +379,7 @@ class Vimeo extends Gateway
      * @param $collections
      *
      * @return array
+     * @throws CollectionParsingException
      */
     private function parseCollections($type, $collections)
     {
@@ -519,10 +525,11 @@ class Vimeo extends Gateway
     }
 
     /**
-     * @param      $uri
-     * @param      $params
+     * @param $uri
+     * @param $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function performVideosRequest($uri, $params)
     {

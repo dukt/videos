@@ -163,8 +163,9 @@ class YouTube extends Gateway
      *
      * @param string $id
      *
-     * @return Video
+     * @return mixed|string
      * @throws VideoNotFoundException
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     public function getVideoById(string $id)
     {
@@ -257,11 +258,12 @@ class YouTube extends Gateway
     }
 
     /**
-     * Returns a list of liked videos
+     * Returns a list of liked videos.
      *
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosLikes($params = [])
     {
@@ -280,11 +282,12 @@ class YouTube extends Gateway
     }
 
     /**
-     * Returns a list of videos in a playlist
+     * Returns a list of videos in a playlist.
      *
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosPlaylist($params = [])
     {
@@ -320,11 +323,12 @@ class YouTube extends Gateway
     }
 
     /**
-     * Returns a list of videos from a search request
+     * Returns a list of videos from a search request.
      *
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosSearch($params = [])
     {
@@ -365,11 +369,12 @@ class YouTube extends Gateway
     }
 
     /**
-     * Returns a list of uploaded videos
+     * Returns a list of uploaded videos.
      *
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosUploads($params = [])
     {
@@ -425,6 +430,7 @@ class YouTube extends Gateway
 
     /**
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getCollectionsPlaylists()
     {
@@ -439,7 +445,8 @@ class YouTube extends Gateway
     }
 
     /**
-     * @return array|null
+     * @return mixed
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getSpecialPlaylists()
     {
@@ -458,11 +465,12 @@ class YouTube extends Gateway
     }
 
     /**
-     * Retrieves playlist ID for special playlists of type: likes, favorites, uploads
+     * Retrieves playlist ID for special playlists of type: likes, favorites, uploads.
      *
      * @param string $type
      *
-     * @return array|null
+     * @return mixed
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getSpecialPlaylistId(string $type)
     {
@@ -567,6 +575,7 @@ class YouTube extends Gateway
      * @param $data
      *
      * @return Video
+     * @throws \Exception
      */
     private function parseVideo($data)
     {
@@ -622,6 +631,7 @@ class YouTube extends Gateway
      * @param $data
      *
      * @return array
+     * @throws \Exception
      */
     private function parseVideos($data)
     {

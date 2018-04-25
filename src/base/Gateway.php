@@ -310,6 +310,7 @@ abstract class Gateway implements GatewayInterface
      * Returns the javascript origin URL.
      *
      * @return string
+     * @throws \craft\errors\SiteNotFoundException
      */
     public function getJavascriptOrigin()
     {
@@ -420,7 +421,6 @@ abstract class Gateway implements GatewayInterface
     // Protected Methods
     // =========================================================================
 
-
     /**
      * Performs a GET request on the API.
      *
@@ -428,6 +428,7 @@ abstract class Gateway implements GatewayInterface
      * @param array $options
      *
      * @return array
+     * @throws ApiResponseException
      */
     protected function get($uri, array $options = [])
     {

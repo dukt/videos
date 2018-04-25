@@ -15,6 +15,9 @@ class VideosAsset extends AssetBundle
     // Public Methods
     // =========================================================================
 
+    /**
+     * @inheritdoc
+     */
     public function init()
     {
         // define the path that your publishable resources live

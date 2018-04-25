@@ -23,6 +23,7 @@ trait PluginTrait
      * Returns the videos service.
      *
      * @return \dukt\videos\services\Videos The videos service
+     * @throws \yii\base\InvalidConfigException
      */
     public function getVideos()
     {
@@ -34,6 +35,7 @@ trait PluginTrait
      * Returns the cache service.
      *
      * @return \dukt\videos\services\Cache The cache service
+     * @throws \yii\base\InvalidConfigException
      */
     public function getCache()
     {
@@ -45,6 +47,7 @@ trait PluginTrait
      * Returns the gateways service.
      *
      * @return \dukt\videos\services\Gateways The gateways service
+     * @throws \yii\base\InvalidConfigException
      */
     public function getGateways()
     {
@@ -56,6 +59,7 @@ trait PluginTrait
      * Returns the oauth service.
      *
      * @return \dukt\videos\services\Oauth The oauth service
+     * @throws \yii\base\InvalidConfigException
      */
     public function getOauth()
     {

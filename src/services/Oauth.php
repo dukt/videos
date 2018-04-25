@@ -27,13 +27,14 @@ class Oauth extends Component
     // =========================================================================
 
     /**
-     * Create token from data (array)
+     * Create token from data.
      *
      * @param string $gatewayHandle
-     * @param array $data
-     * @param bool $refreshToken
+     * @param array  $data
+     * @param bool   $refreshToken
      *
      * @return AccessToken
+     * @throws \yii\base\InvalidConfigException
      */
     public function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
     {
@@ -70,9 +71,10 @@ class Oauth extends Component
     /**
      * Get token from gateway handle.
      *
-     * @param $handle
+     * @param $gatewayHandle
      *
-     * @return mixed
+     * @return AccessToken
+     * @throws \yii\base\InvalidConfigException
      */
     public function getToken($gatewayHandle)
     {
