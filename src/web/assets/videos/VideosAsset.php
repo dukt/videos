@@ -1,8 +1,8 @@
 <?php
 /**
- * @link      https://dukt.net/craft/videos/
+ * @link      https://dukt.net/videos/
  * @copyright Copyright (c) 2018, Dukt
- * @license   https://dukt.net/craft/videos/docs/license
+ * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\web\assets\videos;
