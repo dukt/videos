@@ -109,6 +109,7 @@ class YouTube extends Gateway
      * @inheritDoc
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     public function getExplorerSections(): array
     {

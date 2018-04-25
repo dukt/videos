@@ -85,6 +85,8 @@ class Vimeo extends Gateway
      * @inheritDoc
      *
      * @return array
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     public function getExplorerSections(): array
     {
@@ -262,6 +264,7 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosAlbum($params = [])
     {
@@ -278,6 +281,7 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosChannel($params = [])
     {
@@ -293,6 +297,7 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosFavorites($params = [])
     {
@@ -305,6 +310,7 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosSearch($params = [])
     {
@@ -317,6 +323,7 @@ class Vimeo extends Gateway
      * @param array $params
      *
      * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
      */
     protected function getVideosUploads($params = [])
     {
