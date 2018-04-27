@@ -1,10 +1,15 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.0-beta.7 - 2018-04-27
+
+### Changed
+- Updated dukt/oauth2-vimeo dependency to `^2.0.1`.
 
 ### Fixed
 - Fixed namespacing bug in `\dukt\videos\services\Cache`. ([#4](https://github.com/dukt/videos/issues/4))
+- Fixed a bug where the explorer modal’s spinner was not properly positionned.
+- Fixed authentication bug with Vimeo.
 
 ## 2.0.0-beta.6 - 2017-12-17
 
