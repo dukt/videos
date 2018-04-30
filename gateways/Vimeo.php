@@ -32,6 +32,19 @@ class Vimeo extends BaseGateway implements IGateway
         return 'vimeo';
     }
 
+    /**
+     * @inheritDoc
+     *
+     * @return array
+     */
+    public function getOauthScope()
+    {
+        return [
+            'public',
+            'private',
+        ];
+    }
+
 	/**
 	 * @inheritDoc IGateway::getExplorerSections()
 	 *
