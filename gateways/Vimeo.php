@@ -270,11 +270,12 @@ class Vimeo extends BaseGateway implements IGateway
         return $this->performVideosRequest('me/videos', $params);
     }
 
-	/**
-	 * Returns an authenticated Guzzle client
-	 *
-	 * @return Client
-	 */
+    /**
+     * Returns an authenticated Guzzle client
+     *
+     * @return Client
+     * @throws \Guzzle\Common\Exception\RuntimeException
+     */
 	protected function createClient()
     {
         $apiUrl = $this->getApiUrl();
@@ -282,10 +283,8 @@ class Vimeo extends BaseGateway implements IGateway
         $client = new Client($apiUrl, array(
             'request.options' => array(
                 'headers' => [
-                    'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion()
-                ],
-                'query' => [
-                    'access_token' => $this->token->accessToken
+                    'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
+                    'Authorization' => 'Bearer '.$this->token->accessToken
                 ],
             )
         ));
