@@ -69,9 +69,10 @@ class SettingsController extends Controller
     public function actionGateway($gatewayHandle)
     {
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
+        $account = null;
 
         try {
-            $gateway->getAccount();
+            $account = $gateway->getAccount();
         } catch (IdentityProviderException $e) {
             $error = $e->getMessage();
 
@@ -85,7 +86,8 @@ class SettingsController extends Controller
         return $this->renderTemplate('videos/settings/_gateway', [
             'gatewayHandle' => $gatewayHandle,
             'gateway' => $gateway,
-            'error' => (isset($error) ? $error : null)
+            'account' => $account,
+            'error' => $error ?? null
         ]);
     }
 

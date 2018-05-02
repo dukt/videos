@@ -17,11 +17,18 @@
 	<h2>{{ gateway.name }} account</h2>
 
 	{% if error %}
-		<p class="error">{{ "Couldn’t retrieve YouTube account: {error}"|t('analytics', {error: error}) }}</p>
+		<p class="error">{{ "Couldn’t retrieve account: {error}"|t('analytics', {error: error}) }}</p>
 		<p class="error">{{ "If the problem persists, try to disconnect and connect again."|t('analytics') }}</p>
 	{% endif %}
 
 	{% if gateway.hasToken() %}
+        {% if account %}
+			<ul>
+				<li><strong>Name:</strong> {{ account.name }}</li>
+				<li><strong>Account ID:</strong> {{ account.id }}</li>
+			</ul>
+        {% endif %}
+
 		<p><a class="btn small" href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('videos') }}</a></p>
 	{% else %}
 		<p>{{ 'Gettings errors trying to connect? Check your {link}.'|t('videos', { link: '<a href="'~url('videos/settings/'~gateway.handle~'/oauth')~'">OAuth settings</a>' })|raw }}</p>
