@@ -17,6 +17,7 @@ use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use GuzzleHttp\Exception\BadResponseException;
 use Exception;
+use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
 
 /**
@@ -322,6 +323,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return mixed
      * @throws Exception
+     * @throws IdentityProviderException
      */
     public function getAccount()
     {
