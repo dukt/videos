@@ -1,6 +1,12 @@
 Changelog
 =========
 
+## Unreleased
+
+### Added
+- Show account details on the gateway details page.
+- Added `files` to the list of fields requested for a Vimeo video.
+
 ## 2.0.0-beta.7 - 2018-04-27
 
 ### Changed
