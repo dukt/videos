@@ -75,7 +75,6 @@ class SettingsController extends Controller
             $account = $gateway->getAccount();
         } catch (IdentityProviderException $e) {
             $error = $e->getMessage();
-
             $data = $e->getResponseBody();
 
             if (isset($data['error_description'])) {
