@@ -23,7 +23,7 @@ interface GatewayInterface
      *
      * @param array $options
      *
-     * @return mixed
+     * @return \League\OAuth1\Client\Server\Server|\League\OAuth2\Client\Provider\AbstractProvider
      */
     public function createOauthProvider(array $options);
 
