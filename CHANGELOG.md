@@ -8,13 +8,18 @@ Changelog
 - Added `files` to the list of fields requested for a Vimeo video.
 - Added the ability to double click on a video so select it in a Video field scenario.
 
+### Changed
+- Removed unused `dukt\videos\base\Gateway::setAuthenticationToken()` method.
+- Stopped catching exceptions in the `\dukt\videos\base\Gateway::hasToken()` method.
+- Improved exception handling when OAuth callback fails.
+
 ## 2.0.0-beta.7 - 2018-04-27
 
 ### Changed
 - Updated dukt/oauth2-vimeo dependency to `^2.0.1`.
 
 ### Fixed
-- Fixed namespacing bug in `\dukt\videos\services\Cache`. ([#4](https://github.com/dukt/videos/issues/4))
+- Fixed namespacing bug in `dukt\videos\services\Cache`. ([#4](https://github.com/dukt/videos/issues/4))
 - Fixed a bug where the explorer modal’s spinner was not properly positionned.
 - Fixed authentication bug with Vimeo.
 
@@ -52,7 +57,7 @@ Changelog
 
 ### Fixed
 
-- Fixed `\dukt\videos\fields\Video` to use `normalizeValue()`. ([#2](https://github.com/dukt/videos/issues/2))
+- Fixed `dukt\videos\fields\Video` to use `normalizeValue()`. ([#2](https://github.com/dukt/videos/issues/2))
 
 ## 2.0.0-beta.2 - 2017-08-28
 
