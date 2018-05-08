@@ -110,7 +110,7 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return mixed|null|string
+     * @return \dukt\videos\models\Video|mixed
      * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
@@ -129,15 +129,11 @@ class Videos extends Component
 
         $response = $gateway->getVideoById($id);
 
-        if ($response) {
-            if ($enableCache) {
-                VideosPlugin::$plugin->getCache()->set([$key], $response, $cacheExpiry);
-            }
-
-            return $response;
+        if ($enableCache) {
+            VideosPlugin::$plugin->getCache()->set([$key], $response, $cacheExpiry);
         }
 
-        return null;
+        return $response;
     }
 
     /**
