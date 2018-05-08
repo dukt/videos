@@ -148,13 +148,10 @@ class Videos extends Component
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
-        if (VideosPlugin::$plugin->getSettings()->enableCache === false) {
-            $enableCache = false;
-        }
+        $key = 'videos.video.'.md5($videoUrl);
+        $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
 
         if ($enableCache) {
-            $key = 'videos.video.'.md5($videoUrl);
-
             $response = VideosPlugin::$plugin->getCache()->get([$key]);
 
             if ($response) {
@@ -163,7 +160,9 @@ class Videos extends Component
         }
 
         foreach (VideosPlugin::$plugin->getGateways()->getGateways() as $gateway) {
-            $params['url'] = $videoUrl;
+            $params = [
+                'url' => $videoUrl
+            ];
 
             try {
                 $video = $gateway->getVideoByUrl($params);
