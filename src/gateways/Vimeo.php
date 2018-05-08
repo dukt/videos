@@ -14,6 +14,7 @@ use dukt\videos\models\Collection;
 use dukt\videos\models\Section;
 use dukt\videos\models\Video;
 use GuzzleHttp\Client;
+use DateTime;
 
 /**
  * Vimeo represents the Vimeo gateway
@@ -472,29 +473,27 @@ class Vimeo extends Gateway
         $video->raw = $data;
         $video->authorName = $data['user']['name'];
         $video->authorUrl = $data['user']['link'];
-        $video->date = strtotime($data['created_time']);
+        $video->date = new DateTime($data['created_time']);
         $video->durationSeconds = $data['duration'];
         $video->description = $data['description'];
         $video->gatewayHandle = 'vimeo';
         $video->gatewayName = 'Vimeo';
-        $video->id = substr($data['uri'], \strlen('/videos/'));
-        $video->plays = ($data['stats']['plays'] ?? 0);
+        $video->id = (int) substr($data['uri'], \strlen('/videos/'));
+        $video->plays = $data['stats']['plays'] ?? 0;
         $video->title = $data['name'];
         $video->url = $data['link'];
         $video->width = $data['width'];
         $video->height = $data['height'];
 
-
+        
         // privacy
 
-        switch ($data['privacy']['view']) {
-            case 'nobody':
-            case 'contacts':
-            case 'password':
-            case 'users':
-            case 'disable':
-                $video->private = true;
-                break;
+        if ($data['privacy']['view'] === 'nobody'
+            || $data['privacy']['view'] === 'contacts'
+            || $data['privacy']['view'] === 'password'
+            || $data['privacy']['view'] === 'users'
+            || $data['privacy']['view'] === 'disable') {
+            $video->private = true;
         }
 
 
