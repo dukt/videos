@@ -184,17 +184,14 @@ abstract class Gateway implements GatewayInterface
      * Has Token
      *
      * @return bool
+     * @throws \yii\base\InvalidConfigException
      */
     public function hasToken()
     {
-        try {
-            $tokenData = Videos::$plugin->getOauth()->getTokenData($this->getHandle());
+        $tokenData = Videos::$plugin->getOauth()->getTokenData($this->getHandle());
 
-            if ($tokenData) {
-                return true;
-            }
-        } catch (\Exception $e) {
-            Craft::info('Couldn’t get token: '.$e->getMessage(), __METHOD__);
+        if ($tokenData) {
+            return true;
         }
 
         return false;
