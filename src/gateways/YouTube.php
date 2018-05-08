@@ -137,23 +137,21 @@ class YouTube extends Gateway
 
         $playlists = $this->getCollectionsPlaylists();
 
-        if (\is_array($playlists)) {
-            $collections = [];
+        $collections = [];
 
-            foreach ($playlists as $playlist) {
-                $collections[] = new Collection([
-                    'name' => $playlist['title'],
-                    'method' => 'playlist',
-                    'options' => ['id' => $playlist['id']],
-                ]);
-            }
+        foreach ($playlists as $playlist) {
+            $collections[] = new Collection([
+                'name' => $playlist['title'],
+                'method' => 'playlist',
+                'options' => ['id' => $playlist['id']],
+            ]);
+        }
 
-            if (\count($collections) > 0) {
-                $sections[] = new Section([
-                    'name' => 'Playlists',
-                    'collections' => $collections,
-                ]);
-            }
+        if (\count($collections) > 0) {
+            $sections[] = new Section([
+                'name' => 'Playlists',
+                'collections' => $collections,
+            ]);
         }
 
         return $sections;
