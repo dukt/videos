@@ -244,6 +244,7 @@ class Vimeo extends Gateway
      * Returns an authenticated Guzzle client
      *
      * @return Client
+     * @throws \yii\base\InvalidConfigException
      */
     protected function createClient(): Client
     {
