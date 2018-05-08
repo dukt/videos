@@ -19,6 +19,8 @@ use GuzzleHttp\Exception\BadResponseException;
 use Exception;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use Psr\Http\Message\ResponseInterface;
+use yii\web\Response;
+
 
 /**
  * Gateway is the base class for classes representing video gateways.
@@ -60,9 +62,9 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * OAuth Connect
+     * OAuth Connect.
      *
-     * @return null
+     * @return Response
      */
     public function oauthConnect()
     {
@@ -149,7 +151,7 @@ abstract class Gateway implements GatewayInterface
     /**
      * OAuth Callback
      *
-     * @return null
+     * @return Response
      */
     public function oauthCallback()
     {
