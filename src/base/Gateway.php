@@ -85,9 +85,9 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Returns the gateway's OAuth provider
+     * Returns the gateway's OAuth provider.
      *
-     * @return mixed
+     * @return \League\OAuth1\Client\Server\Server|\League\OAuth2\Client\Provider\AbstractProvider
      */
     public function getOauthProvider()
     {
