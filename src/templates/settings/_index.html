@@ -25,7 +25,7 @@
                     <th><a href="{{ url('videos/settings/'~gateway.handle) }}">{{ gateway.name }}</a></th>
                     <td>
 						{% if account %}
-							{{ account.name }} <span class="light">— {{ account.id }}</span>
+							{{ account.name }} <span class="light">— <code>{{ account.id }}</code></span>
                         {% elseif accountError %}
                             <div class="error">{{ accountError }}</div>
                         {% else %}
