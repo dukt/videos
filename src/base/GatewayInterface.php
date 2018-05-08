@@ -7,6 +7,8 @@
 
 namespace dukt\videos\base;
 
+use dukt\videos\models\Video;
+
 /**
  * GatewayInterface defines the common interface to be implemented by gateway classes.
  *
@@ -58,7 +60,7 @@ interface GatewayInterface
      *
      * @param string $id
      *
-     * @return string
+     * @return Video
      */
     public function getVideoById(string $id);
 
