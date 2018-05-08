@@ -114,23 +114,21 @@ class Vimeo extends Gateway
 
         $albums = $this->getCollectionsAlbums();
 
-        if (\is_array($albums)) {
-            $collections = [];
+        $collections = [];
 
-            foreach ($albums as $album) {
-                $collections[] = new Collection([
-                    'name' => $album['title'],
-                    'method' => 'album',
-                    'options' => ['id' => $album['id']]
-                ]);
-            }
+        foreach ($albums as $album) {
+            $collections[] = new Collection([
+                'name' => $album['title'],
+                'method' => 'album',
+                'options' => ['id' => $album['id']]
+            ]);
+        }
 
-            if (\count($collections) > 0) {
-                $sections[] = new Section([
-                    'name' => 'Playlists',
-                    'collections' => $collections,
-                ]);
-            }
+        if (\count($collections) > 0) {
+            $sections[] = new Section([
+                'name' => 'Playlists',
+                'collections' => $collections,
+            ]);
         }
 
 
@@ -138,23 +136,21 @@ class Vimeo extends Gateway
 
         $channels = $this->getCollectionsChannels();
 
-        if (\is_array($channels)) {
-            $collections = [];
+        $collections = [];
 
-            foreach ($channels as $channel) {
-                $collections[] = new Collection([
-                    'name' => $channel['title'],
-                    'method' => 'channel',
-                    'options' => ['id' => $channel['id']],
-                ]);
-            }
+        foreach ($channels as $channel) {
+            $collections[] = new Collection([
+                'name' => $channel['title'],
+                'method' => 'channel',
+                'options' => ['id' => $channel['id']],
+            ]);
+        }
 
-            if (\count($collections) > 0) {
-                $sections[] = new Section([
-                    'name' => 'Channels',
-                    'collections' => $collections,
-                ]);
-            }
+        if (\count($collections) > 0) {
+            $sections[] = new Section([
+                'name' => 'Channels',
+                'collections' => $collections,
+            ]);
         }
 
         return $sections;
@@ -590,10 +586,7 @@ class Vimeo extends Gateway
         }
 
         $query['per_page'] = $this->getVideosPerPage();
-
-        if (\is_array($params)) {
-            $query = array_merge($query, $params);
-        }
+        $query = array_merge($query, $params);
 
         return $query;
     }
