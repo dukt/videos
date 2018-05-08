@@ -502,12 +502,14 @@ class Vimeo extends Gateway
 
         return $video;
     }
-    
+
     /**
      * Parse thumbnails.
      *
      * @param Video $video
      * @param array $data
+     *
+     * @return null
      */
     private function parseThumbnails(Video &$video, array $data)
     {
@@ -516,27 +518,31 @@ class Vimeo extends Gateway
         $largestSize = 0;
         $thumbSize = 0;
 
-        if (\is_array($data['pictures'])) {
-            foreach ($data['pictures'] as $picture) {
-                if ($picture['type'] === 'thumbnail') {
-                    if ($picture['width'] > $largestSize) {
-                        $video->thumbnailLargeSource = $picture['link'];
+        if (!\is_array($data['pictures'])) {
+            return null;
+        }
 
-                        $largestSize = $picture['width'];
-                    }
+        foreach ($data['pictures'] as $picture) {
+            if ($picture['type'] === 'thumbnail') {
+                if ($picture['width'] > $largestSize) {
+                    $video->thumbnailLargeSource = $picture['link'];
 
-                    if ($picture['width'] > $thumbSize && $thumbSize < 400) {
-                        $video->thumbnailSource = $picture['link'];
+                    $largestSize = $picture['width'];
+                }
 
-                        $thumbSize = $picture['width'];
-                    }
+                if ($picture['width'] > $thumbSize && $thumbSize < 400) {
+                    $video->thumbnailSource = $picture['link'];
+
+                    $thumbSize = $picture['width'];
                 }
             }
         }
-
+        
         if (empty($video->thumbnailSource) && !empty($video->thumbnailLargeSource)) {
             $video->thumbnailSource = $video->thumbnailLargeSource;
         }
+
+        return null;
     }
 
     /**
