@@ -204,6 +204,7 @@ abstract class Gateway implements GatewayInterface
      * Returns the gateway's OAuth token.
      *
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function getOauthToken()
     {
