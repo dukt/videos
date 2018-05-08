@@ -55,7 +55,7 @@ class ExplorerController extends Controller
             try {
                 $gatewaySection = $_gateway->getExplorerSections();
 
-                if($gatewaySection) {
+                if ($gatewaySection) {
                     $gatewaySections[] = $gatewaySection;
 
                     $gateway = [
@@ -128,7 +128,6 @@ class ExplorerController extends Controller
             'more' => $videosResponse['more'],
             'moreToken' => $videosResponse['moreToken']
         ]);
-
     }
 
     /**

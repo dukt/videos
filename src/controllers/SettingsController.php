@@ -15,6 +15,7 @@ use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
 use yii\web\Response;
+
 /**
  * Settings controller
  */
