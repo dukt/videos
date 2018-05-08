@@ -15,7 +15,13 @@ class VideosVariable
     // =========================================================================
 
     /**
-     * Get Embed
+     * Get Embed.
+     *
+     * @param       $videoUrl
+     * @param array $embedOptions
+     *
+     * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function getEmbed($videoUrl, $embedOptions = [])
     {
@@ -23,7 +29,13 @@ class VideosVariable
     }
 
     /**
-     * Get a video from its URL
+     * Get a video from its URL.
+     *
+     * @param      $videoUrl
+     * @param bool $enableCache
+     * @param int  $cacheExpiry
+     *
+     * @return bool|null
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -32,10 +44,16 @@ class VideosVariable
         } catch (\Exception $e) {
             Craft::info('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
         }
+
+        return null;
     }
 
     /**
-     * Alias for getVideoByUrl()
+     * Alias for the `getVideoByUrl()` method.
+     *
+     * @param      $videoUrl
+     * @param bool $enableCache
+     * @param int  $cacheExpiry
      */
     public function url($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {

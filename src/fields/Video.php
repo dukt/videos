@@ -90,7 +90,7 @@ class Video extends Field
             return Db::prepareValueForDb($value->url);
         }
 
-        parent::serializeValue($value, $element);
+        return parent::serializeValue($value, $element);
     }
 
     /**
@@ -112,15 +112,16 @@ class Video extends Field
             }
         } catch (\Exception $e) {
             Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
-
-            return null;
         }
+
+        return null;
     }
 
     /**
      * Get Search Keywords
      *
-     * @param mixed $value
+     * @param mixed            $value
+     * @param ElementInterface $element
      *
      * @return string
      */

@@ -33,18 +33,18 @@ class Oauth extends Component
      * @param array  $data
      * @param bool   $refreshToken
      *
-     * @return AccessToken
+     * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
     public function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
     {
         if (isset($data['accessToken'])) {
             $token = new AccessToken([
-                'access_token' => (isset($data['accessToken']) ? $data['accessToken'] : null),
-                'expires' => (isset($data['expires']) ? $data['expires'] : null),
-                'refresh_token' => (isset($data['refreshToken']) ? $data['refreshToken'] : null),
-                'resource_owner_id' => (isset($data['resourceOwnerId']) ? $data['resourceOwnerId'] : null),
-                'values' => (isset($data['values']) ? $data['values'] : null),
+                'access_token' => isset($data['accessToken']) ? $data['accessToken'] : null,
+                'expires' => isset($data['expires']) ? $data['expires'] : null,
+                'refresh_token' => isset($data['refreshToken']) ? $data['refreshToken'] : null,
+                'resource_owner_id' => isset($data['resourceOwnerId']) ? $data['resourceOwnerId'] : null,
+                'values' => isset($data['values']) ? $data['values'] : null,
             ]);
 
             if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
@@ -66,6 +66,8 @@ class Oauth extends Component
 
             return $token;
         }
+
+        return null;
     }
 
     /**
@@ -73,7 +75,7 @@ class Oauth extends Component
      *
      * @param $gatewayHandle
      *
-     * @return AccessToken
+     * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
     public function getToken($gatewayHandle)
@@ -83,6 +85,8 @@ class Oauth extends Component
         if ($tokenData) {
             return $this->createTokenFromData($gatewayHandle, $tokenData);
         }
+
+        return null;
     }
 
     /**
@@ -90,7 +94,7 @@ class Oauth extends Component
      *
      * @param $handle
      *
-     * @return mixed
+     * @return array|null
      */
     public function getTokenData($handle)
     {
@@ -101,6 +105,8 @@ class Oauth extends Component
         if (isset($tokens[$handle])) {
             return $tokens[$handle];
         }
+
+        return null;
     }
 
     /**

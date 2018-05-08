@@ -27,6 +27,8 @@ class Videos extends Component
     /**
      * Checks if the OAuth provider is configured
      *
+     * @param $oauthProviderHandle
+     *
      * @return bool
      */
     public function isOauthProviderConfigured($oauthProviderHandle)
@@ -41,12 +43,13 @@ class Videos extends Component
     }
 
     /**
-     * Returns the HTML of the embed from a video URL
+     * Returns the HTML of the embed from a video URL.
      *
      * @param       $videoUrl
      * @param array $embedOptions
      *
-     * @return mixed
+     * @return null
+     * @throws \yii\base\InvalidConfigException
      */
     public function getEmbed($videoUrl, $embedOptions = [])
     {
@@ -55,15 +58,18 @@ class Videos extends Component
         if ($video) {
             return $video->getEmbed($embedOptions);
         }
+
+        return null;
     }
 
     /**
-     * Get video by ID
+     * Get video by ID.
      *
      * @param $gateway
      * @param $id
      *
-     * @return mixed
+     * @return mixed|null|string
+     * @throws \yii\base\InvalidConfigException
      */
     public function getVideoById($gateway, $id)
     {
@@ -72,16 +78,19 @@ class Videos extends Component
         if ($video) {
             return $video;
         }
+
+        return null;
     }
 
     /**
-     * Get video by URL
+     * Get video by URL.
      *
      * @param      $videoUrl
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return bool
+     * @return bool|mixed|null
+     * @throws \yii\base\InvalidConfigException
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -90,6 +99,8 @@ class Videos extends Component
         if ($video) {
             return $video;
         }
+
+        return null;
     }
 
     // Private Methods
@@ -103,7 +114,7 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return mixed|string
+     * @return mixed|null|string
      * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
@@ -129,6 +140,8 @@ class Videos extends Component
 
             return $response;
         }
+
+        return null;
     }
 
     /**

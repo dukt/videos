@@ -30,7 +30,7 @@ class Cache extends Component
      *
      * @param $id
      *
-     * @return mixed
+     * @return mixed|null
      */
     public function get($id)
     {
@@ -39,6 +39,8 @@ class Cache extends Component
 
             return Craft::$app->cache->get($cacheKey);
         }
+
+        return null;
     }
 
     /**
@@ -50,7 +52,7 @@ class Cache extends Component
      * @param null $dependency
      * @param null $enableCache
      *
-     * @return bool
+     * @return bool|null
      * @throws \Exception
      */
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
@@ -70,6 +72,8 @@ class Cache extends Component
 
             return Craft::$app->cache->set($cacheKey, $value, $expire, $dependency);
         }
+
+        return null;
     }
 
     // Private Methods
@@ -82,7 +86,7 @@ class Cache extends Component
      *
      * @return string
      */
-    private function getCacheKey(array $request)
+    private function getCacheKey(array $request): string
     {
         unset($request['CRAFT_CSRF_TOKEN']);
 

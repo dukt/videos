@@ -67,7 +67,7 @@ class OauthController extends Controller
         Videos::$plugin->getOauth()->deleteToken($gateway->getHandle());
 
         // set notice
-        Craft::$app->getSession()->setNotice(Craft::t('videos', "Disconnected."));
+        Craft::$app->getSession()->setNotice(Craft::t('videos', 'Disconnected.'));
 
 
         // redirect

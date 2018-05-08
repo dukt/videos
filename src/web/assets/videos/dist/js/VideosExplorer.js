@@ -227,7 +227,7 @@ Videos.Explorer = Garnish.Base.extend({
 
     dblClickVideo: function(ev)
     {
-        this.selectVideo(ev)
+        this.selectVideo(ev);
         var url = $(ev.currentTarget).data('url');
         this.settings.onDoubleClickVideo(url)
     },

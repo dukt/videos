@@ -42,7 +42,7 @@ class YouTube extends Gateway
      */
     public function getName(): string
     {
-        return "YouTube";
+        return 'YouTube';
     }
 
     /**
@@ -119,14 +119,14 @@ class YouTube extends Gateway
         // Library
 
         $sections[] = new Section([
-            'name' => "Library",
+            'name' => 'Library',
             'collections' => [
                 new Collection([
-                    'name' => "Uploads",
+                    'name' => 'Uploads',
                     'method' => 'uploads',
                 ]),
                 new Collection([
-                    'name' => "Liked videos",
+                    'name' => 'Liked videos',
                     'method' => 'likes',
                 ])
             ]
@@ -150,7 +150,7 @@ class YouTube extends Gateway
 
             if (count($collections) > 0) {
                 $sections[] = new Section([
-                    'name' => "Playlists",
+                    'name' => 'Playlists',
                     'collections' => $collections,
                 ]);
             }
@@ -193,7 +193,7 @@ class YouTube extends Gateway
      */
     public function getEmbedFormat(): string
     {
-        return "https://www.youtube.com/embed/%s?wmode=transparent";
+        return 'https://www.youtube.com/embed/%s?wmode=transparent';
     }
 
     /**
@@ -219,8 +219,8 @@ class YouTube extends Gateway
             $video_id = $matches[$match_key][0];
 
             // Fixes the youtube &feature_gdata bug
-            if (strpos($video_id, "&")) {
-                $video_id = substr($video_id, 0, strpos($video_id, "&"));
+            if (strpos($video_id, '&')) {
+                $video_id = substr($video_id, 0, strpos($video_id, '&'));
             }
         }
 
@@ -314,7 +314,7 @@ class YouTube extends Gateway
 
         $query = [];
         $query['part'] = 'snippet,statistics,contentDetails';
-        $query['id'] = implode(",", $videoIds);
+        $query['id'] = implode(',', $videoIds);
 
         $videosResponse = $this->get('videos', ['query' => $query]);
         $videos = $this->parseVideos($videosResponse['items']);
@@ -356,7 +356,7 @@ class YouTube extends Gateway
 
             $query = [];
             $query['part'] = 'snippet,statistics,contentDetails';
-            $query['id'] = implode(",", $videoIds);
+            $query['id'] = implode(',', $videoIds);
 
             $videosResponse = $this->get('videos', ['query' => $query]);
 
@@ -408,7 +408,7 @@ class YouTube extends Gateway
 
         $query = [];
         $query['part'] = 'snippet,statistics,contentDetails,status';
-        $query['id'] = implode(",", $videoIds);
+        $query['id'] = implode(',', $videoIds);
 
         $videosResponse = $this->get('videos', ['query' => $query]);
 
@@ -447,7 +447,7 @@ class YouTube extends Gateway
     }
 
     /**
-     * @return mixed
+     * @return null|mixed
      * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getSpecialPlaylists()
@@ -464,6 +464,8 @@ class YouTube extends Gateway
 
             return $channel['contentDetails']['relatedPlaylists'];
         }
+
+        return null;
     }
 
     /**
@@ -471,7 +473,7 @@ class YouTube extends Gateway
      *
      * @param string $type
      *
-     * @return mixed
+     * @return null|mixed
      * @throws \dukt\videos\errors\ApiResponseException
      */
     private function getSpecialPlaylistId(string $type)
@@ -481,6 +483,8 @@ class YouTube extends Gateway
         if (isset($specialPlaylists[$type])) {
             return $specialPlaylists[$type];
         }
+
+        return null;
     }
 
     /**
@@ -534,8 +538,8 @@ class YouTube extends Gateway
         }
 
         return [
-            'prevPage' => (isset($response['prevPageToken']) ? $response['prevPageToken'] : null),
-            'moreToken' => (isset($response['nextPageToken']) ? $response['nextPageToken'] : null),
+            'prevPage' => isset($response['prevPageToken']) ? $response['prevPageToken'] : null,
+            'moreToken' => isset($response['nextPageToken']) ? $response['nextPageToken'] : null,
             'more' => $more
         ];
     }
@@ -584,7 +588,7 @@ class YouTube extends Gateway
         $video = new Video;
         $video->raw = $data;
         $video->authorName = $data['snippet']['channelTitle'];
-        $video->authorUrl = "http://youtube.com/channel/".$data['snippet']['channelId'];
+        $video->authorUrl = 'http://youtube.com/channel/'.$data['snippet']['channelId'];
         $video->date = strtotime($data['snippet']['publishedAt']);
         $video->description = $data['snippet']['description'];
         $video->gatewayHandle = 'youtube';

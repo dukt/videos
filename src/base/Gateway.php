@@ -58,6 +58,8 @@ abstract class Gateway implements GatewayInterface
         if (file_exists(Craft::getAlias($iconAlias))) {
             return Craft::$app->assetManager->getPublishedUrl($iconAlias, true);
         }
+
+        return null;
     }
 
     /**
@@ -170,7 +172,7 @@ abstract class Gateway implements GatewayInterface
             // Reset session variables
 
             // Redirect
-            Craft::$app->getSession()->setNotice(Craft::t('videos', "Connected to {gateway}.", ['gateway' => $this->getName()]));
+            Craft::$app->getSession()->setNotice(Craft::t('videos', 'Connected to {gateway}.', ['gateway' => $this->getName()]));
         } catch (Exception $e) {
             Craft::error('Couldn’t connect to video gateway:'."\r\n"
                 .'Message: '."\r\n".$e->getMessage()."\r\n"
@@ -234,9 +236,9 @@ abstract class Gateway implements GatewayInterface
     public function getEmbedHtml($videoId, array $options = []): string
     {
         $embedAttributes = [
-            'frameborder' => "0",
-            'allowfullscreen' => "true",
-            'allowscriptaccess' => "true"
+            'frameborder' => '0',
+            'allowfullscreen' => 'true',
+            'allowscriptaccess' => 'true'
         ];
 
         $disableSize = false;
@@ -288,8 +290,8 @@ abstract class Gateway implements GatewayInterface
         if (count($options) > 0) {
             $queryMark = '?';
 
-            if (strpos($this->getEmbedFormat(), "?") !== false) {
-                $queryMark = "&";
+            if (strpos($this->getEmbedFormat(), '?') !== false) {
+                $queryMark = '&';
             }
 
             $options = http_build_query($options);
@@ -335,6 +337,8 @@ abstract class Gateway implements GatewayInterface
                 return $account;
             }
         }
+
+        return null;
     }
 
     /**
@@ -400,6 +404,8 @@ abstract class Gateway implements GatewayInterface
         if (isset($allOauthProviderOptions[$this->getHandle()])) {
             return $allOauthProviderOptions[$this->getHandle()];
         }
+
+        return null;
     }
 
     /**
