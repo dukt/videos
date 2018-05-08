@@ -600,7 +600,7 @@ class YouTube extends Gateway
         // Video Duration
 
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $video->durationSeconds = $interval->format('%s');
+        $video->durationSeconds = (int) $interval->format('%s');
 
 
         // Thumbnails
