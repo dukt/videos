@@ -240,11 +240,7 @@ abstract class Gateway implements GatewayInterface
             'allowscriptaccess' => 'true'
         ];
 
-        $disableSize = false;
-
-        if (isset($options['disable_size'])) {
-            $disableSize = $options['disable_size'];
-        }
+        $disableSize = $options['disable_size'] ?? false;
 
         if (!$disableSize) {
             if (isset($options['width'])) {
