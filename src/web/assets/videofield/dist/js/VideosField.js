@@ -50,8 +50,8 @@ Videos.Field = Garnish.Base.extend(
     {
         if(!this.videoSelectorModal)
         {
-            $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
-            $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
+            var $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
+            var $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
             $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
             $buttons = $('<div class="buttons right"/>').appendTo($footer),
             $cancelBtn = $('<div class="btn">'+Craft.t('app', 'Cancel')+'</div>').appendTo($buttons),
@@ -155,8 +155,8 @@ Videos.Field = Garnish.Base.extend(
                     {
                         this.$preview.html(response.preview);
 
-                        $playBtn = $('.play', this.$container);
-                        $removeBtn = $('.delete', this.$container);
+                        var $playBtn = $('.play', this.$container);
+                        var $removeBtn = $('.delete', this.$container);
                         this.addListener($playBtn, 'click', 'playVideo');
                         this.addListener($removeBtn, 'click', 'removeVideo');
                     }

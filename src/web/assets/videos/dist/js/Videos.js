@@ -30,7 +30,7 @@ Videos.Player = Garnish.Modal.extend(
             {
                 if (response.error)
                 {
-                    $error = $('<div class="error">'+response.error+'</div>');
+                    var $error = $('<div class="error">'+response.error+'</div>');
                     $error.appendTo(this.$player);
                 }
                 else

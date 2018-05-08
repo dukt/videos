@@ -155,9 +155,9 @@ Videos.Explorer = Garnish.Base.extend({
 
         $(ev.currentTarget).addClass('sel');
 
-        gateway = $(ev.currentTarget).data('gateway');
-        method = $(ev.currentTarget).data('method');
-        options = $(ev.currentTarget).data('options');
+        var gateway = $(ev.currentTarget).data('gateway');
+        var method = $(ev.currentTarget).data('method');
+        var options = $(ev.currentTarget).data('options');
 
         if(!options) {
             options = {};
@@ -169,13 +169,13 @@ Videos.Explorer = Garnish.Base.extend({
 
     search: function(ev)
     {
-        q = $(ev.currentTarget).val();
+        var q = $(ev.currentTarget).val();
 
         if(q.length > 0)
         {
-            gateway = this.$gateways.val();
-            method = 'search';
-            options = {
+            var gateway = this.$gateways.val();
+            var method = 'search';
+            var options = {
                 q: q
             };
 
@@ -220,7 +220,7 @@ Videos.Explorer = Garnish.Base.extend({
         this.$videoElements.removeClass('sel');
         $(ev.currentTarget).addClass('sel');
 
-        url = $(ev.currentTarget).data('url');
+        var url = $(ev.currentTarget).data('url');
 
         this.settings.onSelectVideo(url);
     },
@@ -236,7 +236,7 @@ Videos.Explorer = Garnish.Base.extend({
     {
         this.removeListener(this.$scroller, 'scroll');
 
-        data = {
+        var data = {
             gateway: gateway,
             method: method,
             options: options
@@ -274,7 +274,7 @@ Videos.Explorer = Garnish.Base.extend({
 
                     if(response.more)
                     {
-                        $moreBtn = $('<a class="more btn">More</a>');
+                        var $moreBtn = $('<a class="more btn">More</a>');
                         this.$videos.append($moreBtn);
 
                         var moreOptions = {};
@@ -329,10 +329,10 @@ Videos.Explorer = Garnish.Base.extend({
         $('.more', this.$videos).remove();
 
         this.$spinner.removeClass('invisible');
-        $videosSpinner = $('<div class="spinner" />');
+        var $videosSpinner = $('<div class="spinner" />');
         this.$videos.append($videosSpinner);
 
-        data = {
+        var data = {
             gateway: gateway,
             method: method,
             options: options
@@ -359,7 +359,7 @@ Videos.Explorer = Garnish.Base.extend({
 
                     if(response.more)
                     {
-                        $moreBtn = $('<a class="more btn">More</a>');
+                        var $moreBtn = $('<a class="more btn">More</a>');
                         this.$videos.append($moreBtn);
 
                         if(typeof(options) == 'undefined')
@@ -394,7 +394,7 @@ Videos.Explorer = Garnish.Base.extend({
     {
         if(this.$videoElements)
         {
-            currentVideo = this.$videoElements.filter('.sel');
+            var currentVideo = this.$videoElements.filter('.sel');
             currentVideo.removeClass('.sel');
 
             this.settings.onDeselectVideo();
