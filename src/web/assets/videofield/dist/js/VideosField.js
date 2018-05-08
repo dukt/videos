@@ -90,6 +90,11 @@ Videos.Field = Garnish.Base.extend(
                     {
                         $selectBtn.removeClass('disabled');
                     }, this),
+                    onDoubleClickVideo: $.proxy(function(url) {
+                        this.$input.val(url);
+                        this.$input.trigger('change');
+                        this.videoSelectorModal.hide();
+                    }, this),
                     onDeselectVideo: $.proxy(function()
                     {
                         $selectBtn.addClass('disabled');

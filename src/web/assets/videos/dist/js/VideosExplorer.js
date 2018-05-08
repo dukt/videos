@@ -225,6 +225,13 @@ Videos.Explorer = Garnish.Base.extend({
         this.settings.onSelectVideo(url);
     },
 
+    dblClickVideo: function(ev)
+    {
+        this.selectVideo(ev)
+        var url = $(ev.currentTarget).data('url');
+        this.settings.onDoubleClickVideo(url)
+    },
+
     getVideos: function(gateway, method, options)
     {
         this.removeListener(this.$scroller, 'scroll');
@@ -263,6 +270,7 @@ Videos.Explorer = Garnish.Base.extend({
 
                     this.addListener(this.$playBtns, 'click', 'playVideo');
                     this.addListener(this.$videoElements, 'click', 'selectVideo');
+                    this.addListener(this.$videoElements, 'dblclick', 'dblClickVideo');
 
                     if(response.more)
                     {

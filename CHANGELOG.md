@@ -6,6 +6,7 @@ Changelog
 ### Added
 - Show account details on the gateway details page.
 - Added `files` to the list of fields requested for a Vimeo video.
+- Added the ability to double click on a video so select it in a Video field scenario.
 
 ## 2.0.0-beta.7 - 2018-04-27
 
