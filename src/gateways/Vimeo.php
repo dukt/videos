@@ -463,11 +463,13 @@ class Vimeo extends Gateway
     }
 
     /**
-     * @param $data
+     * Parse video.
+     *
+     * @param array $data
      *
      * @return Video
      */
-    private function parseVideo($data): Video
+    private function parseVideo(array $data): Video
     {
         $video = new Video;
         $video->raw = $data;
@@ -496,7 +498,19 @@ class Vimeo extends Gateway
             $video->private = true;
         }
 
+        $this->parseThumbnails($video, $data);
 
+        return $video;
+    }
+    
+    /**
+     * Parse thumbnails.
+     *
+     * @param Video $video
+     * @param array $data
+     */
+    private function parseThumbnails(Video &$video, array $data)
+    {
         // Retrieve largest thumbnail
 
         $largestSize = 0;
@@ -523,8 +537,6 @@ class Vimeo extends Gateway
         if (empty($video->thumbnailSource) && !empty($video->thumbnailLargeSource)) {
             $video->thumbnailSource = $video->thumbnailLargeSource;
         }
-
-        return $video;
     }
 
     /**
