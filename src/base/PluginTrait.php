@@ -25,7 +25,7 @@ trait PluginTrait
      * @return \dukt\videos\services\Videos The videos service
      * @throws \yii\base\InvalidConfigException
      */
-    public function getVideos()
+    public function getVideos(): \dukt\videos\services\Videos
     {
         /** @var Videos $this */
         return $this->get('videos');
@@ -37,7 +37,7 @@ trait PluginTrait
      * @return \dukt\videos\services\Cache The cache service
      * @throws \yii\base\InvalidConfigException
      */
-    public function getCache()
+    public function getCache(): \dukt\videos\services\Cache
     {
         /** @var Videos $this */
         return $this->get('cache');
@@ -49,7 +49,7 @@ trait PluginTrait
      * @return \dukt\videos\services\Gateways The gateways service
      * @throws \yii\base\InvalidConfigException
      */
-    public function getGateways()
+    public function getGateways(): \dukt\videos\services\Gateways
     {
         /** @var Videos $this */
         return $this->get('gateways');
@@ -61,7 +61,7 @@ trait PluginTrait
      * @return \dukt\videos\services\Oauth The oauth service
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauth()
+    public function getOauth(): \dukt\videos\services\Oauth
     {
         /** @var Videos $this */
         return $this->get('oauth');
