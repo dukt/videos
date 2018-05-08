@@ -50,7 +50,7 @@ class YouTube extends Gateway
      *
      * @return string
      */
-    public function getOauthProviderName()
+    public function getOauthProviderName(): string
     {
         return 'Google';
     }
@@ -70,7 +70,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    public function getOauthScope()
+    public function getOauthScope(): array
     {
         return [
             'https://www.googleapis.com/auth/userinfo.profile',
@@ -85,7 +85,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    public function getOauthAuthorizationOptions()
+    public function getOauthAuthorizationOptions(): array
     {
         return [
             'access_type' => 'offline',
@@ -100,7 +100,7 @@ class YouTube extends Gateway
      *
      * @return \Dukt\OAuth2\Client\Provider\Google
      */
-    public function createOauthProvider(array $options)
+    public function createOauthProvider(array $options): \Dukt\OAuth2\Client\Provider\Google
     {
         return new \Dukt\OAuth2\Client\Provider\Google($options);
     }
@@ -266,7 +266,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosLikes($params = [])
+    protected function getVideosLikes(array $params = []): array
     {
         $query = [];
         $query['part'] = 'snippet,statistics,contentDetails';
@@ -290,7 +290,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosPlaylist($params = [])
+    protected function getVideosPlaylist(array $params = []): array
     {
         // Get video IDs from playlist items
 
@@ -331,7 +331,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosSearch($params = [])
+    protected function getVideosSearch(array $params = []): array
     {
         // Get video IDs from search results
         $videoIds = [];
@@ -377,7 +377,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosUploads($params = [])
+    protected function getVideosUploads(array $params = []): array
     {
         $uploadsPlaylistId = $this->getSpecialPlaylistId('uploads');
 
@@ -487,7 +487,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    private function paginationQueryFromParams($params = [])
+    private function paginationQueryFromParams(array $params = []): array
     {
         // Pagination
 
@@ -524,7 +524,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    private function paginationResponse($response, $videos)
+    private function paginationResponse($response, $videos): array
     {
         $more = false;
 
@@ -544,7 +544,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    private function parseCollection($item)
+    private function parseCollection($item): array
     {
         $collection = [];
         $collection['id'] = $item['id'];
@@ -560,7 +560,7 @@ class YouTube extends Gateway
      *
      * @return array
      */
-    private function parseCollections($items)
+    private function parseCollections($items): array
     {
         $collections = [];
 
@@ -578,7 +578,7 @@ class YouTube extends Gateway
      * @return Video
      * @throws \Exception
      */
-    private function parseVideo($data)
+    private function parseVideo($data): Video
     {
         $video = new Video;
         $video->raw = $data;
@@ -634,7 +634,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \Exception
      */
-    private function parseVideos($data)
+    private function parseVideos($data): array
     {
         $videos = [];
 
