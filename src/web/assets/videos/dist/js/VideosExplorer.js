@@ -37,6 +37,9 @@ Videos.Explorer = Garnish.Base.extend({
 
         Craft.postActionRequest('videos/explorer/get-modal', data, $.proxy(function(response, textStatus)
         {
+            var errorMessage;
+            var $error;
+
             if(textStatus == 'success')
             {
                 if(response.success)
@@ -70,24 +73,21 @@ Videos.Explorer = Garnish.Base.extend({
                 }
                 else
                 {
-                    var errorMessage = "Couldn’t load explorer manager.";
+                    errorMessage = "Couldn’t load explorer manager.";
 
                     if(response.error)
                     {
                         errorMessage = response.error;
                     }
 
-
-                    var $error = $('<div class="error">'+errorMessage+'</div>');
-
+                    $error = $('<div class="error">'+errorMessage+'</div>');
                     $error.appendTo(this.$container);
                 }
             }
             else
             {
-                var errorMessage = "Couldn’t load explorer manager.";
-                var $error = $('<div class="error">'+errorMessage+'</div>');
-
+                errorMessage = "Couldn’t load explorer manager.";
+                $error = $('<div class="error">'+errorMessage+'</div>');
                 $error.appendTo(this.$container);
             }
         }, this));
@@ -157,7 +157,7 @@ Videos.Explorer = Garnish.Base.extend({
 
         const gateway = $(ev.currentTarget).data('gateway');
         const method = $(ev.currentTarget).data('method');
-        let options = $(ev.currentTarget).data('options');
+        var options = $(ev.currentTarget).data('options');
 
         if(!options) {
             options = {};
@@ -281,7 +281,7 @@ Videos.Explorer = Garnish.Base.extend({
 
                         if(options)
                         {
-                            var moreOptions = options;
+                            moreOptions = options;
                         }
 
                         moreOptions.moreToken = response.moreToken;
@@ -362,13 +362,15 @@ Videos.Explorer = Garnish.Base.extend({
                         const $moreBtn = $('<a class="more btn">More</a>');
                         this.$videos.append($moreBtn);
 
+                        var moreOptions;
+
                         if(typeof(options) == 'undefined')
                         {
-                            var moreOptions = {};
+                            moreOptions = {};
                         }
                         else
                         {
-                            var moreOptions = options;
+                            moreOptions = options;
                         }
 
                         moreOptions.moreToken = response.moreToken;

@@ -50,7 +50,7 @@ Videos.Field = Garnish.Base.extend(
     {
         if(!this.videoSelectorModal)
         {
-            let selectedVideo;
+            var selectedVideo;
             const $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
             const $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
                 $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
