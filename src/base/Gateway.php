@@ -306,7 +306,7 @@ abstract class Gateway implements GatewayInterface
      * @return string
      * @throws \craft\errors\SiteNotFoundException
      */
-    public function getJavascriptOrigin()
+    public function getJavascriptOrigin(): string
     {
         return UrlHelper::baseUrl();
     }
@@ -320,7 +320,7 @@ abstract class Gateway implements GatewayInterface
     public function getAccount()
     {
         $token = $this->getOauthToken();
-        
+
         if ($token) {
             $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
