@@ -40,8 +40,7 @@ abstract class Gateway implements GatewayInterface
     public function getHandle(): string
     {
         $handle = get_class($this);
-        $handle = substr($handle, strrpos($handle, "\\") + 1);
-        $handle = strtolower($handle);
+        $handle = strtolower(substr($handle, strrpos($handle, "\\") + 1));
 
         return $handle;
     }

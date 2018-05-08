@@ -50,12 +50,12 @@ Videos.Field = Garnish.Base.extend(
     {
         if(!this.videoSelectorModal)
         {
-            var $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
-            var $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
-            $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
-            $buttons = $('<div class="buttons right"/>').appendTo($footer),
-            $cancelBtn = $('<div class="btn">'+Craft.t('app', 'Cancel')+'</div>').appendTo($buttons),
-            $selectBtn = $('<input type="submit" class="btn submit disabled" value="'+Craft.t('app', 'Select')+'" />').appendTo($buttons);
+            const $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
+            const $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
+                $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
+                $buttons = $('<div class="buttons right"/>').appendTo($footer),
+                $cancelBtn = $('<div class="btn">' + Craft.t('app', 'Cancel') + '</div>').appendTo($buttons),
+                $selectBtn = $('<input type="submit" class="btn submit disabled" value="' + Craft.t('app', 'Select') + '" />').appendTo($buttons);
 
             this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                 visible: false,
@@ -113,8 +113,8 @@ Videos.Field = Garnish.Base.extend(
 
     playVideo: function(ev)
     {
-        var gateway = $(ev.currentTarget).data('gateway');
-        var videoId = $(ev.currentTarget).data('id');
+        const gateway = $(ev.currentTarget).data('gateway');
+        const videoId = $(ev.currentTarget).data('id');
 
         if(!this.playerModal)
         {
@@ -133,7 +133,7 @@ Videos.Field = Garnish.Base.extend(
 
     fieldPreview: function()
     {
-        var val = this.$input.val();
+        const val = this.$input.val();
 
         if (val)
         {
@@ -155,8 +155,8 @@ Videos.Field = Garnish.Base.extend(
                     {
                         this.$preview.html(response.preview);
 
-                        var $playBtn = $('.play', this.$container);
-                        var $removeBtn = $('.delete', this.$container);
+                        const $playBtn = $('.play', this.$container);
+                        const $removeBtn = $('.delete', this.$container);
                         this.addListener($playBtn, 'click', 'playVideo');
                         this.addListener($removeBtn, 'click', 'removeVideo');
                     }
@@ -180,12 +180,12 @@ $(document).ready(function() {
     {
         Matrix.bind("dukt_videos", "display", function(cell) {
 
-            var $field = $('.input', this);
+            const $field = $('.input', this);
 
             // ignore if we can't find that field
             if (! $field.length) return;
 
-            var fieldName = cell.field.id+'['+cell.row.id+']['+cell.col.id+']',
+            const fieldName = cell.field.id + '[' + cell.row.id + '][' + cell.col.id + ']',
                 fieldId = fieldName.replace(/[^\w\-]+/g, '_');
 
             $field.attr('id', fieldId);

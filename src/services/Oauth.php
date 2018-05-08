@@ -40,11 +40,11 @@ class Oauth extends Component
     {
         if (isset($data['accessToken'])) {
             $token = new AccessToken([
-                'access_token' => isset($data['accessToken']) ? $data['accessToken'] : null,
-                'expires' => isset($data['expires']) ? $data['expires'] : null,
-                'refresh_token' => isset($data['refreshToken']) ? $data['refreshToken'] : null,
-                'resource_owner_id' => isset($data['resourceOwnerId']) ? $data['resourceOwnerId'] : null,
-                'values' => isset($data['values']) ? $data['values'] : null,
+                'access_token' => $data['accessToken'] ?? null,
+                'expires' => $data['expires'] ?? null,
+                'refresh_token' => $data['refreshToken'] ?? null,
+                'resource_owner_id' => $data['resourceOwnerId'] ?? null,
+                'values' => $data['values'] ?? null,
             ]);
 
             if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {

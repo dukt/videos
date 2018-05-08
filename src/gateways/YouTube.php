@@ -179,7 +179,7 @@ class YouTube extends Gateway
 
         $videos = $this->parseVideos($data['items']);
 
-        if (count($videos) == 1) {
+        if (count($videos) === 1) {
             return array_pop($videos);
         }
 
@@ -247,7 +247,7 @@ class YouTube extends Gateway
      * @return Client
      * @throws \yii\base\InvalidConfigException
      */
-    protected function createClient()
+    protected function createClient(): Client
     {
         $options = [
             'base_uri' => $this->getApiUrl(),
@@ -425,7 +425,7 @@ class YouTube extends Gateway
     /**
      * @return string
      */
-    private function getApiUrl()
+    private function getApiUrl(): string
     {
         return 'https://www.googleapis.com/youtube/v3/';
     }
@@ -434,7 +434,7 @@ class YouTube extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    private function getCollectionsPlaylists()
+    private function getCollectionsPlaylists(): array
     {
         $data = $this->get('playlists', [
             'query' => [
@@ -538,8 +538,8 @@ class YouTube extends Gateway
         }
 
         return [
-            'prevPage' => isset($response['prevPageToken']) ? $response['prevPageToken'] : null,
-            'moreToken' => isset($response['nextPageToken']) ? $response['nextPageToken'] : null,
+            'prevPage' => $response['prevPageToken'] ?? null,
+            'moreToken' => $response['nextPageToken'] ?? null,
             'more' => $more
         ];
     }

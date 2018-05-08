@@ -389,7 +389,7 @@ class Vimeo extends Gateway
      * @return array
      * @throws CollectionParsingException
      */
-    private function parseCollections($type, $collections): array
+    private function parseCollections($type, array $collections): array
     {
         $parseCollections = [];
 
@@ -450,7 +450,7 @@ class Vimeo extends Gateway
      *
      * @return array
      */
-    private function parseVideos($data): array
+    private function parseVideos(array $data): array
     {
         $videos = [];
 
@@ -509,7 +509,7 @@ class Vimeo extends Gateway
 
         if (\is_array($data['pictures'])) {
             foreach ($data['pictures'] as $picture) {
-                if ($picture['type'] == 'thumbnail') {
+                if ($picture['type'] === 'thumbnail') {
                     if ($picture['width'] > $largestSize) {
                         $video->thumbnailLargeSource = $picture['link'];
 

@@ -12,6 +12,8 @@ use dukt\videos\base\Gateway;
 use dukt\videos\events\RegisterGatewayTypesEvent;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\Component;
+use dukt\videos\gateways\Vimeo;
+use dukt\videos\gateways\YouTube;
 
 /**
  * Class Gateways service.
@@ -58,7 +60,7 @@ class Gateways extends Component
      * @param      $gatewayHandle
      * @param bool $enabledOnly
      *
-     * @return Gateway
+     * @return Gateway|null
      */
     public function getGateway($gatewayHandle, $enabledOnly = true)
     {
@@ -71,7 +73,7 @@ class Gateways extends Component
         }
 
         foreach ($gateways as $g) {
-            if ($g->getHandle() == $gatewayHandle) {
+            if ($g->getHandle() === $gatewayHandle) {
                 return $g;
             }
         }
@@ -86,15 +88,15 @@ class Gateways extends Component
      *
      * @return array
      */
-    public function getGateways($enabledOnly = true)
+    public function getGateways($enabledOnly = true): array
     {
         $this->loadGateways();
 
         if ($enabledOnly) {
             return $this->_gateways;
-        } else {
-            return $this->_allGateways;
         }
+
+        return $this->_allGateways;
     }
 
     // Private Methods
@@ -106,9 +108,7 @@ class Gateways extends Component
     private function loadGateways()
     {
         if (!$this->_gatewaysLoaded) {
-            $gateways = $this->_getGateways();
-
-            foreach ($gateways as $gateway) {
+            foreach ($this->_getGateways() as $gateway) {
                 if ($gateway->enableOauthFlow()) {
                     $gatewayHandle = $gateway->getHandle();
                     $plugin = Craft::$app->getPlugins()->getPlugin('videos');
@@ -146,7 +146,7 @@ class Gateways extends Component
      *
      * @return array
      */
-    private function _getGateways()
+    private function _getGateways(): array
     {
         $gatewayTypes = $this->_getGatewayTypes();
 
@@ -166,11 +166,11 @@ class Gateways extends Component
      *
      * @return array
      */
-    private function _getGatewayTypes()
+    private function _getGatewayTypes(): array
     {
         $gatewayTypes = [
-            'dukt\videos\gateways\Vimeo',
-            'dukt\videos\gateways\YouTube',
+            Vimeo::class,
+            YouTube::class,
         ];
 
         $eventName = self::EVENT_REGISTER_GATEWAY_TYPES;

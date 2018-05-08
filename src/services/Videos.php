@@ -31,15 +31,11 @@ class Videos extends Component
      *
      * @return bool
      */
-    public function isOauthProviderConfigured($oauthProviderHandle)
+    public function isOauthProviderConfigured($oauthProviderHandle): bool
     {
         $options = VideosPlugin::$plugin->getSettings()->oauthProviderOptions;
 
-        if (!empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret'])) {
-            return true;
-        }
-
-        return false;
+        return !empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret']);
     }
 
     /**
@@ -51,7 +47,7 @@ class Videos extends Component
      * @return null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbed($videoUrl, $embedOptions = [])
+    public function getEmbed($videoUrl, array $embedOptions = [])
     {
         $video = $this->getVideoByUrl($videoUrl);
 
@@ -170,9 +166,7 @@ class Videos extends Component
             }
         }
 
-        $gateways = VideosPlugin::$plugin->getGateways()->getGateways();
-
-        foreach ($gateways as $gateway) {
+        foreach (VideosPlugin::$plugin->getGateways()->getGateways() as $gateway) {
             $params['url'] = $videoUrl;
 
             try {

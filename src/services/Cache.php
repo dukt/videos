@@ -30,17 +30,13 @@ class Cache extends Component
      *
      * @param $id
      *
-     * @return mixed|null
+     * @return mixed
      */
     public function get($id)
     {
-        if (VideosPlugin::$plugin->getSettings()->cacheDuration == true) {
-            $cacheKey = $this->getCacheKey($id);
+        $cacheKey = $this->getCacheKey($id);
 
-            return Craft::$app->cache->get($cacheKey);
-        }
-
-        return null;
+        return Craft::$app->getCache()->get($cacheKey);
     }
 
     /**
@@ -57,7 +53,7 @@ class Cache extends Component
      */
     public function set($id, $value, $expire = null, $dependency = null, $enableCache = null)
     {
-        if (is_null($enableCache)) {
+        if (null === $enableCache) {
             $enableCache = VideosPlugin::$plugin->getSettings()->cacheDuration;
         }
 

@@ -23,7 +23,7 @@ class VideosVariable
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbed($videoUrl, $embedOptions = [])
+    public function getEmbed($videoUrl, array $embedOptions = [])
     {
         return Videos::$plugin->getVideos()->getEmbed($videoUrl, $embedOptions);
     }

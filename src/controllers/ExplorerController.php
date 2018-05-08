@@ -49,9 +49,7 @@ class ExplorerController extends Controller
 
         $gateways = [];
         $gatewaySections = [];
-        $allGateways = Videos::$plugin->getGateways()->getGateways();
-
-        foreach ($allGateways as $_gateway) {
+        foreach (Videos::$plugin->getGateways()->getGateways() as $_gateway) {
             try {
                 $gatewaySection = $_gateway->getExplorerSections();
 
@@ -105,8 +103,7 @@ class ExplorerController extends Controller
     {
         $this->requireAcceptsJson();
 
-        $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
-        $gatewayHandle = strtolower($gatewayHandle);
+        $gatewayHandle = strtolower(Craft::$app->getRequest()->getParam('gateway'));
 
         $method = Craft::$app->getRequest()->getParam('method');
         $options = Craft::$app->getRequest()->getParam('options', []);

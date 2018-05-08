@@ -98,7 +98,7 @@ class VideosHelper
                     'save_to' => $originalPath,
                 ]);
 
-                if ($response->getStatusCode() != 200) {
+                if ($response->getStatusCode() !== 200) {
                     return null;
                 }
             } else {

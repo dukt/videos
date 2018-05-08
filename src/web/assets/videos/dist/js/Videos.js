@@ -19,7 +19,7 @@ Videos.Player = Garnish.Modal.extend(
     {
         this.setSettings(settings, this.settings);
 
-        var data = {
+        const data = {
             gateway: this.settings.gateway,
             videoId: this.settings.videoId
         };
@@ -30,7 +30,7 @@ Videos.Player = Garnish.Modal.extend(
             {
                 if (response.error)
                 {
-                    var $error = $('<div class="error">'+response.error+'</div>');
+                    const $error = $('<div class="error">' + response.error + '</div>');
                     $error.appendTo(this.$player);
                 }
                 else
