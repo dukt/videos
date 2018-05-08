@@ -1,6 +1,7 @@
 {% import "_includes/forms" as forms %}
 
-<div class="videos-explorer elementselectormodal" data-gateways="{{ jsonGateways }}">
+<div class="videos-explorer elementselectormodal"
+     data-gateways="{{ jsonGateways }}">
     <div class="body has-sidebar">
         <div id="content" class="content has-sidebar">
             <div id="sidebar" class="sidebar">
@@ -31,16 +32,19 @@
                         {% set showGateway = (loop.first ? true : false) %}
                         <div id="{{ targetPrefix }}{{ gateway.handle }}"{% if not showGateway %} class="hidden"{% endif %}>
 
-							{% set sections = gatewaySections[k] %}
+                            {% set sections = gatewaySections[k] %}
 
                             {% if sections %}
                                 <ul>
                                     {% for section in sections %}
-                                        <li class="heading"><span>{{ section.name }}</span></li>
+                                        <li class="heading">
+                                            <span>{{ section.name }}</span></li>
 
                                         {% for collection in section.collections %}
                                             <li>
-                                                <a href="#" data-gateway="{{ gateway.handle }}" data-method="{{ collection.method }}"{% if collection.options is defined %} data-options="{{ collection.options|json_encode }}"{% endif %}>{{ collection.name }}</a>
+                                                <a href="#"
+                                                   data-gateway="{{ gateway.handle }}"
+                                                   data-method="{{ collection.method }}"{% if collection.options is defined %} data-options="{{ collection.options|json_encode }}"{% endif %}>{{ collection.name }}</a>
                                             </li>
                                         {% endfor %}
                                     {% endfor %}
@@ -57,12 +61,12 @@
             <div class="main">
                 <div class="toolbar">
                     <div class="flex">
-						<div class="flex-grow">
-							{{ forms.text({
-								class: 'search',
-								name: 'search',
-								placeholder: 'Search videos'
-							}) }}
+                        <div class="flex-grow">
+                            {{ forms.text({
+                                class: 'search',
+                                name: 'search',
+                                placeholder: 'Search videos'
+                            }) }}
                         </div>
 
                         <div class="spinner right invisible"></div>

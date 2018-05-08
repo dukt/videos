@@ -4,13 +4,14 @@
         <div class="video" data-url="{{ video.url }}">
 
             <div class="thumb">
-                <img src="{{ video.thumbnailSource }}" />
+                <img src="{{ video.thumbnailSource }}"/>
                 <div class="duration">{{ video.duration }}</div>
-                <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+                <div class="play" data-gateway="{{ video.gatewayHandle }}"
+                     data-id="{{ video.id }}"></div>
 
-				{% if video.private %}
-					<div class="private icon secure"></div>
-				{% endif %}
+                {% if video.private %}
+                    <div class="private icon secure"></div>
+                {% endif %}
             </div>
 
             <div class="title">{{ video.title }}</div>
