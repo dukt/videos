@@ -12,6 +12,8 @@ use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\web\assets\settings\SettingsAsset;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
+use yii\base\InvalidConfigException;
+use yii\web\BadRequestHttpException;
 use yii\web\Response;
 /**
  * Settings controller
@@ -22,7 +24,7 @@ class SettingsController extends Controller
      * Settings Index.
      *
      * @return Response
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionIndex()
     {
@@ -64,7 +66,7 @@ class SettingsController extends Controller
      * @param $gatewayHandle
      *
      * @return Response
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionGateway($gatewayHandle)
     {
@@ -96,7 +98,7 @@ class SettingsController extends Controller
      * @param $gatewayHandle
      *
      * @return Response
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionGatewayOauth($gatewayHandle)
     {
@@ -112,8 +114,8 @@ class SettingsController extends Controller
      * Save gateway.
      *
      * @return Response
-     * @throws \yii\base\InvalidConfigException
-     * @throws \yii\web\BadRequestHttpException
+     * @throws InvalidConfigException
+     * @throws BadRequestHttpException
      */
     public function actionSaveGateway()
     {
