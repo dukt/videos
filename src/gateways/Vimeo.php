@@ -96,62 +96,24 @@ class Vimeo extends Gateway
 
         // Library
 
-        $sections[] = new Section([
-            'name' => 'Library',
-            'collections' => [
-                new Collection([
-                    'name' => 'Uploads',
-                    'method' => 'uploads',
-                ]),
-                new Collection([
-                    'name' => 'Favorites',
-                    'method' => 'favorites',
-                ]),
-            ]
-        ]);
+        $sections[] = $this->getLibrarySection();
 
 
         // Albums
 
-        $albums = $this->getCollectionsAlbums();
+        $albumsSection = $this->getAlbumsSection();
 
-        $collections = [];
-
-        foreach ($albums as $album) {
-            $collections[] = new Collection([
-                'name' => $album['title'],
-                'method' => 'album',
-                'options' => ['id' => $album['id']]
-            ]);
-        }
-
-        if (\count($collections) > 0) {
-            $sections[] = new Section([
-                'name' => 'Playlists',
-                'collections' => $collections,
-            ]);
+        if($albumsSection) {
+            $sections[] = $albumsSection;
         }
 
 
         // channels
 
-        $channels = $this->getCollectionsChannels();
+        $channelsSection = $this->getChannelsSection();
 
-        $collections = [];
-
-        foreach ($channels as $channel) {
-            $collections[] = new Collection([
-                'name' => $channel['title'],
-                'method' => 'channel',
-                'options' => ['id' => $channel['id']],
-            ]);
-        }
-
-        if (\count($collections) > 0) {
-            $sections[] = new Section([
-                'name' => 'Channels',
-                'collections' => $collections,
-            ]);
+        if($channelsSection) {
+            $sections[] = $channelsSection;
         }
 
         return $sections;
@@ -537,7 +499,7 @@ class Vimeo extends Gateway
                 }
             }
         }
-        
+
         if (empty($video->thumbnailSource) && !empty($video->thumbnailLargeSource)) {
             $video->thumbnailSource = $video->thumbnailLargeSource;
         }
@@ -606,5 +568,83 @@ class Vimeo extends Gateway
         $query = array_merge($query, $params);
 
         return $query;
+    }
+    
+    /**
+     * @return Section
+     */
+    private function getLibrarySection(): Section
+    {
+        return new Section([
+            'name' => 'Library',
+            'collections' => [
+                new Collection([
+                    'name' => 'Uploads',
+                    'method' => 'uploads',
+                ]),
+                new Collection([
+                    'name' => 'Favorites',
+                    'method' => 'favorites',
+                ]),
+            ]
+        ]);
+    }
+
+    /**
+     * @return Section|null
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
+    private function getAlbumsSection()
+    {
+        $albums = $this->getCollectionsAlbums();
+
+        $collections = [];
+
+        foreach ($albums as $album) {
+            $collections[] = new Collection([
+                'name' => $album['title'],
+                'method' => 'album',
+                'options' => ['id' => $album['id']]
+            ]);
+        }
+
+        if (\count($collections) === 0) {
+            return null;
+        }
+
+        return new Section([
+            'name' => 'Playlists',
+            'collections' => $collections,
+        ]);
+    }
+
+    /**
+     * @return Section|null
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
+    private function getChannelsSection()
+    {
+        $channels = $this->getCollectionsChannels();
+
+        $collections = [];
+
+        foreach ($channels as $channel) {
+            $collections[] = new Collection([
+                'name' => $channel['title'],
+                'method' => 'channel',
+                'options' => ['id' => $channel['id']],
+            ]);
+        }
+
+        if (\count($collections) === 0) {
+            return null;
+        }
+
+        return new Section([
+            'name' => 'Channels',
+            'collections' => $collections,
+        ]);
     }
 }
