@@ -186,20 +186,4 @@ class Video extends Model
     {
         return VideosHelper::getVideoThumbnail($this->gatewayHandle, $this->id, $size);
     }
-
-    // Private Methods
-    // =========================================================================
-
-    /**
-     * @return bool|string
-     * @throws \yii\base\InvalidConfigException
-     */
-    private function getVideoById()
-    {
-        if (!$this->_video) {
-            $this->_video = Videos::$plugin->getVideos()->requestVideoByUrl($this->url);
-        }
-
-        return $this->_video;
-    }
 }
