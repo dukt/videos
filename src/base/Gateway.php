@@ -38,7 +38,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getHandle()
+    public function getHandle(): string
     {
         $handle = get_class($this);
         $handle = substr($handle, strrpos($handle, "\\") + 1);
@@ -66,7 +66,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return Response
      */
-    public function oauthConnect()
+    public function oauthConnect(): Response
     {
         $provider = $this->getOauthProvider();
 
@@ -113,7 +113,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getOauthProviderName()
+    public function getOauthProviderName(): string
     {
         return $this->getName();
     }
@@ -123,7 +123,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getRedirectUri()
+    public function getRedirectUri(): string
     {
         return UrlHelper::actionUrl('videos/oauth/callback');
     }
@@ -153,7 +153,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return Response
      */
-    public function oauthCallback()
+    public function oauthCallback(): Response
     {
         $provider = $this->getOauthProvider();
 
@@ -192,7 +192,7 @@ abstract class Gateway implements GatewayInterface
      * @return bool
      * @throws \yii\base\InvalidConfigException
      */
-    public function hasToken()
+    public function hasToken(): bool
     {
         $tokenData = Videos::$plugin->getOauth()->getTokenData($this->getHandle());
 
@@ -219,7 +219,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return bool
      */
-    public function enableOauthFlow()
+    public function enableOauthFlow(): bool
     {
         return true;
     }
@@ -232,7 +232,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getEmbedHtml($videoId, $options = [])
+    public function getEmbedHtml($videoId, array $options = []): string
     {
         $embedAttributes = [
             'frameborder' => "0",
@@ -282,7 +282,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @return string
      */
-    public function getEmbedUrl($videoId, $options = [])
+    public function getEmbedUrl($videoId, array $options = []): string
     {
         $format = $this->getEmbedFormat();
 
@@ -426,7 +426,7 @@ abstract class Gateway implements GatewayInterface
      * @return array
      * @throws ApiResponseException
      */
-    protected function get($uri, array $options = [])
+    protected function get($uri, array $options = []): array
     {
         $client = $this->createClient();
 
