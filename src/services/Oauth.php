@@ -80,7 +80,7 @@ class Oauth extends Component
     {
         $tokenData = $this->getTokenData($gatewayHandle);
 
-        if($tokenData) {
+        if ($tokenData) {
             return $this->createTokenFromData($gatewayHandle, $tokenData);
         }
     }
@@ -98,7 +98,7 @@ class Oauth extends Component
         $settings = $plugin->getSettings();
         $tokens = $settings->tokens;
 
-        if(isset($tokens[$handle])) {
+        if (isset($tokens[$handle])) {
             return $tokens[$handle];
         }
     }

@@ -25,7 +25,7 @@ use yii\base\Event;
 /**
  * Videos plugin class.
  *
- * @author Dukt <support@dukt.net>
+ * @author  Dukt <support@dukt.net>
  * @since   1.0
  */
 class Plugin extends \craft\base\Plugin

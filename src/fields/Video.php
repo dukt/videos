@@ -24,9 +24,11 @@ class Video extends Field
     // =========================================================================
 
     /**
-     * Get name
+     * Get the field’s name.
+     *
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return Craft::t('videos', 'Videos');
     }
@@ -84,7 +86,7 @@ class Video extends Field
      */
     public function serializeValue($value, ElementInterface $element = null)
     {
-        if(!empty($value->url)) {
+        if (!empty($value->url)) {
             return Db::prepareValueForDb($value->url);
         }
 
@@ -96,7 +98,7 @@ class Video extends Field
      */
     public function normalizeValue($videoUrl, ElementInterface $element = null)
     {
-        if($videoUrl instanceof \dukt\videos\models\Video) {
+        if ($videoUrl instanceof \dukt\videos\models\Video) {
             return $videoUrl;
         }
 
@@ -126,7 +128,7 @@ class Video extends Field
     {
         $keywords = [];
 
-        if($value instanceof \dukt\videos\models\Video) {
+        if ($value instanceof \dukt\videos\models\Video) {
             $keywords[] = $value->id;
             $keywords[] = $value->url;
             $keywords[] = $value->gatewayHandle;

@@ -382,7 +382,7 @@ class YouTube extends Gateway
     {
         $uploadsPlaylistId = $this->getSpecialPlaylistId('uploads');
 
-        if(!$uploadsPlaylistId) {
+        if (!$uploadsPlaylistId) {
             return [];
         }
 
@@ -459,7 +459,7 @@ class YouTube extends Gateway
 
         $channelsResponse = $this->get('channels', ['query' => $channelsQuery]);
 
-        if(isset($channelsResponse['items'][0])) {
+        if (isset($channelsResponse['items'][0])) {
             $channel = $channelsResponse['items'][0];
 
             return $channel['contentDetails']['relatedPlaylists'];
@@ -478,7 +478,7 @@ class YouTube extends Gateway
     {
         $specialPlaylists = $this->getSpecialPlaylists();
 
-        if(isset($specialPlaylists[$type])) {
+        if (isset($specialPlaylists[$type])) {
             return $specialPlaylists[$type];
         }
     }

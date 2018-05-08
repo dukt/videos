@@ -21,7 +21,7 @@ class VideosHelper
 
     /**
      * Formats seconds to hh:mm:ss.
-     * 
+     *
      * @param $seconds
      *
      * @return string
@@ -65,10 +65,10 @@ class VideosHelper
         $dir = $baseDir.DIRECTORY_SEPARATOR.$size;
         $file = null;
 
-        if(is_dir($dir)) {
+        if (is_dir($dir)) {
             $files = FileHelper::findFiles($dir);
 
-            if(count($files) > 0) {
+            if (count($files) > 0) {
                 $file = $files[0];
             }
         }
@@ -77,15 +77,15 @@ class VideosHelper
             // Retrieve original image
             $originalPath = null;
 
-            if(is_dir($originalDir)) {
+            if (is_dir($originalDir)) {
                 $originalFiles = FileHelper::findFiles($originalDir);
 
-                if(count($originalFiles) > 0) {
+                if (count($originalFiles) > 0) {
                     $originalPath = $originalFiles[0];
                 }
             }
 
-            if(!$originalPath) {
+            if (!$originalPath) {
                 $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
                 $url = $video->thumbnailSource;
 
@@ -111,7 +111,6 @@ class VideosHelper
             Craft::$app->getImages()->loadImage($originalPath, false, $size)
                 ->scaleToFit($size, $size)
                 ->saveAs($path);
-
         } else {
             $name = pathinfo($file, PATHINFO_BASENAME);
         }

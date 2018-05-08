@@ -96,14 +96,14 @@ class Vimeo extends Gateway
         // Library
 
         $sections[] = new Section([
-            'name' => "Library",
+            'name' => 'Library',
             'collections' => [
                 new Collection([
-                    'name' => "Uploads",
+                    'name' => 'Uploads',
                     'method' => 'uploads',
                 ]),
                 new Collection([
-                    'name' => "Favorites",
+                    'name' => 'Favorites',
                     'method' => 'favorites',
                 ]),
             ]
@@ -114,7 +114,7 @@ class Vimeo extends Gateway
 
         $albums = $this->getCollectionsAlbums();
 
-        if (is_array($albums)) {
+        if (\is_array($albums)) {
             $collections = [];
 
             foreach ($albums as $album) {
@@ -125,9 +125,9 @@ class Vimeo extends Gateway
                 ]);
             }
 
-            if (count($collections) > 0) {
+            if (\count($collections) > 0) {
                 $sections[] = new Section([
-                    'name' => "Playlists",
+                    'name' => 'Playlists',
                     'collections' => $collections,
                 ]);
             }
@@ -138,7 +138,7 @@ class Vimeo extends Gateway
 
         $channels = $this->getCollectionsChannels();
 
-        if (is_array($channels)) {
+        if (\is_array($channels)) {
             $collections = [];
 
             foreach ($channels as $channel) {
@@ -149,9 +149,9 @@ class Vimeo extends Gateway
                 ]);
             }
 
-            if (count($collections) > 0) {
+            if (\count($collections) > 0) {
                 $sections[] = new Section([
-                    'name' => "Channels",
+                    'name' => 'Channels',
                     'collections' => $collections,
                 ]);
             }
@@ -218,8 +218,8 @@ class Vimeo extends Gateway
 
 
             // Fixes the youtube &feature_gdata bug
-            if (strpos($videoId, "&")) {
-                $videoId = substr($videoId, 0, strpos($videoId, "&"));
+            if (strpos($videoId, '&')) {
+                $videoId = substr($videoId, 0, strpos($videoId, '&'));
             }
         }
 
@@ -395,7 +395,7 @@ class Vimeo extends Gateway
 
         foreach ($collections as $collection) {
 
-            switch($type) {
+            switch ($type) {
                 case 'album':
                     $parsedCollection = $this->parseCollectionAlbum($collection);
                     break;
@@ -407,7 +407,7 @@ class Vimeo extends Gateway
                     throw new CollectionParsingException('Couldn’t parse collection of type ”'.$type.'“.');
             }
 
-            array_push($parseCollections, $parsedCollection);
+            $parseCollections[] = $parsedCollection;
         }
 
         return $parseCollections;
@@ -421,7 +421,7 @@ class Vimeo extends Gateway
     private function parseCollectionAlbum($data): array
     {
         $collection = [];
-        $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/albums/') + strlen('/albums/')));
+        $collection['id'] = substr($data['uri'], strpos($data['uri'], '/albums/') + \strlen('/albums/'));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
         $collection['totalVideos'] = $data['stats']['videos'];
@@ -437,7 +437,7 @@ class Vimeo extends Gateway
     private function parseCollectionChannel($data): array
     {
         $collection = [];
-        $collection['id'] = substr($data['uri'], (strpos($data['uri'], '/channels/') + strlen('/channels/')));
+        $collection['id'] = substr($data['uri'], strpos($data['uri'], '/channels/') + \strlen('/channels/'));
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
         $collection['totalVideos'] = $data['stats']['videos'];
@@ -458,7 +458,7 @@ class Vimeo extends Gateway
             foreach ($data as $videoData) {
                 $video = $this->parseVideo($videoData);
 
-                array_push($videos, $video);
+                $videos[] = $video;
             }
         }
 
@@ -479,10 +479,10 @@ class Vimeo extends Gateway
         $video->date = strtotime($data['created_time']);
         $video->durationSeconds = $data['duration'];
         $video->description = $data['description'];
-        $video->gatewayHandle = "vimeo";
-        $video->gatewayName = "Vimeo";
-        $video->id = substr($data['uri'], strlen('/videos/'));
-        $video->plays = (isset($data['stats']['plays']) ? $data['stats']['plays'] : 0);
+        $video->gatewayHandle = 'vimeo';
+        $video->gatewayName = 'Vimeo';
+        $video->id = substr($data['uri'], \strlen('/videos/'));
+        $video->plays = ($data['stats']['plays'] ?? 0);
         $video->title = $data['name'];
         $video->url = $data['link'];
         $video->width = $data['width'];
@@ -492,11 +492,11 @@ class Vimeo extends Gateway
         // privacy
 
         switch ($data['privacy']['view']) {
-            case "nobody":
-            case "contacts":
-            case "password":
-            case "users":
-            case "disable":
+            case 'nobody':
+            case 'contacts':
+            case 'password':
+            case 'users':
+            case 'disable':
                 $video->private = true;
                 break;
         }
@@ -507,7 +507,7 @@ class Vimeo extends Gateway
         $largestSize = 0;
         $thumbSize = 0;
 
-        if (is_array($data['pictures'])) {
+        if (\is_array($data['pictures'])) {
             foreach ($data['pictures'] as $picture) {
                 if ($picture['type'] == 'thumbnail') {
                     if ($picture['width'] > $largestSize) {
@@ -591,7 +591,7 @@ class Vimeo extends Gateway
 
         $query['per_page'] = $this->getVideosPerPage();
 
-        if (is_array($params)) {
+        if (\is_array($params)) {
             $query = array_merge($query, $params);
         }
 

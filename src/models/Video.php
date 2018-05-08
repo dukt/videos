@@ -12,7 +12,6 @@ use craft\base\Model;
 use dukt\videos\base\Gateway;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
-use craft\helpers\UrlHelper;
 use Twig_Markup;
 
 /**
@@ -20,6 +19,9 @@ use Twig_Markup;
  *
  * @author Dukt <support@dukt.net>
  * @since  2.0
+ *
+ * @property string                         $duration
+ * @property \dukt\videos\base\Gateway|null $gateway
  */
 class Video extends Model
 {
@@ -117,11 +119,6 @@ class Video extends Model
     public $height;
 
     /**
-     * @var string Video
-     */
-    private $_video;
-
-    /**
      * @var Gateway|null Gateway
      */
     private $_gateway;
@@ -132,7 +129,7 @@ class Video extends Model
     /**
      * @return string
      */
-    public function getDuration()
+    public function getDuration(): string
     {
         return VideosHelper::getDuration($this->durationSeconds);
     }
@@ -141,8 +138,9 @@ class Video extends Model
      * @param array $opts
      *
      * @return Twig_Markup
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbed($opts = [])
+    public function getEmbed(array $opts = []): Twig_Markup
     {
         $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
         $charset = Craft::$app->getView()->getTwig()->getCharset();
@@ -154,8 +152,9 @@ class Video extends Model
      * @param array $opts
      *
      * @return string
+     * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbedUrl($opts = [])
+    public function getEmbedUrl(array $opts = []): string
     {
         return $this->getGateway()->getEmbedUrl($this->id, $opts);
     }

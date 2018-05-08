@@ -1,6 +1,6 @@
 <?php
 
-return array(
+return [
     /**
      * The amount of time cache should last.
      *
@@ -31,4 +31,4 @@ return array(
             'clientSecret' => 'OAUTH_CLIENT_SECRET'
         ],
     ],
-);
+];

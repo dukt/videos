@@ -430,11 +430,11 @@ abstract class Gateway implements GatewayInterface
 
         try {
             $response = $client->request('GET', $uri, $options);
-            $body = (string) $response->getBody();
+            $body = (string)$response->getBody();
             $data = Json::decode($body);
         } catch (BadResponseException $badResponseException) {
             $response = $badResponseException->getResponse();
-            $body = (string) $response->getBody();
+            $body = (string)$response->getBody();
 
             try {
                 $data = Json::decode($body);
@@ -459,11 +459,11 @@ abstract class Gateway implements GatewayInterface
     protected function checkResponse(ResponseInterface $response, $data)
     {
         if (!empty($data['error'])) {
-            $code  = 0;
+            $code = 0;
             $error = $data['error'];
 
             if (is_array($error)) {
-                $code  = $error['code'];
+                $code = $error['code'];
                 $error = $error['message'];
             }
 
