@@ -43,7 +43,7 @@ class Vimeo extends Gateway
      */
     public function getName(): string
     {
-        return "Vimeo";
+        return 'Vimeo';
     }
 
     /**
@@ -191,7 +191,7 @@ class Vimeo extends Gateway
      */
     public function getEmbedFormat(): string
     {
-        return "https://player.vimeo.com/video/%s";
+        return 'https://player.vimeo.com/video/%s';
     }
 
     /**
