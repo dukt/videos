@@ -63,15 +63,8 @@ class VideosHelper
         $baseDir = Craft::$app->getPath()->getRuntimePath().DIRECTORY_SEPARATOR.'videos'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR.$gatewayHandle.DIRECTORY_SEPARATOR.$videoId;
         $originalDir = $baseDir.DIRECTORY_SEPARATOR.'original';
         $dir = $baseDir.DIRECTORY_SEPARATOR.$size;
-        $file = null;
 
-        if (is_dir($dir)) {
-            $files = FileHelper::findFiles($dir);
-
-            if (\count($files) > 0) {
-                $file = $files[0];
-            }
-        }
+        $file = self::getThumbnailFile($dir);
 
         if (!$file) {
             // Retrieve original image
@@ -116,5 +109,30 @@ class VideosHelper
         }
 
         return Craft::$app->getAssetManager()->getPublishedUrl($dir, true)."/{$name}";
+    }
+
+    // Private Methods
+    // =========================================================================
+
+    /**
+     * Get thumbnail file.
+     *
+     * @param $dir
+     *
+     * @return null|string
+     */
+    private static function getThumbnailFile($dir)
+    {
+        if (!is_dir($dir)) {
+            return null;
+        }
+
+        $files = FileHelper::findFiles($dir);
+
+        if (\count($files) === 0) {
+            return null;
+        }
+
+        return $files[0];
     }
 }

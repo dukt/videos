@@ -485,7 +485,7 @@ class Vimeo extends Gateway
         $video->width = $data['width'];
         $video->height = $data['height'];
 
-        
+
         // privacy
 
         if ($data['privacy']['view'] === 'nobody'
