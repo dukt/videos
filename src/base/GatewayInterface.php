@@ -22,8 +22,6 @@ interface GatewayInterface
      * Returns the OAuth provider’s instance.
      *
      * @param array $options
-     *
-     * @return \League\OAuth1\Client\Server\Server|\League\OAuth2\Client\Provider\AbstractProvider
      */
     public function createOauthProvider(array $options);
 
