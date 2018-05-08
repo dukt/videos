@@ -39,7 +39,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getHandle(): string
     {
-        $handle = get_class($this);
+        $handle = \get_class($this);
         $handle = strtolower(substr($handle, strrpos($handle, "\\") + 1));
 
         return $handle;
@@ -75,7 +75,7 @@ abstract class Gateway implements GatewayInterface
         $scope = $this->getOauthScope();
         $options = $this->getOauthAuthorizationOptions();
 
-        if (!is_array($options)) {
+        if (!\is_array($options)) {
             $options = [];
         }
 
@@ -286,7 +286,7 @@ abstract class Gateway implements GatewayInterface
     {
         $format = $this->getEmbedFormat();
 
-        if (count($options) > 0) {
+        if (\count($options) > 0) {
             $queryMark = '?';
 
             if (strpos($this->getEmbedFormat(), '?') !== false) {
@@ -467,7 +467,7 @@ abstract class Gateway implements GatewayInterface
             $code = 0;
             $error = $data['error'];
 
-            if (is_array($error)) {
+            if (\is_array($error)) {
                 $code = $error['code'];
                 $error = $error['message'];
             }

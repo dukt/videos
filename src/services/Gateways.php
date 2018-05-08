@@ -115,7 +115,7 @@ class Gateways extends Component
                     $settings = $plugin->getSettings();
                     $tokens = $settings->tokens;
 
-                    if (!empty($tokens[$gatewayHandle]) && is_array($tokens[$gatewayHandle])) {
+                    if (!empty($tokens[$gatewayHandle]) && \is_array($tokens[$gatewayHandle])) {
                         try {
                             $this->_gateways[] = $gateway;
                         } catch (IdentityProviderException $e) {

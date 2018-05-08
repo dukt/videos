@@ -137,7 +137,7 @@ class YouTube extends Gateway
 
         $playlists = $this->getCollectionsPlaylists();
 
-        if (is_array($playlists)) {
+        if (\is_array($playlists)) {
             $collections = [];
 
             foreach ($playlists as $playlist) {
@@ -148,7 +148,7 @@ class YouTube extends Gateway
                 ]);
             }
 
-            if (count($collections) > 0) {
+            if (\count($collections) > 0) {
                 $sections[] = new Section([
                     'name' => 'Playlists',
                     'collections' => $collections,
@@ -179,7 +179,7 @@ class YouTube extends Gateway
 
         $videos = $this->parseVideos($data['items']);
 
-        if (count($videos) === 1) {
+        if (\count($videos) === 1) {
             return array_pop($videos);
         }
 
@@ -352,7 +352,7 @@ class YouTube extends Gateway
 
         // Get videos from video IDs
 
-        if (count($videoIds) > 0) {
+        if (\count($videoIds) > 0) {
 
             $query = [];
             $query['part'] = 'snippet,statistics,contentDetails';
@@ -533,7 +533,7 @@ class YouTube extends Gateway
     {
         $more = false;
 
-        if (!empty($response['nextPageToken']) && count($videos) > 0) {
+        if (!empty($response['nextPageToken']) && \count($videos) > 0) {
             $more = true;
         }
 
@@ -609,7 +609,7 @@ class YouTube extends Gateway
 
         $largestSize = 0;
 
-        if (is_array($data['snippet']['thumbnails'])) {
+        if (\is_array($data['snippet']['thumbnails'])) {
             foreach ($data['snippet']['thumbnails'] as $thumbnail) {
                 if ($thumbnail['width'] > $largestSize) {
                     // Set thumbnail source with the largest thumbnail

@@ -128,7 +128,7 @@ class Oauth extends Component
         // get tokens
         $tokens = $settings->tokens;
 
-        if (!is_array($tokens)) {
+        if (!\is_array($tokens)) {
             $tokens = [];
         }
 

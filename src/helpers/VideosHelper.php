@@ -68,7 +68,7 @@ class VideosHelper
         if (is_dir($dir)) {
             $files = FileHelper::findFiles($dir);
 
-            if (count($files) > 0) {
+            if (\count($files) > 0) {
                 $file = $files[0];
             }
         }
@@ -80,7 +80,7 @@ class VideosHelper
             if (is_dir($originalDir)) {
                 $originalFiles = FileHelper::findFiles($originalDir);
 
-                if (count($originalFiles) > 0) {
+                if (\count($originalFiles) > 0) {
                     $originalPath = $originalFiles[0];
                 }
             }
