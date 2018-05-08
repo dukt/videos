@@ -10,6 +10,7 @@ namespace dukt\videos\controllers;
 use Craft;
 use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
+use yii\base\InvalidConfigException;
 use yii\web\Response;
 
 /**
@@ -23,8 +24,8 @@ class OauthController extends Controller
     /**
      * Connect.
      *
-     * @return null
-     * @throws \yii\base\InvalidConfigException
+     * @return Response
+     * @throws InvalidConfigException
      */
     public function actionConnect()
     {
@@ -40,8 +41,8 @@ class OauthController extends Controller
     /**
      * Callback.
      *
-     * @return null
-     * @throws \yii\base\InvalidConfigException
+     * @return Response
+     * @throws InvalidConfigException
      */
     public function actionCallback()
     {
@@ -56,7 +57,7 @@ class OauthController extends Controller
      * Disconnect.
      *
      * @return Response
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
     public function actionDisconnect()
     {
