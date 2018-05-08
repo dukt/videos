@@ -212,16 +212,6 @@ abstract class Gateway implements GatewayInterface
     }
 
     /**
-     * Sets the token for authenticating with the gateway’s API.
-     *
-     * @param $token
-     */
-    public function setAuthenticationToken($token)
-    {
-        $this->token = $token;
-    }
-
-    /**
      * Whether the OAuth flow should be enable or not for this gateway.
      *
      * @return bool
