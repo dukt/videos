@@ -46,34 +46,35 @@ class Video extends Field
      */
     public function getInputHtml($value, \craft\base\ElementInterface $element = null): string
     {
+        $view = Craft::$app->getView();
         $name = $this->handle;
 
 
         // Reformat the input name into something that looks more like an ID
-        $id = Craft::$app->getView()->formatInputId($name);
+        $id = $view->formatInputId($name);
 
         // Init CSRF Token
         $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->getGeneral()->csrfTokenName.'";';
         $jsTemplate .= 'window.csrfTokenValue = "'.Craft::$app->getRequest()->getCsrfToken().'";';
-        $js = Craft::$app->getView()->renderString($jsTemplate);
-        Craft::$app->getView()->registerJs($js);
+        $js = $view->renderString($jsTemplate);
+        $view->registerJs($js);
 
         // Asset bundle
-        Craft::$app->getView()->registerAssetBundle(VideoFieldAsset::class);
+        $view->registerAssetBundle(VideoFieldAsset::class);
 
         // Instantiate Videos Field
-        Craft::$app->getView()->registerJs('new Videos.Field("'.Craft::$app->getView()->namespaceInputId($id).'");');
+        $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
 
 
         // Preview
 
         if ($value instanceof \dukt\videos\models\Video) {
-            $preview = Craft::$app->getView()->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
+            $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
         } else {
             $preview = null;
         }
 
-        return Craft::$app->getView()->renderTemplate('videos/_components/fieldtypes/Video/input', [
+        return $view->renderTemplate('videos/_components/fieldtypes/Video/input', [
             'id' => $id,
             'name' => $name,
             'value' => $value,

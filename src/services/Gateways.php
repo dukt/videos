@@ -86,7 +86,7 @@ class Gateways extends Component
      *
      * @param bool $enabledOnly
      *
-     * @return array
+     * @return Gateway[]
      */
     public function getGateways($enabledOnly = true): array
     {

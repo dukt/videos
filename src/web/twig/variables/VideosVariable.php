@@ -7,6 +7,7 @@
 
 namespace dukt\videos\web\twig\variables;
 
+use Craft;
 use dukt\videos\Plugin as Videos;
 
 class VideosVariable
