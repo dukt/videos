@@ -27,7 +27,7 @@ class OauthController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionConnect()
+    public function actionConnect(): Response
     {
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
 
@@ -44,7 +44,7 @@ class OauthController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionCallback()
+    public function actionCallback(): Response
     {
         $gatewayHandle = Craft::$app->getSession()->get('videos.oauthGateway');
 
@@ -59,7 +59,7 @@ class OauthController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionDisconnect()
+    public function actionDisconnect(): Response
     {
         $gatewayHandle = Craft::$app->getRequest()->getParam('gateway');
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);

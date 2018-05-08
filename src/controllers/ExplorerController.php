@@ -41,7 +41,7 @@ class ExplorerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
-    public function actionGetModal()
+    public function actionGetModal(): Response
     {
         $this->requireAcceptsJson();
 
@@ -101,7 +101,7 @@ class ExplorerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
-    public function actionGetVideos()
+    public function actionGetVideos(): Response
     {
         $this->requireAcceptsJson();
 
@@ -141,7 +141,7 @@ class ExplorerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
-    public function actionFieldPreview()
+    public function actionFieldPreview(): Response
     {
         $this->requireAcceptsJson();
 
@@ -176,7 +176,7 @@ class ExplorerController extends Controller
      * @throws \yii\base\InvalidConfigException
      * @throws \yii\web\BadRequestHttpException
      */
-    public function actionPlayer()
+    public function actionPlayer(): Response
     {
         $this->requireAcceptsJson();
 

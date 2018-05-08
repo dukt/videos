@@ -26,7 +26,7 @@ class SettingsController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionIndex()
+    public function actionIndex(): Response
     {
         $accounts = [];
         $accountErrors = [];
@@ -68,7 +68,7 @@ class SettingsController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionGateway($gatewayHandle)
+    public function actionGateway($gatewayHandle): Response
     {
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
         $account = null;
@@ -100,7 +100,7 @@ class SettingsController extends Controller
      * @return Response
      * @throws InvalidConfigException
      */
-    public function actionGatewayOauth($gatewayHandle)
+    public function actionGatewayOauth($gatewayHandle): Response
     {
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
@@ -117,7 +117,7 @@ class SettingsController extends Controller
      * @throws InvalidConfigException
      * @throws BadRequestHttpException
      */
-    public function actionSaveGateway()
+    public function actionSaveGateway(): Response
     {
         $gatewayHandle = Craft::$app->getRequest()->getParam('gatewayHandle');
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
