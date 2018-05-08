@@ -33,7 +33,7 @@ class VideoFieldAsset extends AssetBundle
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
         $this->js = [
-            'js/VideosField.js',
+            'js/VideosField'.$this->dotJs(),
         ];
 
         $this->css = [

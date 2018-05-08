@@ -2,20 +2,20 @@
   "name": "Videos",
   "version": "1.0.0",
   "description": "Connect Craft to YouTube and Vimeo.",
-  "main": "gulpfile.js",
-  "dependencies": {
-    "gulp": "^3.8.11"
-  },
-  "devDependencies": {
-    "gulp": "^3.8.11",
-    "gulp-rename": "^1.2.2",
-    "gulp-sass": "^2.1.1",
-    "gulp-uglify": "^1.2.0",
-    "gulp-plumber": "^1.1.0"
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "cross-env NODE_ENV=development webpack --progress --hide-modules  --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "watch": "cross-env NODE_ENV=development webpack --watch --progress --hide-modules  --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "hot": "cross-env NODE_ENV=development webpack-dev-server --inline --hot  --config=node_modules/laravel-mix/setup/webpack.config.js",
+    "production": "cross-env NODE_ENV=production webpack --progress --hide-modules  --config=node_modules/laravel-mix/setup/webpack.config.js"
   },
+  "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "laravel-mix": "^0.12.1"
+  }
 }
