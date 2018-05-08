@@ -21,6 +21,10 @@ class VideosHelper
 
     /**
      * Formats seconds to hh:mm:ss.
+     * 
+     * @param $seconds
+     *
+     * @return string
      */
     public static function getDuration($seconds)
     {
