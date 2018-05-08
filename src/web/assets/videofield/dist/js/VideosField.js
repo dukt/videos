@@ -50,6 +50,7 @@ Videos.Field = Garnish.Base.extend(
     {
         if(!this.videoSelectorModal)
         {
+            let selectedVideo;
             const $videoSelectorModal = $('<div class="videoselectormodal modal"></div>').appendTo(Garnish.$bod);
             const $explorerContainer = $('<div class="explorer-container"/>').appendTo($videoSelectorModal),
                 $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
@@ -67,7 +68,7 @@ Videos.Field = Garnish.Base.extend(
             });
 
             this.addListener($selectBtn, 'click', function() {
-                this.$input.val(url);
+                this.$input.val(selectedVideo);
                 this.$input.trigger('change');
                 this.videoSelectorModal.hide();
             });
@@ -88,6 +89,7 @@ Videos.Field = Garnish.Base.extend(
                     }, this),
                     onSelectVideo: $.proxy(function(url)
                     {
+                        selectedVideo = url;
                         $selectBtn.removeClass('disabled');
                     }, this),
                     onDoubleClickVideo: $.proxy(function(url) {
