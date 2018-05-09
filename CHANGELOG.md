@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.0 - 2018-05-09
 
 ### Added
 - Show account details on the gateway details page.
