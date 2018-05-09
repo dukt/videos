@@ -521,16 +521,19 @@ class Vimeo extends Gateway
         $thumbSize = 0;
 
         foreach ($data['pictures'] as $picture) {
-            // Retrieve highest quality thumbnail
-            if ($picture['type'] === 'thumbnail' && $picture['width'] > $largestSize) {
-                $video->thumbnailLargeSource = $picture['link'];
-                $largestSize = $picture['width'];
-            }
+            if ($picture['type'] === 'thumbnail') {
 
-            // Retrieve highest quality thumbnail with width < 400
-            if ($picture['type'] === 'thumbnail' && $picture['width'] > $thumbSize && $thumbSize < 400) {
-                $video->thumbnailSource = $picture['link'];
-                $thumbSize = $picture['width'];
+                // Retrieve highest quality thumbnail
+                if ($picture['width'] > $largestSize) {
+                    $video->thumbnailLargeSource = $picture['link'];
+                    $largestSize = $picture['width'];
+                }
+
+                // Retrieve highest quality thumbnail with width < 400
+                if ($picture['width'] > $thumbSize && $thumbSize < 400) {
+                    $video->thumbnailSource = $picture['link'];
+                    $thumbSize = $picture['width'];
+                }
             }
         }
 
