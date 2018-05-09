@@ -242,20 +242,12 @@ abstract class Gateway implements GatewayInterface
 
         $disableSize = $options['disable_size'] ?? false;
 
-        if (!$disableSize && isset($options['width'])) {
-            $embedAttributes['width'] = $options['width'];
-            unset($options['width']);
+        if (!$disableSize) {
+            $this->parseEmbedAttribute($embedAttributes, $options, 'width', 'width');
+            $this->parseEmbedAttribute($embedAttributes, $options, 'height', 'height');
         }
 
-        if (!$disableSize && isset($options['height'])) {
-            $embedAttributes['height'] = $options['height'];
-            unset($options['height']);
-        }
-
-        if (!empty($options['iframeClass'])) {
-            $embedAttributes['class'] = $options['iframeClass'];
-            unset($options['iframeClass']);
-        }
+        $this->parseEmbedAttribute($embedAttributes, $options, 'iframeClass', 'class');
 
         $embedUrl = $this->getEmbedUrl($videoId, $options);
 
@@ -468,5 +460,28 @@ abstract class Gateway implements GatewayInterface
 
             throw new ApiResponseException($error, $code);
         }
+    }
+
+    // Private Methods
+    // =========================================================================
+
+    /**
+     * Parse embed attribute.
+     *
+     * @param $embedAttributes
+     * @param $options
+     * @param $option
+     * @param $attribute
+     *
+     * @return null
+     */
+    private function parseEmbedAttribute(&$embedAttributes, &$options, $option, $attribute)
+    {
+        if (isset($options[$option])) {
+            $embedAttributes[$attribute] = $options[$option];
+            unset($options[$option]);
+        }
+
+        return null;
     }
 }
