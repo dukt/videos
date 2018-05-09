@@ -164,7 +164,7 @@ class Videos extends Component
 
     /**
      * Find video by URL, by looping through all video gateways until a video if found.
-     * 
+     *
      * @param $videoUrl
      * @param $enableCache
      * @param $key
