@@ -242,16 +242,14 @@ abstract class Gateway implements GatewayInterface
 
         $disableSize = $options['disable_size'] ?? false;
 
-        if (!$disableSize) {
-            if (isset($options['width'])) {
-                $embedAttributes['width'] = $options['width'];
-                unset($options['width']);
-            }
+        if (!$disableSize && isset($options['width'])) {
+            $embedAttributes['width'] = $options['width'];
+            unset($options['width']);
+        }
 
-            if (isset($options['height'])) {
-                $embedAttributes['height'] = $options['height'];
-                unset($options['height']);
-            }
+        if (!$disableSize && isset($options['height'])) {
+            $embedAttributes['height'] = $options['height'];
+            unset($options['height']);
         }
 
         if (!empty($options['iframeClass'])) {
