@@ -1,11 +1,8 @@
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/dukt/videos/badges/quality-score.png?b=v2)](https://scrutinizer-ci.com/g/dukt/videos/?branch=v2) [![Code Coverage](https://scrutinizer-ci.com/g/dukt/videos/badges/coverage.png?b=v2)](https://scrutinizer-ci.com/g/dukt/videos/?branch=v2) [![Build Status](https://scrutinizer-ci.com/g/dukt/videos/badges/build.png?b=v2)](https://scrutinizer-ci.com/g/dukt/videos/build-status/v2) [![Code Intelligence Status](https://scrutinizer-ci.com/g/dukt/videos/badges/code-intelligence.svg?b=v2)](https://scrutinizer-ci.com/code-intelligence)
 
-
 # Videos for Craft CMS
 
 Connect to YouTube & Vimeo and publish social videos on your website.
-
--------------------------------------------
 
 ## Requirements
 
