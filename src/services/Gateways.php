@@ -119,13 +119,8 @@ class Gateways extends Component
                         try {
                             $this->_gateways[] = $gateway;
                         } catch (IdentityProviderException $e) {
-                            $errorMsg = $e->getMessage();
-
                             $data = $e->getResponseBody();
-
-                            if (isset($data['error_description'])) {
-                                $errorMsg = $data['error_description'];
-                            }
+                            $errorMsg = $data['error_description'] ?? $e->getMessage();
 
                             Craft::error('Couldn’t load gateway `'.$gatewayHandle.'`: '.$errorMsg, __METHOD__);
                         }
