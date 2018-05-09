@@ -10,7 +10,6 @@ namespace dukt\videos\services;
 use Craft;
 use dukt\videos\base\Gateway;
 use dukt\videos\events\RegisterGatewayTypesEvent;
-use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\Component;
 use dukt\videos\gateways\Vimeo;
 use dukt\videos\gateways\YouTube;
@@ -55,7 +54,7 @@ class Gateways extends Component
     // =========================================================================
 
     /**
-     * Get gateway by handle
+     * Get gateway by handle.
      *
      * @param      $gatewayHandle
      * @param bool $enabledOnly
@@ -82,7 +81,7 @@ class Gateways extends Component
     }
 
     /**
-     * Get gateways
+     * Get gateways.
      *
      * @param bool $enabledOnly
      *
@@ -103,37 +102,36 @@ class Gateways extends Component
     // =========================================================================
 
     /**
-     * Load gateways
+     * Load gateways.
+     *
+     * @return null
      */
     private function loadGateways()
     {
-        if (!$this->_gatewaysLoaded) {
-            foreach ($this->_getGateways() as $gateway) {
-                if ($gateway->enableOauthFlow()) {
-                    $gatewayHandle = $gateway->getHandle();
-                    $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-                    $settings = $plugin->getSettings();
-                    $tokens = $settings->tokens;
+        if ($this->_gatewaysLoaded) {
+            return null;
+        }
 
-                    if (!empty($tokens[$gatewayHandle]) && \is_array($tokens[$gatewayHandle])) {
-                        try {
-                            $this->_gateways[] = $gateway;
-                        } catch (IdentityProviderException $e) {
-                            $data = $e->getResponseBody();
-                            $errorMsg = $data['error_description'] ?? $e->getMessage();
+        foreach ($this->_getGateways() as $gateway) {
+            if ($gateway->enableOauthFlow()) {
+                $gatewayHandle = $gateway->getHandle();
+                $plugin = Craft::$app->getPlugins()->getPlugin('videos');
+                $settings = $plugin->getSettings();
+                $tokens = $settings->tokens;
 
-                            Craft::error('Couldn’t load gateway `'.$gatewayHandle.'`: '.$errorMsg, __METHOD__);
-                        }
-                    }
-                } else {
+                if (!empty($tokens[$gatewayHandle]) && \is_array($tokens[$gatewayHandle])) {
                     $this->_gateways[] = $gateway;
                 }
-
-                $this->_allGateways[] = $gateway;
+            } else {
+                $this->_gateways[] = $gateway;
             }
 
-            $this->_gatewaysLoaded = true;
+            $this->_allGateways[] = $gateway;
         }
+
+        $this->_gatewaysLoaded = true;
+
+        return null;
     }
 
     /**
@@ -180,7 +178,7 @@ class Gateways extends Component
     }
 
     /**
-     * Instantiates a gateway
+     * Instantiates a gateway.
      *
      * @param $gatewayType
      *
