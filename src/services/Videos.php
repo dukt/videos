@@ -159,6 +159,22 @@ class Videos extends Component
             }
         }
 
+        return $this->findVideoByUrl($videoUrl, $enableCache, $key, $cacheExpiry);
+    }
+
+    /**
+     * Find video by URL, by looping through all video gateways until a video if found.
+     * 
+     * @param $videoUrl
+     * @param $enableCache
+     * @param $key
+     * @param $cacheExpiry
+     *
+     * @return bool|mixed
+     * @throws \yii\base\InvalidConfigException
+     */
+    private function findVideoByUrl($videoUrl, $enableCache, $key, $cacheExpiry)
+    {
         foreach (VideosPlugin::$plugin->getGateways()->getGateways() as $gateway) {
             $params = [
                 'url' => $videoUrl
