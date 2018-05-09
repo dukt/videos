@@ -102,7 +102,7 @@ class Oauth extends Component
         $settings = $plugin->getSettings();
         $tokens = $settings->tokens;
 
-        if (isset($tokens[$handle])) {
+        if (isset($tokens[$handle]) && \is_array($tokens[$handle])) {
             return $tokens[$handle];
         }
 

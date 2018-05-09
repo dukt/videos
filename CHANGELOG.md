@@ -13,6 +13,9 @@ Changelog
 - Stopped catching exceptions in the `\dukt\videos\base\Gateway::hasToken()` method.
 - Improved exception handling when OAuth callback fails.
 
+### Fixed
+- Fixed a bug where `dukt\videos\services\Oauth::getTokenData()` could return a string instead of an array. ([#7](https://github.com/dukt/videos/issues/7))
+
 ## 2.0.0-beta.7 - 2018-04-27
 
 ### Changed
