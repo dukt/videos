@@ -38,7 +38,7 @@
     "name": "Videos",
     "handle": "videos",
     "schemaVersion": "1.0.0",
-    "documentationUrl": "https://github.com/dukt/videos-docs",
+    "documentationUrl": "https://docs.dukt.net/videos/v2",
     "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
   }
 }
