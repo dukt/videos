@@ -14,5 +14,5 @@ Installation instructions can be found in the [Videos 2 documentation](https://g
 
 ## Resources
 
-- [Videos 2 Documentation](https://github.com/dukt/videos-docs)
+- [Videos 2 Documentation](https://docs.dukt.net/videos/v2)
 - [Videos 2 Plugin Overview](https://dukt.net/videos)
