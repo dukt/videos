@@ -10,7 +10,7 @@ Changelog
 
 ### Changed
 - Removed unused `dukt\videos\base\Gateway::setAuthenticationToken()` method.
-- Stopped catching exceptions in the `\dukt\videos\base\Gateway::hasToken()` method.
+- Stopped catching exceptions in the `dukt\videos\base\Gateway::hasToken()` method.
 - Improved exception handling when OAuth callback fails.
 
 ### Fixed
