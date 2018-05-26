@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.1 - 2018-05-26
 
 ### Added
 - The videos explorer is now showing a spinner while it’s loading.
