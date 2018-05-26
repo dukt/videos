@@ -35,6 +35,8 @@ Videos.Explorer = Garnish.Base.extend({
             namespaceInputId: this.settings.namespaceInputId
         };
 
+        $('<div class="spinner"></div>').appendTo(this.$container);
+
         Craft.postActionRequest('videos/explorer/get-modal', data, $.proxy(function(response, textStatus)
         {
             var errorMessage;
@@ -44,7 +46,9 @@ Videos.Explorer = Garnish.Base.extend({
             {
                 if(response.success)
                 {
-                    this.$modal = $(response.html).appendTo(this.$container);
+                    this.$modal = $(response.html);
+
+                    this.$container.html(this.$modal)
 
                     this.$main = $('.main', this.$modal);
                     this.$spinner = $('.spinner', this.$modal);
@@ -52,7 +56,7 @@ Videos.Explorer = Garnish.Base.extend({
                     this.$sectionLinks = $('nav a', this.$modal);
                     this.$toolbar = $('.toolbar', this.$modal);
                     this.$search = $('.search', this.$modal);
-                    this.$mainContent = $('.main .content', this.$modal);
+                    this.$mainContent = $('.main .explorer-content', this.$modal);
                     this.$videos = $('.videos', this.$modal);
                     this.$scroller = this.$main;
                     this.$explorer = $('.videos-explorer', this.$container);

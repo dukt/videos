@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## 2.0.1 - 2018-05-26
+
+### Added
+- The videos explorer is now showing a spinner while it’s loading.
+
+### Fixed
+- Fixed a scrolling bug in the Videos explorer modal.
+
 ## 2.0.0 - 2018-05-09
 
 ### Added
@@ -10,7 +18,7 @@ Changelog
 
 ### Changed
 - Removed unused `dukt\videos\base\Gateway::setAuthenticationToken()` method.
-- Stopped catching exceptions in the `\dukt\videos\base\Gateway::hasToken()` method.
+- Stopped catching exceptions in the `dukt\videos\base\Gateway::hasToken()` method.
 - Improved exception handling when OAuth callback fails.
 
 ### Fixed

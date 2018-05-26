@@ -21,11 +21,6 @@ class Settings extends Model
     // =========================================================================
 
     /**
-     * @var mixed|null Tokens
-     */
-    public $tokens;
-
-    /**
      * @var string The amount of time cache should last.
      *
      * @see http://www.php.net/manual/en/dateinterval.construct.php
@@ -38,12 +33,17 @@ class Settings extends Model
     public $enableCache = true;
 
     /**
-     * @var int The number of videos per page in the explorer.
-     */
-    public $videosPerPage = 30;
-
-    /**
      * @var array OAuth provider options.
      */
     public $oauthProviderOptions = [];
+
+    /**
+     * @var mixed|null Tokens
+     */
+    public $tokens;
+
+    /**
+     * @var int The number of videos per page in the explorer.
+     */
+    public $videosPerPage = 30;
 }
