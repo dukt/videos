@@ -1,6 +1,14 @@
 Changelog
 =========
 
+## Unreleased
+
+### Added
+- The videos explorer is now showing a spinner while it’s loading.
+
+### Fixed
+- Fixed a scrolling bug in the Videos explorer modal.
+
 ## 2.0.0 - 2018-05-09
 
 ### Added
