@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.2 - 2018-06-28
 
 ### Changed
 - Replaced `dukt/oauth2-google` dependency with `league/oauth2-google`.
