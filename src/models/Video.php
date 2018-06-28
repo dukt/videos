@@ -29,92 +29,92 @@ class Video extends Model
     // =========================================================================
 
     /**
-     * @var int|null ID
+     * @var int|null The ID of the video
      */
     public $id;
 
     /**
-     * @var mixed|null Raw response object
+     * @var mixed|null The raw response object
      */
     public $raw;
 
     /**
-     * @var string|null Video URL
+     * @var string|null The URL of the video
      */
     public $url;
 
     /**
-     * @var string|null Gateway Handle
+     * @var string|null The gateway’s handle
      */
     public $gatewayHandle;
 
     /**
-     * @var string|null Gateway Name
+     * @var string|null The gateway’s name
      */
     public $gatewayName;
 
     /**
-     * @var \DateTime|null Date
+     * @var \DateTime|null The date the video was uploaded
      */
     public $date;
 
     /**
-     * @var int|null Number of plays
+     * @var int|null The number of times the video has been played
      */
     public $plays;
 
     /**
-     * @var int|null Duration in seconds
+     * @var int|null Duration of the video in seconds
      */
     public $durationSeconds;
 
     /**
-     * @var string|null Author Name
+     * @var string|null The author’s name
      */
     public $authorName;
 
     /**
-     * @var string|null Author URL
+     * @var string|null The author’s URL
      */
     public $authorUrl;
 
     /**
-     * @var string|null Author Username
+     * @var string|null The author’s username
      */
     public $authorUsername;
 
     /**
-     * @var string|null Thumbnail Source
+     * @var string|null The thumbnail’s source
      */
     public $thumbnailSource;
 
     /**
-     * @var string|null Thumbnail Large Source
+     * @var string|null The thumbnail’s large source
      */
     public $thumbnailLargeSource;
 
     /**
-     * @var string|null Title
+     * @var string|null The video’s title
      */
     public $title;
 
     /**
-     * @var string|null Description
+     * @var string|null The video’s description
      */
     public $description;
 
     /**
-     * @var bool Is video private?
+     * @var bool Is this video private?
      */
     public $private = false;
 
     /**
-     * @var int|null Width
+     * @var int|null The video’s width
      */
     public $width;
 
     /**
-     * @var int|null Height
+     * @var int|null The video’s height
      */
     public $height;
 
@@ -127,6 +127,8 @@ class Video extends Model
     // =========================================================================
 
     /**
+     * Get the video’s duration.
+     *
      * @return string
      */
     public function getDuration(): string
@@ -135,6 +137,8 @@ class Video extends Model
     }
 
     /**
+     * Get the video’s embed.
+     *
      * @param array $opts
      *
      * @return Twig_Markup
@@ -149,6 +153,8 @@ class Video extends Model
     }
 
     /**
+     * Get the video’s embed URL.
+     *
      * @param array $opts
      *
      * @return string
@@ -160,6 +166,8 @@ class Video extends Model
     }
 
     /**
+     * Get the video’s gateway.
+     *
      * @return Gateway|null
      * @throws \yii\base\InvalidConfigException
      */
@@ -173,6 +181,8 @@ class Video extends Model
     }
 
     /**
+     * Get the video’s thumbnail.
+     *
      * @param int $size
      *
      * @return null|string
