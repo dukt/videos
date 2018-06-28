@@ -25,20 +25,6 @@ class Videos extends Component
     // =========================================================================
 
     /**
-     * Checks if the OAuth provider is configured
-     *
-     * @param $oauthProviderHandle
-     *
-     * @return bool
-     */
-    public function isOauthProviderConfigured($oauthProviderHandle): bool
-    {
-        $options = VideosPlugin::$plugin->getSettings()->oauthProviderOptions;
-
-        return !empty($options[$oauthProviderHandle]['clientId']) && !empty($options[$oauthProviderHandle]['clientSecret']);
-    }
-
-    /**
      * Returns the HTML of the embed from a video URL.
      *
      * @param       $videoUrl

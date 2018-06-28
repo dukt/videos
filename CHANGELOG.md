@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Changed
+- Removed `dukt\videos\services\Videos::isOauthProviderConfigured()`.
+
 ## 2.0.1 - 2018-05-26
 
 ### Added
