@@ -4,6 +4,7 @@ Changelog
 ## Unreleased
 
 ### Changed
+- Replaced `dukt/oauth2-google` dependency with `league/oauth2-google`.
 - Removed `dukt\videos\services\Videos::isOauthProviderConfigured()`.
 
 ### Fixed

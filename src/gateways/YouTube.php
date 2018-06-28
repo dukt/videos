@@ -94,15 +94,29 @@ class YouTube extends Gateway
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getOauthProviderOptions(): array
+    {
+        $options = parent::getOauthProviderOptions();
+
+        if(!isset($options['useOidcMode'])) {
+            $options['useOidcMode'] = true;
+        }
+
+        return $options;
+    }
+
+    /**
      * @inheritDoc
      *
      * @param array $options
      *
-     * @return \Dukt\OAuth2\Client\Provider\Google
+     * @return \League\OAuth2\Client\Provider\Google
      */
-    public function createOauthProvider(array $options): \Dukt\OAuth2\Client\Provider\Google
+    public function createOauthProvider(array $options): \League\OAuth2\Client\Provider\Google
     {
-        return new \Dukt\OAuth2\Client\Provider\Google($options);
+        return new \League\OAuth2\Client\Provider\Google($options);
     }
 
     /**
