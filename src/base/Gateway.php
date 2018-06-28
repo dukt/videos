@@ -15,6 +15,7 @@ use dukt\videos\errors\GatewayMethodNotFoundException;
 use dukt\videos\errors\JsonParsingException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\Plugin;
 use GuzzleHttp\Exception\BadResponseException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -93,17 +94,7 @@ abstract class Gateway implements GatewayInterface
      */
     public function getOauthProvider()
     {
-        $oauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
-
-        $options = [];
-
-        if (isset($oauthProviderOptions[$this->getHandle()])) {
-            $options = $oauthProviderOptions[$this->getHandle()];
-        }
-
-        if (!isset($options['redirectUri'])) {
-            $options['redirectUri'] = $this->getRedirectUri();
-        }
+        $options = $this->getOauthProviderOptions();
 
         return $this->createOauthProvider($options);
     }
@@ -380,17 +371,11 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the OAuth provider options.
      *
-     * @return array|null
+     * @return array
      */
-    public function getOauthProviderOptions()
+    public function getOauthProviderOptions(): array
     {
-        $allOauthProviderOptions = Videos::$plugin->getSettings()->oauthProviderOptions;
-
-        if (isset($allOauthProviderOptions[$this->getHandle()])) {
-            return $allOauthProviderOptions[$this->getHandle()];
-        }
-
-        return null;
+        return Plugin::getInstance()->getOauthProviderOptions($this->getHandle());
     }
 
     /**

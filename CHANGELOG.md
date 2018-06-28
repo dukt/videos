@@ -6,6 +6,9 @@ Changelog
 ### Changed
 - Removed `dukt\videos\services\Videos::isOauthProviderConfigured()`.
 
+### Fixed
+- Fixed a bug which prevented the `oauthProviderOptions` config from being set from a config file for some providers and from the plugin’s stored settings for other providers.
+
 ## 2.0.1 - 2018-05-26
 
 ### Added
