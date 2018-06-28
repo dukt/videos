@@ -107,22 +107,22 @@ class Plugin extends \craft\base\Plugin
 
     public function getOauthProviderOptions($gatewayHandle)
     {
-        $options = [];
+        $options = null;
 
         $configSettings = Craft::$app->config->getConfigFromFile($this->id);
 
         if (isset($configSettings['oauthProviderOptions'][$gatewayHandle])) {
-            return $configSettings['oauthProviderOptions'][$gatewayHandle];
+            $options = $configSettings['oauthProviderOptions'][$gatewayHandle];
         }
 
         $storedSettings = Craft::$app->plugins->getStoredPluginInfo($this->id)['settings'];
 
-        if (isset($storedSettings['oauthProviderOptions'][$gatewayHandle])) {
-            return $storedSettings['oauthProviderOptions'][$gatewayHandle];
+        if ($options === null && isset($storedSettings['oauthProviderOptions'][$gatewayHandle])) {
+            $options = $storedSettings['oauthProviderOptions'][$gatewayHandle];
         }
 
         if (!isset($options['redirectUri'])) {
-            $gateway = $this->getGateways()->getGateway($gatewayHandle);
+            $gateway = $this->getGateways()->getGateway($gatewayHandle, false);
             $options['redirectUri'] = $gateway->getRedirectUri();
         }
 
