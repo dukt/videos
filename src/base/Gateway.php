@@ -228,7 +228,8 @@ abstract class Gateway implements GatewayInterface
         $embedAttributes = [
             'frameborder' => '0',
             'allowfullscreen' => 'true',
-            'allowscriptaccess' => 'true'
+            'allowscriptaccess' => 'true',
+            'allow' => 'autoplay; encrypted-media',
         ];
 
         $disableSize = $options['disable_size'] ?? false;
