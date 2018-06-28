@@ -105,6 +105,30 @@ class Plugin extends \craft\base\Plugin
         return Craft::$app->controller->redirect($url);
     }
 
+    public function getOauthProviderOptions($gatewayHandle)
+    {
+        $options = null;
+
+        $configSettings = Craft::$app->config->getConfigFromFile($this->id);
+
+        if (isset($configSettings['oauthProviderOptions'][$gatewayHandle])) {
+            $options = $configSettings['oauthProviderOptions'][$gatewayHandle];
+        }
+
+        $storedSettings = Craft::$app->plugins->getStoredPluginInfo($this->id)['settings'];
+
+        if ($options === null && isset($storedSettings['oauthProviderOptions'][$gatewayHandle])) {
+            $options = $storedSettings['oauthProviderOptions'][$gatewayHandle];
+        }
+
+        if (!isset($options['redirectUri'])) {
+            $gateway = $this->getGateways()->getGateway($gatewayHandle, false);
+            $options['redirectUri'] = $gateway->getRedirectUri();
+        }
+
+        return $options;
+    }
+
     // Protected Methods
     // =========================================================================
 

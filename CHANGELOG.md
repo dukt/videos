@@ -1,6 +1,16 @@
 Changelog
 =========
 
+## 2.0.2 - 2018-06-28
+
+### Changed
+- Replaced `dukt/oauth2-google` dependency with `league/oauth2-google`.
+- Removed `dukt\videos\services\Videos::isOauthProviderConfigured()`.
+
+### Fixed
+- Fixed a bug which prevented the `oauthProviderOptions` config from being set from a config file for some providers and from the plugin’s stored settings for other providers.
+- Fixed a bug where videos wouldn’t automatically start to play when clicking on the play button.
+
 ## 2.0.1 - 2018-05-26
 
 ### Added
