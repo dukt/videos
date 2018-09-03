@@ -59,40 +59,11 @@ class Plugin extends \craft\base\Plugin
         parent::init();
         self::$plugin = $this;
 
-        $this->setComponents([
-            'videos' => \dukt\videos\services\Videos::class,
-            'cache' => \dukt\videos\services\Cache::class,
-            'gateways' => \dukt\videos\services\Gateways::class,
-            'oauth' => \dukt\videos\services\Oauth::class,
-        ]);
-
-        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
-            $rules = [
-                'videos/settings' => 'videos/settings/index',
-                'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
-                'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
-            ];
-
-            $event->rules = array_merge($event->rules, $rules);
-        });
-
-        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
-            $event->types[] = VideoField::class;
-        });
-
-        Event::on(ClearCaches::class, ClearCaches::EVENT_REGISTER_CACHE_OPTIONS, function(RegisterCacheOptionsEvent $event) {
-            $event->options[] = [
-                'key' => 'videos-caches',
-                'label' => Craft::t('videos', 'Videos caches'),
-                'action' => Craft::$app->path->getRuntimePath().'/videos'
-            ];
-        });
-
-        Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function(Event $event) {
-            /** @var CraftVariable $variable */
-            $variable = $event->sender;
-            $variable->set('videos', VideosVariable::class);
-        });
+        $this->_setPluginComponents();
+        $this->_registerCpRoutes();
+        $this->_registerFieldTypes();
+        $this->_registerCacheOptions();
+        $this->_registerVariable();
     }
 
     /**
@@ -139,4 +110,73 @@ class Plugin extends \craft\base\Plugin
     {
         return new Settings();
     }
+
+    // Protected Methods
+    // =========================================================================
+
+    /**
+     * Set plugin components.
+     */
+    private function _setPluginComponents()
+    {
+        $this->setComponents([
+            'videos' => \dukt\videos\services\Videos::class,
+            'cache' => \dukt\videos\services\Cache::class,
+            'gateways' => \dukt\videos\services\Gateways::class,
+            'oauth' => \dukt\videos\services\Oauth::class,
+        ]);
+    }
+
+    /**
+     * Register CP routes.
+     */
+    private function _registerCpRoutes()
+    {
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
+            $rules = [
+                'videos/settings' => 'videos/settings/index',
+                'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
+                'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
+            ];
+
+            $event->rules = array_merge($event->rules, $rules);
+        });
+    }
+
+    /**
+     * Register field types.
+     */
+    private function _registerFieldTypes()
+    {
+        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
+            $event->types[] = VideoField::class;
+        });
+    }
+
+    /**
+     * Register cache options.
+     */
+    private function _registerCacheOptions()
+    {
+        Event::on(ClearCaches::class, ClearCaches::EVENT_REGISTER_CACHE_OPTIONS, function(RegisterCacheOptionsEvent $event) {
+            $event->options[] = [
+                'key' => 'videos-caches',
+                'label' => Craft::t('videos', 'Videos caches'),
+                'action' => Craft::$app->path->getRuntimePath().'/videos'
+            ];
+        });
+    }
+
+    /**
+     * Register template variable.
+     */
+    private function _registerVariable()
+    {
+        Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function(Event $event) {
+            /** @var CraftVariable $variable */
+            $variable = $event->sender;
+            $variable->set('videos', VideosVariable::class);
+        });
+    }
+
 }

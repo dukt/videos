@@ -483,7 +483,7 @@ class Vimeo extends Gateway
         $video->id = (int) substr($data['uri'], \strlen('/videos/'));
         $video->plays = $data['stats']['plays'] ?? 0;
         $video->title = $data['name'];
-        $video->url = $data['link'];
+        $video->url = 'https://vimeo.com/'.substr($data['uri'], 8);
         $video->width = $data['width'];
         $video->height = $data['height'];
 
