@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed a bug where Vimeo videos with custom URLs couldn’t be selected in the explorer.
+
 ## 2.0.2 - 2018-06-28
 
 ### Changed
