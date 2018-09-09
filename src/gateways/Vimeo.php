@@ -511,7 +511,7 @@ class Vimeo extends Gateway
      *
      * @return null
      */
-    private function parseThumbnails(Video &$video, array $data)
+    private function parseThumbnails(Video $video, array $data)
     {
         if (!\is_array($data['pictures'])) {
             return null;
