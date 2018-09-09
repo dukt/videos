@@ -66,6 +66,8 @@ abstract class Gateway implements GatewayInterface
      * OAuth Connect.
      *
      * @return Response
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
      */
     public function oauthConnect(): Response
     {
@@ -91,6 +93,7 @@ abstract class Gateway implements GatewayInterface
      * Returns the gateway's OAuth provider.
      *
      * @return mixed
+     * @throws \yii\base\InvalidConfigException
      */
     public function getOauthProvider()
     {
@@ -143,6 +146,8 @@ abstract class Gateway implements GatewayInterface
      * OAuth Callback
      *
      * @return Response
+     * @throws \craft\errors\MissingComponentException
+     * @throws \yii\base\InvalidConfigException
      */
     public function oauthCallback(): Response
     {
@@ -373,6 +378,7 @@ abstract class Gateway implements GatewayInterface
      * Returns the OAuth provider options.
      *
      * @return array
+     * @throws \yii\base\InvalidConfigException
      */
     public function getOauthProviderOptions(): array
     {

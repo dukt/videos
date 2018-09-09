@@ -115,8 +115,9 @@ class SettingsController extends Controller
      * Save gateway.
      *
      * @return Response
-     * @throws InvalidConfigException
      * @throws BadRequestHttpException
+     * @throws InvalidConfigException
+     * @throws \craft\errors\MissingComponentException
      */
     public function actionSaveGateway(): Response
     {

@@ -26,6 +26,7 @@ class OauthController extends Controller
      *
      * @return Response
      * @throws InvalidConfigException
+     * @throws \craft\errors\MissingComponentException
      */
     public function actionConnect(): Response
     {
@@ -43,6 +44,7 @@ class OauthController extends Controller
      *
      * @return Response
      * @throws InvalidConfigException
+     * @throws \craft\errors\MissingComponentException
      */
     public function actionCallback(): Response
     {
@@ -58,6 +60,7 @@ class OauthController extends Controller
      *
      * @return Response
      * @throws InvalidConfigException
+     * @throws \craft\errors\MissingComponentException
      */
     public function actionDisconnect(): Response
     {

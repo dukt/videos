@@ -78,7 +78,7 @@ class Plugin extends \craft\base\Plugin
 
     /**
      * Get OAuth provider options.
-     * 
+     *
      * @param string $gatewayHandle
      * @return null|array
      * @throws \yii\base\InvalidConfigException
