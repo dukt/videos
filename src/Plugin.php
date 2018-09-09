@@ -76,7 +76,7 @@ class Plugin extends \craft\base\Plugin
         return Craft::$app->controller->redirect($url);
     }
 
-    public function getOauthProviderOptions($gatewayHandle)
+    public function getOauthProviderOptions(string $gatewayHandle)
     {
         $options = null;
 
