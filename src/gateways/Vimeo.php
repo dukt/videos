@@ -520,26 +520,43 @@ class Vimeo extends Gateway
         $largestSize = 0;
         $thumbSize = 0;
 
-        foreach ($data['pictures'] as $picture) {
-            if ($picture['type'] === 'thumbnail') {
+        foreach ($this->getVideoDataPictures($data, 'thumbnail') as $picture) {
+            // Retrieve highest quality thumbnail
+            if ($picture['width'] > $largestSize) {
+                $video->thumbnailLargeSource = $picture['link'];
+                $largestSize = $picture['width'];
+            }
 
-                // Retrieve highest quality thumbnail
-                if ($picture['width'] > $largestSize) {
-                    $video->thumbnailLargeSource = $picture['link'];
-                    $largestSize = $picture['width'];
-                }
-
-                // Retrieve highest quality thumbnail with width < 400
-                if ($picture['width'] > $thumbSize && $thumbSize < 400) {
-                    $video->thumbnailSource = $picture['link'];
-                    $thumbSize = $picture['width'];
-                }
+            // Retrieve highest quality thumbnail with width < 400
+            if ($picture['width'] > $thumbSize && $thumbSize < 400) {
+                $video->thumbnailSource = $picture['link'];
+                $thumbSize = $picture['width'];
             }
         }
 
         $video->thumbnailSource = $video->thumbnailSource ?? $video->thumbnailLargeSource;
 
         return null;
+    }
+
+    /**
+     * Get video data pictures.
+     *
+     * @param array $data
+     * @param string $type
+     * @return array
+     */
+    private function getVideoDataPictures(array $data, string $type = 'thumbnail'): array
+    {
+        $pictures = [];
+
+        foreach ($data['pictures'] as $picture) {
+            if ($picture['type'] === $type) {
+                $pictures[] = $picture;
+            }
+        }
+
+        return $pictures;
     }
 
     /**
