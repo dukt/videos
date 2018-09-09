@@ -490,11 +490,9 @@ class Vimeo extends Gateway
 
         // privacy
 
-        if ($data['privacy']['view'] === 'nobody'
-            || $data['privacy']['view'] === 'contacts'
-            || $data['privacy']['view'] === 'password'
-            || $data['privacy']['view'] === 'users'
-            || $data['privacy']['view'] === 'disable') {
+        $privacyOptions = ['nobody', 'contacts', 'password', 'users', 'disable'];
+
+        if(in_array($data['privacy']['view'], $privacyOptions, true)) {
             $video->private = true;
         }
 
