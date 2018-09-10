@@ -76,7 +76,14 @@ class Plugin extends \craft\base\Plugin
         return Craft::$app->controller->redirect($url);
     }
 
-    public function getOauthProviderOptions($gatewayHandle)
+    /**
+     * Get OAuth provider options.
+     *
+     * @param string $gatewayHandle
+     * @return null|array
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getOauthProviderOptions(string $gatewayHandle)
     {
         $options = null;
 

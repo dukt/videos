@@ -176,11 +176,11 @@ class YouTube extends Gateway
      *
      * @param string $id
      *
-     * @return mixed|string
+     * @return Video
      * @throws VideoNotFoundException
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    public function getVideoById(string $id)
+    public function getVideoById(string $id): Video
     {
         $data = $this->get('videos', [
             'query' => [
@@ -610,39 +610,41 @@ class YouTube extends Gateway
         $video->title = $data['snippet']['title'];
         $video->url = 'http://youtu.be/'.$video->id;
 
-
         // Video Duration
-
         $interval = new \DateInterval($data['contentDetails']['duration']);
         $video->durationSeconds = (int) $interval->format('%s');
 
-
         // Thumbnails
-
-        $largestSize = 0;
-
-        if (\is_array($data['snippet']['thumbnails'])) {
-            foreach ($data['snippet']['thumbnails'] as $thumbnail) {
-                if ($thumbnail['width'] > $largestSize) {
-                    // Set thumbnail source with the largest thumbnail
-                    $video->thumbnailSource = $thumbnail['url'];
-                    $largestSize = $thumbnail['width'];
-                }
-            }
-        }
-
+        $video->thumbnailSource = $this->getLargestThumbnail($data['snippet']['thumbnails']);
 
         // Privacy
-
-        if (isset($data['status']['privacyStatus'])) {
-            switch ($data['status']['privacyStatus']) {
-                case 'private':
-                    $video->private = true;
-                    break;
-            }
+        if (!empty($data['status']['privacyStatus']) && $data['status']['privacyStatus'] === 'private') {
+            $video->private = true;
         }
 
         return $video;
+    }
+
+    /**
+     * Get the largest thumbnail from an array of thumbnails.
+     *
+     * @param array $thumbnails
+     * @return null|string
+     */
+    private function getLargestThumbnail(array $thumbnails)
+    {
+        $largestSize = 0;
+        $largestThumbnail = null;
+
+        foreach ($thumbnails as $thumbnail) {
+            if ($thumbnail['width'] > $largestSize) {
+                // Set thumbnail source with the largest thumbnail
+                $largestThumbnail = $thumbnail['url'];
+                $largestSize = $thumbnail['width'];
+            }
+        }
+
+        return $largestThumbnail;
     }
 
     /**

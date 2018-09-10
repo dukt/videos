@@ -487,21 +487,30 @@ class Vimeo extends Gateway
         $video->width = $data['width'];
         $video->height = $data['height'];
 
-
-        // privacy
-
-        if ($data['privacy']['view'] === 'nobody'
-            || $data['privacy']['view'] === 'contacts'
-            || $data['privacy']['view'] === 'password'
-            || $data['privacy']['view'] === 'users'
-            || $data['privacy']['view'] === 'disable') {
-            $video->private = true;
-        }
-
+        $this->parsePrivacy($video, $data);
         $this->parseThumbnails($video, $data);
 
         return $video;
     }
+
+    /**
+     * Parse video’s privacy data.
+     *
+     * @param Video $video
+     * @param array $data
+     * @return null
+     */
+    private function parsePrivacy(Video $video, array $data)
+    {
+        $privacyOptions = ['nobody', 'contacts', 'password', 'users', 'disable'];
+
+        if(in_array($data['privacy']['view'], $privacyOptions, true)) {
+            $video->private = true;
+        }
+
+        return null;
+    }
+
 
     /**
      * Parse thumbnails.
@@ -511,7 +520,7 @@ class Vimeo extends Gateway
      *
      * @return null
      */
-    private function parseThumbnails(Video &$video, array $data)
+    private function parseThumbnails(Video $video, array $data)
     {
         if (!\is_array($data['pictures'])) {
             return null;
@@ -520,26 +529,43 @@ class Vimeo extends Gateway
         $largestSize = 0;
         $thumbSize = 0;
 
-        foreach ($data['pictures'] as $picture) {
-            if ($picture['type'] === 'thumbnail') {
+        foreach ($this->getVideoDataPictures($data, 'thumbnail') as $picture) {
+            // Retrieve highest quality thumbnail
+            if ($picture['width'] > $largestSize) {
+                $video->thumbnailLargeSource = $picture['link'];
+                $largestSize = $picture['width'];
+            }
 
-                // Retrieve highest quality thumbnail
-                if ($picture['width'] > $largestSize) {
-                    $video->thumbnailLargeSource = $picture['link'];
-                    $largestSize = $picture['width'];
-                }
-
-                // Retrieve highest quality thumbnail with width < 400
-                if ($picture['width'] > $thumbSize && $thumbSize < 400) {
-                    $video->thumbnailSource = $picture['link'];
-                    $thumbSize = $picture['width'];
-                }
+            // Retrieve highest quality thumbnail with width < 400
+            if ($picture['width'] > $thumbSize && $thumbSize < 400) {
+                $video->thumbnailSource = $picture['link'];
+                $thumbSize = $picture['width'];
             }
         }
 
         $video->thumbnailSource = $video->thumbnailSource ?? $video->thumbnailLargeSource;
 
         return null;
+    }
+
+    /**
+     * Get video data pictures.
+     *
+     * @param array $data
+     * @param string $type
+     * @return array
+     */
+    private function getVideoDataPictures(array $data, string $type = 'thumbnail'): array
+    {
+        $pictures = [];
+
+        foreach ($data['pictures'] as $picture) {
+            if ($picture['type'] === $type) {
+                $pictures[] = $picture;
+            }
+        }
+
+        return $pictures;
     }
 
     /**
