@@ -631,7 +631,7 @@ class YouTube extends Gateway
      * @param $thumbnails
      * @return null
      */
-    private function getLargestThumbnail($thumbnails)
+    private function getLargestThumbnail(array $thumbnails)
     {
         $largestSize = 0;
         $largestThumbnail = null;
