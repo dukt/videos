@@ -628,8 +628,8 @@ class YouTube extends Gateway
     /**
      * Get the largest thumbnail from an array of thumbnails.
      *
-     * @param $thumbnails
-     * @return null
+     * @param array $thumbnails
+     * @return null|string
      */
     private function getLargestThumbnail(array $thumbnails)
     {
