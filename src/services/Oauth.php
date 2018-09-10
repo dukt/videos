@@ -38,36 +38,37 @@ class Oauth extends Component
      */
     public function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
     {
-        if (isset($data['accessToken'])) {
-            $token = new AccessToken([
-                'access_token' => $data['accessToken'] ?? null,
-                'expires' => $data['expires'] ?? null,
-                'refresh_token' => $data['refreshToken'] ?? null,
-                'resource_owner_id' => $data['resourceOwnerId'] ?? null,
-                'values' => $data['values'] ?? null,
-            ]);
-
-            if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
-                $gateway = VideosPlugin::$plugin->getGateways()->getGateway($gatewayHandle);
-                $provider = $gateway->getOauthProvider();
-                $grant = new RefreshToken();
-                $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
-
-                $token = new AccessToken([
-                    'access_token' => $newToken->getToken(),
-                    'expires' => $newToken->getExpires(),
-                    'refresh_token' => $token->getRefreshToken(),
-                    'resource_owner_id' => $newToken->getResourceOwnerId(),
-                    'values' => $newToken->getValues(),
-                ]);
-
-                VideosPlugin::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
-            }
-
-            return $token;
+        if (!isset($data['accessToken'])) {
+            return null;
         }
 
-        return null;
+        $token = new AccessToken([
+            'access_token' => $data['accessToken'] ?? null,
+            'expires' => $data['expires'] ?? null,
+            'refresh_token' => $data['refreshToken'] ?? null,
+            'resource_owner_id' => $data['resourceOwnerId'] ?? null,
+            'values' => $data['values'] ?? null,
+        ]);
+
+        // Refresh OAuth token
+        if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
+            $gateway = VideosPlugin::$plugin->getGateways()->getGateway($gatewayHandle);
+            $provider = $gateway->getOauthProvider();
+            $grant = new RefreshToken();
+            $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
+
+            $token = new AccessToken([
+                'access_token' => $newToken->getToken(),
+                'expires' => $newToken->getExpires(),
+                'refresh_token' => $token->getRefreshToken(),
+                'resource_owner_id' => $newToken->getResourceOwnerId(),
+                'values' => $newToken->getValues(),
+            ]);
+
+            VideosPlugin::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
+        }
+
+        return $token;
     }
 
     /**
