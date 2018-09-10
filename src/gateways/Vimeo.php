@@ -487,19 +487,30 @@ class Vimeo extends Gateway
         $video->width = $data['width'];
         $video->height = $data['height'];
 
+        $this->parsePrivacy($video, $data);
+        $this->parseThumbnails($video, $data);
 
-        // privacy
+        return $video;
+    }
 
+    /**
+     * Parse video’s privacy data.
+     *
+     * @param Video $video
+     * @param array $data
+     * @return null
+     */
+    private function parsePrivacy(Video $video, array $data)
+    {
         $privacyOptions = ['nobody', 'contacts', 'password', 'users', 'disable'];
 
         if(in_array($data['privacy']['view'], $privacyOptions, true)) {
             $video->private = true;
         }
 
-        $this->parseThumbnails($video, $data);
-
-        return $video;
+        return null;
     }
+
 
     /**
      * Parse thumbnails.
