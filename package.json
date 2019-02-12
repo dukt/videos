@@ -16,6 +16,8 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "laravel-mix": "^2.0"
+    "laravel-mix": "^4.0",
+    "sass": "^1.17.0",
+    "sass-loader": "7.*"
   }
 }
