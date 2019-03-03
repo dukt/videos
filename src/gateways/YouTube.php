@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2018, Dukt
+ * @copyright Copyright (c) 2019, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -615,7 +615,7 @@ class YouTube extends Gateway
         $video->durationSeconds = (int) $interval->format('%s');
 
         // Thumbnails
-        $video->thumbnailSource = $this->getLargestThumbnail($data['snippet']['thumbnails']);
+        $video->thumbnailSource = $this->getThumbnailSource($data['snippet']['thumbnails']);
 
         // Privacy
         if (!empty($data['status']['privacyStatus']) && $data['status']['privacyStatus'] === 'private') {
@@ -623,6 +623,21 @@ class YouTube extends Gateway
         }
 
         return $video;
+    }
+
+    /**
+     * Get the thumbnail source.
+     *
+     * @param array $thumbnails
+     * @return null|string
+     */
+    private function getThumbnailSource(array $thumbnails)
+    {
+        if (!isset($thumbnails['medium'])) {
+            return $this->getLargestThumbnail($thumbnails);
+        }
+
+        return $thumbnails['medium']['url'];
     }
 
     /**

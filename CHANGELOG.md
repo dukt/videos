@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 2.0.5 - 2019-03-03
+
+### Fixed
+- Fixed a bug where thumbnails for YouTube videos were not cropped properly.
+
 ## 2.0.4 - 2018-09-10
 
 ### Fixed
