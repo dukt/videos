@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 2.0.6 - 2019-03-29
+
+### Changed
+- Updated `league/oauth2-google` dependency to `^3.0`. 
+
 ## 2.0.5 - 2019-03-03
 
 ### Fixed
