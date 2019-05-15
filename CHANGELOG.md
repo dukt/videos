@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.7 - 2019-05-15
 
 ### Fixed 
 - Fixed a bug where search keywords were not properly encoded to support emojis when saving a video. ([#20](https://github.com/dukt/videos/issues/20))
