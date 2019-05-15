@@ -141,6 +141,8 @@ class Video extends Field
             $keywords[] = $value->description;
         }
 
-        return StringHelper::toString($keywords, ' ');
+        $searchKeywords = StringHelper::toString($keywords, ' ');
+
+        return StringHelper::encodeMb4($searchKeywords);
     }
 }
