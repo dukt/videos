@@ -1,8 +1,8 @@
-# Craft Videos
+# Deprecated
+Videos for Craft CMS 2 is no longer supported. The Craft 3 version of this plugin can be found here: [dukt/videos](https://github.com/dukt/videos) and can be installed via the Plugin Store in Craft’s control panel.
 
+# Videos for Craft CMS 2
 Connect to YouTube & Vimeo and publish social videos on your website.
-
--------------------------------------------
 
 ## Requirements
 
