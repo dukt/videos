@@ -12,6 +12,7 @@ Changelog
 ### Fixed
 - Fixed a bug where the YouTube gateway was not explicitly prompting for consent, which could cause the token to be saved without a refresh token.
 - Fixed a bug that prevented YouTube thumbnails from working properly for private videos. ([#17](https://github.com/dukt/videos/issues/17))
+
 ## 2.0.7 - 2019-05-15
 
 ### Fixed 
