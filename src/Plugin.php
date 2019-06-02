@@ -131,6 +131,7 @@ class Plugin extends \craft\base\Plugin
             'cache' => \dukt\videos\services\Cache::class,
             'gateways' => \dukt\videos\services\Gateways::class,
             'oauth' => \dukt\videos\services\Oauth::class,
+            'tokens' => \dukt\videos\services\Tokens::class,
         ]);
     }
 

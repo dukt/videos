@@ -38,11 +38,6 @@ class Settings extends Model
     public $oauthProviderOptions = [];
 
     /**
-     * @var mixed|null Tokens
-     */
-    public $tokens;
-
-    /**
      * @var int The number of videos per page in the explorer.
      */
     public $videosPerPage = 30;

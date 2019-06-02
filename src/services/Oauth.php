@@ -7,16 +7,17 @@
 
 namespace dukt\videos\services;
 
-use Craft;
+use dukt\videos\models\Token;
+use Exception;
 use League\OAuth2\Client\Token\AccessToken;
 use yii\base\Component;
-use dukt\videos\Plugin as VideosPlugin;
+use dukt\videos\Plugin;
 use League\OAuth2\Client\Grant\RefreshToken;
 
 /**
  * Class Oauth service.
  *
- * An instance of the Oauth service is globally accessible via [[Plugin::oauth `VideosPlugin::$plugin->getOauth()`]].
+ * An instance of the Oauth service is globally accessible via [[Plugin::oauth `Plugin::$plugin->getOauth()`]].
  *
  * @author Dukt <support@dukt.net>
  * @since  2.0
@@ -24,6 +25,81 @@ use League\OAuth2\Client\Grant\RefreshToken;
 class Oauth extends Component
 {
     // Public Methods
+    // =========================================================================
+
+    /**
+     * Get a token by its gateway handle.
+     *
+     * @param $gatewayHandle
+     * @param bool $refresh
+     * @return AccessToken|null
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getToken($gatewayHandle, $refresh = true)
+    {
+        $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
+
+        if (!$token) {
+            return null;
+        }
+
+        return $this->createTokenFromData($gatewayHandle, $token->accessToken, $refresh);
+    }
+
+    /**
+     * Saves a token.
+     *
+     * @param $gatewayHandle
+     * @param AccessToken $token
+     * @return bool
+     * @throws Exception
+     */
+    public function saveToken($gatewayHandle, AccessToken $token): bool
+    {
+        $tokenModel = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
+
+        if (!$tokenModel) {
+            $tokenModel = new Token();
+            $tokenModel->gateway = $gatewayHandle;
+        }
+
+        $tokenModel->accessToken = [
+            'accessToken' => $token->getToken(),
+            'expires' => $token->getExpires(),
+            'resourceOwnerId' => $token->getResourceOwnerId(),
+            'values' => $token->getValues(),
+        ];
+
+        if (!empty($token->getRefreshToken())) {
+            $tokenModel->accessToken['refreshToken'] = $token->getRefreshToken();
+        }
+
+        Plugin::getInstance()->getTokens()->saveToken($tokenModel);
+
+        return true;
+    }
+
+    /**
+     * Deletes a token.
+     *
+     * @param $gatewayHandle
+     * @return bool
+     * @throws \Throwable
+     * @throws \yii\base\InvalidConfigException
+     * @throws \yii\db\StaleObjectException
+     */
+    public function deleteToken($gatewayHandle): bool
+    {
+        $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
+
+        if (!$token) {
+            return true;
+        }
+
+        return Plugin::getInstance()->getTokens()->deleteTokenById($token->id);
+    }
+
+    // Private Methods
     // =========================================================================
 
     /**
@@ -36,7 +112,7 @@ class Oauth extends Component
      * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
+    private function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
     {
         if (!isset($data['accessToken'])) {
             return null;
@@ -52,7 +128,7 @@ class Oauth extends Component
 
         // Refresh OAuth token
         if ($refreshToken && !empty($token->getRefreshToken()) && $token->getExpires() && $token->hasExpired()) {
-            $gateway = VideosPlugin::$plugin->getGateways()->getGateway($gatewayHandle);
+            $gateway = Plugin::$plugin->getGateways()->getGateway($gatewayHandle);
             $provider = $gateway->getOauthProvider();
             $grant = new RefreshToken();
             $newToken = $provider->getAccessToken($grant, ['refresh_token' => $token->getRefreshToken()]);
@@ -65,118 +141,9 @@ class Oauth extends Component
                 'values' => $newToken->getValues(),
             ]);
 
-            VideosPlugin::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
+            Plugin::$plugin->getOauth()->saveToken($gateway->getHandle(), $token);
         }
 
         return $token;
-    }
-
-    /**
-     * Get token from gateway handle.
-     *
-     * @param $gatewayHandle
-     *
-     * @return AccessToken|null
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function getToken($gatewayHandle)
-    {
-        $tokenData = $this->getTokenData($gatewayHandle);
-
-        if ($tokenData) {
-            return $this->createTokenFromData($gatewayHandle, $tokenData);
-        }
-
-        return null;
-    }
-
-    /**
-     * Returns token data from settings.
-     *
-     * @param $handle
-     *
-     * @return array|null
-     */
-    public function getTokenData($handle)
-    {
-        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-        $settings = $plugin->getSettings();
-        $tokens = $settings->tokens;
-
-        if (isset($tokens[$handle]) && \is_array($tokens[$handle])) {
-            return $tokens[$handle];
-        }
-
-        return null;
-    }
-
-    /**
-     * Saves a token.
-     *
-     * @param $handle
-     * @param $token
-     */
-    public function saveToken($handle, AccessToken $token)
-    {
-        $handle = strtolower($handle);
-
-        // get plugin
-        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-
-        // get settings
-        $settings = $plugin->getSettings();
-
-        // get tokens
-        $tokens = $settings->tokens;
-
-        if (!\is_array($tokens)) {
-            $tokens = [];
-        }
-
-        // set token
-        $tokens[$handle] = [
-            'accessToken' => $token->getToken(),
-            'expires' => $token->getExpires(),
-            'resourceOwnerId' => $token->getResourceOwnerId(),
-            'values' => $token->getValues(),
-        ];
-
-        if (!empty($token->getRefreshToken())) {
-            $tokens[$handle]['refreshToken'] = $token->getRefreshToken();
-        }
-
-        // save plugin settings
-        $settings->tokens = $tokens;
-
-        Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
-    }
-
-    /**
-     * Deletes a token.
-     *
-     * @param $handle
-     */
-    public function deleteToken($handle)
-    {
-        $handle = strtolower($handle);
-
-        // get plugin
-        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-
-        // get settings
-        $settings = $plugin->getSettings();
-
-        // get tokens
-        $tokens = $settings->tokens;
-
-        // get token
-
-        if (!empty($tokens[$handle])) {
-            unset($tokens[$handle]);
-
-            // save plugin settings
-            $settings->tokens = $tokens;
-            Craft::$app->getPlugins()->savePluginSettings($plugin, $settings->getAttributes());
-        }
     }
 }

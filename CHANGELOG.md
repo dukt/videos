@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Changed
+- OAuth tokens are now stored in their own database table instead of being stored in the plugin’s settings. ([#14](https://github.com/dukt/videos/issues/14), [#21](https://github.com/dukt/videos/issues/21))
+
 ## 2.0.7 - 2019-05-15
 
 ### Fixed 
