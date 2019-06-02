@@ -103,7 +103,7 @@ class VideosHelper
             FileHelper::createDirectory($dir);
             Craft::$app->getImages()->loadImage($originalPath, false, $size)
                 ->scaleToFit($size, $size)
-                ->saveAs($path);
+                ->saveAs(parse_url($path, PHP_URL_PATH));
         } else {
             $name = pathinfo($file, PATHINFO_BASENAME);
         }
