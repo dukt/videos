@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.8 - 2019-06-02
 
 ### Added
 - Added environment variables support for gateways’s OAuth client ID and secret in a project config context. ([#18](https://github.com/dukt/videos/issues/18))
