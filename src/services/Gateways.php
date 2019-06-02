@@ -10,6 +10,7 @@ namespace dukt\videos\services;
 use Craft;
 use dukt\videos\base\Gateway;
 use dukt\videos\events\RegisterGatewayTypesEvent;
+use dukt\videos\Plugin;
 use yii\base\Component;
 use dukt\videos\gateways\Vimeo;
 use dukt\videos\gateways\YouTube;
@@ -105,6 +106,7 @@ class Gateways extends Component
      * Load gateways.
      *
      * @return null
+     * @throws \yii\base\InvalidConfigException
      */
     private function loadGateways()
     {
@@ -115,11 +117,10 @@ class Gateways extends Component
         foreach ($this->_getGateways() as $gateway) {
             if ($gateway->enableOauthFlow()) {
                 $gatewayHandle = $gateway->getHandle();
-                $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-                $settings = $plugin->getSettings();
-                $tokens = $settings->tokens;
 
-                if (!empty($tokens[$gatewayHandle]) && \is_array($tokens[$gatewayHandle])) {
+                $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
+
+                if ($token) {
                     $this->_gateways[] = $gateway;
                 }
             } else {

@@ -17,8 +17,8 @@
     <h2>{{ gateway.name }} account</h2>
 
     {% if error %}
-        <p class="error">{{ "Couldn’t retrieve account: {error}"|t('analytics', {error: error}) }}</p>
-        <p class="error">{{ "If the problem persists, try to disconnect and connect again."|t('analytics') }}</p>
+        <p class="error">{{ "Couldn’t retrieve account: {error}"|t('videos', {error: error}) }}</p>
+        <p class="error">{{ "If the problem persists, try to disconnect and connect again."|t('videos') }}</p>
     {% endif %}
 
     {% if gateway.hasToken() %}

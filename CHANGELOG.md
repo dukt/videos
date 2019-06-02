@@ -1,6 +1,18 @@
 Changelog
 =========
 
+## 2.0.8 - 2019-06-02
+
+### Added
+- Added environment variables support for gateways’s OAuth client ID and secret in a project config context. ([#18](https://github.com/dukt/videos/issues/18))
+
+### Changed
+- OAuth tokens are now stored in their own database table instead of being stored in the plugin’s settings. ([#14](https://github.com/dukt/videos/issues/14), [#21](https://github.com/dukt/videos/issues/21))
+
+### Fixed
+- Fixed a bug where the YouTube gateway was not explicitly prompting for consent, which could cause the token to be saved without a refresh token.
+- Fixed a bug that prevented YouTube thumbnails from working properly for private videos. ([#17](https://github.com/dukt/videos/issues/17))
+
 ## 2.0.7 - 2019-05-15
 
 ### Fixed 

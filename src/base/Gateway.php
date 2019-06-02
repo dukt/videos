@@ -16,6 +16,7 @@ use dukt\videos\errors\JsonParsingException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\Plugin;
+use dukt\videos\records\Token as TokenRecord;
 use GuzzleHttp\Exception\BadResponseException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -190,9 +191,9 @@ abstract class Gateway implements GatewayInterface
      */
     public function hasToken(): bool
     {
-        $tokenData = Videos::$plugin->getOauth()->getTokenData($this->getHandle());
+        $token = Videos::$plugin->getOauth()->getToken($this->getHandle(), false);
 
-        if ($tokenData) {
+        if ($token) {
             return true;
         }
 

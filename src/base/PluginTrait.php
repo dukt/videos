@@ -66,4 +66,16 @@ trait PluginTrait
         /** @var Videos $this */
         return $this->get('oauth');
     }
+
+    /**
+     * Returns the tokens service.
+     *
+     * @return \dukt\videos\services\Tokens The tokens service
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getTokens(): \dukt\videos\services\Tokens
+    {
+        /** @var Videos $this */
+        return $this->get('tokens');
+    }
 }
