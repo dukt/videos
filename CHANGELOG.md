@@ -3,6 +3,9 @@ Changelog
 
 ## Unreleased
 
+### Added
+- Added environment variables support for gateways’s OAuth client ID and secret in a project config context. ([#18](https://github.com/dukt/videos/issues/18))
+
 ### Changed
 - OAuth tokens are now stored in their own database table instead of being stored in the plugin’s settings. ([#14](https://github.com/dukt/videos/issues/14), [#21](https://github.com/dukt/videos/issues/21))
 
