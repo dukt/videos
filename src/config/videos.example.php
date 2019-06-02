@@ -22,7 +22,7 @@ return [
      * OAuth provider options.
      */
     'oauthProviderOptions' => [
-        'google' => [
+        'youtube' => [
             'clientId' => 'OAUTH_CLIENT_ID',
             'clientSecret' => 'OAUTH_CLIENT_SECRET'
         ],
