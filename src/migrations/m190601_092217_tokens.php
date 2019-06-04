@@ -16,8 +16,10 @@ class m190601_092217_tokens extends Migration
      */
     public function safeUp()
     {
-        $this->createTables();
-        $this->insertDefaultData();
+        if (!$this->db->tableExists('{{%videos_tokens}}')) {
+            $this->createTables();
+            $this->insertDefaultData();
+        }
     }
 
     public function createTables()
@@ -55,10 +57,12 @@ class m190601_092217_tokens extends Migration
                 ->execute();
         }
 
-        // Save plugin settings so that tokens stored using the old plugin settings technique get deleted
-        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-        $pluginSettings = (array) $plugin->getSettings();
-        Craft::$app->getPlugins()->savePluginSettings($plugin, $pluginSettings);
+        if (Craft::$app->getConfig()->getGeneral()->allowAdminChanges) {
+            // Save plugin settings so that tokens stored using the old plugin settings technique get deleted
+            $plugin = Craft::$app->getPlugins()->getPlugin('videos');
+            $pluginSettings = (array) $plugin->getSettings();
+            Craft::$app->getPlugins()->savePluginSettings($plugin, $pluginSettings);
+        }
     }
 
     /**

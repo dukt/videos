@@ -1,10 +1,15 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed a bug where migration `m190601_092217_tokens` could fail when `allowAdminChanges` was to `false`. ([#22](https://github.com/dukt/videos/issues/22), [#23](https://github.com/dukt/videos/issues/23))
+
 ## 2.0.9 - 2019-06-03
 
 ### Changed
-- Updated schema version to 1.0.2. ([#22](https://github.com/dukt/videos/issues/22))
+- Updated schema version to 1.0.2.
 
 ## 2.0.8 - 2019-06-02
 
