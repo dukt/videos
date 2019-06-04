@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.9 - 2019-06-03
 
 ### Changed
 - Updated schema version to 1.0.2. ([#22](https://github.com/dukt/videos/issues/22))
