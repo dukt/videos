@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.10 - 2019-06-05
 
 ### Fixed
 - Fixed a bug where migration `m190601_092217_tokens` could fail when `allowAdminChanges` was to `false`. ([#22](https://github.com/dukt/videos/issues/22), [#23](https://github.com/dukt/videos/issues/23))
