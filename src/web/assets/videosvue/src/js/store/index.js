@@ -49,16 +49,28 @@ export default new Vuex.Store({
             return videosApi.getVideos(gateway, method, options)
                 .then((response) => {
                     commit('updateVideosLoading', false)
-                    commit('updateVideos', response)
+                    commit('updateVideos', {
+                        videos: response.data.videos,
+                        videosMore: response.data.videosMore,
+                        videosToken: response.data.videosToken,
+                    })
+                })
+                .catch(() => {
+                    commit('updateVideosLoading', false)
+                    commit('updateVideos', {
+                        videos: [],
+                        videosMore: null,
+                        videosToken: null,
+                    })
                 })
         }
     },
 
     mutations: {
-        updateVideos(state, response) {
-            state.videos = response.data.videos
-            state.videosMore = response.data.videosMore
-            state.videosToken = response.data.videosToken
+        updateVideos(state, {videos, videosMore, videosToken}) {
+            state.videos = videos
+            state.videosMore = videosMore
+            state.videosToken = videosToken
         },
 
         updateGateways(state, response) {

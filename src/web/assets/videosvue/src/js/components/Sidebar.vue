@@ -64,6 +64,9 @@
                     method: collection.method,
                     options: collection.options,
                 })
+                    .catch((error) => {
+                        this.$store.dispatch('displayError', 'Couldn’t get videos.')
+                    })
             },
 
             isCollectionSelected(sectionKey, collectionKey) {
