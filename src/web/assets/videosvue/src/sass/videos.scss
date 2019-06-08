@@ -16,16 +16,22 @@
 
 .videos {
   margin: 0 -10px;
+
   .video {
     display: inline-block;
     width: calc(33.3% - 20px);
     margin: 0 10px;
     margin-bottom: 20px;
-    
+
     .thumb {
       background: #eee;
       border-radius: 4px;
-      min-height: 250px;
+      height: 200px;
+      overflow: hidden;
+
+      img {
+        width: 100%;
+      }
     }
   }
 }
