@@ -25,6 +25,7 @@
 </template>
 
 <script>
+    import utils from '../helpers/utils'
     import {mapState, mapGetters} from 'vuex'
 
     export default {
@@ -52,7 +53,7 @@
 
         methods: {
             handleCollectionClick(sectionKey, collectionKey, collection) {
-                const selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
+                const selectedCollection = utils.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
 
                 this.$store.commit('updateSelectedCollection', selectedCollection)
 
@@ -67,16 +68,12 @@
             },
 
             isCollectionSelected(sectionKey, collectionKey) {
-                if (this.selectedCollection !== this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)) {
+                if (this.selectedCollection !== utils.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)) {
                     return false
                 }
 
                 return true
             },
-
-            getCollectionUniqueKey(gateway, sectionKey, collectionKey) {
-                return gateway + ':' + sectionKey + ':' + collectionKey
-            }
         }
     }
 </script>

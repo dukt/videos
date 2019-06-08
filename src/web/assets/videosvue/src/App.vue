@@ -22,6 +22,7 @@
 
 <script>
     import {mapState} from 'vuex'
+    import utils from './js/helpers/utils'
     import Sidebar from './js/components/Sidebar'
     import Search from './js/components/Search'
     import Videos from './js/components/Videos'
@@ -58,7 +59,21 @@
                     this.loading = false
 
                     if (this.gateways.length > 0) {
-                        this.$store.commit('updateCurrentGatewayHandle', this.gateways[0].handle)
+                        const currentGateway = this.gateways[0]
+                        this.$store.commit('updateCurrentGatewayHandle', currentGateway.handle)
+
+                        const collection = currentGateway.sections[0].collections[0]
+                        const selectedCollection = utils.getCollectionUniqueKey(currentGateway.handle, 0, 0)
+                        this.$store.commit('updateSelectedCollection', selectedCollection)
+
+                        this.$store.dispatch('getVideos', {
+                                gateway: currentGateway.handle,
+                                method: collection.method,
+                                options: collection.options,
+                            })
+                            .catch((error) => {
+                                this.$store.dispatch('displayError', 'Couldn’t get videos.')
+                            })
                     }
                 })
         }
