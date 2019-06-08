@@ -59,7 +59,6 @@
 
                     if (this.gateways.length > 0) {
                         this.$store.commit('updateCurrentGatewayHandle', this.gateways[0].handle)
-
                     }
                 })
         }
