@@ -25,29 +25,37 @@
 </template>
 
 <script>
+    import {mapState, mapGetters} from 'vuex'
+
     export default {
+
         computed: {
+
+            ...mapState({
+                gateways: state => state.gateways,
+            }),
+
+            ...mapGetters([
+                'currentGateway',
+            ]),
+
             currentGatewayHandle: {
                 get() {
-                    return this.$root.currentGatewayHandle
+                    return this.$store.state.currentGatewayHandle
                 },
                 set(value) {
-                    this.$root.currentGatewayHandle = value
+                    this.$store.commit('updateCurrentGatewayHandle', value)
                 }
             },
-
-            currentGateway() {
-                return this.$root.currentGateway
-            },
-
-            gateways() {
-                return this.$root.gateways
-            }
         },
 
         methods: {
             getCollectionVideos(collection) {
-                this.$root.getVideos(this.currentGatewayHandle, collection.method, collection.options)
+                this.$store.dispatch('getVideos', {
+                    gateway: this.currentGatewayHandle,
+                    method: collection.method,
+                    options: collection.options,
+                })
             }
         }
     }

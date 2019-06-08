@@ -1,6 +1,6 @@
 <template>
     <div id="videos">
-        <template v-if="$root.loading">
+        <template v-if="loading">
             <div class="spinner"></div>
         </template>
         <template v-else>
@@ -9,13 +9,19 @@
             <div class="v-main">
                 <search></search>
 
-                <videos :videos="$root.videos"></videos>
+                <template v-if="videosLoading">
+                    <div class="spinner"></div>
+                </template>
+                <template v-else>
+                    <videos :videos="videos"></videos>
+                </template>
             </div>
         </template>
     </div>
 </template>
 
 <script>
+    import {mapState} from 'vuex'
     import Sidebar from './js/components/Sidebar'
     import Search from './js/components/Search'
     import Videos from './js/components/Videos'
@@ -27,6 +33,28 @@
             Sidebar,
             Search,
             Videos,
+        },
+
+        data() {
+            return {
+                loading: false,
+            }
+        },
+
+        computed: {
+            ...mapState({
+                videos: state => state.videos,
+                videosLoading: state => state.videosLoading,
+            }),
+        },
+
+        mounted() {
+            this.loading = true
+
+            this.$store.dispatch('getGateways')
+                .then(() => {
+                    this.loading = false
+                })
         }
     }
 </script>
