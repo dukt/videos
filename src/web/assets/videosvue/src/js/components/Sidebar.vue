@@ -29,16 +29,11 @@
 
     export default {
 
-        data() {
-            return {
-                selectedCollection: null,
-            }
-        },
-
         computed: {
 
             ...mapState({
                 gateways: state => state.gateways,
+                selectedCollection: state => state.selectedCollection,
             }),
 
             ...mapGetters([
@@ -57,7 +52,9 @@
 
         methods: {
             handleCollectionClick(sectionKey, collectionKey, collection) {
-                this.selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
+                const selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
+
+                this.$store.commit('updateSelectedCollection', selectedCollection)
 
                 this.$store.dispatch('getVideos', {
                     gateway: this.currentGatewayHandle,

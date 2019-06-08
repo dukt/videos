@@ -10,6 +10,7 @@ export default new Vuex.Store({
         videosLoading: false,
         gateways: [],
         currentGatewayHandle: null,
+        selectedCollection: null,
         videos: []
     },
 
@@ -36,10 +37,6 @@ export default new Vuex.Store({
             return videosApi.getGateways()
                 .then((response) => {
                     commit('updateGateways', response)
-
-                    if (state.gateways.length > 0) {
-                        commit('updateCurrentGatewayHandle', state.gateways[0].handle)
-                    }
                 })
         },
 
@@ -83,6 +80,10 @@ export default new Vuex.Store({
 
         updateVideosLoading(state, loading) {
             state.videosLoading = loading
+        },
+
+        updateSelectedCollection(state, selectedCollection) {
+            state.selectedCollection = selectedCollection
         }
     }
 })
