@@ -15,7 +15,10 @@ export default {
         const data = {
             gateway,
             method,
-            options
+        }
+
+        if (options) {
+            data.options = options
         }
 
         return axios.post(Craft.getActionUrl('videos/vue/get-videos'), data, {
