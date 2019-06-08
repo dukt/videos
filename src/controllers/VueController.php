@@ -71,7 +71,7 @@ class VueController extends Controller
 
         $gatewayHandle = strtolower($payload['gateway']);
         $method = $payload['method'];
-        $options = $payload['options'];
+        $options = $payload['options'] ?? [];
 
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 

@@ -9,12 +9,12 @@
         <nav>
             <ul>
                 <template v-if="currentGateway">
-                    <template v-for="section in currentGateway.sections">
+                    <template v-for="(section, sectionKey) in currentGateway.sections">
                         <li class="heading"><span>{{section.name}}</span></li>
 
-                        <template v-for="collection in section.collections">
+                        <template v-for="(collection, collectionKey) in section.collections">
                             <li>
-                                <a href="#" @click.prevent="getCollectionVideos(collection)">{{collection.name}}</a>
+                                <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">{{collection.name}}</a>
                             </li>
                         </template>
                     </template>
@@ -28,6 +28,12 @@
     import {mapState, mapGetters} from 'vuex'
 
     export default {
+
+        data() {
+            return {
+                selectedCollection: null,
+            }
+        },
 
         computed: {
 
@@ -50,12 +56,26 @@
         },
 
         methods: {
-            getCollectionVideos(collection) {
+            handleCollectionClick(sectionKey, collectionKey, collection) {
+                this.selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
+
                 this.$store.dispatch('getVideos', {
                     gateway: this.currentGatewayHandle,
                     method: collection.method,
                     options: collection.options,
                 })
+            },
+
+            isCollectionSelected(sectionKey, collectionKey) {
+                if (this.selectedCollection !== this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)) {
+                    return false
+                }
+
+                return true
+            },
+
+            getCollectionUniqueKey(gateway, sectionKey, collectionKey) {
+                return gateway + ':' + sectionKey + ':' + collectionKey
             }
         }
     }
