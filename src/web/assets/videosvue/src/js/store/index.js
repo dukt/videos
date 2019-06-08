@@ -52,13 +52,15 @@ export default new Vuex.Store({
                         videosToken: response.data.videosToken,
                     })
                 })
-                .catch(() => {
+                .catch((error) => {
                     commit('updateVideosLoading', false)
                     commit('updateVideos', {
                         videos: [],
                         videosMore: null,
                         videosToken: null,
                     })
+
+                    throw error
                 })
         }
     },
