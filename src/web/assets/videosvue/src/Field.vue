@@ -1,19 +1,38 @@
 <template>
     <div class="videos-vue-field">
         <div class="videos-vue-input">
-            <input class="text fullwidth" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl">
+            <input class="text fullwidth" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl" @input="preview()">
             <a class="browse-btn" href="#" @click.prevent="browse()">Browse videos…</a>
         </div>
 
-        <div class="preview"></div>
+        <p v-if="previewError" class="error">{{previewError}}</p>
+
+        <div v-if="previewLoading" class="spinner"></div>
+
+        <div v-if="previewVideo && !previewError" class="preview">
+            <div class="thumb">
+                <img :src="previewVideo.thumbnailSource" :alt="previewVideo.title">
+            </div>
+            <div class="description">
+                <div><strong>{{previewVideo.title}}</strong></div>
+                <div>
+                    {{previewVideo}}
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+    import debounce from 'lodash.debounce'
+    import videosApi from './js/api/videos'
+
     export default {
         data() {
             return {
                 eventBus: new Vue(),
+                previewVideo: null,
+                previewLoading: false,
                 videoSelectorModal: null,
             }
         },
@@ -56,12 +75,35 @@
                     new VideoExplorerConstructor(options).$mount($explorerContainer.get(0))
                     new VideoSelectorActionsConstructor(options).$mount($selectorActions.get(0))
                 })
-            }
+            },
+
+            preview:debounce(function(val) {
+                this.previewLoading = true
+                this.previewError = null
+                
+                videosApi.getVideo(this.videoUrl)
+                    .then((response) => {
+                        console.log('success')
+
+                        if (response.data.error) {
+                            this.previewLoading = false
+                            this.previewVideo = null
+                            this.previewError = response.data.error
+                        }
+
+                        this.previewLoading = false
+                        this.previewVideo = response.data
+                    })
+                    .catch((error) => {
+                        console.log('error')
+                    })
+            }, 1000)
         },
 
         mounted() {
             this.eventBus.$on('useSelectedVideo', () => {
                 this.videoSelectorModal.hide()
+                this.preview()
             })
         }
     }
@@ -83,10 +125,17 @@
         }
 
         .preview {
-            width: 300px;
-            height: 200px;
-            background: rgba(0, 0, 0, .7);
-            border-radius: 5px;
+            .thumb {
+                width: 300px;
+                height: 200px;
+                background: rgba(0, 0, 0, .7);
+                border-radius: 5px;
+                margin-right: 24px;
+
+                img {
+                    width: 100%;
+                }
+            }
         }
     }
 </style>

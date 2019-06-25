@@ -12,6 +12,7 @@ use craft\helpers\Json;
 use craft\web\Controller;
 use dukt\videos\errors\GatewayNotFoundException;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\Plugin;
 use dukt\videos\web\assets\videosvue\VideosVueAsset;
 use yii\base\InvalidConfigException;
 use yii\web\Response;
@@ -101,6 +102,30 @@ class VueController extends Controller
             'videos' => $videos,
             'more' => $videosResponse['more'],
             'moreToken' => $videosResponse['moreToken']
+        ]);
+    }
+
+    public function actionGetVideo()
+    {
+        $this->requireAcceptsJson();
+
+        $rawBody = Craft::$app->getRequest()->getRawBody();
+        $payload = Json::decodeIfJson($rawBody);
+        $url = $payload['url'];
+
+        $video = Plugin::getInstance()->getVideos()->getVideoByUrl($url);
+
+        if (!$video) {
+            return $this->asErrorJson("Video not found.");
+        }
+
+        return $this->asJson([
+            'id' => $video->id,
+            'gatewayHandle' => $video->gatewayHandle,
+            'title' => $video->title,
+            'thumbnailSource' => $video->thumbnailSource,
+            'embedUrl' => $video->getEmbedUrl(),
+            'url' => $video->url,
         ]);
     }
 }

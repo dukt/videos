@@ -27,4 +27,16 @@ export default {
             }
         })
     },
+
+    getVideo(url) {
+        const data = {
+            url
+        }
+
+        return axios.post(Craft.getActionUrl('videos/vue/get-video'), data, {
+            headers: {
+                'X-CSRF-Token':  Craft.csrfTokenValue,
+            }
+        })
+    }
 }
