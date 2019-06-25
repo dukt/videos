@@ -33,6 +33,7 @@
                 eventBus: new Vue(),
                 previewVideo: null,
                 previewLoading: false,
+                previewError: null,
                 videoSelectorModal: null,
             }
         },
