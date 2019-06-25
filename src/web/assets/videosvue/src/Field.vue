@@ -13,6 +13,7 @@
     export default {
         data() {
             return {
+                eventBus: new Vue(),
                 videoSelectorModal: null,
             }
         },
@@ -47,12 +48,21 @@
                 this.$nextTick(() => {
                     const options = {
                         store: this.$store,
+                        data: {
+                            eventBus: this.eventBus
+                        },
                     }
 
                     new VideoExplorerConstructor(options).$mount($explorerContainer.get(0))
                     new VideoSelectorActionsConstructor(options).$mount($selectorActions.get(0))
                 })
             }
+        },
+
+        mounted() {
+            this.eventBus.$on('useSelectedVideo', () => {
+                this.videoSelectorModal.hide()
+            })
         }
     }
 </script>

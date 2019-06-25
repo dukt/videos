@@ -9,9 +9,8 @@ Vue.config.productionTip = false
 window.VideoFieldConstructor = Vue.extend({
     render: h => h(Field),
     store,
-}) // .$mount('.videos-vue-field')
+})
 
 window.VideoSelectorActionsConstructor = Vue.extend({
     render: h => h(SelectorActions),
-    store,
 })

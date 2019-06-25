@@ -21,9 +21,8 @@
                     return false
                 }
 
-                console.log('this', this.$store.state.selectedVideo)
-
                 this.$store.commit('updateVideoUrl', this.$store.state.selectedVideo.url)
+                this.$root.eventBus.$emit('useSelectedVideo')
             }
         }
     }
