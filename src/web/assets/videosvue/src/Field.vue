@@ -16,7 +16,7 @@
             <div class="description">
                 <div><strong>{{previewVideo.title}}</strong></div>
                 <div>
-                    {{previewVideo}}
+                    <a @click.prevent="removeVideo()">Remove</a>
                 </div>
             </div>
         </div>
@@ -93,7 +93,12 @@
                         this.previewLoading = false
                         this.previewVideo = response.data
                     })
-            }, 1000)
+            }, 1000),
+
+            removeVideo() {
+                this.videoUrl = null
+                this.previewVideo = null
+            }
         },
 
         mounted() {
