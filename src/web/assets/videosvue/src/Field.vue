@@ -84,8 +84,6 @@
                 
                 videosApi.getVideo(this.videoUrl)
                     .then((response) => {
-                        console.log('success')
-
                         if (response.data.error) {
                             this.previewLoading = false
                             this.previewVideo = null
@@ -94,9 +92,6 @@
 
                         this.previewLoading = false
                         this.previewVideo = response.data
-                    })
-                    .catch((error) => {
-                        console.log('error')
                     })
             }, 1000)
         },
