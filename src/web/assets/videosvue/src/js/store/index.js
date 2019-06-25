@@ -1,10 +1,6 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
 import videosApi from '../api/videos';
 
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
     strict: true,
     state: {
         videosLoading: false,
@@ -103,4 +99,4 @@ export default new Vuex.Store({
             state.videoUrl = videoUrl
         },
     }
-})
+}
