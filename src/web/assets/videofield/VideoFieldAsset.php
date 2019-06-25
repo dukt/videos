@@ -10,6 +10,7 @@ namespace dukt\videos\web\assets\videofield;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 use dukt\videos\web\assets\videos\VideosAsset;
+use dukt\videos\web\assets\videosvue\VideosVueAsset;
 
 class VideoFieldAsset extends AssetBundle
 {
@@ -27,7 +28,8 @@ class VideoFieldAsset extends AssetBundle
         // define the dependencies
         $this->depends = [
             CpAsset::class,
-            VideosAsset::class
+            VideosAsset::class,
+            VideosVueAsset::class
         ];
 
         // define the relative path to CSS/JS files that should be registered with the page

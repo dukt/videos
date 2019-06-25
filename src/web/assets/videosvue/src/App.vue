@@ -1,5 +1,5 @@
 <template>
-    <div id="videos">
+    <div id="videos" class="explorer-container">
         <template v-if="loading">
             <div class="spinner"></div>
         </template>
@@ -8,6 +8,10 @@
 
             <div class="v-main">
                 <search></search>
+
+                <template v-if="playingVideo">
+                    <player :video="playingVideo"></player>
+                </template>
 
                 <template v-if="videosLoading">
                     <div class="spinner"></div>
@@ -23,6 +27,7 @@
 <script>
     import {mapState} from 'vuex'
     import utils from './js/helpers/utils'
+    import Player from './js/components/Player'
     import Sidebar from './js/components/Sidebar'
     import Search from './js/components/Search'
     import Videos from './js/components/Videos'
@@ -31,6 +36,7 @@
         name: 'videos-app',
 
         components: {
+            Player,
             Sidebar,
             Search,
             Videos,
@@ -46,6 +52,7 @@
             ...mapState({
                 currentGatewayHandle: state => state.currentGatewayHandle,
                 gateways: state => state.gateways,
+                playingVideo: state => state.playingVideo,
                 videos: state => state.videos,
                 videosLoading: state => state.videosLoading,
             }),

@@ -30,7 +30,8 @@ class VideosVueAsset extends AssetBundle
             VueAsset::class,
         ];
 
-        $this->js[] = 'https://localhost:8090/app.js';
+        $this->js[] = 'https://localhost:8090/explorer.js';
+        $this->js[] = 'https://localhost:8090/field.js';
 
         $this->css = [];
 

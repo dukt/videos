@@ -81,12 +81,19 @@ class VueController extends Controller
 
         $videosResponse = $gateway->getVideos($method, $options);
 
+
+        // Todo: Make this happen in the Video model toArray()
+
         $videos = array();
 
         foreach($videosResponse['videos'] as $video) {
             $videos[] = [
+                'id' => $video->id,
+                'gatewayHandle' => $video->gatewayHandle,
                 'title' => $video->title,
                 'thumbnailSource' => $video->thumbnailSource,
+                'embedUrl' => $video->getEmbedUrl(),
+                'url' => $video->url,
             ];
         }
 

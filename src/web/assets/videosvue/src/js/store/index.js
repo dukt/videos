@@ -11,7 +11,10 @@ export default new Vuex.Store({
         gateways: [],
         currentGatewayHandle: null,
         selectedCollection: null,
-        videos: []
+        selectedVideo: null,
+        playingVideo: null,
+        videos: [],
+        videoUrl: null,
     },
 
     getters: {
@@ -86,6 +89,18 @@ export default new Vuex.Store({
 
         updateSelectedCollection(state, selectedCollection) {
             state.selectedCollection = selectedCollection
-        }
+        },
+
+        updateSelectedVideo(state, selectedVideo) {
+            state.selectedVideo = selectedVideo
+        },
+
+        updatePlayingVideo(state, playingVideo) {
+            state.playingVideo = playingVideo
+        },
+
+        updateVideoUrl(state, videoUrl) {
+            state.videoUrl = videoUrl
+        },
     }
 })

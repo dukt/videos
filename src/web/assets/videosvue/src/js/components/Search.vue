@@ -22,7 +22,7 @@
             ...mapGetters([
                 'currentGateway',
             ]),
-            
+
             debouncedSearch() {
                 return debounce(() => {
                     this.search()

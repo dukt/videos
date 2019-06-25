@@ -36,8 +36,8 @@ class VideosAsset extends AssetBundle
         ];
 
         $this->css = [
-            'css/videos.css',
-            'css/VideosExplorer.css',
+            // 'css/videos.css',
+            // 'css/VideosExplorer.css',
         ];
 
         parent::init();

@@ -64,6 +64,7 @@ class Video extends Field
 
         // Instantiate Videos Field
         $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
+        $view->registerJs('new VideoFieldConstructor().$mount("#'.$view->namespaceInputId($id).'-vue");');
 
 
         // Preview
