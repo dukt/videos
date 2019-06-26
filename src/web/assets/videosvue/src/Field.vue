@@ -106,6 +106,11 @@
                 this.videoSelectorModal.hide()
                 this.preview()
             })
+
+            if (this.$root.fieldValue) {
+                this.$store.commit('updateVideoUrl', this.$root.fieldValue.url)
+                this.previewVideo = this.$root.fieldValue
+            }
         }
     }
 </script>
