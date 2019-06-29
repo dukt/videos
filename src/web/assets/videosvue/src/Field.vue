@@ -5,29 +5,27 @@
             <a class="browse-btn" href="#" @click.prevent="browse()">Browse videos…</a>
         </div>
 
-        <p v-if="previewError" class="error">{{previewError}}</p>
+        <template v-if="previewLoading">
+            <div class="spinner"></div>
+        </template>
+        <template v-else>
+            <p v-if="previewError" class="error">{{previewError}}</p>
 
-        <div v-if="previewLoading" class="spinner"></div>
-
-        <div v-if="previewVideo && !previewError" class="preview">
-            <div class="thumb">
-                <img :src="previewVideo.thumbnailSource" :alt="previewVideo.title">
-            </div>
-            <div class="description">
-                <div><strong>{{previewVideo.title}}</strong></div>
-                <div>
-                    <a @click.prevent="removeVideo()">Remove</a>
-                </div>
-            </div>
-        </div>
+            <preview :previewVideo="previewVideo" :previewError="previewError" @removeVideo="removeVideo()"></preview>
+        </template>
     </div>
 </template>
 
 <script>
     import debounce from 'lodash.debounce'
     import videosApi from './js/api/videos'
+    import Preview from './js/components/Preview'
 
     export default {
+        components: {
+            Preview
+        },
+
         data() {
             return {
                 eventBus: new Vue(),
@@ -115,7 +113,7 @@
     }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
     .videos-vue-field {
         margin-top: 20px;
 
@@ -127,20 +125,6 @@
                 top: 7px;
                 right: 10px;
                 font-size: .9em;
-            }
-        }
-
-        .preview {
-            .thumb {
-                width: 300px;
-                height: 200px;
-                background: rgba(0, 0, 0, .7);
-                border-radius: 5px;
-                margin-right: 24px;
-
-                img {
-                    width: 100%;
-                }
             }
         }
     }

@@ -126,6 +126,9 @@ class VueController extends Controller
             'thumbnailSource' => $video->thumbnailSource,
             'embedUrl' => $video->getEmbedUrl(),
             'url' => $video->url,
+            'authorName' => $video->authorName,
+            'authorUrl' => $video->authorUrl,
+            'durationSeconds' => $video->durationSeconds
         ]);
     }
 }
