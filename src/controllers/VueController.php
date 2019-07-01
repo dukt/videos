@@ -128,7 +128,8 @@ class VueController extends Controller
             'url' => $video->url,
             'authorName' => $video->authorName,
             'authorUrl' => $video->authorUrl,
-            'durationSeconds' => $video->durationSeconds
+            'durationSeconds' => $video->durationSeconds,
+            'duration' => $video->getDuration(),
         ]);
     }
 }

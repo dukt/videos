@@ -62,9 +62,27 @@ class Video extends Field
         // Asset bundle
         $view->registerAssetBundle(VideoFieldAsset::class);
 
+        // Field value
+        $video = null;
+
+        if (is_object($value)) {
+            $video = [
+                'id' => $value->id,
+                'gatewayHandle' => $value->gatewayHandle,
+                'title' => $value->title,
+                'thumbnailSource' => $value->thumbnailSource,
+                'embedUrl' => $value->getEmbedUrl(),
+                'url' => $value->url,
+                'authorName' => $value->authorName,
+                'authorUrl' => $value->authorUrl,
+                'durationSeconds' => $value->durationSeconds,
+                'duration' => $value->getDuration(),
+            ];
+        }
+
         // Instantiate Videos Field
         $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
-        $view->registerJs('new VideoFieldConstructor({data: {fieldValue: '.\json_encode($value).'}}).$mount("#'.$view->namespaceInputId($id).'-vue");');
+        $view->registerJs('new VideoFieldConstructor({data: {fieldValue: '.\json_encode($video).'}}).$mount("#'.$view->namespaceInputId($id).'-vue");');
 
 
         // Preview

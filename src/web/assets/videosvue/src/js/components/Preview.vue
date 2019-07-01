@@ -3,7 +3,7 @@
         <div class="thumb">
             <img :src="previewVideo.thumbnailSource" :alt="previewVideo.title">
             <div class="duration">
-                {{previewVideo.durationSeconds}} seconds
+                {{previewVideo.duration}}
             </div>
         </div>
         <div class="description">

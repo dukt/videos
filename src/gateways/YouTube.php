@@ -612,7 +612,10 @@ class YouTube extends Gateway
 
         // Video Duration
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $video->durationSeconds = (int) $interval->format('%s');
+        $date = new \DateTime('now');
+        $nextDate = new \DateTime('now');
+        $nextDate->add($interval);
+        $video->durationSeconds = $nextDate->getTimestamp() - $date->getTimestamp();
 
         // Thumbnails
         $video->thumbnailSource = $this->getThumbnailSource($data['snippet']['thumbnails']);
