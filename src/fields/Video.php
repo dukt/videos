@@ -77,6 +77,7 @@ class Video extends Field
                 'authorUrl' => $value->authorUrl,
                 'durationSeconds' => $value->durationSeconds,
                 'duration' => $value->getDuration(),
+                'plays' => $value->plays,
             ];
         }
 

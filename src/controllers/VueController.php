@@ -130,6 +130,7 @@ class VueController extends Controller
             'authorUrl' => $video->authorUrl,
             'durationSeconds' => $video->durationSeconds,
             'duration' => $video->getDuration(),
+            'plays' => $video->plays,
         ]);
     }
 }
