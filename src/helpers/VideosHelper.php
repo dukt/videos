@@ -124,7 +124,16 @@ class VideosHelper
      */
     public static function videoToArray(Video $videoModel): array
     {
-        $video = $videoModel->toArray(['id', 'gatewayHandle', 'title', 'url', 'authorName', 'authorUrl', 'durationSeconds', 'plays']);
+        $video = $videoModel->toArray([
+            'id',
+            'gatewayHandle',
+            'title',
+            'url',
+            'authorName',
+            'authorUrl',
+            'durationSeconds',
+            'plays'
+        ]);
 
         $video['thumbnail'] = $videoModel->getThumbnail();
         $video['embedUrl'] = $videoModel->getEmbedUrl();
