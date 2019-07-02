@@ -11,6 +11,7 @@ use Craft;
 use craft\helpers\Json;
 use craft\web\Controller;
 use dukt\videos\errors\GatewayNotFoundException;
+use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\Plugin;
 use dukt\videos\web\assets\videosvue\VideosVueAsset;
@@ -88,19 +89,7 @@ class VueController extends Controller
         $videos = array();
 
         foreach($videosResponse['videos'] as $video) {
-            $videos[] = [
-                'id' => $video->id,
-                'gatewayHandle' => $video->gatewayHandle,
-                'title' => $video->title,
-                'thumbnail' => $video->getThumbnail(),
-                'embedUrl' => $video->getEmbedUrl(),
-                'url' => $video->url,
-                'authorName' => $video->authorName,
-                'authorUrl' => $video->authorUrl,
-                'durationSeconds' => $video->durationSeconds,
-                'duration' => $video->getDuration(),
-                'plays' => $video->plays,
-            ];
+            $videos[] = VideosHelper::videoToArray($video);
         }
 
         return $this->asJson([
@@ -124,18 +113,8 @@ class VueController extends Controller
             return $this->asErrorJson("Video not found.");
         }
 
-        return $this->asJson([
-            'id' => $video->id,
-            'gatewayHandle' => $video->gatewayHandle,
-            'title' => $video->title,
-            'thumbnail' => $video->getThumbnail(),
-            'embedUrl' => $video->getEmbedUrl(),
-            'url' => $video->url,
-            'authorName' => $video->authorName,
-            'authorUrl' => $video->authorUrl,
-            'durationSeconds' => $video->durationSeconds,
-            'duration' => $video->getDuration(),
-            'plays' => $video->plays,
-        ]);
+        $videoArray = VideosHelper::videoToArray($video);
+
+        return $this->asJson($videoArray);
     }
 }

@@ -9,6 +9,7 @@ namespace dukt\videos\helpers;
 
 use Craft;
 use craft\helpers\FileHelper;
+use dukt\videos\models\Video;
 use dukt\videos\Plugin;
 
 /**
@@ -109,6 +110,27 @@ class VideosHelper
         }
 
         return Craft::$app->getAssetManager()->getPublishedUrl($dir, true)."/{$name}";
+    }
+
+    /**
+     * Transforms a video model into an array.
+     *
+     * @param Video $videoModel
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \craft\errors\ImageException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function videoToArray(Video $videoModel): array
+    {
+        $video = $videoModel->toArray(['id', 'gatewayHandle', 'title', 'url', 'authorName', 'authorUrl', 'durationSeconds', 'plays']);
+
+        $video['thumbnail'] = $videoModel->getThumbnail();
+        $video['embedUrl'] = $videoModel->getEmbedUrl();
+        $video['duration'] = $videoModel->getDuration();
+
+        return $video;
     }
 
     // Private Methods

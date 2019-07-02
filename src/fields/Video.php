@@ -12,6 +12,7 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
+use dukt\videos\helpers\VideosHelper;
 use dukt\videos\web\assets\videofield\VideoFieldAsset;
 use dukt\videos\Plugin as Videos;
 
@@ -66,19 +67,7 @@ class Video extends Field
         $video = null;
 
         if (is_object($value)) {
-            $video = [
-                'id' => $value->id,
-                'gatewayHandle' => $value->gatewayHandle,
-                'title' => $value->title,
-                'thumbnail' => $value->getThumbnail(),
-                'embedUrl' => $value->getEmbedUrl(),
-                'url' => $value->url,
-                'authorName' => $value->authorName,
-                'authorUrl' => $value->authorUrl,
-                'durationSeconds' => $value->durationSeconds,
-                'duration' => $value->getDuration(),
-                'plays' => $value->plays,
-            ];
+            $video = VideosHelper::videoToArray($value);
         }
 
         // Preview
