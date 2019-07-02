@@ -8,6 +8,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         computed: {
             hasSelectedVideo() {
@@ -16,12 +18,12 @@
         },
 
         methods: {
-            useSelectedVideo() {
-                if (!this.$store.state.selectedVideo) {
-                    return false
-                }
+            ...mapActions([
+                'updateVideoUrlWithSelectedVideo',
+            ]),
 
-                this.$store.commit('updateVideoUrl', this.$store.state.selectedVideo.url)
+            useSelectedVideo() {
+                this.updateVideoUrlWithSelectedVideo()
                 this.$root.eventBus.$emit('useSelectedVideo')
             }
         }

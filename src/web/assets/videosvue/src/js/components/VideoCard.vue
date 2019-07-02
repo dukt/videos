@@ -1,5 +1,5 @@
 <template>
-    <div class="video" @click="select(video)" :class="{selected: isVideoSelected}">
+    <div class="video" @click="selectVideo(video)" @dblclick="useVideo(video)" :class="{selected: isVideoSelected}">
         <div class="thumb">
             <img :src="video.thumbnail" :alt="video.title">
             <div class="play" @click="play(video)"></div>
@@ -9,6 +9,8 @@
 </template>
 
 <script>
+    import { mapActions } from 'vuex'
+
     export default {
         props: {
             video: {
@@ -27,13 +29,20 @@
         },
 
         methods: {
+            ...mapActions([
+                'selectVideo',
+                'updateVideoUrlWithSelectedVideo',
+            ]),
+
             play(video) {
                 this.$store.commit('updatePlayingVideo', video)
             },
 
-            select(video) {
-                this.$store.commit('updateSelectedVideo', video)
-            }
+            useVideo(video) {
+                this.selectVideo(video)
+                this.updateVideoUrlWithSelectedVideo()
+                this.$root.eventBus.$emit('useSelectedVideo')
+            },
         }
     }
 </script>

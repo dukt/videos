@@ -61,6 +61,18 @@ export default {
 
                     throw error
                 })
+        },
+
+        selectVideo({commit}, video) {
+            commit('updateSelectedVideo', video)
+        },
+
+        updateVideoUrlWithSelectedVideo({commit, state}) {
+            if (!state.selectedVideo) {
+                return false
+            }
+
+            commit('updateVideoUrl', state.selectedVideo.url)
         }
     },
 
