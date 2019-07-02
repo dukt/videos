@@ -1,6 +1,14 @@
 {% import "_includes/forms" as forms %}
 
 <div class="videos-field">
+    {#{{ forms.hidden({
+        id:id,
+        name: name,
+        placeholder: "Enter a video URL from YouTube or Vimeo "|t('videos'),
+        value: (value ? value.url : '')
+    }) }}
+#}
+    {#
     {{ forms.text({
         id:id,
         name: name,
@@ -17,6 +25,7 @@
     <div class="clear"></div>
 
     <hr>
+    #}
 
     <div id="{{ id }}-vue"></div>
 </div>

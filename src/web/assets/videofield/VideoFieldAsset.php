@@ -28,19 +28,19 @@ class VideoFieldAsset extends AssetBundle
         // define the dependencies
         $this->depends = [
             CpAsset::class,
-            VideosAsset::class,
+            // VideosAsset::class,
             VideosVueAsset::class
         ];
 
         // define the relative path to CSS/JS files that should be registered with the page
         // when this asset bundle is registered
-        $this->js = [
-            'js/VideosField'.$this->dotJs(),
-        ];
-
-        $this->css = [
-            'css/VideosField.css',
-        ];
+//        $this->js = [
+//            'js/VideosField'.$this->dotJs(),
+//        ];
+//
+//        $this->css = [
+//            'css/VideosField.css',
+//        ];
 
         parent::init();
     }
