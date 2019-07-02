@@ -1,10 +1,10 @@
 <template>
     <div class="videos-vue-field">
         <div class="videos-vue-input">
-            <input class="text fullwidth" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl" @input="preview()">
+            <input class="text fullwidth" :name="inputName" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl" @input="preview()">
             <a class="browse-btn" href="#" @click.prevent="browse()">Browse videos…</a>
         </div>
-
+        
         <template v-if="previewLoading">
             <div class="spinner"></div>
         </template>
@@ -33,6 +33,7 @@
                 previewLoading: false,
                 previewError: null,
                 videoSelectorModal: null,
+                fieldVariables: null,
             }
         },
 
@@ -44,6 +45,13 @@
                 set(value) {
                     this.$store.commit('updateVideoUrl', value)
                 }
+            },
+            inputName() {
+                if (!this.fieldVariables) {
+                    return null
+                }
+
+                return this.fieldVariables.namespaceName
             }
         },
 
@@ -105,9 +113,13 @@
                 this.preview()
             })
 
-            if (this.$root.fieldValue) {
-                this.$store.commit('updateVideoUrl', this.$root.fieldValue.url)
-                this.previewVideo = this.$root.fieldValue
+            if (this.$root.fieldVariables) {
+                this.fieldVariables = this.$root.fieldVariables
+
+                if (this.fieldVariables.value) {
+                    this.$store.commit('updateVideoUrl', this.fieldVariables.value.url)
+                    this.previewVideo = this.fieldVariables.value
+                }
             }
         }
     }

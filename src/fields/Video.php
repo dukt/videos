@@ -81,25 +81,28 @@ class Video extends Field
             ];
         }
 
-        // Instantiate Videos Field
-        $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
-        $view->registerJs('new VideoFieldConstructor({data: {fieldValue: '.\json_encode($video).'}}).$mount("#'.$view->namespaceInputId($id).'-vue");');
-
-
         // Preview
-
         if ($value instanceof \dukt\videos\models\Video) {
             $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
         } else {
             $preview = null;
         }
 
-        return $view->renderTemplate('videos/_components/fieldtypes/Video/input', [
+        // Variables
+        $variables = [
             'id' => $id,
             'name' => $name,
-            'value' => $value,
-            'preview' => $preview
-        ]);
+            'value' => $video,
+            'preview' => $preview,
+            'namespaceId' => $view->namespaceInputId($id),
+            'namespaceName' => $view->namespaceInputName($id),
+        ];
+
+        // Instantiate Videos Field
+        // $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
+        $view->registerJs('new VideoFieldConstructor({data: {fieldVariables: '.\json_encode($variables).'}}).$mount("#'.$view->namespaceInputId($id).'-vue");');
+
+        return $view->renderTemplate('videos/_components/fieldtypes/Video/input', $variables);
     }
 
     /**
