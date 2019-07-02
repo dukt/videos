@@ -4,7 +4,7 @@
             <input class="text fullwidth" :name="inputName" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl" @input="preview()">
             <a class="browse-btn" href="#" @click.prevent="browse()">Browse videos…</a>
         </div>
-        
+
         <template v-if="previewLoading">
             <div class="spinner"></div>
         </template>

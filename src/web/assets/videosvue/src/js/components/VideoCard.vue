@@ -1,7 +1,7 @@
 <template>
     <div class="video" @click="select(video)" :class="{selected: isVideoSelected}">
         <div class="thumb">
-            <img :src="video.thumbnailSource" :alt="video.title">
+            <img :src="video.thumbnail" :alt="video.title">
             <div class="play" @click="play(video)"></div>
         </div>
         <div class="title">{{video.title}}</div>

@@ -92,9 +92,14 @@ class VueController extends Controller
                 'id' => $video->id,
                 'gatewayHandle' => $video->gatewayHandle,
                 'title' => $video->title,
-                'thumbnailSource' => $video->thumbnailSource,
+                'thumbnail' => $video->getThumbnail(),
                 'embedUrl' => $video->getEmbedUrl(),
                 'url' => $video->url,
+                'authorName' => $video->authorName,
+                'authorUrl' => $video->authorUrl,
+                'durationSeconds' => $video->durationSeconds,
+                'duration' => $video->getDuration(),
+                'plays' => $video->plays,
             ];
         }
 
@@ -123,7 +128,7 @@ class VueController extends Controller
             'id' => $video->id,
             'gatewayHandle' => $video->gatewayHandle,
             'title' => $video->title,
-            'thumbnailSource' => $video->thumbnailSource,
+            'thumbnail' => $video->getThumbnail(),
             'embedUrl' => $video->getEmbedUrl(),
             'url' => $video->url,
             'authorName' => $video->authorName,

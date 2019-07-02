@@ -70,7 +70,7 @@ class Video extends Field
                 'id' => $value->id,
                 'gatewayHandle' => $value->gatewayHandle,
                 'title' => $value->title,
-                'thumbnailSource' => $value->thumbnailSource,
+                'thumbnail' => $value->getThumbnail(),
                 'embedUrl' => $value->getEmbedUrl(),
                 'url' => $value->url,
                 'authorName' => $value->authorName,
