@@ -1,3 +1,4 @@
+/* global Craft */
 import videosApi from '../api/videos';
 
 export default {
@@ -32,14 +33,14 @@ export default {
             Craft.cp.displayNotice(msg)
         },
 
-        getGateways({commit, state}) {
+        getGateways({commit}) {
             return videosApi.getGateways()
                 .then((response) => {
                     commit('updateGateways', response)
                 })
         },
 
-        getVideos({commit, state}, {gateway, method, options}) {
+        getVideos({commit}, {gateway, method, options}) {
             commit('updateVideosLoading', true)
 
             return videosApi.getVideos(gateway, method, options)
