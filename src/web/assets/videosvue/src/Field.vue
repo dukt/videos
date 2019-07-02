@@ -17,6 +17,12 @@
 </template>
 
 <script>
+    /* global VideoExplorerConstructor */
+    /* global VideoSelectorActionsConstructor */
+    /* global Garnish */
+    /* global $ */
+
+    import Vue from 'vue'
     import debounce from 'lodash.debounce'
     import videosApi from './js/api/videos'
     import Preview from './js/components/Preview'
@@ -84,7 +90,7 @@
                 })
             },
 
-            preview:debounce(function(val) {
+            preview:debounce(function() {
                 this.previewLoading = true
                 this.previewError = null
                 
