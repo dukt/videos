@@ -117,13 +117,13 @@
         .thumb {
             position: relative;
             float: left;
-            width: 160px;
-            height: 90px;
+            width: 176px;
+            height: 99px;
             padding-top: 0;
         }
 
         .description {
-            margin-left: 170px;
+            margin-left: 190px;
 
             .title {
                 text-overflow: ellipsis;
