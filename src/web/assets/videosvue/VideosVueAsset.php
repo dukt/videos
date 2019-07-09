@@ -32,6 +32,7 @@ class VideosVueAsset extends AssetBundle
 
         $this->js[] = 'https://localhost:8090/explorer.js';
         $this->js[] = 'https://localhost:8090/field.js';
+        $this->js[] = 'https://localhost:8090/player.js';
 
         $this->css = [];
 

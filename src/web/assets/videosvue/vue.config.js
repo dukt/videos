@@ -32,6 +32,9 @@ module.exports = {
             .entry('field')
             .add('./src/field.js')
             .end()
+            .entry('player')
+            .add('./src/player.js')
+            .end()
 
         // Preserve whitespace
         config.module

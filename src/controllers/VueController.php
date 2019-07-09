@@ -117,4 +117,25 @@ class VueController extends Controller
 
         return $this->asJson($videoArray);
     }
+
+    public function actionGetVideoEmbedHtml(): Response
+    {
+        $this->requireAcceptsJson();
+
+        $rawBody = Craft::$app->getRequest()->getRawBody();
+        $payload = Json::decodeIfJson($rawBody);
+
+        $gatewayHandle = strtolower($payload['gateway']);
+        $videoId = $payload['videoId'];
+
+        $video = Videos::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
+
+        $html = Craft::$app->getView()->renderTemplate('videos/_elements/embedHtml', [
+            'video' => $video
+        ]);
+
+        return $this->asJson([
+            'html' => $html
+        ]);
+    }
 }

@@ -35,7 +35,7 @@
             ]),
 
             play(video) {
-                this.$store.commit('updatePlayingVideo', video)
+                this.$root.eventBus.$emit('playVideo', {video})
             },
 
             useVideo(video) {

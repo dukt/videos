@@ -5,7 +5,7 @@
             <div class="duration">
                 {{previewVideo.duration}}
             </div>
-            <div class="play" @click="play(previewVideo)"></div>
+            <div class="play" @click="$emit('playVideo', previewVideo)"></div>
         </div>
         <div class="description">
             <div><strong>{{previewVideo.title}}</strong></div>

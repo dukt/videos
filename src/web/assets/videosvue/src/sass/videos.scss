@@ -97,12 +97,16 @@
 }
 
 .videos-player {
-  background: #000;
-  width: 600px;
-  height: 400px;
-  margin-bottom: 20px;
-  border-radius: 4px;
   display: flex;
+  background: #000;
+  height: 100%;
+  //width: 600px;
+  //height: 400px;
+  //margin-bottom: 20px;
+  //border-radius: 4px;
+  display: flex;
+  flex: 1;
+  height: 100%;
 
   iframe {
     flex: 1;
@@ -116,5 +120,14 @@
     left: 0;
     width: 100%;
     margin: 0;
+  }
+}
+
+.videos-player-modal {
+
+  iframe {
+    width: 100%;
+    height: 100%;
+    position: absolute;
   }
 }

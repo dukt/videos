@@ -11,7 +11,7 @@
         <template v-else>
             <p v-if="previewError" class="error">{{previewError}}</p>
 
-            <preview :previewVideo="previewVideo" :previewError="previewError" @removeVideo="removeVideo()"></preview>
+            <preview :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
         </template>
     </div>
 </template>
@@ -39,6 +39,7 @@
                 previewLoading: false,
                 previewError: null,
                 videoSelectorModal: null,
+                playerModal: null,
                 fieldVariables: null,
             }
         },
@@ -64,15 +65,15 @@
         methods: {
             browse() {
                 // Initialize a Garnish modal
-                const $videoSelectorModal = $('<div class="new-videoselectormodal modal"></div>').appendTo(Garnish.$bod);
+                const $videoSelectorModal = $('<div class="new-videoselectormodal modal"></div>').appendTo(Garnish.$bod)
                 const $explorerContainer = $('<div class="new-explorer-container"/>').appendTo($videoSelectorModal),
                     $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
-                    $selectorActions = $('<div class="selector-actions"/>').appendTo($footer);
+                    $selectorActions = $('<div class="selector-actions"/>').appendTo($footer)
 
                 this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                     visible: false,
                     resizable: false,
-                });
+                })
 
 
                 // Mount the explorer app and the video selector actions
@@ -107,6 +108,10 @@
                     })
             }, 1000),
 
+            playVideo(video) {
+                this.eventBus.$emit('playVideo', {video})
+            },
+
             removeVideo() {
                 this.videoUrl = null
                 this.previewVideo = null
@@ -114,11 +119,42 @@
         },
 
         mounted() {
+            // Use selected video
             this.eventBus.$on('useSelectedVideo', () => {
                 this.videoSelectorModal.hide()
                 this.preview()
             })
 
+            // Play video
+            this.eventBus.$on('playVideo', ({video}) => {
+                if (this.videoSelectorModal) {
+                    this.videoSelectorModal.hide()
+                }
+
+                const $playerModal = $('<div class="videos-player-modal modal"></div>').appendTo(Garnish.$bod)
+
+                const options = {
+                    data: function() {
+                        return {
+                            eventBus: this.eventBus,
+                            video: video,
+                        }
+                    },
+                }
+
+                this.playerModal = new VideoPlayerConstructor(options).$mount($playerModal.get(0))
+
+                this.playerModal.$children[0].$on('hide', () => {
+                    if (this.videoSelectorModal) {
+                        this.videoSelectorModal.show()
+                    }
+
+                    this.playerModal.$destroy()
+                    this.playerModal = null
+                })
+            })
+
+            // Field variables
             if (this.$root.fieldVariables) {
                 this.fieldVariables = this.$root.fieldVariables
 
