@@ -232,6 +232,7 @@ abstract class Gateway implements GatewayInterface
     public function getEmbedHtml($videoId, array $options = []): string
     {
         $embedAttributes = [
+            'title' => 'External video from' . $this->getHandle(),
             'frameborder' => '0',
             'allowfullscreen' => 'true',
             'allowscriptaccess' => 'true',
@@ -243,6 +244,12 @@ abstract class Gateway implements GatewayInterface
         if (!$disableSize) {
             $this->parseEmbedAttribute($embedAttributes, $options, 'width', 'width');
             $this->parseEmbedAttribute($embedAttributes, $options, 'height', 'height');
+        }
+
+        $title = $options['title'] ?? false;
+
+        if($title) {
+            $this->parseEmbedAttribute($embedAttributes, $options, 'title', 'title');
         }
 
         $this->parseEmbedAttribute($embedAttributes, $options, 'iframeClass', 'class');
