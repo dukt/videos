@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed the styles of the explorer's sidebar.
+
 ## 2.0.10 - 2019-06-05
 
 ### Fixed
