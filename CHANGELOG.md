@@ -3,6 +3,9 @@ Changelog
 
 ## Unreleased
 
+### Changed
+- Changed the maximum number of YouTube playlists from 5 to 50.
+
 ### Fixed
 - Fixed the styles of the explorer's sidebar.
 

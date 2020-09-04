@@ -451,7 +451,8 @@ class YouTube extends Gateway
         $data = $this->get('playlists', [
             'query' => [
                 'part' => 'snippet',
-                'mine' => 'true'
+                'mine' => 'true',
+                'maxResults' => 50,
             ]
         ]);
 
