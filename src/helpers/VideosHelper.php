@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2020, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -43,6 +43,34 @@ class VideosHelper
         $hms .= str_pad($seconds, 2, '0', STR_PAD_LEFT);
 
         return $hms;
+    }
+
+    /**
+     * Formats seconds to ISO 8601 duration
+     *
+     * @param $seconds
+     *
+     * @return string
+     */
+    public static function getDuration8601($seconds): string
+    {
+        $hours = (int)((int)$seconds / 3600);
+        $minutes = (($seconds / 60) % 60);
+        $seconds %= 60;
+
+        $iso8601 = 'PT';
+
+        if ($hours > 0) {
+            $iso8601 .= "{$hours}H";
+        }
+
+        if ($minutes > 0) {
+            $iso8601 .= "{$minutes}M";
+        }
+
+        $iso8601 .= "{$seconds}S";
+
+        return $iso8601;
     }
 
     /**
