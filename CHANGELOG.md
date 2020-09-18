@@ -5,6 +5,7 @@ Changelog
 
 ### Changed
 - Changed the maximum number of YouTube playlists from 5 to 50.
+- Deprecated `\dukt\videos\models\Video::$thumbnailLargeSource`, use `\dukt\videos\models\Video::$thumbnailSource` instead. ([#22](https://github.com/dukt/videos/issues/22), [#23](https://github.com/dukt/videos/issues/23))
 
 ### Fixed
 - Fixed the styles of the explorer's sidebar.

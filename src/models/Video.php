@@ -90,6 +90,7 @@ class Video extends Model
 
     /**
      * @var string|null The thumbnail’s large source
+     * @deprecated in 2.1. Use [[\dukt\videos\models\Video::$thumbnailSource]] instead.
      */
     public $thumbnailLargeSource;
 
