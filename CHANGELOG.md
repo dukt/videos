@@ -5,6 +5,7 @@ Changelog
 
 ### Added
 - Added `\dukt\videos\models\Video::$duration8601`. ([#27](https://github.com/dukt/videos/pull/27))
+- Added `title` embed option. ([#33](https://github.com/dukt/videos/pull/33))
 
 ### Changed
 - Changed the maximum number of YouTube playlists from 5 to 50.
