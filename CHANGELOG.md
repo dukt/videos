@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.11 - 2020-09-18
 
 ### Added
 - Added `\dukt\videos\models\Video::$duration8601`. ([#27](https://github.com/dukt/videos/pull/27))
