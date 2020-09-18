@@ -232,7 +232,7 @@ abstract class Gateway implements GatewayInterface
     public function getEmbedHtml($videoId, array $options = []): string
     {
         $embedAttributes = [
-            'title' => 'External video from' . $this->getHandle(),
+            'title' => 'External video from ' . $this->getHandle(),
             'frameborder' => '0',
             'allowfullscreen' => 'true',
             'allowscriptaccess' => 'true',
