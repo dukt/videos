@@ -8,7 +8,7 @@ Changelog
 - Added `title` embed option. ([#33](https://github.com/dukt/videos/pull/33))
 
 ### Changed
-- Changed the maximum number of YouTube playlists from 5 to 50.
+- Changed the maximum number of YouTube playlists from 5 to 50. ([#28](https://github.com/dukt/videos/issues/28))
 - Deprecated `\dukt\videos\models\Video::$thumbnailLargeSource`, use `\dukt\videos\models\Video::$thumbnailSource` instead. ([#37](https://github.com/dukt/videos/issues/37))
 
 ### Fixed
