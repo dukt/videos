@@ -52,7 +52,7 @@ class VideosHelper
      *
      * @return string
      */
-    public function getDuration8601($seconds): string
+    public static function getDuration8601($seconds): string
     {
         $hours = (int)((int)$seconds / 3600);
         $minutes = (($seconds / 60) % 60);
