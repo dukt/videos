@@ -1,6 +1,19 @@
 Changelog
 =========
 
+## 2.0.11 - 2020-09-18
+
+### Added
+- Added `\dukt\videos\models\Video::$duration8601`. ([#27](https://github.com/dukt/videos/pull/27))
+- Added `title` embed option. ([#33](https://github.com/dukt/videos/pull/33))
+
+### Changed
+- Changed the maximum number of YouTube playlists from 5 to 50. ([#28](https://github.com/dukt/videos/issues/28))
+- Deprecated `\dukt\videos\models\Video::$thumbnailLargeSource`, use `\dukt\videos\models\Video::$thumbnailSource` instead. ([#37](https://github.com/dukt/videos/issues/37))
+
+### Fixed
+- Fixed the styles of the explorer's sidebar.
+
 ## 2.0.10 - 2019-06-05
 
 ### Fixed

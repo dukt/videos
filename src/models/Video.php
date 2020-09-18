@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2020, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -69,6 +69,11 @@ class Video extends Model
     public $durationSeconds;
 
     /**
+     * @var int|null Duration of the video in ISO 8601 format
+     */
+    public $duration8601;
+
+    /**
      * @var string|null The author’s name
      */
     public $authorName;
@@ -90,6 +95,7 @@ class Video extends Model
 
     /**
      * @var string|null The thumbnail’s large source
+     * @deprecated in 2.1. Use [[\dukt\videos\models\Video::$thumbnailSource]] instead.
      */
     public $thumbnailLargeSource;
 

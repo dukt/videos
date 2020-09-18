@@ -4,8 +4,7 @@
      data-gateways="{{ jsonGateways }}">
     <div class="body has-sidebar">
         <div id="content" class="content has-sidebar">
-            <div id="sidebar" class="sidebar">
-
+            <div class="sidebar">
                 {% set gatewayOptions = [] %}
                 {% for gateway in gateways %}
                     {% set gatewayOptions = gatewayOptions|merge([{ label: gateway.name|t('videos'), value: gateway.handle }]) %}

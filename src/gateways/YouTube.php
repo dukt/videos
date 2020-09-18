@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2020, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -451,7 +451,8 @@ class YouTube extends Gateway
         $data = $this->get('playlists', [
             'query' => [
                 'part' => 'snippet',
-                'mine' => 'true'
+                'mine' => 'true',
+                'maxResults' => 50,
             ]
         ]);
 
@@ -612,7 +613,8 @@ class YouTube extends Gateway
 
         // Video Duration
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $video->durationSeconds = (int) $interval->format('%s');
+        $video->durationSeconds = (int) date_create('@0')->add($interval)->getTimestamp();
+        $video->duration8601 = $data['contentDetails']['duration'];
 
         // Thumbnails
         $video->thumbnailSource = $this->getThumbnailSource($data['snippet']['thumbnails']);
