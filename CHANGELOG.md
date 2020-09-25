@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.12 - 2020-09-25
 
 ### Changed
 - Videos now requires Craft CMS 3.5.0 and above.
