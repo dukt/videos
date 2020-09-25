@@ -67,6 +67,10 @@ class m190601_092217_tokens extends Migration
             return true;
         }
 
+        if (!isset($result['settings'])) {
+            return true;
+        }
+
         $settings = Json::decode($result['settings']);
 
         foreach ($providers as $provider) {
