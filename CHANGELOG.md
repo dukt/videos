@@ -1,6 +1,15 @@
 Changelog
 =========
 
+## 2.0.12 - 2020-09-25
+
+### Changed
+- Videos now requires Craft CMS 3.5.0 and above.
+
+### Fixed
+- Fixed `m190601_092217_tokens` migration that was causing issues during Craft 2 to Craft 3 upgrade. ([#32](https://github.com/dukt/videos/issues/32), [#44](https://github.com/dukt/videos/issues/44))
+- Fixed an issue where OAuth provider options were not properly formatted in the project config.
+
 ## 2.0.11 - 2020-09-18
 
 ### Added

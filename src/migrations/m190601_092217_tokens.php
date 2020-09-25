@@ -2,8 +2,8 @@
 
 namespace dukt\videos\migrations;
 
-use Craft;
 use craft\db\Migration;
+use craft\db\Query;
 use yii\helpers\Json;
 
 /**
@@ -18,8 +18,10 @@ class m190601_092217_tokens extends Migration
     {
         if (!$this->db->tableExists('{{%videos_tokens}}')) {
             $this->createTables();
-            $this->insertDefaultData();
         }
+
+        // migrate OAuth client ID & secret
+        $this->updateOauthClient();
     }
 
     public function createTables()
@@ -40,29 +42,61 @@ class m190601_092217_tokens extends Migration
         $this->createIndex(null, '{{%videos_tokens}}', 'gateway', true);
     }
 
-    public function insertDefaultData()
+
+    private function updateOauthClient()
     {
-        // Get tokens from plugin settings
-        $info = Craft::$app->getInfo();
-        $config = $info->config ? unserialize($info->config, ['allowed_classes' => false]) : [];
-        $tokens = !empty($config['plugins']['videos']['settings']['tokens']) ? $config['plugins']['videos']['settings']['tokens'] : [];
-
-        foreach($tokens as $gatewayHandle => $token) {
-            // Populate videos_tokens with tokens
-            Craft::$app->getDb()->createCommand()
-                ->insert('{{%videos_tokens}}', [
-                    'gateway' => $gatewayHandle,
-                    'accessToken' => Json::encode($token),
-                ])
-                ->execute();
+        if (!$this->db->tableExists('{{%oauth_providers}}')) {
+            return true;
         }
 
-        if (Craft::$app->getConfig()->getGeneral()->allowAdminChanges) {
-            // Save plugin settings so that tokens stored using the old plugin settings technique get deleted
-            $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-            $pluginSettings = (array) $plugin->getSettings();
-            Craft::$app->getPlugins()->savePluginSettings($plugin, $pluginSettings);
+        // Get OAuth clients for Dailymotion, YouTube and Vimeo, from `oauth_providers` table
+        $providers = (new Query())
+            ->select('*')
+            ->from(['{{%oauth_providers}}'])
+            ->where(['class' => ['google', 'vimeo']])
+            ->all();
+
+        // Get plugin settings
+        $result = (new Query())
+            ->select('*')
+            ->from(['{{%plugins}}'])
+            ->where(['handle' => 'videos'])
+            ->one();
+
+        if (!$result) {
+            return true;
         }
+
+        if (!isset($result['settings'])) {
+            return true;
+        }
+
+        $settings = Json::decode($result['settings']);
+
+        foreach ($providers as $provider) {
+            switch ($provider['class']) {
+                case 'dailymotion':
+                    $providerHandle = 'dailymotion';
+                    break;
+                case 'vimeo':
+                    $providerHandle = 'vimeo';
+                    break;
+                case 'google':
+                    $providerHandle = 'youtube';
+                    break;
+                default:
+                    $providerHandle = null;
+            }
+
+            if (!$providerHandle) {
+                continue;
+            }
+
+            $settings['oauthProviderOptions'][$providerHandle]['clientId'] = $provider['clientId'];
+            $settings['oauthProviderOptions'][$providerHandle]['clientSecret'] = $provider['clientSecret'];
+        }
+
+        $this->update('{{%plugins}}', ['settings' => Json::encode($settings)], ['handle' => 'videos']);
     }
 
     /**

@@ -39,6 +39,11 @@ class Plugin extends \craft\base\Plugin
     // =========================================================================
 
     /**
+     * @inheritDoc
+     */
+    public $schemaVersion = '1.0.3';
+
+    /**
      * @var bool
      */
     public $hasCpSettings = true;
@@ -104,19 +109,6 @@ class Plugin extends \craft\base\Plugin
             $options['redirectUri'] = $gateway->getRedirectUri();
         }
 
-        // check if there is an env variable defined for each option
-        foreach ($options as $key => $option) {
-            // check if the option potentially contains an env variable
-            if (substr($option, 0, 1) === '$') {
-                $envName = substr($option, 1);
-                $envVariable = getenv($envName);
-
-                if ($envVariable !== false) {
-                    // replace option value with env variable
-                    $options[$key] = $envVariable;
-                }
-            }
-        }
 
         return $options;
     }
