@@ -21,8 +21,7 @@ class m200925_135118_refactor_oauth_provider_options extends Migration
         // Don't make the same config changes twice
         $schemaVersion = $projectConfig->get('plugins.videos.schemaVersion', true);
 
-        if (version_compare($schemaVersion, '1.1', '<')) {
-            echo "hello";
+        if (version_compare($schemaVersion, '1.0.3', '<')) {
             // Get OAuth provider options
             $oauthProviderOptions = $projectConfig->get('plugins.videos.settings.oauthProviderOptions', true);
 
