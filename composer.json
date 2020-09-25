@@ -37,6 +37,7 @@
   "extra": {
     "name": "Videos",
     "handle": "videos",
+    "description": "Connect to YouTube & Vimeo and publish social videos on your website",
     "documentationUrl": "https://docs.dukt.net/videos/v2",
     "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
   }
