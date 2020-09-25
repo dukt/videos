@@ -37,7 +37,6 @@
   "extra": {
     "name": "Videos",
     "handle": "videos",
-    "schemaVersion": "1.0.2",
     "documentationUrl": "https://docs.dukt.net/videos/v2",
     "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
   }

@@ -39,6 +39,11 @@ class Plugin extends \craft\base\Plugin
     // =========================================================================
 
     /**
+     * @inheritDoc
+     */
+    public $schemaVersion = '1.0.3';
+
+    /**
      * @var bool
      */
     public $hasCpSettings = true;
