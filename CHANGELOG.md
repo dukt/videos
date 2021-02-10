@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.13 - 2021-02-10
+
 ### Changed
 - Updated `league/oauth2-client` to 2.5.
 
