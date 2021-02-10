@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed a bug where video thumbnails could not be saved due to an issue with Guzzle 7. ([#49](https://github.com/dukt/videos/issues/49))
+
 ## 2.0.12 - 2020-09-25
 
 ### Changed
