@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2020, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -96,9 +96,9 @@ class YouTube extends Gateway
     /**
      * @inheritdoc
      */
-    public function getOauthProviderOptions(): array
+    public function getOauthProviderOptions(bool $parse = true): array
     {
-        $options = parent::getOauthProviderOptions();
+        $options = parent::getOauthProviderOptions($parse);
 
         if(!isset($options['useOidcMode'])) {
             $options['useOidcMode'] = true;

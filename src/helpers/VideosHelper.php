@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2020, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -116,7 +116,7 @@ class VideosHelper
                 FileHelper::createDirectory($originalDir);
                 $client = new \GuzzleHttp\Client();
                 $response = $client->request('GET', $url, [
-                    'save_to' => $originalPath,
+                    'sink' => $originalPath,
                 ]);
 
                 if ($response->getStatusCode() !== 200) {

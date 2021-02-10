@@ -1,10 +1,19 @@
 Changelog
 =========
 
+## 2.0.13 - 2021-02-10
+
+### Changed
+- Updated `league/oauth2-client` to 2.5.
+
+### Fixed
+- Fixed a bug where the environment variables were not being parsed when used for client ID or secret OAuth configuration.
+- Fixed a bug where video thumbnails could not be saved due to an issue with Guzzle 7. ([#49](https://github.com/dukt/videos/issues/49))
+
 ## 2.0.12 - 2020-09-25
 
 ### Changed
-- Videos now requires Craft CMS 3.5.0 and above.
+- Videos now requires Craft CMS 3.5.0 or above.
 
 ### Fixed
 - Fixed `m190601_092217_tokens` migration that was causing issues during Craft 2 to Craft 3 upgrade. ([#32](https://github.com/dukt/videos/issues/32), [#44](https://github.com/dukt/videos/issues/44))

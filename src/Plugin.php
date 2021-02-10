@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2020, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -85,10 +85,11 @@ class Plugin extends \craft\base\Plugin
      * Get OAuth provider options.
      *
      * @param string $gatewayHandle
+     * @param bool $parse
      * @return null|array
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauthProviderOptions(string $gatewayHandle)
+    public function getOauthProviderOptions(string $gatewayHandle, bool $parse = true)
     {
         $options = null;
 
@@ -109,8 +110,7 @@ class Plugin extends \craft\base\Plugin
             $options['redirectUri'] = $gateway->getRedirectUri();
         }
 
-
-        return $options;
+        return $parse ? array_map('Craft::parseEnv', $options) : $options;
     }
 
     // Protected Methods

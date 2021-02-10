@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2020, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -385,12 +385,13 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the OAuth provider options.
      *
+     * @param bool $parse
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauthProviderOptions(): array
+    public function getOauthProviderOptions(bool $parse = true): array
     {
-        return Plugin::getInstance()->getOauthProviderOptions($this->getHandle());
+        return Plugin::getInstance()->getOauthProviderOptions($this->getHandle(), $parse);
     }
 
     /**
