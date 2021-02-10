@@ -6,7 +6,7 @@ Connect to YouTube & Vimeo and publish social videos on your website.
 
 ## Requirements
 
-This plugin requires Craft CMS 3.5.0 or above.
+This plugin requires Craft CMS 3.5.0 and above.
 
 ## How to install Videos 2
 
