@@ -385,12 +385,13 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the OAuth provider options.
      *
+     * @param bool $parse
      * @return array
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauthProviderOptions(): array
+    public function getOauthProviderOptions(bool $parse = true): array
     {
-        return Plugin::getInstance()->getOauthProviderOptions($this->getHandle());
+        return Plugin::getInstance()->getOauthProviderOptions($this->getHandle(), $parse);
     }
 
     /**

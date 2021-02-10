@@ -96,9 +96,9 @@ class YouTube extends Gateway
     /**
      * @inheritdoc
      */
-    public function getOauthProviderOptions(): array
+    public function getOauthProviderOptions(bool $parse = true): array
     {
-        $options = parent::getOauthProviderOptions();
+        $options = parent::getOauthProviderOptions($parse);
 
         if(!isset($options['useOidcMode'])) {
             $options['useOidcMode'] = true;
