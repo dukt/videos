@@ -33,16 +33,20 @@
     <h2>{{ 'Configure the OAuth client'|t('videos') }}</h2>
     <p>{{ '{oauthProvider} will provide you with a client ID and secret, paste them below and save.'|t('videos', { oauthProvider: gateway.oauthProviderName }) }}</p>
 
-    {{ forms.textField({
+    {{ forms.autosuggestField({
         name: 'clientId',
         label: "Client ID"|t('videos'),
-        value: (gateway.getOauthProviderOptions(false).clientId ?? null)
+        value: (gateway.getOauthProviderOptions(false).clientId ?? null),
+        suggestions: craft.cp.getEnvSuggestions(),
+        suggestEnvVars: true,
     }) }}
 
-    {{ forms.textField({
+    {{ forms.autosuggestField({
         name: 'clientSecret',
         label: "Client Secret"|t('videos'),
-        value: (gateway.getOauthProviderOptions(false).clientSecret ?? null)
+        value: (gateway.getOauthProviderOptions(false).clientSecret ?? null),
+        suggestions: craft.cp.getEnvSuggestions(),
+        suggestEnvVars: true,
     }) }}
 
 {% endset %}
