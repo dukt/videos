@@ -14,7 +14,6 @@
 {% import "_includes/forms" as forms %}
 
 {% set content %}
-
     <input type="hidden" name="action" value="videos/settings/save-gateway">
     {{ redirectInput('videos/settings/'~gateway.handle) }}
     <input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
@@ -49,4 +48,7 @@
         suggestEnvVars: true,
     }) }}
 
+    <hr />
+
+    <p><em>{{ 'Check the {link} for more details on how to setup OAuth.'|t('social', { link: '<a href="https://dukt.net/docs/videos/v2/" target="_blank">documentation</a>'})|raw }}</em></p>
 {% endset %}

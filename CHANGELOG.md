@@ -5,6 +5,7 @@ Changelog
 
 ### Added
 - Added environment variable suggestions support for the OAuth client ID and secret.
+- Added a link to the documentation in the OAuth settings for video providers.
 
 ## 2.0.13 - 2021-02-10
 
