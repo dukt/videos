@@ -635,11 +635,11 @@ class YouTube extends Gateway
      */
     private function getThumbnailSource(array $thumbnails)
     {
-        if (!isset($thumbnails['medium'])) {
+        if (!isset($thumbnails['maxres'])) {
             return $this->getLargestThumbnail($thumbnails);
         }
 
-        return $thumbnails['medium']['url'];
+        return $thumbnails['maxres']['url'];
     }
 
     /**

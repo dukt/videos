@@ -101,6 +101,8 @@ class Videos extends Component
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
+        $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
+
         if ($enableCache) {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 

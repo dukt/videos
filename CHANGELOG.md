@@ -1,6 +1,18 @@
 Changelog
 =========
 
+## 2.0.14 - 2021-04-08
+
+### Added
+- Added environment variable suggestions support for the OAuth client ID and secret.
+- Added a link to the documentation in the OAuth settings for video providers.
+
+### Changed
+- The `dukt\videos\services\Videos::requestVideoById()` method now takes into account Videos’ `enableCache` config.
+
+### Fixed
+- Fixed a bug where the plugin was using a medium quality image for generating thumbnails, resulting in low quality thumbnails. ([#48](https://github.com/dukt/videos/issues/48))
+
 ## 2.0.13 - 2021-02-10
 
 ### Changed
