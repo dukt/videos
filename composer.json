@@ -3,6 +3,7 @@
   "description": "Connect to YouTube & Vimeo and publish social videos on your website.",
   "version": "2.0.14",
   "type": "craft-plugin",
+  "license": "proprietary",
   "keywords": [
     "vimeo",
     "youtube",
