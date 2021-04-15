@@ -13,8 +13,8 @@ use craft\base\Field;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
 use dukt\videos\helpers\VideosHelper;
-use dukt\videos\web\assets\videofield\VideoFieldAsset;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\web\assets\videosvue\VideosVueAsset;
 
 /**
  * Video field
@@ -61,7 +61,7 @@ class Video extends Field
         $view->registerJs($js);
 
         // Asset bundle
-        $view->registerAssetBundle(VideoFieldAsset::class);
+        $view->registerAssetBundle(VideosVueAsset::class);
 
         // Field value
         $video = null;
