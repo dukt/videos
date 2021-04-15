@@ -1,7 +1,7 @@
 <template>
     <div class="videos">
         <template v-for="(video, videoKey) in videos">
-            <video-card :key="videoKey" :video="video"></video-card>
+            <video-card :key="`video-${videoKey}`" :video="video"></video-card>
         </template>
     </div>
 </template>
