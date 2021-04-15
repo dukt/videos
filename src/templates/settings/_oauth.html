@@ -14,7 +14,6 @@
 {% import "_includes/forms" as forms %}
 
 {% set content %}
-
     <input type="hidden" name="action" value="videos/settings/save-gateway">
     {{ redirectInput('videos/settings/'~gateway.handle) }}
     <input type="hidden" name="gatewayHandle" value="{{ gateway.handle }}">
@@ -33,16 +32,23 @@
     <h2>{{ 'Configure the OAuth client'|t('videos') }}</h2>
     <p>{{ '{oauthProvider} will provide you with a client ID and secret, paste them below and save.'|t('videos', { oauthProvider: gateway.oauthProviderName }) }}</p>
 
-    {{ forms.textField({
+    {{ forms.autosuggestField({
         name: 'clientId',
         label: "Client ID"|t('videos'),
-        value: (gateway.oauthProviderOptions.clientId ?? null)
+        value: (gateway.getOauthProviderOptions(false).clientId ?? null),
+        suggestions: craft.cp.getEnvSuggestions(),
+        suggestEnvVars: true,
     }) }}
 
-    {{ forms.textField({
+    {{ forms.autosuggestField({
         name: 'clientSecret',
         label: "Client Secret"|t('videos'),
-        value: (gateway.oauthProviderOptions.clientSecret ?? null)
+        value: (gateway.getOauthProviderOptions(false).clientSecret ?? null),
+        suggestions: craft.cp.getEnvSuggestions(),
+        suggestEnvVars: true,
     }) }}
 
+    <hr />
+
+    <p><em>{{ 'Check the {link} for more details on how to setup OAuth.'|t('social', { link: '<a href="https://dukt.net/docs/videos/v2/" target="_blank">documentation</a>'})|raw }}</em></p>
 {% endset %}

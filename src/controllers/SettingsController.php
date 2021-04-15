@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -127,16 +127,15 @@ class SettingsController extends Controller
         $clientId = Craft::$app->getRequest()->getParam('clientId');
         $clientSecret = Craft::$app->getRequest()->getParam('clientSecret');
 
-        $plugin = Craft::$app->getPlugins()->getPlugin('videos');
-
-        $settings = (array)$plugin->getSettings();
-
-        $settings['oauthProviderOptions'][$gateway->getHandle()] = [
+        $configData = [
             'clientId' => $clientId,
             'clientSecret' => $clientSecret,
         ];
 
-        Craft::$app->getPlugins()->savePluginSettings($plugin, $settings);
+        $key = 'plugins.videos.settings.oauthProviderOptions';
+        $configPath = $key . '.' . $gateway->getHandle();
+
+        Craft::$app->getProjectConfig()->set($configPath, $configData, "Save the “{$gateway->getHandle()}” integration");
 
         Craft::$app->getSession()->setNotice(Craft::t('videos', 'Gateway’s OAuth settings saved.'));
 

@@ -1,6 +1,54 @@
 Changelog
 =========
 
+## Unreleased
+
+### Changed
+- The plugin’s icon has been updated.
+
+## 2.0.14 - 2021-04-08
+
+### Added
+- Added environment variable suggestions support for the OAuth client ID and secret.
+- Added a link to the documentation in the OAuth settings for video providers.
+
+### Changed
+- The `dukt\videos\services\Videos::requestVideoById()` method now takes into account Videos’ `enableCache` config.
+
+### Fixed
+- Fixed a bug where the plugin was using a medium quality image for generating thumbnails, resulting in low quality thumbnails. ([#48](https://github.com/dukt/videos/issues/48))
+
+## 2.0.13 - 2021-02-10
+
+### Changed
+- Updated `league/oauth2-client` to 2.5.
+
+### Fixed
+- Fixed a bug where the environment variables were not being parsed when used for client ID or secret OAuth configuration.
+- Fixed a bug where video thumbnails could not be saved due to an issue with Guzzle 7. ([#49](https://github.com/dukt/videos/issues/49))
+
+## 2.0.12 - 2020-09-25
+
+### Changed
+- Videos now requires Craft CMS 3.5.0 or above.
+
+### Fixed
+- Fixed `m190601_092217_tokens` migration that was causing issues during Craft 2 to Craft 3 upgrade. ([#32](https://github.com/dukt/videos/issues/32), [#44](https://github.com/dukt/videos/issues/44))
+- Fixed an issue where OAuth provider options were not properly formatted in the project config.
+
+## 2.0.11 - 2020-09-18
+
+### Added
+- Added `\dukt\videos\models\Video::$duration8601`. ([#27](https://github.com/dukt/videos/pull/27))
+- Added `title` embed option. ([#33](https://github.com/dukt/videos/pull/33))
+
+### Changed
+- Changed the maximum number of YouTube playlists from 5 to 50. ([#28](https://github.com/dukt/videos/issues/28))
+- Deprecated `\dukt\videos\models\Video::$thumbnailLargeSource`, use `\dukt\videos\models\Video::$thumbnailSource` instead. ([#37](https://github.com/dukt/videos/issues/37))
+
+### Fixed
+- Fixed the styles of the explorer's sidebar.
+
 ## 2.0.10 - 2019-06-05
 
 ### Fixed

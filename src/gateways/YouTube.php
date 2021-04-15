@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -96,9 +96,9 @@ class YouTube extends Gateway
     /**
      * @inheritdoc
      */
-    public function getOauthProviderOptions(): array
+    public function getOauthProviderOptions(bool $parse = true): array
     {
-        $options = parent::getOauthProviderOptions();
+        $options = parent::getOauthProviderOptions($parse);
 
         if(!isset($options['useOidcMode'])) {
             $options['useOidcMode'] = true;
@@ -451,7 +451,8 @@ class YouTube extends Gateway
         $data = $this->get('playlists', [
             'query' => [
                 'part' => 'snippet',
-                'mine' => 'true'
+                'mine' => 'true',
+                'maxResults' => 50,
             ]
         ]);
 
@@ -612,10 +613,8 @@ class YouTube extends Gateway
 
         // Video Duration
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $date = new \DateTime('now');
-        $nextDate = new \DateTime('now');
-        $nextDate->add($interval);
-        $video->durationSeconds = $nextDate->getTimestamp() - $date->getTimestamp();
+        $video->durationSeconds = (int) date_create('@0')->add($interval)->getTimestamp();
+        $video->duration8601 = $data['contentDetails']['duration'];
 
         // Thumbnails
         $video->thumbnailSource = $this->getThumbnailSource($data['snippet']['thumbnails']);
@@ -636,11 +635,11 @@ class YouTube extends Gateway
      */
     private function getThumbnailSource(array $thumbnails)
     {
-        if (!isset($thumbnails['medium'])) {
+        if (!isset($thumbnails['maxres'])) {
             return $this->getLargestThumbnail($thumbnails);
         }
 
-        return $thumbnails['medium']['url'];
+        return $thumbnails['maxres']['url'];
     }
 
     /**

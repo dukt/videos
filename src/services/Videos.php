@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2019, Dukt
+ * @copyright Copyright (c) 2021, Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -101,6 +101,8 @@ class Videos extends Component
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
+        $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
+
         if ($enableCache) {
             $key = 'videos.video.'.$gatewayHandle.'.'.md5($id);
 
