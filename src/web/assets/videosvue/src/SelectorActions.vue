@@ -1,7 +1,7 @@
 <template>
     <div class="selector-actions">
         <div class="buttons right">
-            <div class="btn">Cancel</div>
+            <div class="btn" @click="cancel()">Cancel</div>
             <div class="btn submit" :class="{disabled: !hasSelectedVideo}" @click="useSelectedVideo()">Select</div>
         </div>
     </div>
@@ -25,6 +25,10 @@
             useSelectedVideo() {
                 this.updateVideoUrlWithSelectedVideo()
                 this.$root.eventBus.$emit('useSelectedVideo')
+            },
+
+            cancel() {
+                this.$root.eventBus.$emit('cancel')
             }
         }
     }

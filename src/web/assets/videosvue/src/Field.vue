@@ -126,6 +126,11 @@
                 this.preview()
             })
 
+            // Use selected video
+            this.eventBus.$on('cancel', () => {
+                this.videoSelectorModal.hide()
+            })
+
             // Play video
             this.eventBus.$on('playVideo', ({video}) => {
                 if (this.videoSelectorModal) {
