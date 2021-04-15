@@ -21,18 +21,22 @@ class VideosVueAsset extends AssetBundle
      */
     public function init()
     {
-        // define the path that your publishable resources live
-        $this->sourcePath = __DIR__.'/dist';
-
         // define the dependencies
         $this->depends = [
             CpAsset::class,
             VueAsset::class,
         ];
 
-        $this->js[] = 'https://localhost:8090/explorer.js';
-        $this->js[] = 'https://localhost:8090/field.js';
-        $this->js[] = 'https://localhost:8090/player.js';
+        // define the path that your publishable resources live
+//        $this->sourcePath = __DIR__.'/dist';
+//        $this->js[] = 'js/explorer.js';
+//        $this->js[] = 'js/field.js';
+//        $this->js[] = 'js/player.js';
+
+        $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
+        $this->js[] = 'https://localhost:8090/js/explorer.js';
+        $this->js[] = 'https://localhost:8090/js/field.js';
+        $this->js[] = 'https://localhost:8090/js/player.js';
 
         $this->css = [];
 
