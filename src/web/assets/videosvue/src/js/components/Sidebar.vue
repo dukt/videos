@@ -2,7 +2,7 @@
     <div class="sidebar">
         <div class="select fullwidth">
             <select v-model="currentGatewayHandle">
-                <option v-for="gateway in gateways" :value="gateway.handle">{{gateway.name}}</option>
+                <option v-for="gateway in gateways" :value="gateway.handle" :key="gateway.handle">{{gateway.name}}</option>
             </select>
         </div>
 
@@ -10,10 +10,10 @@
             <ul>
                 <template v-if="currentGateway">
                     <template v-for="(section, sectionKey) in currentGateway.sections">
-                        <li class="heading"><span>{{section.name}}</span></li>
+                        <li class="heading" :key="sectionKey"><span>{{section.name}}</span></li>
 
                         <template v-for="(collection, collectionKey) in section.collections">
-                            <li>
+                            <li :key="collectionKey">
                                 <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">{{collection.name}}</a>
                             </li>
                         </template>
@@ -62,7 +62,7 @@
                     method: collection.method,
                     options: collection.options,
                 })
-                    .catch((error) => {
+                    .catch(() => {
                         this.$store.dispatch('displayError', 'Couldn’t get videos.')
                     })
             },

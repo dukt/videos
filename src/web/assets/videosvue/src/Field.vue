@@ -19,6 +19,7 @@
 <script>
     /* global VideoExplorerConstructor */
     /* global VideoSelectorActionsConstructor */
+    /* global VideoPlayerConstructor */
     /* global Garnish */
     /* global $ */
 

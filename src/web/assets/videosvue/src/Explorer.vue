@@ -71,7 +71,7 @@
                                 method: collection.method,
                                 options: collection.options,
                             })
-                            .catch((error) => {
+                            .catch(() => {
                                 this.$store.dispatch('displayError', 'Couldn’t get videos.')
                             })
                     }

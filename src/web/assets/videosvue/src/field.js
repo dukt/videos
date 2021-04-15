@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Field from './Field.vue'
 import SelectorActions from './SelectorActions.vue'
 import StoreOptions from './js/store'
-import videosApi from './js/api/videos'
 import createStore from './js/createStore'
 
 Vue.config.productionTip = false

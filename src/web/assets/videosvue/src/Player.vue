@@ -7,6 +7,7 @@
 </template>
 
 <script>
+    /* global Garnish */
     import videosApi from './js/api/videos'
 
     export default {

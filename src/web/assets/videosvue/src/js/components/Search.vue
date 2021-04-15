@@ -43,7 +43,7 @@
                             q: this.query
                         },
                     })
-                    .catch((error) => {
+                    .catch(() => {
                         this.$store.dispatch('displayError', 'Couldn’t get videos.')
                     })
             }
