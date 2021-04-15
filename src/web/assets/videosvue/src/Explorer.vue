@@ -83,7 +83,3 @@
         }
     }
 </script>
-
-<style lang="scss">
-    @import './sass/videos.scss';
-</style>
