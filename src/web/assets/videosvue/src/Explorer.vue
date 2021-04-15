@@ -1,22 +1,26 @@
 <template>
     <div id="videos" class="explorer-container">
-        <template v-if="loading">
-            <div class="spinner"></div>
-        </template>
-        <template v-else>
-            <sidebar></sidebar>
-
-            <div class="v-main">
-                <search></search>
-
-                <template v-if="videosLoading">
+        <div class="body has-sidebar">
+            <div class="content has-sidebar">
+                <template v-if="loading">
                     <div class="spinner"></div>
                 </template>
                 <template v-else>
-                    <videos :videos="videos"></videos>
+                    <sidebar></sidebar>
+
+                    <div class="main">
+                        <search></search>
+
+                        <template v-if="videosLoading">
+                            <div class="spinner"></div>
+                        </template>
+                        <template v-else>
+                            <videos :videos="videos"></videos>
+                        </template>
+                    </div>
                 </template>
             </div>
-        </template>
+        </div>
     </div>
 </template>
 

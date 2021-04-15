@@ -50,3 +50,9 @@
         }
     }
 </script>
+
+<style>
+.search {
+    margin-bottom: 24px;
+}
+</style>
