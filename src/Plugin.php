@@ -151,7 +151,6 @@ class Plugin extends \craft\base\Plugin
                 'videos/settings' => 'videos/settings/index',
                 'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
                 'videos/settings/<gatewayHandle:{handle}>/oauth' => 'videos/settings/gateway-oauth',
-                'videos/vue' => 'videos/vue/index',
             ];
 
             $event->rules = array_merge($event->rules, $rules);
