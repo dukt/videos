@@ -14,7 +14,7 @@ use dukt\videos\errors\GatewayNotFoundException;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\Plugin;
-use dukt\videos\web\assets\videosvue\VideosVueAsset;
+use dukt\videos\web\assets\videos\VideosAsset;
 use yii\base\InvalidConfigException;
 use yii\web\Response;
 
@@ -31,7 +31,7 @@ class VueController extends Controller
      */
     public function actionIndex(): Response
     {
-        Craft::$app->getView()->registerAssetBundle(VideosVueAsset::class);
+        Craft::$app->getView()->registerAssetBundle(VideosAsset::class);
 
         return $this->renderTemplate('videos/vue/_index');
     }

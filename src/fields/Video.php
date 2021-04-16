@@ -14,7 +14,7 @@ use craft\helpers\Db;
 use craft\helpers\StringHelper;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
-use dukt\videos\web\assets\videosvue\VideosVueAsset;
+use dukt\videos\web\assets\videos\VideosAsset;
 
 /**
  * Video field
@@ -61,7 +61,7 @@ class Video extends Field
         $view->registerJs($js);
 
         // Asset bundle
-        $view->registerAssetBundle(VideosVueAsset::class);
+        $view->registerAssetBundle(VideosAsset::class);
 
         // Field value
         $video = null;
