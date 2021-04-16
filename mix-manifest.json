@@ -1,9 +1,0 @@
-{
-    "/src/web/assets/settings/dist/settings.css": "/src/web/assets/settings/dist/settings.css",
-    "/src/web/assets/videofield/dist/css/VideosField.css": "/src/web/assets/videofield/dist/css/VideosField.css",
-    "/src/web/assets/videos/dist/css/videos.css": "/src/web/assets/videos/dist/css/videos.css",
-    "/src/web/assets/videos/dist/css/VideosExplorer.css": "/src/web/assets/videos/dist/css/VideosExplorer.css",
-    "/src/web/assets/videofield/dist/js/VideosField.min.js": "/src/web/assets/videofield/dist/js/VideosField.min.js",
-    "/src/web/assets/videos/dist/js/Videos.min.js": "/src/web/assets/videos/dist/js/Videos.min.js",
-    "/src/web/assets/videos/dist/js/VideosExplorer.min.js": "/src/web/assets/videos/dist/js/VideosExplorer.min.js"
-}
