@@ -16,29 +16,29 @@ class VideosAsset extends AssetBundle
     // Public Methods
     // =========================================================================
 
+    private $devServer = true;
+
     /**
      * @inheritdoc
      */
     public function init()
     {
-        // define the dependencies
         $this->depends = [
             CpAsset::class,
             VueAsset::class,
         ];
 
-        // define the path that your publishable resources live
-//        $this->sourcePath = __DIR__.'/dist';
-//        $this->js[] = 'js/explorer.js';
-//        $this->js[] = 'js/field.js';
-//        $this->js[] = 'js/player.js';
-
-        $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
-        $this->js[] = 'https://localhost:8090/js/explorer.js';
-        $this->js[] = 'https://localhost:8090/js/field.js';
-        $this->js[] = 'https://localhost:8090/js/player.js';
-
-        $this->css = [];
+        if (!$this->devServer) {
+            $this->sourcePath = __DIR__.'/dist';
+            $this->js[] = 'js/explorer.js';
+            $this->js[] = 'js/field.js';
+            $this->js[] = 'js/player.js';
+        } else {
+            $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
+            $this->js[] = 'https://localhost:8090/js/explorer.js';
+            $this->js[] = 'https://localhost:8090/js/field.js';
+            $this->js[] = 'https://localhost:8090/js/player.js';
+        }
 
         parent::init();
     }
