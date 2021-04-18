@@ -14,11 +14,11 @@ module.exports = {
     devServer: {
         headers: {"Access-Control-Allow-Origin": "*"},
         disableHostCheck: true,
-        port: process.env.DEV_SERVER_PORT,
         https: {
             key: process.env.DEV_SSL_KEY ? fs.readFileSync(process.env.DEV_SSL_KEY) : null,
             cert: process.env.DEV_SSL_CERT ? fs.readFileSync(process.env.DEV_SSL_CERT) : null,
         },
+        port: process.env.DEV_SERVER_PORT || 8090,
     },
 
     chainWebpack: config => {
