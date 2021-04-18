@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports = {
     filenameHashing: false,
-    publicPath: 'https://localhost:8090/',
+    publicPath: process.env.PUBLIC_PATH || "https://localhost:8090",
     configureWebpack: {
         externals: {
             'vue': 'Vue',
