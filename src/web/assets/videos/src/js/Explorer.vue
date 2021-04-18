@@ -26,10 +26,10 @@
 
 <script>
     import {mapState} from 'vuex'
-    import utils from './js/helpers/utils'
-    import Sidebar from './js/components/Sidebar'
-    import Search from './js/components/Search'
-    import Videos from './js/components/Videos'
+    import utils from './helpers/utils'
+    import Sidebar from './components/Sidebar'
+    import Search from './components/Search'
+    import Videos from './components/Videos'
 
     export default {
         name: 'videos-app',

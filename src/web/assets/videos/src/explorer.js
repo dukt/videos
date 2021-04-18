@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Explorer from './Explorer.vue'
+import Explorer from './js/Explorer.vue'
 import store from './js/store'
 
 import './sass/explorer.scss'

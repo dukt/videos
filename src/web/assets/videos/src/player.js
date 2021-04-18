@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Player from './Player.vue'
+import Player from './js/Player.vue'
 
 import './sass/player.scss'
 

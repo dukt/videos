@@ -1,6 +1,6 @@
 import Vue from 'vue'
-import Field from './Field.vue'
-import SelectorActions from './SelectorActions.vue'
+import Field from './js/Field.vue'
+import SelectorActions from './js/SelectorActions.vue'
 import StoreOptions from './js/store'
 
 import createStore from './js/createStore'

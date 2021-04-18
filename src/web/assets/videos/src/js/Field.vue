@@ -25,8 +25,8 @@
 
     import Vue from 'vue'
     import debounce from 'lodash.debounce'
-    import videosApi from './js/api/videos'
-    import Preview from './js/components/Preview'
+    import videosApi from './api/videos'
+    import Preview from './components/Preview'
 
     export default {
         components: {

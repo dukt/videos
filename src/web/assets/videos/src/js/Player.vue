@@ -8,7 +8,7 @@
 
 <script>
     /* global Garnish */
-    import videosApi from './js/api/videos'
+    import videosApi from './api/videos'
 
     export default {
         data() {
