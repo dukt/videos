@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentGateway" class="search">
+    <div v-if="currentGateway" class="videos-search">
         <input type="search" class="text fullwidth" v-model="query"
                :placeholder="'Search '+currentGateway.name+' videos…'"
                @input="debouncedSearch" @keyup.enter="search"/>
@@ -50,9 +50,3 @@
         }
     }
 </script>
-
-<style>
-.search {
-    @apply mb-6;
-}
-</style>

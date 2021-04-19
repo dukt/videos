@@ -1,5 +1,5 @@
 <template>
-    <div class="video" @click="selectVideo(video)" @dblclick="useVideo(video)" :class="{selected: isVideoSelected}">
+    <div class="video-card" @click="selectVideo(video)" @dblclick="useVideo(video)" :class="{selected: isVideoSelected}">
         <div class="thumb">
             <img :src="video.thumbnail" :alt="video.title">
             <div class="play" @click="play(video)"></div>

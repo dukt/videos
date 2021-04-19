@@ -5,9 +5,6 @@ import StoreOptions from './js/store'
 
 import createStore from './js/createStore'
 
-import './css/field.css'
-// import './sass/field.scss'
-
 Vue.config.productionTip = false
 
 window.VideoFieldConstructor = Vue.extend({

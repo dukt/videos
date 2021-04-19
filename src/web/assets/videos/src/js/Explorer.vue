@@ -1,5 +1,5 @@
 <template>
-    <div id="videos" class="explorer-container">
+    <div id="videos" class="videos-explorer h-full">
         <div class="body has-sidebar">
             <div class="content has-sidebar">
                 <template v-if="loading">

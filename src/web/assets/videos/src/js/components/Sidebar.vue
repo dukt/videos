@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div class="gateways">
+        <div class="gateways px-2">
             <div class="select fullwidth">
                 <select v-model="currentGatewayHandle">
                     <option v-for="(gateway, gatewayKey) in gateways" :value="gateway.handle" :key="`gateway-${gatewayKey}`">{{gateway.name}}</option>

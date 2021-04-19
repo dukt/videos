@@ -1,15 +1,3 @@
-.videos-field {
-    img {
-        @apply w-full;
-    }
-}
-
-.new-videoselectormodal {
-    .footer {
-        @apply absolute w-full m-0 left-0 bottom-0;
-    }
-}
-
 .preview {
     @apply mt-6 flex;
 

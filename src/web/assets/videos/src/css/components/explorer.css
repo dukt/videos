@@ -1,0 +1,15 @@
+.videos-explorer {
+    .search {
+        @apply mb-6;
+    }
+
+    .video-card {
+        &:hover,
+        &.selected {
+            .thumb {
+                -webkit-box-shadow: 0 0 0 3px #da5a47;
+                box-shadow: 0 0 0 3px #da5a47;
+            }
+        }
+    }
+}

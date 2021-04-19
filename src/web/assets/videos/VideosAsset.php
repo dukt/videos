@@ -35,9 +35,6 @@ class VideosAsset extends AssetBundle
             $this->js[] = 'js/field.js';
             $this->js[] = 'js/player.js';
             $this->css[] = 'css/videos.css';
-            $this->css[] = 'css/explorer.css';
-            $this->css[] = 'css/field.css';
-            $this->css[] = 'css/player.css';
         } else {
             $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
             $this->js[] = 'https://localhost:8090/js/videos.js';
