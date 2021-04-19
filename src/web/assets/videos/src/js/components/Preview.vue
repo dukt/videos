@@ -1,7 +1,7 @@
 <template>
     <div v-if="previewVideo && !previewError" class="preview">
         <div class="thumb-wrapper">
-            <div class="thumb">
+            <div class="videos-thumb">
                 <div class="thumb-ratio">
                     <img :src="previewVideo.thumbnail" :alt="previewVideo.title">
                 </div>

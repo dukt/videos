@@ -3,7 +3,7 @@
     {% for key, video in videos %}
         <div class="video" data-url="{{ video.url }}">
 
-            <div class="thumb">
+            <div class="videos-thumb">
                 <img src="{{ video.thumbnailSource }}"/>
                 <div class="duration">{{ video.duration }}</div>
                 <div class="play" data-gateway="{{ video.gatewayHandle }}"
