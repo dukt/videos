@@ -175,16 +175,11 @@
 
 <style lang="scss">
     .videos-vue-field {
-        margin-top: 20px;
-
         .videos-vue-input {
-            position: relative;
+            @apply relative;
 
             .browse-btn {
-                position: absolute;
-                top: 7px;
-                right: 10px;
-                font-size: .9em;
+                @apply absolute top-2.5 right-4 text-xs;
             }
         }
     }

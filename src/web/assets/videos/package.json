@@ -12,9 +12,13 @@
     "vuex": "^3.6.2"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.12",
-    "@vue/cli-plugin-eslint": "~4.5.12",
-    "@vue/cli-service": "~4.5.12",
+    "@tailwindcss/aspect-ratio": "^0.2.0",
+    "@tailwindcss/line-clamp": "^0.2.0",
+    "@tailwindcss/postcss7-compat": "^2.1.0",
+    "@vue/cli-plugin-babel": "~4.4.6",
+    "@vue/cli-plugin-eslint": "~4.4.6",
+    "@vue/cli-service": "~4.4.6",
+    "autoprefixer": "^9.8.6",
     "axios": "^0.21.1",
     "babel-eslint": "^10.1.0",
     "clone-deep": "^4.0.1",
@@ -23,7 +27,10 @@
     "eslint-plugin-vue": "^7.9.0",
     "lodash.debounce": "^4.0.8",
     "node-sass": "^5.0.0",
+    "postcss": "^7.0.35",
+    "postcss-nested": "^4.2.3",
     "sass-loader": "^10.1.1",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0",
     "vue-template-compiler": "^2.6.12"
   },
   "eslintConfig": {
@@ -38,11 +45,6 @@
     "rules": {},
     "parserOptions": {
       "parser": "babel-eslint"
-    }
-  },
-  "postcss": {
-    "plugins": {
-      "autoprefixer": {}
     }
   },
   "browserslist": [

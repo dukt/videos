@@ -53,6 +53,6 @@
 
 <style>
 .search {
-    margin-bottom: 24px;
+    @apply mb-6;
 }
 </style>

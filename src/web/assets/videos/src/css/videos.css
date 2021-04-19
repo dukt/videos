@@ -1,0 +1,53 @@
+/*@tailwind base;*/
+@tailwind components;
+
+.videos-field,
+.explorer-container {
+    .thumb {
+        @apply relative block rounded border-0 border-transparent overflow-hidden;
+        padding-top: 54.5%;
+
+        img {
+            @apply absolute inset-0 w-full rounded;
+        }
+
+        .duration {
+            @apply absolute block text-white font-bold opacity-75;
+            background: #333;
+            bottom: 4px;
+            right: 4px;
+            line-height: 1em;
+            padding: 3px 4px;
+            font-size: 0.8em;
+        }
+
+        .play {
+            @apply absolute top-1/2 left-1/2 rounded-full opacity-0 border-solid border-2 border-white;
+            @apply w-8 h-8 -mt-5 -ml-4;
+            @apply bg-black bg-no-repeat bg-center;
+            background-image: url('~@/img/play.png');
+
+            &:hover {
+                @apply cursor-pointer;
+                opacity: .7 !important;
+            }
+        }
+
+        &:hover {
+            .play {
+                @apply opacity-50;
+            }
+        }
+
+        .private {
+            @apply text-white absolute opacity-75;
+            width: 13px;
+            height: 13px;
+            top: 7px;
+            right: 7px;
+            text-shadow: 0 0 2px #000000;
+        }
+    }
+}
+
+@tailwind utilities;

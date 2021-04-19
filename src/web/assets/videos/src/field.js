@@ -5,7 +5,8 @@ import StoreOptions from './js/store'
 
 import createStore from './js/createStore'
 
-import './sass/field.scss'
+import './css/field.css'
+// import './sass/field.scss'
 
 Vue.config.productionTip = false
 

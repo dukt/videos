@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import Player from './js/Player.vue'
 
-import './sass/player.scss'
+import './css/player.css'
+// import './sass/player.scss'
 
 Vue.config.productionTip = false
 

@@ -16,6 +16,10 @@ module.exports = {
         disableHostCheck: true,
         port: process.env.DEV_SERVER_PORT || 8090,
         https: true,
+        contentBase: [
+            '../../../templates/'
+        ],
+        watchContentBase: true,
     },
 
     chainWebpack: config => {
@@ -23,7 +27,11 @@ module.exports = {
         config.entryPoints.delete('app')
 
         // Add entry points
-        config.entry('explorer')
+        config
+            .entry('videos')
+            .add('./src/videos.js')
+            .end()
+            .entry('explorer')
             .add('./src/explorer.js')
             .end()
             .entry('field')
