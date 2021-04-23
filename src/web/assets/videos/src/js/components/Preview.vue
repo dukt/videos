@@ -1,5 +1,5 @@
 <template>
-    <div v-if="previewVideo && !previewError" class="preview mt-6 flex flex-nowrap items-start">
+    <div v-if="previewVideo && !previewError" class="preview mt-4 flex flex-nowrap items-start">
         <div class="flex-shrink-0">
             <div class="videos-thumb relative pt-0">
                 <div class="aspect-w-16 aspect-h-9 w-44">
