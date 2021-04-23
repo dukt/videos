@@ -1,9 +1,9 @@
 <template>
-    <div v-if="previewVideo && !previewError" class="preview mt-6 flex items-start">
+    <div v-if="previewVideo && !previewError" class="preview mt-6 flex flex-nowrap items-start">
         <div class="preview-thumb flex-shrink-0">
-            <div class="videos-thumb relative pt-0 mr-4">
+            <div class="videos-thumb relative pt-0">
                 <div class="thumb-ratio aspect-w-16 aspect-h-9 w-44">
-                    <img :src="previewVideo.thumbnail" :alt="previewVideo.title">
+                    <img class="w-44" :src="previewVideo.thumbnail" :alt="previewVideo.title">
                 </div>
                 <div class="duration">
                     {{previewVideo.duration}}
@@ -11,7 +11,7 @@
                 <div class="play" @click="$emit('playVideo', previewVideo)"></div>
             </div>
         </div>
-        <div class="description flex-shrink max-w-sm min-w-0">
+        <div class="description ml-2 flex-shrink max-w-sm min-w-0">
             <div class="title line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
 
             <ul>
