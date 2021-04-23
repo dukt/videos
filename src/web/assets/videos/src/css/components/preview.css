@@ -1,7 +1,7 @@
 .preview {
     @apply mt-6 flex;
 
-    .thumb-wrapper {
+    .preview-thumb {
         @apply flex-shrink-0;
 
         .videos-thumb {
