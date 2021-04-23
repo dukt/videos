@@ -6,7 +6,7 @@
             <img :src="video.thumbnail" :alt="video.title">
             <div class="play" @click="play(video)"></div>
         </div>
-        <div>{{video.title}}</div>
+        <div class="mt-2 line-clamp-2">{{video.title}}</div>
     </div>
 </template>
 
