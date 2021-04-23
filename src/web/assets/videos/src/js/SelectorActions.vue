@@ -1,5 +1,5 @@
 <template>
-    <div class="selector-actions">
+    <div>
         <div class="buttons right">
             <div class="btn" @click="cancel()">Cancel</div>
             <div class="btn submit" :class="{disabled: !hasSelectedVideo}" @click="useSelectedVideo()">Select</div>

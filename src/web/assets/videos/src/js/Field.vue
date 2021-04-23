@@ -69,7 +69,7 @@
                 const $videoSelectorModal = $('<div class="videoselectormodal modal elementselectormodal"></div>').appendTo(Garnish.$bod)
                 const $explorerContainer = $('<div class="new-explorer-container"/>').appendTo($videoSelectorModal),
                     $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
-                    $selectorActions = $('<div class="selector-actions"/>').appendTo($footer)
+                    $selectorActions = $('<div/>').appendTo($footer)
 
                 this.videoSelectorModal = new Garnish.Modal($videoSelectorModal, {
                     visible: false,
@@ -137,7 +137,7 @@
                     this.videoSelectorModal.hide()
                 }
 
-                const $playerModal = $('<div class="videos-player-modal modal modalx"></div>').appendTo(Garnish.$bod)
+                const $playerModal = $('<div class="videos-player-modal modal"></div>').appendTo(Garnish.$bod)
 
                 const options = {
                     data: function() {
