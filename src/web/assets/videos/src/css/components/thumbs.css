@@ -7,13 +7,7 @@
     }
 
     .duration {
-        @apply absolute block text-white font-bold opacity-75;
-        background: #333;
-        bottom: 4px;
-        right: 4px;
-        line-height: 1em;
-        padding: 3px 4px;
-        font-size: 0.8em;
+        @apply absolute block text-white font-bold leading-3 rounded-sm bg-black bg-opacity-80 text-xs px-[4px] py-[3px] bottom-1 right-1;
     }
 
     .play {
