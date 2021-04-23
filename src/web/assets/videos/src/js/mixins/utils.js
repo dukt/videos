@@ -3,7 +3,6 @@
 export default {
     methods: {
         getCollectionUniqueKey(gateway, sectionKey, collectionKey) {
-            console.log('getCollectionUniqueKey', gateway, sectionKey, collectionKey)
             return gateway + ':' + sectionKey + ':' + collectionKey
         },
 
