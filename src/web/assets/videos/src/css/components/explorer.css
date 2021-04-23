@@ -1,8 +1,4 @@
 .videos-explorer {
-    .search {
-        @apply mb-6;
-    }
-
     .video-card {
         &:hover,
         &.selected {
