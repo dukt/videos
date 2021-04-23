@@ -1,31 +1,5 @@
 {% import "_includes/forms" as forms %}
 
 <div class="videos-field">
-    {#{{ forms.hidden({
-        id:id,
-        name: name,
-        placeholder: "Enter a video URL from YouTube or Vimeo "|t('videos'),
-        value: (value ? value.url : '')
-    }) }}
-#}
-    {#
-    {{ forms.text({
-        id:id,
-        name: name,
-        placeholder: "Enter a video URL from YouTube or Vimeo "|t('videos'),
-        value: (value ? value.url : '')
-    }) }}
-
-    <div class="spinner hidden"></div>
-
-    <a class="small icon videos-add add-input">{{ "Browse videos..."|t('videos') }}</a>
-
-    <div class="preview">{{ preview|raw }}</div>
-
-    <div class="clear"></div>
-
-    <hr>
-    #}
-
     <div id="{{ id }}-vue"></div>
 </div>
