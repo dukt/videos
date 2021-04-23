@@ -1,7 +1,13 @@
 <template>
     <div id="videos" class="h-full">
-        <div class="body has-sidebar">
-            <div class="content has-sidebar">
+        <div class="body" :class="{
+            'has-sidebar': !loading,
+            'flex justify-center': loading
+        }">
+            <div :class="{
+            'content has-sidebar': !loading,
+            '': loading,
+        }">
                 <template v-if="loading">
                     <div class="spinner"></div>
                 </template>
