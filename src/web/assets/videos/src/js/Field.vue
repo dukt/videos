@@ -66,7 +66,7 @@
         methods: {
             browse() {
                 // Initialize a Garnish modal
-                const $videoSelectorModal = $('<div class="new-videoselectormodal modal elementselectormodal"></div>').appendTo(Garnish.$bod)
+                const $videoSelectorModal = $('<div class="videoselectormodal modal elementselectormodal"></div>').appendTo(Garnish.$bod)
                 const $explorerContainer = $('<div class="new-explorer-container"/>').appendTo($videoSelectorModal),
                     $footer = $('<div class="footer"/>').appendTo($videoSelectorModal),
                     $selectorActions = $('<div class="selector-actions"/>').appendTo($footer)
