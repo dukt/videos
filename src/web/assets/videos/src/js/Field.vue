@@ -6,12 +6,12 @@
         </div>
 
         <template v-if="previewLoading">
-            <div class="spinner"></div>
+            <div class="spinner mt-2"></div>
         </template>
         <template v-else>
             <p v-if="previewError" class="error">{{previewError}}</p>
 
-            <preview :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
+            <preview class="mt-4" :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
         </template>
     </div>
 </template>
