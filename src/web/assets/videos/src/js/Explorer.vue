@@ -26,7 +26,6 @@
 
 <script>
     import {mapState} from 'vuex'
-    import utils from './helpers/utils'
     import Sidebar from './components/Sidebar'
     import Search from './components/Search'
     import Videos from './components/Videos'
@@ -67,7 +66,7 @@
                         this.$store.commit('updateCurrentGatewayHandle', currentGateway.handle)
 
                         const collection = currentGateway.sections[0].collections[0]
-                        const selectedCollection = utils.getCollectionUniqueKey(currentGateway.handle, 0, 0)
+                        const selectedCollection = this.getCollectionUniqueKey(currentGateway.handle, 0, 0)
                         this.$store.commit('updateSelectedCollection', selectedCollection)
 
                         this.$store.dispatch('getVideos', {

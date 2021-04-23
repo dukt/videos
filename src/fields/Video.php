@@ -70,6 +70,17 @@ class Video extends Field
             $video = VideosHelper::videoToArray($value);
         }
 
+        // Translations
+        $view->registerTranslations('videos', [
+            'Browse videos…',
+            'Cancel',
+            'Enter a video URL from YouTube or Vimeo',
+            'Remove',
+            'Search {gateway} videos…',
+            'Select',
+            '{plays} plays',
+        ]);
+
         // Preview
         if ($value instanceof \dukt\videos\models\Video) {
             $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
