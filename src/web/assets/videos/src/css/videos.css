@@ -1,4 +1,5 @@
-@import "components/explorer.css";
+@tailwind base;
+
 @import "components/field.css";
 @import "components/player.css";
 @import "components/preview.css";

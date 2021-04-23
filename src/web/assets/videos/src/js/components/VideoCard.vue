@@ -1,6 +1,8 @@
 <template>
-    <div class="video-card" @click="selectVideo(video)" @dblclick="useVideo(video)" :class="{selected: isVideoSelected}">
-        <div class="videos-thumb">
+    <div class="video-card group" @click="selectVideo(video)" @dblclick="useVideo(video)">
+        <div class="videos-thumb group-hover:ring group-hover:ring-red-500 group-hover:ring-opacity-80" :class="[{
+            'ring ring-red-500 ring-opacity-80': isVideoSelected
+        }]">
             <img :src="video.thumbnail" :alt="video.title">
             <div class="play" @click="play(video)"></div>
         </div>

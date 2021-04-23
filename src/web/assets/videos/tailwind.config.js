@@ -1,5 +1,8 @@
 module.exports = {
   mode: 'jit',
+  corePlugins: {
+    preflight: false,
+  },
   purge: [
     '../../../templates/**/*.html',
     './src/**/*.{js,jsx,ts,tsx,vue}',
