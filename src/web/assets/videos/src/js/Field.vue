@@ -93,6 +93,13 @@
             },
 
             preview:debounce(function() {
+                if (!this.videoUrl) {
+                    this.previewLoading = false
+                    this.previewVideo = null
+                    this.previewError = null
+                    return null;
+                }
+
                 this.previewLoading = true
                 this.previewError = null
                 
