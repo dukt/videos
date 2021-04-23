@@ -1,5 +1,5 @@
 <template>
-    <div v-if="currentGateway" class="videos-search">
+    <div v-if="currentGateway">
         <input type="search" class="text fullwidth" v-model="query"
                :placeholder="'Search '+currentGateway.name+' videos…'"
                @input="debouncedSearch" @keyup.enter="search"/>

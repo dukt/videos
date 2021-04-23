@@ -9,7 +9,7 @@
                     <sidebar></sidebar>
 
                     <div class="main">
-                        <search></search>
+                        <search class="mb-6"></search>
 
                         <template v-if="videosLoading">
                             <div class="spinner"></div>
