@@ -1,8 +1,8 @@
 <template>
-    <div class="videos-vue-field">
-        <div class="videos-vue-input relative">
+    <div>
+        <div class="relative">
             <input class="text fullwidth" :name="inputName" placeholder="Enter a video URL from YouTube or Vimeo" v-model="videoUrl" @input="preview()">
-            <a class="browse-btn absolute top-2.5 right-4 text-xs" href="#" @click.prevent="browse()">Browse videos…</a>
+            <a class="absolute top-2.5 right-4 text-xs" href="#" @click.prevent="browse()">Browse videos…</a>
         </div>
 
         <template v-if="previewLoading">
