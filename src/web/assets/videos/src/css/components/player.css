@@ -1,11 +1,5 @@
 .videos-player {
     @apply bg-black h-full;
-    display: flex;
-    flex: 1;
-
-    iframe {
-        flex: 1;
-    }
 }
 
 .videos-player-modal {
