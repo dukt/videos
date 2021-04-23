@@ -4,11 +4,11 @@
     .thumb-wrapper {
         @apply flex-shrink-0;
 
-        .thumb {
+        .videos-thumb {
             @apply relative pt-0 mr-4;
 
             .thumb-ratio {
-                @apply aspect-w-16 aspect-h-9 w-32;
+                @apply aspect-w-16 aspect-h-9 w-44;
             }
         }
     }
