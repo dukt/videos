@@ -1,8 +1,6 @@
 @tailwind base;
 
 @import "components/field.css";
-@import "components/player.css";
-@import "components/preview.css";
-@import "components/thumbs.css";
+@import "components/thumb.css";
 
 @tailwind utilities;

@@ -1,8 +1,8 @@
 <template>
-    <div v-if="previewVideo && !previewError" class="preview">
-        <div class="preview-thumb">
-            <div class="videos-thumb">
-                <div class="thumb-ratio">
+    <div v-if="previewVideo && !previewError" class="preview mt-6 flex items-start">
+        <div class="preview-thumb flex-shrink-0">
+            <div class="videos-thumb relative pt-0 mr-4">
+                <div class="thumb-ratio aspect-w-16 aspect-h-9 w-44">
                     <img :src="previewVideo.thumbnail" :alt="previewVideo.title">
                 </div>
                 <div class="duration">
@@ -11,20 +11,20 @@
                 <div class="play" @click="$emit('playVideo', previewVideo)"></div>
             </div>
         </div>
-        <div class="description">
-            <div class="title"><strong>{{previewVideo.title}}</strong></div>
+        <div class="description flex-shrink max-w-sm min-w-0">
+            <div class="title line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
 
             <ul>
-                <li>
+                <li class="truncate block">
                     <a :href="previewVideo.url">{{previewVideo.url}}</a>
                 </li>
-                <li>
+                <li class="truncate block">
                     <a h:ref="previewVideo.authorUrl" class="light">{{ previewVideo.authorName }}</a>
                 </li>
-                <li>
+                <li class="truncate block">
                     {{previewVideo.plays}} plays
                 </li>
-                <li>
+                <li class="truncate block">
                     <a @click.prevent="$emit('removeVideo')">Remove</a>
                 </li>
             </ul>

@@ -1,9 +1,0 @@
-.videos-player {
-    @apply bg-black h-full;
-}
-
-.videos-player-modal {
-    iframe {
-        @apply absolute w-full h-full;
-    }
-}

@@ -137,7 +137,7 @@
                     this.videoSelectorModal.hide()
                 }
 
-                const $playerModal = $('<div class="videos-player-modal modal"></div>').appendTo(Garnish.$bod)
+                const $playerModal = $('<div class="videos-player-modal modal modalx"></div>').appendTo(Garnish.$bod)
 
                 const options = {
                     data: function() {
