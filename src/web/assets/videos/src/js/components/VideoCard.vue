@@ -1,22 +1,19 @@
 <template>
     <div class="group" @click="selectVideo(video)" @dblclick="useVideo(video)">
-        <div class="videos-thumb" :class="[{
-            'ring ring-red-500 ring-opacity-80': isVideoSelected
-        }]">
-            <div class="videos-thumb-image-container">
-                <div class="videos-thumb-image" :style="'background-image: url(' + video.thumbnail + ')'"></div>
-            </div>
-            <div class="play" @click="play(video)"></div>
-            <div class="duration">{{video.duration}}</div>
-        </div>
+        <thumb :selected="isVideoSelected" :url="video.thumbnail" :duration="video.duration" @playVideo="play(video)"></thumb>
         <div class="mt-2 line-clamp-2">{{video.title}}</div>
     </div>
 </template>
 
 <script>
     import { mapActions } from 'vuex'
+    import Thumb from './Thumb'
 
     export default {
+        components: {
+            Thumb,
+        },
+
         props: {
             video: {
                 type: Object,

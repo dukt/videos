@@ -30,17 +30,12 @@ class VideosAsset extends AssetBundle
 
         if (!$this->devServer) {
             $this->sourcePath = __DIR__.'/dist';
-            $this->js[] = 'js/videos.js';
-            $this->js[] = 'js/explorer.js';
-            $this->js[] = 'js/field.js';
-            $this->js[] = 'js/player.js';
-            $this->css[] = 'css/videos.css';
+            $this->js[] = 'js/chunk-vendors.js';
+            $this->js[] = 'js/app.js';
+            $this->css[] = 'css/app.css';
         } else {
             $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
-            $this->js[] = 'https://localhost:8090/js/videos.js';
-            $this->js[] = 'https://localhost:8090/js/explorer.js';
-            $this->js[] = 'https://localhost:8090/js/field.js';
-            $this->js[] = 'https://localhost:8090/js/player.js';
+            $this->js[] = 'https://localhost:8090/js/app.js';
         }
 
         parent::init();

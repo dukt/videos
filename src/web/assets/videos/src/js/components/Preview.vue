@@ -1,8 +1,8 @@
 <template>
     <div v-if="previewVideo && !previewError" class="preview flex flex-nowrap items-start">
         <div class="flex-shrink-0">
-            <div class="videos-thumb pt-0">
-                <div class="videos-thumb-image-container w-44">
+<!--            <div class="videos-thumb pt-0 w-44">
+                <div class="videos-thumb-image-container">
                     <div class="videos-thumb-image" :style="'background-image: url(' + previewVideo.thumbnail + ')'"></div>
                 </div>
 
@@ -10,7 +10,9 @@
                     {{previewVideo.duration}}
                 </div>
                 <div class="play" @click="$emit('playVideo', previewVideo)"></div>
-            </div>
+            </div>-->
+
+            <thumb class="pt-0 w-44" :url="previewVideo.thumbnail" :duration="previewVideo.duration" @playVideo="$emit('playVideo', previewVideo)"></thumb>
         </div>
         <div class="ml-2 flex-shrink max-w-sm min-w-0">
             <div class="line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
@@ -34,7 +36,12 @@
 </template>
 
 <script>
+    import Thumb from './Thumb'
+
     export default {
+        components: {
+            Thumb
+        },
         props: {
             previewVideo: {
                 type: Object,
@@ -47,3 +54,4 @@
         },
     }
 </script>
+

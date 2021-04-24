@@ -21,34 +21,4 @@ module.exports = {
         ],
         watchContentBase: true,
     },
-
-    chainWebpack: config => {
-        // Remove the standard entry point
-        config.entryPoints.delete('app')
-
-        // Add entry points
-        config
-            .entry('videos')
-            .add('./src/videos.js')
-            .end()
-            .entry('explorer')
-            .add('./src/explorer.js')
-            .end()
-            .entry('field')
-            .add('./src/field.js')
-            .end()
-            .entry('player')
-            .add('./src/player.js')
-            .end()
-
-        // Preserve whitespace
-        config.module
-            .rule('vue')
-            .use('vue-loader')
-            .loader('vue-loader')
-            .tap(options => {
-                options.compilerOptions.preserveWhitespace = true
-                return options
-            })
-    },
 }
