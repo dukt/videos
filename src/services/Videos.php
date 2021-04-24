@@ -21,6 +21,14 @@ use dukt\videos\Plugin as VideosPlugin;
  */
 class Videos extends Component
 {
+    // Public Properties
+    // =========================================================================
+
+    /**
+     * @var bool Whether the devServer should be used
+     */
+    public $useDevServer = false;
+
     // Public Methods
     // =========================================================================
 

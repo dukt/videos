@@ -10,6 +10,7 @@ namespace dukt\videos\web\assets\videos;
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
 use craft\web\assets\vue\VueAsset;
+use dukt\videos\Plugin;
 
 class VideosAsset extends AssetBundle
 {
@@ -28,7 +29,7 @@ class VideosAsset extends AssetBundle
             VueAsset::class,
         ];
 
-        if (!$this->devServer) {
+        if (!Plugin::getInstance()->getVideos()->useDevServer) {
             $this->sourcePath = __DIR__.'/dist';
             $this->js[] = 'js/chunk-vendors.js';
             $this->js[] = 'js/app.js';
