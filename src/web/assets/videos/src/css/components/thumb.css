@@ -33,11 +33,6 @@
     }
 
     .private {
-        @apply text-white absolute opacity-75;
-        width: 13px;
-        height: 13px;
-        top: 7px;
-        right: 7px;
-        text-shadow: 0 0 2px #000000;
+        @apply text-white absolute bottom-1 left-1 opacity-80;
     }
 }

@@ -1,7 +1,18 @@
 <template>
     <div class="group" @click="selectVideo(video)" @dblclick="useVideo(video)">
         <thumb :selected="isVideoSelected" :url="video.thumbnail" :duration="video.duration" @playVideo="play(video)"></thumb>
-        <div class="mt-2 line-clamp-2">{{video.title}}</div>
+
+        <div class="mt-2 flex flex-row flex-nowrap items-center">
+            <template v-if="video.private">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1"
+                     fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                          stroke-width="2"
+                          d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                </svg>
+            </template>
+            <div class="flex-1 line-clamp-2">{{video.title}}</div>
+        </div>
     </div>
 </template>
 

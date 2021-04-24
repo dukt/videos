@@ -160,7 +160,8 @@ class VideosHelper
             'authorName',
             'authorUrl',
             'durationSeconds',
-            'plays'
+            'plays',
+            'private'
         ]);
 
         $video['thumbnail'] = $videoModel->getThumbnail();
