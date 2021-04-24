@@ -32,9 +32,3 @@ export default {
     }
 }
 </script>
-
-<style>
-.videos-thumb {
-    border: 10px solid red !important;
-}
-</style>
