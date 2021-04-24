@@ -1,9 +1,9 @@
 <template>
     <div v-if="previewVideo && !previewError" class="preview flex flex-nowrap items-start">
         <div class="flex-shrink-0">
-            <div class="videos-thumb relative pt-0">
-                <div class="aspect-w-16 aspect-h-9 w-44">
-                    <div class="w-44 h-full bg-center bg-cover" :style="'background-image: url(' + previewVideo.thumbnail + ')'"></div>
+            <div class="videos-thumb pt-0">
+                <div class="videos-thumb-image-container w-44">
+                    <div class="videos-thumb-image" :style="'background-image: url(' + previewVideo.thumbnail + ')'"></div>
                 </div>
 
                 <div class="duration">
