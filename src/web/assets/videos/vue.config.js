@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 module.exports = {
     filenameHashing: false,
     publicPath: process.env.PUBLIC_PATH || "https://localhost:8090",
