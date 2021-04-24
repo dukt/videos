@@ -6,9 +6,10 @@
 import Vue from "vue"
 import Vuex from "vuex"
 import cloneDeep from "clone-deep"
+import storeOptions from '@/js/storeOptions'
 
 Vue.use(Vuex)
 
-export default (store) => {
-    return new Vuex.Store(cloneDeep(store))
+export default () => {
+    return new Vuex.Store(cloneDeep(storeOptions))
 }

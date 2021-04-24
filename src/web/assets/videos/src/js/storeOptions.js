@@ -1,5 +1,6 @@
 /* global Craft */
-import videosApi from '../api/videos';
+
+import videosApi from '@/js/api/videos';
 
 export default {
     strict: true,
