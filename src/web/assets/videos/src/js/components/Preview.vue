@@ -3,8 +3,9 @@
         <div class="flex-shrink-0">
             <div class="videos-thumb relative pt-0">
                 <div class="aspect-w-16 aspect-h-9 w-44">
-                    <img class="w-44" :src="previewVideo.thumbnail" :alt="previewVideo.title">
+                    <div class="w-44 h-full bg-center bg-cover" :style="'background-image: url(' + previewVideo.thumbnail + ')'"></div>
                 </div>
+
                 <div class="duration">
                     {{previewVideo.duration}}
                 </div>
