@@ -6,6 +6,7 @@ Changelog
 ### Changed
 - Renamed Vimeo’s “favorites” to “likes”.
 - The plugin’s icon has been updated.
+- Use Vue.js for JavaScript interactions.
 
 ### Fixed
 - Fixed a bug where Vimeo video listing might not be loaded properly when the plugin was unable to find one of the videos’ thumbnail.
