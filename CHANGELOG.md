@@ -4,6 +4,7 @@ Changelog
 ## Unreleased
 
 ### Changed
+- Renamed Vimeo’s “favorites” to “likes”.
 - The plugin’s icon has been updated.
 
 ### Fixed

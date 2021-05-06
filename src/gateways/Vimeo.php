@@ -105,8 +105,8 @@ class Vimeo extends Gateway
                     'method' => 'uploads',
                 ]),
                 new Collection([
-                    'name' => 'Favorites',
-                    'method' => 'favorites',
+                    'name' => 'Likes',
+                    'method' => 'likes',
                 ]),
             ]
         ]);
@@ -298,7 +298,7 @@ class Vimeo extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosFavorites(array $params = []): array
+    protected function getVideosLikes(array $params = []): array
     {
         return $this->performVideosRequest('me/likes', $params);
     }
