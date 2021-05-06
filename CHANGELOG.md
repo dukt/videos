@@ -6,6 +6,9 @@ Changelog
 ### Changed
 - The plugin’s icon has been updated.
 
+### Fixed
+- Fixed a bug where Vimeo video listing might not be loaded properly when the plugin was unable to find one of the videos’ thumbnail.
+
 ## 2.0.14 - 2021-04-08
 
 ### Added

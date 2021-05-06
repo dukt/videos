@@ -9,6 +9,7 @@ namespace dukt\videos\helpers;
 
 use Craft;
 use craft\helpers\FileHelper;
+use dukt\videos\errors\ApiResponseException;
 use dukt\videos\models\Video;
 use dukt\videos\Plugin;
 
@@ -108,7 +109,15 @@ class VideosHelper
             }
 
             if (!$originalPath) {
-                $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
+                try {
+                    $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
+                } catch(ApiResponseException $e) {
+                    Craft::info('Couldn’t get video thumbnail:'."\r\n"
+                        .'Message: '."\r\n".$e->getMessage()."\r\n"
+                        .'Trace: '."\r\n".$e->getTraceAsString(), __METHOD__);
+                    return null;
+                }
+
                 $url = $video->thumbnailSource;
 
                 $name = pathinfo($url, PATHINFO_BASENAME);
