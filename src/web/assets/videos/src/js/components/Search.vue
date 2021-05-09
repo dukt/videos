@@ -35,6 +35,7 @@
                 this.debouncedSearch.cancel()
 
                 this.$store.commit('updateSelectedCollection', null)
+                this.$store.commit('updateVideosLoading', true)
 
                 this.$store.dispatch('getVideos', {
                         gateway: this.currentGateway.handle,
@@ -43,7 +44,11 @@
                             q: this.query
                         },
                     })
+                    .then(() => {
+                        this.$store.commit('updateVideosLoading', false)
+                    })
                     .catch(() => {
+                        this.$store.commit('updateVideosLoading', false)
                         this.$store.dispatch('displayError', 'Couldn’t get videos.')
                     })
             }

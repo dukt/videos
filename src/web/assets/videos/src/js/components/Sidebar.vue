@@ -57,13 +57,17 @@
                 const selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
 
                 this.$store.commit('updateSelectedCollection', selectedCollection)
-
+                this.$store.commit('updateVideosLoading', true)
                 this.$store.dispatch('getVideos', {
                     gateway: this.currentGatewayHandle,
                     method: collection.method,
                     options: collection.options,
                 })
+                    .then(() => {
+                        this.$store.commit('updateVideosLoading', false)
+                    })
                     .catch(() => {
+                        this.$store.commit('updateVideosLoading', false)
                         this.$store.dispatch('displayError', 'Couldn’t get videos.')
                     })
             },

@@ -42,11 +42,9 @@ export default {
         },
 
         getVideos({commit}, {gateway, method, options}) {
-            commit('updateVideosLoading', true)
 
             return videosApi.getVideos(gateway, method, options)
                 .then((response) => {
-                    commit('updateVideosLoading', false)
                     commit('updateVideos', {
                         videos: response.data.videos,
                         videosMore: response.data.videosMore,
@@ -54,7 +52,6 @@ export default {
                     })
                 })
                 .catch((error) => {
-                    commit('updateVideosLoading', false)
                     commit('updateVideos', {
                         videos: [],
                         videosMore: null,
