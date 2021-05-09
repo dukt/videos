@@ -14,7 +14,7 @@
                 <template v-else>
                     <sidebar></sidebar>
 
-                    <div class="main">
+                    <div ref="main" class="main" @scroll="onScroll">
                         <search class="mb-6"></search>
 
                         <template v-if="videosLoading">
@@ -100,6 +100,29 @@
                     })
             },
 
+            onScroll() {
+                this.maybeLoadMore()
+            },
+
+            maybeLoadMore() {
+                if (!this.videosMoreToken) {
+                    return false
+                }
+
+                if (!this.canLoadMore()) {
+                    return false
+                }
+
+                this.loadMore();
+            },
+
+            canLoadMore() {
+                const scrollHeight = this.$refs.main.scrollHeight,
+                    scrollTop = this.$refs.main.scrollTop,
+                    height = this.$refs.main.clientHeight;
+
+                return (scrollHeight - scrollTop <= height + 15)
+            },
         },
 
         mounted() {
