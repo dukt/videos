@@ -22,6 +22,15 @@
                         </template>
                         <template v-else>
                             <videos :videos="videos"></videos>
+
+                            <div v-if="videosMoreToken">
+                                <template v-if="!loadingMore">
+                                    <button class="btn" @click="loadMore()">Load More</button>
+                                </template>
+                                <template v-else>
+                                    <div class="spinner"></div>
+                                </template>
+                            </div>
                         </template>
                     </div>
                 </template>
@@ -48,16 +57,49 @@
         data() {
             return {
                 loading: false,
+                loadingMore: false,
             }
         },
 
         computed: {
             ...mapState({
-                currentGatewayHandle: state => state.currentGatewayHandle,
                 gateways: state => state.gateways,
                 videos: state => state.videos,
+                videosGateway: state => state.videosGateway,
+                videosMethod: state => state.videosMethod,
+                videosOptions: state => state.videosOptions,
+                videosMoreToken: state => state.videosMoreToken,
                 videosLoading: state => state.videosLoading,
             }),
+        },
+
+        methods: {
+            loadMore() {
+                if (this.loadingMore) {
+                    return
+                }
+
+                const options = this.videosOptions ? JSON.parse(JSON.stringify(this.videosOptions)) : {}
+
+                options.moreToken = this.videosMoreToken
+
+                this.loadingMore = true
+
+                this.$store.dispatch('getVideos', {
+                        gateway: this.videosGateway,
+                        method: this.videosMethod,
+                        options: options,
+                        append: true,
+                    })
+                    .then(() => {
+                        this.loadingMore = false
+                    })
+                    .catch(() => {
+                        this.$store.dispatch('displayError', 'Couldn’t get videos.')
+                        this.loadingMore = false
+                    })
+            },
+
         },
 
         mounted() {

@@ -12,6 +12,10 @@ export default {
         selectedVideo: null,
         playingVideo: null,
         videos: [],
+        videosGateway: null,
+        videosMethod: null,
+        videosOptions: null,
+        videosMoreToken: null,
         videoUrl: null,
     },
 
@@ -41,21 +45,32 @@ export default {
                 })
         },
 
-        getVideos({commit}, {gateway, method, options}) {
-
+        getVideos({commit, state}, {gateway, method, options, append}) {
             return videosApi.getVideos(gateway, method, options)
                 .then((response) => {
+                    let videos
+
+                    if (append === true) {
+                        videos = [
+                            ...state.videos,
+                            ...response.data.videos
+                        ]
+                    } else {
+                        videos = response.data.videos
+                    }
+
                     commit('updateVideos', {
-                        videos: response.data.videos,
-                        videosMore: response.data.videosMore,
-                        videosToken: response.data.videosToken,
+                        videos: videos,
+                        videosGateway: gateway,
+                        videosMethod: method,
+                        videosOptions: options,
+                        videosMoreToken: response.data.moreToken,
                     })
                 })
                 .catch((error) => {
                     commit('updateVideos', {
                         videos: [],
-                        videosMore: null,
-                        videosToken: null,
+                        videosMoreToken: null,
                     })
 
                     throw error
@@ -76,10 +91,12 @@ export default {
     },
 
     mutations: {
-        updateVideos(state, {videos, videosMore, videosToken}) {
+        updateVideos(state, {videos, videosGateway, videosMethod, videosOptions, videosMoreToken}) {
             state.videos = videos
-            state.videosMore = videosMore
-            state.videosToken = videosToken
+            state.videosGateway = videosGateway
+            state.videosMethod = videosMethod
+            state.videosOptions = videosOptions
+            state.videosMoreToken = videosMoreToken
         },
 
         updateGateways(state, response) {
