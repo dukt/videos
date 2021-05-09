@@ -91,24 +91,16 @@ export default {
     },
 
     mutations: {
-        updateVideos(state, {videos, videosGateway, videosMethod, videosOptions, videosMoreToken}) {
-            state.videos = videos
-            state.videosGateway = videosGateway
-            state.videosMethod = videosMethod
-            state.videosOptions = videosOptions
-            state.videosMoreToken = videosMoreToken
+        updateCurrentGatewayHandle(state, handle) {
+            state.currentGatewayHandle = handle
         },
 
         updateGateways(state, response) {
             state.gateways = response.data
         },
 
-        updateCurrentGatewayHandle(state, handle) {
-            state.currentGatewayHandle = handle
-        },
-
-        updateVideosLoading(state, loading) {
-            state.videosLoading = loading
+        updatePlayingVideo(state, playingVideo) {
+            state.playingVideo = playingVideo
         },
 
         updateSelectedCollection(state, selectedCollection) {
@@ -119,8 +111,16 @@ export default {
             state.selectedVideo = selectedVideo
         },
 
-        updatePlayingVideo(state, playingVideo) {
-            state.playingVideo = playingVideo
+        updateVideos(state, {videos, videosGateway, videosMethod, videosOptions, videosMoreToken}) {
+            state.videos = videos
+            state.videosGateway = videosGateway
+            state.videosMethod = videosMethod
+            state.videosOptions = videosOptions
+            state.videosMoreToken = videosMoreToken
+        },
+
+        updateVideosLoading(state, loading) {
+            state.videosLoading = loading
         },
 
         updateVideoUrl(state, videoUrl) {
