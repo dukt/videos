@@ -3,6 +3,9 @@ Changelog
 
 ## Unreleased
 
+### Added
+- Added Vimeo folders support.
+
 ### Changed
 - Renamed Vimeo’s “Playlists” section to “Showcases”.
 - Renamed Vimeo’s “Favorites” to “Likes”.

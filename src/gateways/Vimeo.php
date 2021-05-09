@@ -112,6 +112,27 @@ class Vimeo extends Gateway
         ]);
 
 
+        // Folders
+
+        $folders = $this->getCollectionsFolders();
+
+        $collections = [];
+
+        foreach ($folders as $folder) {
+            $collections[] = new Collection([
+                'name' => $folder['title'],
+                'method' => 'folder',
+                'options' => ['id' => $folder['id']]
+            ]);
+        }
+
+        if (\count($collections) > 0) {
+            $sections[] = new Section([
+                'name' => 'Folders',
+                'collections' => $collections,
+            ]);
+        }
+
         // Albums
 
         $albums = $this->getCollectionsAlbums();
@@ -275,6 +296,23 @@ class Vimeo extends Gateway
     }
 
     /**
+     * Returns a list of videos in an folder
+     *
+     * @param array $params
+     *
+     * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
+    protected function getVideosFolder(array $params = []): array
+    {
+        $folderId = $params['id'];
+        unset($params['id']);
+
+        // folders/#folder_id
+        return $this->performVideosRequest('me/folders/'.$folderId.'/videos', $params);
+    }
+
+    /**
      * Returns a list of videos in a channel
      *
      * @param array $params
@@ -371,6 +409,22 @@ class Vimeo extends Gateway
      * @throws CollectionParsingException
      * @throws \dukt\videos\errors\ApiResponseException
      */
+    private function getCollectionsFolders(array $params = []): array
+    {
+        $data = $this->get('me/folders', [
+            'query' => $this->queryFromParams($params)
+        ]);
+
+        return $this->parseCollections('folder', $data['data']);
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
     private function getCollectionsChannels(array $params = []): array
     {
         $data = $this->get('me/channels', [
@@ -394,6 +448,9 @@ class Vimeo extends Gateway
         foreach ($collections as $collection) {
 
             switch ($type) {
+                case 'folder':
+                    $parsedCollection = $this->parseCollectionFolder($collection);
+                    break;
                 case 'album':
                     $parsedCollection = $this->parseCollectionAlbum($collection);
                     break;
@@ -423,6 +480,22 @@ class Vimeo extends Gateway
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
         $collection['totalVideos'] = $data['stats']['videos'];
+
+        return $collection;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseCollectionFolder($data): array
+    {
+        $collection = [];
+        $collection['id'] = substr($data['uri'], strpos($data['uri'], '/projects/') + \strlen('/projects/'));
+        $collection['url'] = $data['uri'];
+        $collection['title'] = $data['name'];
+        $collection['totalVideos'] = $data['metadata']['connections']['videos']['total'] ?? 0;
 
         return $collection;
     }
