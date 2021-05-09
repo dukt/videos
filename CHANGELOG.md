@@ -4,7 +4,8 @@ Changelog
 ## Unreleased
 
 ### Changed
-- Renamed Vimeo’s “favorites” to “likes”.
+- Renamed Vimeo’s “Playlists” section to “Showcases”.
+- Renamed Vimeo’s “Favorites” to “Likes”.
 - The plugin’s icon has been updated.
 - Use Vue.js for JavaScript interactions.
 

@@ -128,7 +128,7 @@ class Vimeo extends Gateway
 
         if (\count($collections) > 0) {
             $sections[] = new Section([
-                'name' => 'Playlists',
+                'name' => 'Showcases',
                 'collections' => $collections,
             ]);
         }
