@@ -689,8 +689,6 @@ class Vimeo extends Gateway
             $query['page'] = 1;
         }
 
-        // $params['moreToken'] = $query['page'] + 1;
-
         if (!empty($params['q'])) {
             $query['query'] = $params['q'];
             unset($params['q']);
