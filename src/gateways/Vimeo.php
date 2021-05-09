@@ -678,15 +678,15 @@ class Vimeo extends Gateway
      */
     private function queryFromParams(array $params = []): array
     {
-        $query = [];
-
-        $query['full_response'] = 1;
+        $query = [
+            'full_response' => 1,
+            'page' => 1,
+            'per_page' => $this->getVideosPerPage(),
+        ];
 
         if (!empty($params['moreToken'])) {
             $query['page'] = $params['moreToken'];
             unset($params['moreToken']);
-        } else {
-            $query['page'] = 1;
         }
 
         if (!empty($params['q'])) {
@@ -694,7 +694,6 @@ class Vimeo extends Gateway
             unset($params['q']);
         }
 
-        $query['per_page'] = $this->getVideosPerPage();
         $query = array_merge($query, $params);
 
         return $query;
