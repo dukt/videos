@@ -5,18 +5,18 @@ import videosApi from '@/js/api/videos';
 export default {
     strict: true,
     state: {
-        videosLoading: false,
-        gateways: [],
         currentGatewayHandle: null,
+        gateways: [],
+        playingVideo: null,
         selectedCollection: null,
         selectedVideo: null,
-        playingVideo: null,
+        videoUrl: null,
         videos: [],
         videosGateway: null,
+        videosLoading: false,
         videosMethod: null,
-        videosOptions: null,
         videosMoreToken: null,
-        videoUrl: null,
+        videosOptions: null,
     },
 
     getters: {
