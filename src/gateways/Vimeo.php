@@ -103,10 +103,12 @@ class Vimeo extends Gateway
                 new Collection([
                     'name' => 'Uploads',
                     'method' => 'uploads',
+                    'icon' => 'video-camera',
                 ]),
                 new Collection([
                     'name' => 'Likes',
                     'method' => 'likes',
+                    'icon' => 'thumb-up'
                 ]),
             ]
         ]);
@@ -122,7 +124,8 @@ class Vimeo extends Gateway
             $collections[] = new Collection([
                 'name' => $folder['title'],
                 'method' => 'folder',
-                'options' => ['id' => $folder['id']]
+                'options' => ['id' => $folder['id']],
+                'icon' => 'folder',
             ]);
         }
 
@@ -143,7 +146,8 @@ class Vimeo extends Gateway
             $collections[] = new Collection([
                 'name' => $album['title'],
                 'method' => 'album',
-                'options' => ['id' => $album['id']]
+                'options' => ['id' => $album['id']],
+                'icon' => 'layout'
             ]);
         }
 

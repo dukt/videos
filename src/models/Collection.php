@@ -34,4 +34,10 @@ class Collection extends Model
      * @var mixed|null Options
      */
     public $options;
+
+    /**
+     * @var string|null Icon
+     */
+    public $icon;
+
 }

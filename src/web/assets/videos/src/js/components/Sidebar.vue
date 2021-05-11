@@ -16,7 +16,12 @@
 
                         <template v-for="(collection, collectionKey) in section.collections">
                             <li :key="`collection-${sectionKey}-${collectionKey}`">
-                                <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">{{collection.name}}</a>
+                                <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">
+                                    <template v-if="collection.icon">
+                                        <component :is="collection.icon" class="text-blue-500 w-5 h-5 mr-2"></component>
+                                    </template>
+                                    {{collection.name}}
+                                </a>
                             </li>
                         </template>
                     </template>
@@ -28,8 +33,21 @@
 
 <script>
     import {mapState, mapGetters} from 'vuex'
+    import ThumbUp from '@/icons/ThumbUp';
+    import Folder from '@/icons/Folder';
+    import Layout from '@/icons/Layout';
+    import VideoCamera from '@/icons/VideoCamera';
+    import List from '@/icons/List';
 
     export default {
+
+        components: {
+            ThumbUp,
+            Folder,
+            Layout,
+            VideoCamera,
+            List,
+        },
 
         computed: {
 

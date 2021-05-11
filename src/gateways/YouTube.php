@@ -138,10 +138,12 @@ class YouTube extends Gateway
                 new Collection([
                     'name' => 'Uploads',
                     'method' => 'uploads',
+                    'icon' => 'video-camera',
                 ]),
                 new Collection([
                     'name' => 'Liked videos',
                     'method' => 'likes',
+                    'icon' => 'thumb-up'
                 ])
             ]
         ]);
@@ -158,6 +160,7 @@ class YouTube extends Gateway
                 'name' => $playlist['title'],
                 'method' => 'playlist',
                 'options' => ['id' => $playlist['id']],
+                'icon' => 'list'
             ]);
         }
 

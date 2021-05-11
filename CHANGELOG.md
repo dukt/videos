@@ -5,6 +5,7 @@ Changelog
 
 ### Added
 - Added Vimeo folders support.
+- Added collection icon support.
 
 ### Changed
 - Renamed Vimeo’s “Playlists” section to “Showcases”.
