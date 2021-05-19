@@ -6,6 +6,9 @@ Changelog
 ### Changed
 - The plugin’s icon has been updated.
 
+### Fixed
+- Fixed a bug where Vimeo thumbnail generation could fail due to Vimeo not providing a file with an extension, resulting in an exception for installs using the GD image driver. ([#40](https://github.com/dukt/videos/issues/40), [#54](https://github.com/dukt/videos/issues/54))
+
 ## 2.0.14 - 2021-04-08
 
 ### Added
