@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.0.15 - 2021-05-19
 
 ### Changed
 - The plugin’s icon has been updated.
