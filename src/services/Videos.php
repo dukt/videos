@@ -8,6 +8,7 @@
 namespace dukt\videos\services;
 
 use Craft;
+use dukt\videos\models\Video;
 use yii\base\Component;
 use dukt\videos\Plugin as VideosPlugin;
 
@@ -183,6 +184,9 @@ class Videos extends Component
             }
         }
 
-        return false;
+        return new Video([
+            'loaded' => false,
+            'url' => $videoUrl,
+        ]);
     }
 }

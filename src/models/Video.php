@@ -125,6 +125,11 @@ class Video extends Model
     public $height;
 
     /**
+     * @var bool Does the video has data?
+     */
+    public $loaded = true;
+
+    /**
      * @var Gateway|null Gateway
      */
     private $_gateway;

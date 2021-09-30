@@ -115,6 +115,13 @@ class Video extends Field
             Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
         }
 
+        if (is_string($value)) {
+            return new \dukt\videos\models\Video([
+                'loaded' => false,
+                'url' => $value,
+            ]);
+        }
+
         return null;
     }
 
