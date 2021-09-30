@@ -1,16 +1,17 @@
 <?php
 /**
- * @link      https://dukt.net/videos/
+ * @link https://dukt.net/videos/
+ *
  * @copyright Copyright (c) 2021, Dukt
- * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
+ * @license https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\services;
 
 use Craft;
-use dukt\videos\models\Video;
-use yii\base\Component;
+use dukt\videos\models\VideoError;
 use dukt\videos\Plugin as VideosPlugin;
+use yii\base\Component;
 
 /**
  * Class Videos service.
@@ -18,6 +19,7 @@ use dukt\videos\Plugin as VideosPlugin;
  * An instance of the Videos service is globally accessible via [[Plugin::videos `Videos::$plugin->getVideos()`]].
  *
  * @author Dukt <support@dukt.net>
+ *
  * @since  2.0
  */
 class Videos extends Component
@@ -31,8 +33,9 @@ class Videos extends Component
      * @param       $videoUrl
      * @param array $embedOptions
      *
-     * @return null
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return null|string
      */
     public function getEmbed($videoUrl, array $embedOptions = [])
     {
@@ -51,8 +54,9 @@ class Videos extends Component
      * @param $gateway
      * @param $id
      *
-     * @return mixed|null|string
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return null|mixed|string
      */
     public function getVideoById($gateway, $id)
     {
@@ -72,8 +76,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return bool|mixed|null
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return null|bool|mixed
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -97,8 +102,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return \dukt\videos\models\Video|mixed
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return \dukt\videos\models\Video|mixed
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -136,8 +142,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return bool|mixed
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return bool|mixed
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -163,14 +170,17 @@ class Videos extends Component
      * @param $key
      * @param $cacheExpiry
      *
-     * @return bool|mixed
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return bool|mixed
      */
     private function findVideoByUrl($videoUrl, $enableCache, $key, $cacheExpiry)
     {
+        $errorMessage = '';
+
         foreach (VideosPlugin::$plugin->getGateways()->getGateways() as $gateway) {
             $params = [
-                'url' => $videoUrl
+                'url' => $videoUrl,
             ];
 
             try {
@@ -184,13 +194,17 @@ class Videos extends Component
                     return $video;
                 }
             } catch (\Exception $e) {
-                Craft::info('Couldn’t get video: '.$e->getMessage(), __METHOD__);
+                $errorMessage = 'Couldn’t get video: '.$e->getMessage();
+
+                Craft::info($errorMessage, __METHOD__);
             }
         }
 
-        return new Video([
-            'loaded' => false,
+        return new VideoError([
             'url' => $videoUrl,
+            'errors' => [
+                $errorMessage,
+            ],
         ]);
     }
 }

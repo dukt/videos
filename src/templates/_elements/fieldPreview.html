@@ -1,23 +1,30 @@
 {% if video %}
-    <div class="thumb">
-        <img src="{{ video.thumbnail }}" />
-        <div class="duration">{{ video.duration }}</div>
-        <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
-    </div>
+    {% if video.loaded %}
+        <div class="thumb">
+            <img src="{{ video.thumbnail }}" />
+            <div class="duration">{{ video.duration }}</div>
+            <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+        </div>
 
-    <div class="description">
-        <p class="title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
+        <div class="description">
+            <p class="title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
 
-        <ul class="light">
-            <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>
-            <li>{{ "By"|t('videos') }} <strong><a href="{{ video.authorUrl }}" class="light">{{ video.authorName }}</a></strong></li>
+            <ul class="light">
+                <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>
+                <li>{{ "By"|t('videos') }} <strong><a href="{{ video.authorUrl }}" class="light">{{ video.authorName }}</a></strong></li>
 
-            {% if video.plays %}
-                <li>{{ video.plays }} {{ "plays"|t('videos') }}</li>
-            {% endif %}
+                {% if video.plays %}
+                    <li>{{ video.plays }} {{ "plays"|t('videos') }}</li>
+                {% endif %}
 
-            <li><a class="icon delete"></a></li>
+                <li><a class="icon delete"></a></li>
+            </ul>
+        </div>
+    {% else %}
+        <ul>
+            {% for error in video.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
         </ul>
-    </div>
-
+    {% endif %}
 {% endif %}

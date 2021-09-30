@@ -1,8 +1,9 @@
 <?php
 /**
- * @link      https://dukt.net/videos/
+ * @link https://dukt.net/videos/
+ *
  * @copyright Copyright (c) 2021, Dukt
- * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
+ * @license https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\fields;
@@ -12,11 +13,12 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
-use dukt\videos\web\assets\videofield\VideoFieldAsset;
+use dukt\videos\models\VideoError;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\web\assets\videofield\VideoFieldAsset;
 
 /**
- * Video field
+ * Video field.
  */
 class Video extends Field
 {
@@ -37,18 +39,18 @@ class Video extends Field
      * Get Input HTML.
      *
      * @param                       $value
-     * @param ElementInterface|null $element
+     * @param null|ElementInterface $element
      *
-     * @return string
      * @throws \Twig_Error_Loader
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return string
      */
-    public function getInputHtml($value, \craft\base\ElementInterface $element = null): string
+    public function getInputHtml($value, ElementInterface $element = null): string
     {
         $view = Craft::$app->getView();
         $name = $this->handle;
-
 
         // Reformat the input name into something that looks more like an ID
         $id = $view->formatInputId($name);
@@ -63,11 +65,7 @@ class Video extends Field
         $view->registerAssetBundle(VideoFieldAsset::class);
 
         // Preview
-        if ($value instanceof \dukt\videos\models\Video && $value->loaded) {
-            $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
-        } else {
-            $preview = null;
-        }
+        $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
 
         // Has gateways
         $gateways = Videos::$plugin->getGateways()->getGateways();
@@ -92,7 +90,7 @@ class Video extends Field
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function serializeValue($value, ElementInterface $element = null)
     {
@@ -104,30 +102,34 @@ class Video extends Field
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function normalizeValue($value, ElementInterface $element = null)
     {
-        if ($value instanceof \dukt\videos\models\Video) {
+        if (empty($value)) {
+            return null;
+        }
+
+        if ($value instanceof \dukt\videos\models\AbstractVideo) {
             return $value;
         }
 
         try {
-            if (!empty($value)) {
-                $video = Videos::$plugin->getVideos()->getVideoByUrl($value);
+            $video = Videos::$plugin->getVideos()->getVideoByUrl($value);
 
-                if ($video) {
-                    return $video;
-                }
+            if ($video) {
+                return $video;
             }
         } catch (\Exception $e) {
-            Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
-        }
+            $errorMessage = "Couldn't get video in field normalizeValue: ".$e->getMessage();
 
-        if (is_string($value)) {
-            return new \dukt\videos\models\Video([
-                'loaded' => false,
+            Craft::info($errorMessage, __METHOD__);
+
+            return new VideoError([
                 'url' => $value,
+                'errors' => [
+                    $errorMessage,
+                ],
             ]);
         }
 
@@ -135,14 +137,14 @@ class Video extends Field
     }
 
     /**
-     * Get Search Keywords
+     * Get Search Keywords.
      *
      * @param mixed            $value
      * @param ElementInterface $element
      *
      * @return string
      */
-    public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
+    public function getSearchKeywords($value, ElementInterface $element): string
     {
         $keywords = [];
 

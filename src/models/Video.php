@@ -1,14 +1,14 @@
 <?php
 /**
- * @link      https://dukt.net/videos/
+ * @link https://dukt.net/videos/
+ *
  * @copyright Copyright (c) 2021, Dukt
- * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
+ * @license https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\models;
 
 use Craft;
-use craft\base\Model;
 use dukt\videos\base\Gateway;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
@@ -18,94 +18,88 @@ use Twig_Markup;
  * Video model class.
  *
  * @author Dukt <support@dukt.net>
- * @since  2.0
  *
- * @property string                         $duration
- * @property \dukt\videos\base\Gateway|null $gateway
+ * @since  2.0
  */
-class Video extends Model
+class Video extends AbstractVideo
 {
     // Properties
     // =========================================================================
 
     /**
-     * @var int|null The ID of the video
+     * @var null|int The ID of the video
      */
     public $id;
 
     /**
-     * @var mixed|null The raw response object
+     * @var null|mixed The raw response object
      */
     public $raw;
 
     /**
-     * @var string|null The URL of the video
-     */
-    public $url;
-
-    /**
-     * @var string|null The gateway’s handle
+     * @var null|string The gateway’s handle
      */
     public $gatewayHandle;
 
     /**
-     * @var string|null The gateway’s name
+     * @var null|string The gateway’s name
      */
     public $gatewayName;
 
     /**
-     * @var \DateTime|null The date the video was uploaded
+     * @var null|\DateTime The date the video was uploaded
      */
     public $date;
 
     /**
-     * @var int|null The number of times the video has been played
+     * @var null|int The number of times the video has been played
      */
     public $plays;
 
     /**
-     * @var int|null Duration of the video in seconds
+     * @var null|int Duration of the video in seconds
      */
     public $durationSeconds;
 
     /**
-     * @var int|null Duration of the video in ISO 8601 format
+     * @var null|int Duration of the video in ISO 8601 format
      */
     public $duration8601;
 
     /**
-     * @var string|null The author’s name
+     * @var null|string The author’s name
      */
     public $authorName;
 
     /**
-     * @var string|null The author’s URL
+     * @var null|string The author’s URL
      */
     public $authorUrl;
 
     /**
-     * @var string|null The author’s username
+     * @var null|string The author’s username
      */
     public $authorUsername;
 
     /**
-     * @var string|null The thumbnail’s source
+     * @var null|string The thumbnail’s source
      */
     public $thumbnailSource;
 
     /**
-     * @var string|null The thumbnail’s large source
+     * @var null|string The thumbnail’s large source
+     *
      * @deprecated in 2.1. Use [[\dukt\videos\models\Video::$thumbnailSource]] instead.
      */
     public $thumbnailLargeSource;
 
     /**
-     * @var string|null The video’s title
+     * @var null|string The video’s title
      */
     public $title;
 
     /**
-     * @var string|null The video’s description
+     * @var null|string The video’s description
      */
     public $description;
 
@@ -115,22 +109,22 @@ class Video extends Model
     public $private = false;
 
     /**
-     * @var int|null The video’s width
+     * @var null|int The video’s width
      */
     public $width;
 
     /**
-     * @var int|null The video’s height
+     * @var null|int The video’s height
      */
     public $height;
 
     /**
-     * @var bool Does the video has data?
+     * @var bool the video is loaded if its data is filled
      */
-    public $loaded = true;
+    public bool $loaded = true;
 
     /**
-     * @var Gateway|null Gateway
+     * @var null|Gateway Gateway
      */
     private $_gateway;
 
@@ -152,8 +146,9 @@ class Video extends Model
      *
      * @param array $opts
      *
-     * @return Twig_Markup
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return Twig_Markup
      */
     public function getEmbed(array $opts = []): Twig_Markup
     {
@@ -168,8 +163,9 @@ class Video extends Model
      *
      * @param array $opts
      *
-     * @return string
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return string
      */
     public function getEmbedUrl(array $opts = []): string
     {
@@ -179,8 +175,9 @@ class Video extends Model
     /**
      * Get the video’s gateway.
      *
-     * @return Gateway|null
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return null|Gateway
      */
     public function getGateway()
     {
@@ -196,11 +193,12 @@ class Video extends Model
      *
      * @param int $size
      *
-     * @return null|string
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \craft\errors\ImageException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
+     *
+     * @return null|string
      */
     public function getThumbnail($size = 300)
     {
