@@ -116,6 +116,10 @@ class Videos extends Component
 
         $gateway = VideosPlugin::$plugin->getGateways()->getGateway($gatewayHandle);
 
+        if (!$gateway) {
+            return null;
+        }
+
         $response = $gateway->getVideoById($id);
 
         if ($enableCache) {

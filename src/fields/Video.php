@@ -62,10 +62,6 @@ class Video extends Field
         // Asset bundle
         $view->registerAssetBundle(VideoFieldAsset::class);
 
-        // Instantiate Videos Field
-        $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
-
-
         // Preview
         if ($value instanceof \dukt\videos\models\Video && $value->loaded) {
             $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
@@ -73,11 +69,25 @@ class Video extends Field
             $preview = null;
         }
 
+        // Has gateways
+        $gateways = Videos::$plugin->getGateways()->getGateways();
+        $hasGateways = false;
+
+        if ($gateways && count($gateways) > 0) {
+            $hasGateways = true;
+        }
+
+        if ($hasGateways) {
+            // Instantiate Videos Field
+            $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
+        }
+
         return $view->renderTemplate('videos/_components/fieldtypes/Video/input', [
             'id' => $id,
             'name' => $name,
             'value' => $value,
-            'preview' => $preview
+            'preview' => $preview,
+            'hasGateways' => $hasGateways,
         ]);
     }
 
