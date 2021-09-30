@@ -67,8 +67,7 @@ class Video extends Field
 
 
         // Preview
-
-        if ($value instanceof \dukt\videos\models\Video) {
+        if ($value instanceof \dukt\videos\models\Video && $value->loaded) {
             $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
         } else {
             $preview = null;
