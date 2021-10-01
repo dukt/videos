@@ -33,9 +33,9 @@ class Videos extends Component
      * @param       $videoUrl
      * @param array $embedOptions
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return null|string
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getEmbed($videoUrl, array $embedOptions = [])
     {
@@ -54,9 +54,9 @@ class Videos extends Component
      * @param $gateway
      * @param $id
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return null|mixed|string
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getVideoById($gateway, $id)
     {
@@ -76,9 +76,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return null|bool|mixed
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -102,9 +102,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return \dukt\videos\models\Video|mixed
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -142,9 +142,9 @@ class Videos extends Component
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return bool|mixed
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {
@@ -170,9 +170,9 @@ class Videos extends Component
      * @param $key
      * @param $cacheExpiry
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return bool|mixed
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     private function findVideoByUrl($videoUrl, $enableCache, $key, $cacheExpiry)
     {

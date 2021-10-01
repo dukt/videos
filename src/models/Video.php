@@ -146,9 +146,9 @@ class Video extends AbstractVideo
      *
      * @param array $opts
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return Twig_Markup
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getEmbed(array $opts = []): Twig_Markup
     {
@@ -163,9 +163,9 @@ class Video extends AbstractVideo
      *
      * @param array $opts
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return string
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getEmbedUrl(array $opts = []): string
     {
@@ -175,9 +175,9 @@ class Video extends AbstractVideo
     /**
      * Get the video’s gateway.
      *
-     * @throws \yii\base\InvalidConfigException
-     *
      * @return null|Gateway
+     *
+     * @throws \yii\base\InvalidConfigException
      */
     public function getGateway()
     {
@@ -193,12 +193,12 @@ class Video extends AbstractVideo
      *
      * @param int $size
      *
+     * @return null|string
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \craft\errors\ImageException
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
-     *
-     * @return null|string
      */
     public function getThumbnail($size = 300)
     {

@@ -41,11 +41,11 @@ class Video extends Field
      * @param                       $value
      * @param null|ElementInterface $element
      *
+     * @return string
+     *
      * @throws \Twig_Error_Loader
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
-     *
-     * @return string
      */
     public function getInputHtml($value, ElementInterface $element = null): string
     {
