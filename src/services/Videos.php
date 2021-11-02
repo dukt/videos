@@ -74,7 +74,7 @@ class Videos extends Component
      * @return bool|mixed|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = null)
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -99,7 +99,7 @@ class Videos extends Component
      * @return \dukt\videos\models\Video|mixed
      * @throws \yii\base\InvalidConfigException
      */
-    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = null)
     {
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
 
@@ -134,7 +134,7 @@ class Videos extends Component
      * @return bool|mixed
      * @throws \yii\base\InvalidConfigException
      */
-    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = null)
     {
         $key = 'videos.video.'.md5($videoUrl);
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;

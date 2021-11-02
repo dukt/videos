@@ -38,7 +38,7 @@ class VideosVariable
      *
      * @return bool|null
      */
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = null)
     {
         try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
@@ -56,7 +56,7 @@ class VideosVariable
      * @param bool $enableCache
      * @param int  $cacheExpiry
      */
-    public function url($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function url($videoUrl, $enableCache = true, $cacheExpiry = null)
     {
         $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }
