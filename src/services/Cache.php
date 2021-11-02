@@ -11,6 +11,7 @@ use Craft;
 use dukt\videos\Plugin as VideosPlugin;
 use yii\base\Component;
 use DateInterval;
+use DateTimeImmutable;
 
 /**
  * Class Cache service.
@@ -61,9 +62,11 @@ class Cache extends Component
             $cacheKey = $this->getCacheKey($id);
 
             if (!$expire) {
-                $expire = VideosPlugin::$plugin->getSettings()->cacheDuration;
-                $expire = new DateInterval($expire);
-                $expire = $expire->format('%s');
+                $duration = VideosPlugin::$plugin->getSettings()->cacheDuration;
+                $interval = new DateInterval($duration);
+                $now = new DateTimeImmutable();
+                $expiryDate = $now->add($interval);
+                $expire = $expiryDate->getTimestamp() - $now->getTimestamp();
             }
 
             return Craft::$app->cache->set($cacheKey, $value, $expire, $dependency);
