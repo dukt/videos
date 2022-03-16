@@ -35,8 +35,8 @@ class VideosAsset extends AssetBundle
             $this->js[] = 'js/app.js';
             $this->css[] = 'css/app.css';
         } else {
-            $this->js[] = 'https://localhost:8090/js/chunk-vendors.js';
-            $this->js[] = 'https://localhost:8090/js/app.js';
+            $this->css[] = 'https://localhost:8090/css/main.css';
+            $this->js[] = 'https://localhost:8090/main.js';
         }
 
         parent::init();

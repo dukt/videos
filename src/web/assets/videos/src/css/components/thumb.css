@@ -3,7 +3,7 @@
     @apply group-hover:ring group-hover:ring-red-500 group-hover:ring-opacity-80;
 
     .videos-thumb-image-container {
-        @apply aspect-w-16 aspect-h-9 relative;
+        @apply aspect-video relative;
 
         .videos-thumb-image {
             @apply w-full h-full bg-center bg-cover;
