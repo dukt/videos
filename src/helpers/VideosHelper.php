@@ -129,6 +129,24 @@ class VideosHelper
                     'sink' => $originalPath,
                 ]);
 
+                // Make sure the original file has an extension
+                $mimeByExt = FileHelper::getMimeTypeByExtension($originalPath);
+
+                if (!$mimeByExt) {
+                    // Add the extension to the filename if it doesn’t have one
+                    $mime = FileHelper::getMimeType($originalPath);
+                    $ext = FileHelper::getExtensionByMimeType($mime);
+
+                    if ($ext) {
+                        $name .= '.'.$ext;
+                        $targetPath = $originalDir.DIRECTORY_SEPARATOR.$name;
+
+                        rename($originalPath, $targetPath);
+
+                        $originalPath = $targetPath;
+                    }
+                }
+
                 if ($response->getStatusCode() !== 200) {
                     return null;
                 }
