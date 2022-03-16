@@ -163,12 +163,18 @@ class Video extends Model
      *
      * @param array $opts
      *
-     * @return string
+     * @return null|string
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbedUrl(array $opts = []): string
+    public function getEmbedUrl(array $opts = [])
     {
-        return $this->getGateway()->getEmbedUrl($this->id, $opts);
+        $gateway = $this->getGateway();
+
+        if (!$gateway) {
+            return null;
+        }
+
+        return $gateway->getEmbedUrl($this->id, $opts);
     }
 
     /**

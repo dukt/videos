@@ -50,7 +50,6 @@ class Video extends Field
         $view = Craft::$app->getView();
         $name = $this->handle;
 
-
         // Reformat the input name into something that looks more like an ID
         $id = $view->formatInputId($name);
 
@@ -81,19 +80,11 @@ class Video extends Field
             '{plays} plays',
         ]);
 
-        // Preview
-        if ($value instanceof \dukt\videos\models\Video) {
-            $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
-        } else {
-            $preview = null;
-        }
-
         // Variables
         $variables = [
             'id' => $id,
             'name' => $name,
             'value' => $video,
-            'preview' => $preview,
             'namespaceId' => $view->namespaceInputId($id),
             'namespaceName' => $view->namespaceInputName($id),
         ];
@@ -133,6 +124,12 @@ class Video extends Field
                 if ($video) {
                     return $video;
                 }
+
+                $video = new \dukt\videos\models\Video();
+                $video->url = $videoUrl;
+                $video->addError('url', Craft::t('videos', 'Unable to find the video.'));
+
+                return $video;
             }
         } catch (\Exception $e) {
             Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);

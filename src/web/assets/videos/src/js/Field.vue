@@ -9,7 +9,11 @@
             <div class="spinner mt-2"></div>
         </template>
         <template v-else>
-            <p v-if="previewError" class="error">{{previewError}}</p>
+            <div v-if="previewError" class="mt-4">
+              <ul class="errors padded">
+                <li>{{previewError}}</li>
+              </ul>
+            </div>
 
             <preview class="mt-4" :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
         </template>
@@ -105,14 +109,15 @@
                 
                 videosApi.getVideo(this.videoUrl)
                     .then((response) => {
+                        this.previewLoading = false
+
                         if (response.data.error) {
-                            this.previewLoading = false
                             this.previewVideo = null
                             this.previewError = response.data.error
+                        } else {
+                          this.previewVideo = response.data
                         }
 
-                        this.previewLoading = false
-                        this.previewVideo = response.data
                     })
             }, 1000),
 

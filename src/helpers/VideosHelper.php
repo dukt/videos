@@ -191,9 +191,14 @@ class VideosHelper
             'private'
         ]);
 
-        $video['thumbnail'] = $videoModel->getThumbnail();
-        $video['embedUrl'] = $videoModel->getEmbedUrl();
-        $video['duration'] = $videoModel->getDuration();
+        if ($videoModel->id && $videoModel->gatewayHandle) {
+            $video['thumbnail'] = $videoModel->getThumbnail();
+            $video['embedUrl'] = $videoModel->getEmbedUrl();
+            $video['duration'] = $videoModel->getDuration();
+        }
+
+        $video['errors'] = $videoModel->getErrors();
+        $video['hasErrors'] = $videoModel->hasErrors();
 
         return $video;
     }

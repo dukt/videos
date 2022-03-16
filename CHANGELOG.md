@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## Unreleased
+
+### Fixed
+- Fixed a bug where the field’s video URL value could get lost if the gateway wasn’t available.
+
 ## 2.0.15 - 2021-05-19
 
 ### Added
