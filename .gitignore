@@ -1,4 +1,6 @@
 *.log
 .DS_Store
+cypress.json
 composer.lock
 node_modules/
+playwright/
