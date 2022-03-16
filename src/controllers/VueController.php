@@ -96,7 +96,7 @@ class VueController extends Controller
         $video = Plugin::getInstance()->getVideos()->getVideoByUrl($url);
 
         if (!$video) {
-            return $this->asErrorJson("Video not found.");
+            return $this->asErrorJson(Craft::t('videos', 'Unable to find the video.'));
         }
 
         $videoArray = VideosHelper::videoToArray($video);

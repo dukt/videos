@@ -7,4 +7,5 @@ return [
     'Search {gateway} videos…' => 'Search {gateway} videos…',
     'Select' => 'Select',
     '{plays} plays' => '{plays} plays',
+    'Unable to find the video.' => 'Unable to find the video.',
 ];
