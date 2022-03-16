@@ -8,4 +8,5 @@ return [
     'Select' => 'Select',
     '{plays} plays' => '{plays} plays',
     'Unable to find the video.' => 'Unable to find the video.',
+    '{gateway} account' => '{gateway} account',
 ];

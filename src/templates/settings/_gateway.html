@@ -14,7 +14,7 @@
 
     <img src="{{ gateway.getIconUrl() }}" width="36"/>
 
-    <h2>{{ gateway.name }} account</h2>
+    <h2>{{ "{gateway} account"|t('videos', {gateway: gateway.name}) }}</h2>
 
     {% if error %}
         <p class="error">{{ "Couldn’t retrieve account: {error}"|t('videos', {error: error}) }}</p>
