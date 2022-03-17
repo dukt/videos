@@ -78,9 +78,9 @@ const getConfig = () => {
         filename: "css/[name].css",
         chunkFilename: "css/[name].css",
       }),
-      // new ESLintPlugin({
-      //   extensions: ['.js', '.vue'],
-      // }),
+      new ESLintPlugin({
+        extensions: ['.js', '.vue'],
+      }),
     ],
   }
 
