@@ -10,6 +10,7 @@ namespace dukt\videos\controllers;
 use Craft;
 use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\web\assets\videos\VideosAsset;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -50,6 +51,8 @@ class SettingsController extends Controller
                 $accountErrors[$gateway->getHandle()] = $error;
             }
         }
+
+        Craft::$app->getView()->registerAssetBundle(VideosAsset::class);
 
         return $this->renderTemplate('videos/settings/_index', [
             'gateways' => $gateways,
