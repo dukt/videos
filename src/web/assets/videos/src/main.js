@@ -30,5 +30,5 @@ window.VideoPlayerConstructor = Vue.extend({
     render: h => h(Player),
 })
 
-import './css/videos.css'
+import './css/videos.pcss'
 
