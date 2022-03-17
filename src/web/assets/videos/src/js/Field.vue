@@ -173,11 +173,12 @@ export default {
         :placeholder="t('videos', 'Enter a video URL from YouTube or Vimeo')"
         @input="preview()"
       >
-      <a
-        class="dv-absolute dv-top-2.5 dv-right-4 dv-text-xs"
-        href="#"
+      <button
+        class="dv-absolute dv-top-2.5 dv-right-4 dv-text-xs dv-text-[#0b69a3] hover:dv-underline dv-cursor-pointer"
         @click.prevent="browse()"
-      >{{ t('videos', 'Browse videos…') }}</a>
+      >
+        {{ t('videos', 'Browse videos…') }}
+      </button>
     </div>
 
     <template v-if="previewLoading">
