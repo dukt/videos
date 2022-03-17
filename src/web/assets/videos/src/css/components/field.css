@@ -1,5 +1,5 @@
 .videoselectormodal {
     .footer {
-        @apply absolute w-full m-0 left-0 bottom-0;
+        @apply dv-absolute dv-w-full dv-m-0 dv-left-0 dv-bottom-0;
     }
 }

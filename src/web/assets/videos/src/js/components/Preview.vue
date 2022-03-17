@@ -10,11 +10,11 @@
         </ul>
       </template>
       <template v-else>
-        <div class="preview flex flex-nowrap items-start">
-          <div class="flex-shrink-0">
+        <div class="preview dv-flex dv-flex-nowrap dv-items-start">
+          <div class="dv-shrink-0">
 
             <!--
-            <div class="videos-thumb pt-0 w-44">
+            <div class="videos-thumb dv-pt-0 dv-w-44">
                 <div class="videos-thumb-image-container">
                     <div class="videos-thumb-image" :style="'background-image: url(' + previewVideo.thumbnail + ')'"></div>
                 </div>
@@ -26,22 +26,22 @@
             </div>
             -->
 
-            <thumb class="pt-0 w-44" :url="previewVideo.thumbnail" :duration="previewVideo.duration" @playVideo="$emit('playVideo', previewVideo)"></thumb>
+            <thumb class="dv-pt-0 dv-w-44" :url="previewVideo.thumbnail" :duration="previewVideo.duration" @playVideo="$emit('playVideo', previewVideo)"></thumb>
           </div>
-          <div class="ml-2 flex-shrink max-w-sm min-w-0">
+          <div class="dv-ml-2 dv-shrink dv-max-w-sm dv-min-w-0">
             <div class="line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
 
             <ul>
-              <li class="truncate block">
+              <li class="truncate dv-block">
                 <a :href="previewVideo.url">{{previewVideo.url}}</a>
               </li>
-              <li class="truncate block">
+              <li class="truncate dv-block">
                 <a :href="previewVideo.authorUrl" class="light">{{ previewVideo.authorName }}</a>
               </li>
-              <li class="truncate block">
+              <li class="truncate dv-block">
                 {{ t('videos', '{plays} plays', { plays: previewVideo.plays }) }}
               </li>
-              <li class="truncate block">
+              <li class="truncate dv-block">
                 <a @click.prevent="$emit('removeVideo')">{{ t('videos', "Remove") }}</a>
               </li>
             </ul>

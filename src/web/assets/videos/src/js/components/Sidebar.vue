@@ -1,6 +1,6 @@
 <template>
     <div class="sidebar">
-        <div class="px-2">
+        <div class="dv-px-2">
             <div class="select fullwidth">
                 <select v-model="currentGatewayHandle">
                     <option v-for="(gateway, gatewayKey) in gateways" :value="gateway.handle" :key="`gateway-${gatewayKey}`">{{gateway.name}}</option>
@@ -18,7 +18,7 @@
                             <li :key="`collection-${sectionKey}-${collectionKey}`">
                                 <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">
                                     <template v-if="collection.icon">
-                                        <component :is="collection.icon" class="text-blue-500 w-5 h-5 mr-2"></component>
+                                        <component :is="collection.icon" class="dv-text-blue-500 dv-w-5 dv-h-5 dv-mr-2"></component>
                                     </template>
                                     {{collection.name}}
                                 </a>

@@ -1,38 +1,38 @@
 .videos-thumb {
-    @apply relative block rounded border-0 border-transparent overflow-hidden;
-    @apply group-hover:ring group-hover:ring-red-500 group-hover:ring-opacity-80;
+    @apply dv-relative dv-block dv-rounded dv-border-0 dv-border-transparent dv-overflow-hidden;
+    @apply group-hover:dv-ring group-hover:dv-ring-red-500 group-hover:dv-ring-opacity-80;
 
     .videos-thumb-image-container {
-        @apply aspect-video relative;
+        @apply dv-aspect-video dv-relative;
 
         .videos-thumb-image {
-            @apply w-full h-full bg-center bg-cover;
+            @apply dv-w-full dv-h-full dv-bg-center dv-bg-cover;
         }
     }
 
     .duration {
-        @apply absolute block text-white font-bold leading-3 rounded-sm bg-black bg-opacity-80 text-xs px-[4px] py-[3px] bottom-1 right-1;
+        @apply dv-absolute dv-block dv-text-white dv-font-bold dv-leading-3 dv-rounded-sm dv-bg-black dv-bg-opacity-80 dv-text-xs dv-px-[4px] dv-py-[3px] dv-bottom-1 dv-right-1;
     }
 
     .play {
-        @apply absolute top-1/2 left-1/2 rounded-full opacity-0 border-solid border-2 border-white;
-        @apply w-8 h-8 -mt-5 -ml-4;
-        @apply bg-black bg-no-repeat bg-center;
+        @apply dv-absolute dv-top-1/2 dv-left-1/2 dv-rounded-full dv-opacity-0 dv-border-solid dv-border-2 dv-border-white;
+        @apply dv-w-8 dv-h-8 dv--mt-5 dv--ml-4;
+        @apply dv-bg-black dv-bg-no-repeat dv-bg-center;
         background-image: url('~@/img/play.png');
 
         &:hover {
-            @apply cursor-pointer;
+            @apply dv-cursor-pointer;
             opacity: .7 !important;
         }
     }
 
     &:hover {
         .play {
-            @apply opacity-50;
+            @apply dv-opacity-50;
         }
     }
 
     .private {
-        @apply text-white absolute bottom-1 left-1 opacity-80;
+        @apply dv-text-white dv-absolute dv-bottom-1 dv-left-1 dv-opacity-80;
     }
 }

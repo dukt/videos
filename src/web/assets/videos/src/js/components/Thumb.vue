@@ -1,6 +1,6 @@
 <template>
     <div class="videos-thumb" :class="{
-            'ring ring-red-500 ring-opacity-80': selected
+            'dv-ring dv-ring-red-500 dv-ring-opacity-80': selected
         }">
         <div class="videos-thumb-image-container">
             <div class="videos-thumb-image"

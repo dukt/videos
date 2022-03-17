@@ -1,5 +1,5 @@
 <template>
-    <div class="w-full grid grid-cols-3 grid gap-4">
+    <div class="dv-w-full dv-grid dv-grid-cols-3 dv-grid dv-gap-4">
         <template v-for="(video, videoKey) in videos">
             <video-card :key="`video-${videoKey}`" :video="video"></video-card>
         </template>

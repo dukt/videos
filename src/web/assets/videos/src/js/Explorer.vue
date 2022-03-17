@@ -1,8 +1,8 @@
 <template>
-    <div id="videos" class="h-full">
+    <div id="videos" class="dv-h-full">
         <div class="body" :class="{
             'has-sidebar': !loading,
-            'flex justify-center': loading
+            'dv-flex dv-justify-center': loading
         }">
             <div :class="{
             'content has-sidebar': !loading,
@@ -15,7 +15,7 @@
                     <sidebar></sidebar>
 
                     <div ref="main" class="main" @scroll="onScroll">
-                        <search class="mb-6"></search>
+                        <search class="dv-mb-6"></search>
 
                         <template v-if="videosLoading">
                             <div class="spinner"></div>

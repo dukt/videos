@@ -1,6 +1,6 @@
 <template>
     <div ref="modal" class="videos-player-modal modal">
-        <div class="videos-player bg-black h-full">
+        <div class="videos-player dv-bg-black dv-h-full">
             <div v-html="embed"></div>
         </div>
     </div>
@@ -44,6 +44,6 @@
 
 <style lang="css">
 .videos-player iframe {
-    @apply absolute w-full h-full;
+    @apply dv-absolute dv-w-full dv-h-full;
 }
 </style>

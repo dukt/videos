@@ -1,21 +1,21 @@
 <template>
     <div>
-        <div class="relative">
+        <div class="dv-relative">
             <input class="text fullwidth" :name="inputName" :placeholder="t('videos', 'Enter a video URL from YouTube or Vimeo')" v-model="videoUrl" @input="preview()">
-            <a class="absolute top-2.5 right-4 text-xs" href="#" @click.prevent="browse()">{{ t('videos', 'Browse videos…') }}</a>
+            <a class="dv-absolute dv-top-2.5 dv-right-4 dv-text-xs" href="#" @click.prevent="browse()">{{ t('videos', 'Browse videos…') }}</a>
         </div>
 
         <template v-if="previewLoading">
-            <div class="spinner mt-2"></div>
+            <div class="spinner dv-mt-2"></div>
         </template>
         <template v-else>
-            <div v-if="previewError" class="mt-4">
+            <div v-if="previewError" class="dv-mt-4">
               <ul class="errors padded">
                 <li>{{previewError}}</li>
               </ul>
             </div>
 
-            <preview class="mt-4" :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
+            <preview class="dv-mt-4" :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
         </template>
     </div>
 </template>

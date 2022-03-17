@@ -1,4 +1,5 @@
 module.exports = {
+  prefix: "dv-",
   content: [
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
