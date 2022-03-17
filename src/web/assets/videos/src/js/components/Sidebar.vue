@@ -1,34 +1,52 @@
 <template>
-    <div class="sidebar">
-        <div class="dv-px-2">
-            <div class="select fullwidth">
-                <select v-model="currentGatewayHandle">
-                    <option v-for="(gateway, gatewayKey) in gateways" :value="gateway.handle" :key="`gateway-${gatewayKey}`">{{gateway.name}}</option>
-                </select>
-            </div>
-        </div>
-
-        <nav>
-            <ul>
-                <template v-if="currentGateway">
-                    <template v-for="(section, sectionKey) in currentGateway.sections">
-                        <li class="heading" :key="`section-${sectionKey}`"><span>{{section.name}}</span></li>
-
-                        <template v-for="(collection, collectionKey) in section.collections">
-                            <li :key="`collection-${sectionKey}-${collectionKey}`">
-                                <a href="#" :class="{sel: isCollectionSelected(sectionKey, collectionKey)}" @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)">
-                                    <template v-if="collection.icon">
-                                        <component :is="collection.icon" class="dv-text-blue-500 dv-w-5 dv-h-5 dv-mr-2"></component>
-                                    </template>
-                                    {{collection.name}}
-                                </a>
-                            </li>
-                        </template>
-                    </template>
-                </template>
-            </ul>
-        </nav>
+  <div class="sidebar">
+    <div class="dv-px-2">
+      <div class="select fullwidth">
+        <select v-model="currentGatewayHandle">
+          <option
+            v-for="(gateway, gatewayKey) in gateways"
+            :key="`gateway-${gatewayKey}`"
+            :value="gateway.handle"
+          >
+            {{ gateway.name }}
+          </option>
+        </select>
+      </div>
     </div>
+
+    <nav>
+      <ul>
+        <template v-if="currentGateway">
+          <template v-for="(section, sectionKey) in currentGateway.sections">
+            <li
+              :key="`section-${sectionKey}`"
+              class="heading"
+            >
+              <span>{{ section.name }}</span>
+            </li>
+
+            <template v-for="(collection, collectionKey) in section.collections">
+              <li :key="`collection-${sectionKey}-${collectionKey}`">
+                <a
+                  href="#"
+                  :class="{sel: isCollectionSelected(sectionKey, collectionKey)}"
+                  @click.prevent="handleCollectionClick(sectionKey, collectionKey, collection)"
+                >
+                  <template v-if="collection.icon">
+                    <component
+                      :is="collection.icon"
+                      class="dv-text-blue-500 dv-w-5 dv-h-5 dv-mr-2"
+                    />
+                  </template>
+                  {{ collection.name }}
+                </a>
+              </li>
+            </template>
+          </template>
+        </template>
+      </ul>
+    </nav>
+  </div>
 </template>
 
 <script>

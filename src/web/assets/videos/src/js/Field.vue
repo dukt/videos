@@ -1,23 +1,42 @@
 <template>
-    <div>
-        <div class="dv-relative">
-            <input class="text fullwidth" :name="inputName" :placeholder="t('videos', 'Enter a video URL from YouTube or Vimeo')" v-model="videoUrl" @input="preview()">
-            <a class="dv-absolute dv-top-2.5 dv-right-4 dv-text-xs" href="#" @click.prevent="browse()">{{ t('videos', 'Browse videos…') }}</a>
-        </div>
-
-        <template v-if="previewLoading">
-            <div class="spinner dv-mt-2"></div>
-        </template>
-        <template v-else>
-            <div v-if="previewError" class="dv-mt-4">
-              <ul class="errors padded">
-                <li>{{previewError}}</li>
-              </ul>
-            </div>
-
-            <preview class="dv-mt-4" :previewVideo="previewVideo" :previewError="previewError" @playVideo="playVideo" @removeVideo="removeVideo()"></preview>
-        </template>
+  <div>
+    <div class="dv-relative">
+      <input
+        v-model="videoUrl"
+        class="text fullwidth"
+        :name="inputName"
+        :placeholder="t('videos', 'Enter a video URL from YouTube or Vimeo')"
+        @input="preview()"
+      >
+      <a
+        class="dv-absolute dv-top-2.5 dv-right-4 dv-text-xs"
+        href="#"
+        @click.prevent="browse()"
+      >{{ t('videos', 'Browse videos…') }}</a>
     </div>
+
+    <template v-if="previewLoading">
+      <div class="spinner dv-mt-2" />
+    </template>
+    <template v-else>
+      <div
+        v-if="previewError"
+        class="dv-mt-4"
+      >
+        <ul class="errors padded">
+          <li>{{ previewError }}</li>
+        </ul>
+      </div>
+
+      <preview
+        class="dv-mt-4"
+        :preview-video="previewVideo"
+        :preview-error="previewError"
+        @playVideo="playVideo"
+        @removeVideo="removeVideo()"
+      />
+    </template>
+  </div>
 </template>
 
 <script>

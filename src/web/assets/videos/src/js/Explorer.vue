@@ -1,42 +1,59 @@
 <template>
-    <div id="videos" class="dv-h-full">
-        <div class="body" :class="{
-            'has-sidebar': !loading,
-            'dv-flex dv-justify-center': loading
-        }">
-            <div :class="{
-            'content has-sidebar': !loading,
-            '': loading,
-        }">
-                <template v-if="loading">
-                    <div class="spinner"></div>
+  <div
+    id="videos"
+    class="dv-h-full"
+  >
+    <div
+      class="body"
+      :class="{
+        'has-sidebar': !loading,
+        'dv-flex dv-justify-center': loading
+      }"
+    >
+      <div
+        :class="{
+          'content has-sidebar': !loading,
+          '': loading,
+        }"
+      >
+        <template v-if="loading">
+          <div class="spinner" />
+        </template>
+        <template v-else>
+          <sidebar />
+
+          <div
+            ref="main"
+            class="main"
+            @scroll="onScroll"
+          >
+            <search class="dv-mb-6" />
+
+            <template v-if="videosLoading">
+              <div class="spinner" />
+            </template>
+            <template v-else>
+              <videos :videos="videos" />
+
+              <div v-if="videosMoreToken">
+                <template v-if="!loadingMore">
+                  <button
+                    class="btn"
+                    @click="loadMore()"
+                  >
+                    Load More
+                  </button>
                 </template>
                 <template v-else>
-                    <sidebar></sidebar>
-
-                    <div ref="main" class="main" @scroll="onScroll">
-                        <search class="dv-mb-6"></search>
-
-                        <template v-if="videosLoading">
-                            <div class="spinner"></div>
-                        </template>
-                        <template v-else>
-                            <videos :videos="videos"></videos>
-
-                            <div v-if="videosMoreToken">
-                                <template v-if="!loadingMore">
-                                    <button class="btn" @click="loadMore()">Load More</button>
-                                </template>
-                                <template v-else>
-                                    <div class="spinner"></div>
-                                </template>
-                            </div>
-                        </template>
-                    </div>
+                  <div class="spinner" />
                 </template>
-            </div>
-        </div>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
@@ -46,7 +63,7 @@
     import Videos from './components/Videos'
 
     export default {
-        name: 'videos-app',
+        name: 'VideosApp',
 
         components: {
             Sidebar,
@@ -71,6 +88,38 @@
                 videosMoreToken: state => state.videosMoreToken,
                 videosLoading: state => state.videosLoading,
             }),
+        },
+
+        mounted() {
+            this.loading = true
+
+            this.$store.dispatch('getGateways')
+                .then(() => {
+                    this.loading = false
+
+                    if (this.gateways.length > 0) {
+                        const currentGateway = this.gateways[0]
+                        this.$store.commit('updateCurrentGatewayHandle', currentGateway.handle)
+
+                        const collection = currentGateway.sections[0].collections[0]
+                        const selectedCollection = this.getCollectionUniqueKey(currentGateway.handle, 0, 0)
+                        this.$store.commit('updateSelectedCollection', selectedCollection)
+
+                        this.$store.commit('updateVideosLoading', true)
+                        this.$store.dispatch('getVideos', {
+                                gateway: currentGateway.handle,
+                                method: collection.method,
+                                options: collection.options,
+                            })
+                            .then(() => {
+                                this.$store.commit('updateVideosLoading', false)
+                            })
+                            .catch(() => {
+                                this.$store.commit('updateVideosLoading', false)
+                                this.$store.dispatch('displayError', 'Couldn’t get videos.')
+                            })
+                    }
+                })
         },
 
         methods: {
@@ -123,38 +172,6 @@
 
                 return (scrollHeight - scrollTop <= height + 15)
             },
-        },
-
-        mounted() {
-            this.loading = true
-
-            this.$store.dispatch('getGateways')
-                .then(() => {
-                    this.loading = false
-
-                    if (this.gateways.length > 0) {
-                        const currentGateway = this.gateways[0]
-                        this.$store.commit('updateCurrentGatewayHandle', currentGateway.handle)
-
-                        const collection = currentGateway.sections[0].collections[0]
-                        const selectedCollection = this.getCollectionUniqueKey(currentGateway.handle, 0, 0)
-                        this.$store.commit('updateSelectedCollection', selectedCollection)
-
-                        this.$store.commit('updateVideosLoading', true)
-                        this.$store.dispatch('getVideos', {
-                                gateway: currentGateway.handle,
-                                method: collection.method,
-                                options: collection.options,
-                            })
-                            .then(() => {
-                                this.$store.commit('updateVideosLoading', false)
-                            })
-                            .catch(() => {
-                                this.$store.commit('updateVideosLoading', false)
-                                this.$store.dispatch('displayError', 'Couldn’t get videos.')
-                            })
-                    }
-                })
         }
     }
 </script>

@@ -1,9 +1,12 @@
 <template>
-    <div ref="modal" class="videos-player-modal modal">
-        <div class="videos-player dv-bg-black dv-h-full">
-            <div v-html="embed"></div>
-        </div>
+  <div
+    ref="modal"
+    class="videos-player-modal modal"
+  >
+    <div class="videos-player dv-bg-black dv-h-full">
+      <div v-html="embed" />
     </div>
+  </div>
 </template>
 
 <script>

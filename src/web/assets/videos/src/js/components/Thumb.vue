@@ -1,17 +1,25 @@
 <template>
-    <div class="videos-thumb" :class="{
-            'dv-ring dv-ring-red-500 dv-ring-opacity-80': selected
-        }">
-        <div class="videos-thumb-image-container">
-            <div class="videos-thumb-image"
-                 :style="'background-image: url(' + url + ')'"></div>
-        </div>
-
-        <div class="duration">
-            {{ duration }}
-        </div>
-        <div class="play" @click.prevent="$emit('playVideo')"></div>
+  <div
+    class="videos-thumb"
+    :class="{
+      'dv-ring dv-ring-red-500 dv-ring-opacity-80': selected
+    }"
+  >
+    <div class="videos-thumb-image-container">
+      <div
+        class="videos-thumb-image"
+        :style="'background-image: url(' + url + ')'"
+      />
     </div>
+
+    <div class="duration">
+      {{ duration }}
+    </div>
+    <div
+      class="play"
+      @click.prevent="$emit('playVideo')"
+    />
+  </div>
 </template>
 
 <script>

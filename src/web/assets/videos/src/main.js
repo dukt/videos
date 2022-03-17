@@ -16,10 +16,10 @@ window.VideoExplorerConstructor = Vue.extend({
 })
 
 window.VideoFieldConstructor = Vue.extend({
-    render: h => h(Field),
     created() {
         this.$store = createStore()
-    }
+    },
+    render: h => h(Field)
 })
 
 window.VideoSelectorActionsConstructor = Vue.extend({
