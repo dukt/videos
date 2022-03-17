@@ -29,7 +29,7 @@
             <thumb class="dv-pt-0 dv-w-44" :url="previewVideo.thumbnail" :duration="previewVideo.duration" @playVideo="$emit('playVideo', previewVideo)"></thumb>
           </div>
           <div class="dv-ml-2 dv-shrink dv-max-w-sm dv-min-w-0">
-            <div class="line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
+            <div class="dv-line-clamp-2"><strong>{{previewVideo.title}}</strong></div>
 
             <ul>
               <li class="truncate dv-block">
