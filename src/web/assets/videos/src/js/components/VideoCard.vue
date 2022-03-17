@@ -1,3 +1,48 @@
+<script>
+import { mapActions } from 'vuex'
+import Thumb from './Thumb'
+
+export default {
+  components: {
+    Thumb,
+  },
+
+  props: {
+    video: {
+      type: Object,
+      required: true,
+    },
+  },
+
+  computed: {
+    isVideoSelected() {
+      if (!this.$store.state.selectedVideo) {
+        return false
+      }
+
+      return this.$store.state.selectedVideo.id === this.video.id
+    }
+  },
+
+  methods: {
+    ...mapActions([
+      'selectVideo',
+      'updateVideoUrlWithSelectedVideo',
+    ]),
+
+    play(video) {
+      this.$root.eventBus.$emit('playVideo', {video})
+    },
+
+    useVideo(video) {
+      this.selectVideo(video)
+      this.updateVideoUrlWithSelectedVideo()
+      this.$root.eventBus.$emit('useSelectedVideo')
+    },
+  }
+}
+</script>
+
 <template>
   <div
     class="dv-group"
@@ -36,48 +81,3 @@
     </div>
   </div>
 </template>
-
-<script>
-    import { mapActions } from 'vuex'
-    import Thumb from './Thumb'
-
-    export default {
-        components: {
-            Thumb,
-        },
-
-        props: {
-            video: {
-                type: Object,
-                required: true,
-            },
-        },
-
-        computed: {
-            isVideoSelected() {
-                if (!this.$store.state.selectedVideo) {
-                    return false
-                }
-
-                return this.$store.state.selectedVideo.id === this.video.id
-            }
-        },
-
-        methods: {
-            ...mapActions([
-                'selectVideo',
-                'updateVideoUrlWithSelectedVideo',
-            ]),
-
-            play(video) {
-                this.$root.eventBus.$emit('playVideo', {video})
-            },
-
-            useVideo(video) {
-                this.selectVideo(video)
-                this.updateVideoUrlWithSelectedVideo()
-                this.$root.eventBus.$emit('useSelectedVideo')
-            },
-        }
-    }
-</script>

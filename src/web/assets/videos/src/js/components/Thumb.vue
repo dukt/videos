@@ -1,3 +1,22 @@
+<script>
+export default {
+  props: {
+    url: {
+      type: String,
+      default: null
+    },
+    duration: {
+      type: String,
+      default: null
+    },
+    selected: {
+      type: Boolean,
+      default: false
+    },
+  }
+}
+</script>
+
 <template>
   <div
     class="videos-thumb"
@@ -21,22 +40,3 @@
     />
   </div>
 </template>
-
-<script>
-export default {
-    props: {
-        url: {
-            type: String,
-            default: null
-        },
-        duration: {
-            type: String,
-            default: null
-        },
-        selected: {
-            type: Boolean,
-            default: false
-        },
-    }
-}
-</script>

@@ -1,3 +1,23 @@
+<script>
+import Thumb from './Thumb'
+
+export default {
+  components: {
+    Thumb
+  },
+  props: {
+    previewVideo: {
+      type: Object,
+      default: null
+    },
+    previewError: {
+      type: String,
+      default: ''
+    }
+  },
+}
+</script>
+
 <template>
   <div v-if="previewVideo">
     <template v-if="previewVideo.hasErrors">
@@ -61,24 +81,3 @@
     </template>
   </div>
 </template>
-
-<script>
-    import Thumb from './Thumb'
-
-    export default {
-        components: {
-            Thumb
-        },
-        props: {
-            previewVideo: {
-                type: Object,
-                default: null
-            },
-            previewError: {
-                type: String,
-                default: ''
-            }
-        },
-    }
-</script>
-

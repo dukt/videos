@@ -1,3 +1,73 @@
+<script>
+import {mapState, mapGetters} from 'vuex'
+import ThumbUp from '@/icons/ThumbUp';
+import Folder from '@/icons/Folder';
+import Layout from '@/icons/Layout';
+import VideoCamera from '@/icons/VideoCamera';
+import List from '@/icons/List';
+
+export default {
+
+  components: {
+    ThumbUp,
+    Folder,
+    Layout,
+    VideoCamera,
+    List,
+  },
+
+  computed: {
+
+    ...mapState({
+      gateways: state => state.gateways,
+      selectedCollection: state => state.selectedCollection,
+    }),
+
+    ...mapGetters([
+      'currentGateway',
+    ]),
+
+    currentGatewayHandle: {
+      get() {
+        return this.$store.state.currentGatewayHandle
+      },
+      set(value) {
+        this.$store.commit('updateCurrentGatewayHandle', value)
+      }
+    },
+  },
+
+  methods: {
+    handleCollectionClick(sectionKey, collectionKey, collection) {
+      const selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
+
+      this.$store.commit('updateSelectedCollection', selectedCollection)
+      this.$store.commit('updateVideosLoading', true)
+      this.$store.dispatch('getVideos', {
+          gateway: this.currentGatewayHandle,
+          method: collection.method,
+          options: collection.options,
+        })
+        .then(() => {
+          this.$store.commit('updateVideosLoading', false)
+        })
+        .catch(() => {
+          this.$store.commit('updateVideosLoading', false)
+          this.$store.dispatch('displayError', 'Couldn’t get videos.')
+        })
+    },
+
+    isCollectionSelected(sectionKey, collectionKey) {
+      if (this.selectedCollection !== this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)) {
+        return false
+      }
+
+      return true
+    },
+  }
+}
+</script>
+
 <template>
   <div class="sidebar">
     <div class="dv-px-2">
@@ -48,73 +118,3 @@
     </nav>
   </div>
 </template>
-
-<script>
-    import {mapState, mapGetters} from 'vuex'
-    import ThumbUp from '@/icons/ThumbUp';
-    import Folder from '@/icons/Folder';
-    import Layout from '@/icons/Layout';
-    import VideoCamera from '@/icons/VideoCamera';
-    import List from '@/icons/List';
-
-    export default {
-
-        components: {
-            ThumbUp,
-            Folder,
-            Layout,
-            VideoCamera,
-            List,
-        },
-
-        computed: {
-
-            ...mapState({
-                gateways: state => state.gateways,
-                selectedCollection: state => state.selectedCollection,
-            }),
-
-            ...mapGetters([
-                'currentGateway',
-            ]),
-
-            currentGatewayHandle: {
-                get() {
-                    return this.$store.state.currentGatewayHandle
-                },
-                set(value) {
-                    this.$store.commit('updateCurrentGatewayHandle', value)
-                }
-            },
-        },
-
-        methods: {
-            handleCollectionClick(sectionKey, collectionKey, collection) {
-                const selectedCollection = this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)
-
-                this.$store.commit('updateSelectedCollection', selectedCollection)
-                this.$store.commit('updateVideosLoading', true)
-                this.$store.dispatch('getVideos', {
-                    gateway: this.currentGatewayHandle,
-                    method: collection.method,
-                    options: collection.options,
-                })
-                    .then(() => {
-                        this.$store.commit('updateVideosLoading', false)
-                    })
-                    .catch(() => {
-                        this.$store.commit('updateVideosLoading', false)
-                        this.$store.dispatch('displayError', 'Couldn’t get videos.')
-                    })
-            },
-
-            isCollectionSelected(sectionKey, collectionKey) {
-                if (this.selectedCollection !== this.getCollectionUniqueKey(this.currentGatewayHandle, sectionKey, collectionKey)) {
-                    return false
-                }
-
-                return true
-            },
-        }
-    }
-</script>
