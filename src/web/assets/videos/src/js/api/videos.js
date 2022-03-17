@@ -4,7 +4,7 @@ import axios from 'axios'
 
 export default {
   getGateways() {
-    return axios.get(Craft.getActionUrl('videos/vue/get-gateways'), {
+    return axios.get(Craft.getActionUrl('videos/explorer/get-gateways'), {
       headers: {
         'X-CSRF-Token': Craft.csrfTokenValue,
       }
@@ -21,7 +21,7 @@ export default {
       data.options = options
     }
 
-    return axios.post(Craft.getActionUrl('videos/vue/get-videos'), data, {
+    return axios.post(Craft.getActionUrl('videos/explorer/get-videos'), data, {
       headers: {
         'X-CSRF-Token': Craft.csrfTokenValue,
       }
@@ -33,7 +33,7 @@ export default {
       url
     }
 
-    return axios.post(Craft.getActionUrl('videos/vue/get-video'), data, {
+    return axios.post(Craft.getActionUrl('videos/explorer/get-video'), data, {
       headers: {
         'X-CSRF-Token': Craft.csrfTokenValue,
       }
@@ -46,7 +46,7 @@ export default {
       videoId: video.id,
     }
 
-    return axios.post(Craft.getActionUrl('videos/vue/get-video-embed-html'), data, {
+    return axios.post(Craft.getActionUrl('videos/explorer/get-video-embed-html'), data, {
       headers: {
         'X-CSRF-Token': Craft.csrfTokenValue,
       }

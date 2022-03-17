@@ -20,7 +20,7 @@ use yii\web\Response;
 /**
  * Vue controller
  */
-class VueController extends Controller
+class ExplorerController extends Controller
 {
     /**
      * @return Response
