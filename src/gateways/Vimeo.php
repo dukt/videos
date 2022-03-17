@@ -399,8 +399,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsAlbums(array $params = []): array
     {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri,stats';
+
         $data = $this->get('me/albums', [
-            'query' => $this->queryFromParams($params)
+            'query' => $query,
         ]);
 
         return $this->parseCollections('album', $data['data']);
@@ -415,8 +418,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsFolders(array $params = []): array
     {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri';
+
         $data = $this->get('me/folders', [
-            'query' => $this->queryFromParams($params)
+            'query' => $query
         ]);
 
         return $this->parseCollections('folder', $data['data']);
@@ -431,8 +437,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsChannels(array $params = []): array
     {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri';
+
         $data = $this->get('me/channels', [
-            'query' => $this->queryFromParams($params)
+            'query' => $query
         ]);
 
         return $this->parseCollections('channel', $data['data']);
@@ -653,6 +662,7 @@ class Vimeo extends Gateway
     private function performVideosRequest($uri, $params): array
     {
         $query = $this->queryFromParams($params);
+        $query['fields'] = 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files';
 
         $data = $this->get($uri, [
             'query' => $query
