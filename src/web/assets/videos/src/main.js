@@ -1,3 +1,5 @@
+/* eslint-disable vue/one-component-per-file */
+
 import Vue from 'vue'
 import utils from '@/js/mixins/utils';
 import createStore from '@/js/createStore'

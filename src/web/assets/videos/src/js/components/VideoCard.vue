@@ -49,6 +49,7 @@
         props: {
             video: {
                 type: Object,
+                required: true,
             },
         },
 

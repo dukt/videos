@@ -10,7 +10,9 @@
 </template>
 
 <script>
+    /* eslint-disable vue/no-v-html */
     /* global Garnish */
+
     import videosApi from './api/videos'
 
     export default {

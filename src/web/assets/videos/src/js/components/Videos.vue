@@ -19,7 +19,8 @@
 
         props: {
             videos: {
-                type: Array
+                type: Array,
+                required: true,
             }
         }
     }
