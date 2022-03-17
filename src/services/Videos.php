@@ -29,6 +29,11 @@ class Videos extends Component
      */
     public $useDevServer = false;
 
+    /**
+     * {@inheritdoc}
+     */
+    public $pluginDevMode = false;
+
     // Public Methods
     // =========================================================================
 

@@ -422,6 +422,14 @@ abstract class Gateway implements GatewayInterface
 
         try {
             $response = $client->request('GET', $uri, $options);
+
+            if (Videos::$plugin->getVideos()->pluginDevMode && $this->getHandle() === 'vimeo') {
+                Craft::info('URI: '.Json::encode($uri), __METHOD__);
+                Craft::info('Options: '.Json::encode($options), __METHOD__);
+                Craft::info('Vimeo X-RateLimit-Limit: '.Json::encode($response->getHeader('X-RateLimit-Limit')), __METHOD__);
+                Craft::info('Vimeo X-RateLimit-Remaining: '.Json::encode($response->getHeader('X-RateLimit-Remaining')), __METHOD__);
+            }
+
             $body = (string)$response->getBody();
             $data = Json::decode($body);
         } catch (BadResponseException $badResponseException) {
