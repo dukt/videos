@@ -5,7 +5,7 @@
   "scripts": {
     "build": "webpack --node-env=production",
     "serve": "webpack-dev-server --node-env=development",
-    "lint": "eslint src --ext .js,.vue"
+    "lint": "eslint src/web/assets/videos/src/ --ext .js,.vue"
   },
   "devDependencies": {
     "@babel/core": "^7.17.7",
@@ -52,7 +52,7 @@
     },
     "ignorePatterns": [
       "./node_modules/**",
-      "src/web/assets/videos/dist/*.js"
+      "./src/web/assets/videos/dist/*.js"
     ],
     "overrides": [
       {
