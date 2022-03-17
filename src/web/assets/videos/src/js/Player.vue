@@ -49,6 +49,6 @@ export default {
 
 <style lang="css">
 .videos-player iframe {
-    @apply dv-absolute dv-w-full dv-h-full;
+  @apply dv-absolute dv-w-full dv-h-full;
 }
 </style>

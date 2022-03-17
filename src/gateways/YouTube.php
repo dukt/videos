@@ -100,7 +100,7 @@ class YouTube extends Gateway
     {
         $options = parent::getOauthProviderOptions($parse);
 
-        if(!isset($options['useOidcMode'])) {
+        if (!isset($options['useOidcMode'])) {
             $options['useOidcMode'] = true;
         }
 
@@ -267,7 +267,7 @@ class YouTube extends Gateway
         $options = [
             'base_uri' => $this->getApiUrl(),
             'headers' => [
-                'Authorization' => 'Bearer '.$this->getOauthToken()->getToken()
+                'Authorization' => 'Bearer ' . $this->getOauthToken()->getToken()
             ]
         ];
 
@@ -604,7 +604,7 @@ class YouTube extends Gateway
         $video = new Video;
         $video->raw = $data;
         $video->authorName = $data['snippet']['channelTitle'];
-        $video->authorUrl = 'http://youtube.com/channel/'.$data['snippet']['channelId'];
+        $video->authorUrl = 'http://youtube.com/channel/' . $data['snippet']['channelId'];
         $video->date = strtotime($data['snippet']['publishedAt']);
         $video->description = $data['snippet']['description'];
         $video->gatewayHandle = 'youtube';
@@ -612,11 +612,11 @@ class YouTube extends Gateway
         $video->id = $data['id'];
         $video->plays = $data['statistics']['viewCount'];
         $video->title = $data['snippet']['title'];
-        $video->url = 'http://youtu.be/'.$video->id;
+        $video->url = 'http://youtu.be/' . $video->id;
 
         // Video Duration
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $video->durationSeconds = (int) date_create('@0')->add($interval)->getTimestamp();
+        $video->durationSeconds = (int)date_create('@0')->add($interval)->getTimestamp();
         $video->duration8601 = $data['contentDetails']['duration'];
 
         // Thumbnails

@@ -30,7 +30,7 @@ class VideosAsset extends AssetBundle
         ];
 
         if (!Plugin::getInstance()->getVideos()->useDevServer) {
-            $this->sourcePath = __DIR__.'/dist';
+            $this->sourcePath = __DIR__ . '/dist';
             $this->js[] = 'js/chunk-vendors.js';
             $this->js[] = 'js/app.js';
             $this->css[] = 'css/app.css';

@@ -73,7 +73,7 @@ class ExplorerController extends Controller
                     $errorMsg = $data['error_description'];
                 }
 
-                Craft::error('Couldn’t load gateway `'.$_gateway->getHandle().'`: '.$errorMsg, __METHOD__);
+                Craft::error('Couldn’t load gateway `' . $_gateway->getHandle() . '`: ' . $errorMsg, __METHOD__);
             }
         }
 

@@ -106,8 +106,8 @@ class Oauth extends Component
      * Create token from data.
      *
      * @param string $gatewayHandle
-     * @param array  $data
-     * @param bool   $refreshToken
+     * @param array $data
+     * @param bool $refreshToken
      *
      * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException

@@ -11,5 +11,5 @@ import storeOptions from '@/js/storeOptions'
 Vue.use(Vuex)
 
 export default () => {
-    return new Vuex.Store(cloneDeep(storeOptions))
+  return new Vuex.Store(cloneDeep(storeOptions))
 }

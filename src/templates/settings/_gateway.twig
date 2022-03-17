@@ -12,7 +12,9 @@
 
 {% set content %}
 
-    <img src="{{ gateway.getIconUrl() }}" width="36"/>
+    <img
+            src="{{ gateway.getIconUrl() }}"
+            width="36" />
 
     <h2>{{ "{gateway} account"|t('videos', {gateway: gateway.name}) }}</h2>
 
@@ -30,13 +32,15 @@
             </ul>
         {% endif %}
 
-        <p><a class="btn small"
-              href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('videos') }}</a>
+        <p><a
+                    class="btn small"
+                    href="{{ actionUrl('videos/oauth/disconnect', { gateway: gateway.handle }) }}">{{ 'Disconnect'|t('videos') }}</a>
         </p>
     {% else %}
         <p>{{ 'Gettings errors trying to connect? Check your {link}.'|t('videos', { link: '<a href="'~url('videos/settings/'~gateway.handle~'/oauth')~'">OAuth settings</a>' })|raw }}</p>
-        <p><a class="btn submit"
-              href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{ "Connect to {gateway}"|t('videos', { gateway: gateway.name }) }}</a>
+        <p><a
+                    class="btn submit"
+                    href="{{ actionUrl('videos/oauth/connect', { gateway: gateway.handle }) }}">{{ "Connect to {gateway}"|t('videos', { gateway: gateway.name }) }}</a>
         </p>
     {% endif %}
 

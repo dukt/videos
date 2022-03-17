@@ -13,23 +13,23 @@ Vue.config.productionTip = false
 Vue.mixin(utils)
 
 window.VideoExplorerConstructor = Vue.extend({
-    render: h => h(Explorer),
-    store: createStore(),
+  render: h => h(Explorer),
+  store: createStore(),
 })
 
 window.VideoFieldConstructor = Vue.extend({
-    created() {
-        this.$store = createStore()
-    },
-    render: h => h(Field)
+  created() {
+    this.$store = createStore()
+  },
+  render: h => h(Field)
 })
 
 window.VideoSelectorActionsConstructor = Vue.extend({
-    render: h => h(SelectorActions),
+  render: h => h(SelectorActions),
 })
 
 window.VideoPlayerConstructor = Vue.extend({
-    render: h => h(Player),
+  render: h => h(Player),
 })
 
 import './css/videos.pcss'

@@ -54,8 +54,8 @@ class Video extends Field
         $id = $view->formatInputId($name);
 
         // Init CSRF Token
-        $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->getGeneral()->csrfTokenName.'";';
-        $jsTemplate .= 'window.csrfTokenValue = "'.Craft::$app->getRequest()->getCsrfToken().'";';
+        $jsTemplate = 'window.csrfTokenName = "' . Craft::$app->getConfig()->getGeneral()->csrfTokenName . '";';
+        $jsTemplate .= 'window.csrfTokenValue = "' . Craft::$app->getRequest()->getCsrfToken() . '";';
         $js = $view->renderString($jsTemplate);
         $view->registerJs($js);
 
@@ -91,7 +91,7 @@ class Video extends Field
 
         // Instantiate Videos Field
         // $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
-        $view->registerJs('new VideoFieldConstructor({data: {fieldVariables: '.\json_encode($variables).'}}).$mount("#'.$view->namespaceInputId($id).'-vue");');
+        $view->registerJs('new VideoFieldConstructor({data: {fieldVariables: ' . \json_encode($variables) . '}}).$mount("#' . $view->namespaceInputId($id) . '-vue");');
 
         return $view->renderTemplate('videos/_components/fieldtypes/Video/input', $variables);
     }
@@ -132,7 +132,7 @@ class Video extends Field
                 return $video;
             }
         } catch (\Exception $e) {
-            Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
+            Craft::info("Couldn't get video in field normalizeValue: " . $e->getMessage(), __METHOD__);
         }
 
         return null;
@@ -141,7 +141,7 @@ class Video extends Field
     /**
      * Get Search Keywords
      *
-     * @param mixed            $value
+     * @param mixed $value
      * @param ElementInterface $element
      *
      * @return string

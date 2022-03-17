@@ -1,5 +1,5 @@
 <script>
-import { mapActions } from 'vuex'
+import {mapActions} from 'vuex'
 import Thumb from './Thumb'
 
 export default {

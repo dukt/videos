@@ -37,10 +37,10 @@ class VideosHelper
         $hms = '';
 
         if ($hours > 0) {
-            $hms .= str_pad($hours, 2, '0', STR_PAD_LEFT).':';
+            $hms .= str_pad($hours, 2, '0', STR_PAD_LEFT) . ':';
         }
 
-        $hms .= str_pad($minutes, 2, '0', STR_PAD_LEFT).':';
+        $hms .= str_pad($minutes, 2, '0', STR_PAD_LEFT) . ':';
 
         $hms .= str_pad($seconds, 2, '0', STR_PAD_LEFT);
 
@@ -90,9 +90,9 @@ class VideosHelper
      */
     public static function getVideoThumbnail($gatewayHandle, $videoId, $size)
     {
-        $baseDir = Craft::$app->getPath()->getRuntimePath().DIRECTORY_SEPARATOR.'videos'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR.$gatewayHandle.DIRECTORY_SEPARATOR.$videoId;
-        $originalDir = $baseDir.DIRECTORY_SEPARATOR.'original';
-        $dir = $baseDir.DIRECTORY_SEPARATOR.$size;
+        $baseDir = Craft::$app->getPath()->getRuntimePath() . DIRECTORY_SEPARATOR . 'videos' . DIRECTORY_SEPARATOR . 'thumbnails' . DIRECTORY_SEPARATOR . $gatewayHandle . DIRECTORY_SEPARATOR . $videoId;
+        $originalDir = $baseDir . DIRECTORY_SEPARATOR . 'original';
+        $dir = $baseDir . DIRECTORY_SEPARATOR . $size;
 
         $file = self::getThumbnailFile($dir);
 
@@ -111,17 +111,17 @@ class VideosHelper
             if (!$originalPath) {
                 try {
                     $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
-                } catch(ApiResponseException $e) {
-                    Craft::info('Couldn’t get video thumbnail:'."\r\n"
-                        .'Message: '."\r\n".$e->getMessage()."\r\n"
-                        .'Trace: '."\r\n".$e->getTraceAsString(), __METHOD__);
+                } catch (ApiResponseException $e) {
+                    Craft::info('Couldn’t get video thumbnail:' . "\r\n"
+                        . 'Message: ' . "\r\n" . $e->getMessage() . "\r\n"
+                        . 'Trace: ' . "\r\n" . $e->getTraceAsString(), __METHOD__);
                     return null;
                 }
 
                 $url = $video->thumbnailSource;
 
                 $name = pathinfo($url, PATHINFO_BASENAME);
-                $originalPath = $originalDir.DIRECTORY_SEPARATOR.$name;
+                $originalPath = $originalDir . DIRECTORY_SEPARATOR . $name;
 
                 FileHelper::createDirectory($originalDir);
                 $client = new \GuzzleHttp\Client();
@@ -138,8 +138,8 @@ class VideosHelper
                     $ext = FileHelper::getExtensionByMimeType($mime);
 
                     if ($ext) {
-                        $name .= '.'.$ext;
-                        $targetPath = $originalDir.DIRECTORY_SEPARATOR.$name;
+                        $name .= '.' . $ext;
+                        $targetPath = $originalDir . DIRECTORY_SEPARATOR . $name;
 
                         rename($originalPath, $targetPath);
 
@@ -155,7 +155,7 @@ class VideosHelper
             }
 
             // Generate the thumb
-            $path = $dir.DIRECTORY_SEPARATOR.$name;
+            $path = $dir . DIRECTORY_SEPARATOR . $name;
             FileHelper::createDirectory($dir);
             Craft::$app->getImages()->loadImage($originalPath, false, $size)
                 ->scaleToFit($size, $size)
@@ -164,7 +164,7 @@ class VideosHelper
             $name = pathinfo($file, PATHINFO_BASENAME);
         }
 
-        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true)."/{$name}";
+        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true) . "/{$name}";
     }
 
     /**

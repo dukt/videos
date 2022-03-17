@@ -194,7 +194,7 @@ class Vimeo extends Gateway
      */
     public function getVideoById(string $id): Video
     {
-        $data = $this->get('videos/'.$id, [
+        $data = $this->get('videos/' . $id, [
             'query' => [
                 'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files'
             ],
@@ -274,8 +274,8 @@ class Vimeo extends Gateway
         $options = [
             'base_uri' => $this->getApiUrl(),
             'headers' => [
-                'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
-                'Authorization' => 'Bearer '.$this->getOauthToken()->getToken()
+                'Accept' => 'application/vnd.vimeo.*+json;version=' . $this->getApiVersion(),
+                'Authorization' => 'Bearer ' . $this->getOauthToken()->getToken()
             ],
         ];
 
@@ -296,7 +296,7 @@ class Vimeo extends Gateway
         unset($params['id']);
 
         // albums/#album_id
-        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
+        return $this->performVideosRequest('me/albums/' . $albumId . '/videos', $params);
     }
 
     /**
@@ -313,7 +313,7 @@ class Vimeo extends Gateway
         unset($params['id']);
 
         // folders/#folder_id
-        return $this->performVideosRequest('me/folders/'.$folderId.'/videos', $params);
+        return $this->performVideosRequest('me/folders/' . $folderId . '/videos', $params);
     }
 
     /**
@@ -329,7 +329,7 @@ class Vimeo extends Gateway
         $params['channel_id'] = $params['id'];
         unset($params['id']);
 
-        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
+        return $this->performVideosRequest('channels/' . $params['channel_id'] . '/videos', $params);
     }
 
     /**
@@ -463,7 +463,7 @@ class Vimeo extends Gateway
                     break;
 
                 default:
-                    throw new CollectionParsingException('Couldn’t parse collection of type ”'.$type.'“.');
+                    throw new CollectionParsingException('Couldn’t parse collection of type ”' . $type . '“.');
             }
 
             $parseCollections[] = $parsedCollection;
@@ -557,10 +557,10 @@ class Vimeo extends Gateway
         $video->description = $data['description'];
         $video->gatewayHandle = 'vimeo';
         $video->gatewayName = 'Vimeo';
-        $video->id = (int) substr($data['uri'], \strlen('/videos/'));
+        $video->id = (int)substr($data['uri'], \strlen('/videos/'));
         $video->plays = $data['stats']['plays'] ?? 0;
         $video->title = $data['name'];
-        $video->url = 'https://vimeo.com/'.substr($data['uri'], 8);
+        $video->url = 'https://vimeo.com/' . substr($data['uri'], 8);
         $video->width = $data['width'];
         $video->height = $data['height'];
 
@@ -585,7 +585,7 @@ class Vimeo extends Gateway
     {
         $privacyOptions = ['nobody', 'contacts', 'password', 'users', 'disable'];
 
-        if(in_array($data['privacy']['view'], $privacyOptions, true)) {
+        if (in_array($data['privacy']['view'], $privacyOptions, true)) {
             $video->private = true;
         }
 

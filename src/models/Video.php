@@ -20,7 +20,7 @@ use Twig_Markup;
  * @author Dukt <support@dukt.net>
  * @since  2.0
  *
- * @property string                         $duration
+ * @property string $duration
  * @property \dukt\videos\base\Gateway|null $gateway
  */
 class Video extends Model

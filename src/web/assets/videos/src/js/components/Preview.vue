@@ -70,10 +70,12 @@ export default {
               >{{ previewVideo.authorName }}</a>
             </li>
             <li class="truncate dv-block">
-              {{ t('videos', '{plays} plays', { plays: previewVideo.plays }) }}
+              {{ t('videos', '{plays} plays', {plays: previewVideo.plays}) }}
             </li>
             <li class="truncate dv-block">
-              <a @click.prevent="$emit('removeVideo')">{{ t('videos', "Remove") }}</a>
+              <a @click.prevent="$emit('removeVideo')">
+                {{ t('videos', "Remove") }}
+              </a>
             </li>
           </ul>
         </div>

@@ -3,15 +3,24 @@
     <div class="videos-thumb">
         <img src="{{ video.thumbnail }}" />
         <div class="duration">{{ video.duration }}</div>
-        <div class="play" data-gateway="{{ video.gatewayHandle }}" data-id="{{ video.id }}"></div>
+        <div
+                class="play"
+                data-gateway="{{ video.gatewayHandle }}"
+                data-id="{{ video.id }}"></div>
     </div>
 
     <div class="description">
-        <p class="title"><strong title="{{ video.title }}">{{ video.title }}</strong></p>
+        <p class="title">
+            <strong title="{{ video.title }}">{{ video.title }}</strong></p>
 
         <ul class="light">
-            <li><a class="light" href="{{ video.url }}">{{ video.url }}</a></li>
-            <li>{{ "By"|t('videos') }} <strong><a href="{{ video.authorUrl }}" class="light">{{ video.authorName }}</a></strong></li>
+            <li><a
+                        class="light"
+                        href="{{ video.url }}">{{ video.url }}</a></li>
+            <li>{{ "By"|t('videos') }} <strong><a
+                            href="{{ video.authorUrl }}"
+                            class="light">{{ video.authorName }}</a></strong>
+            </li>
 
             {% if video.plays %}
                 <li>{{ video.plays }} {{ "plays"|t('videos') }}</li>

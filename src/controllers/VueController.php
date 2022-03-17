@@ -72,9 +72,9 @@ class VueController extends Controller
 
         // Todo: Make this happen in the Video model toArray()
 
-        $videos = array();
+        $videos = [];
 
-        foreach($videosResponse['videos'] as $video) {
+        foreach ($videosResponse['videos'] as $video) {
             $videos[] = VideosHelper::videoToArray($video);
         }
 

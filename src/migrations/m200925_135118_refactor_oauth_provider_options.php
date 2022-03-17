@@ -25,7 +25,7 @@ class m200925_135118_refactor_oauth_provider_options extends Migration
             // Get OAuth provider options
             $oauthProviderOptions = $projectConfig->get('plugins.videos.settings.oauthProviderOptions', true);
 
-            if(!is_array($oauthProviderOptions)) {
+            if (!is_array($oauthProviderOptions)) {
                 return true;
             }
 
@@ -35,8 +35,8 @@ class m200925_135118_refactor_oauth_provider_options extends Migration
             $projectConfig->set('plugins.videos.settings.oauthProviderOptions', [], "Reset the oauth provider options");
 
             // Rebuild OAuth provider options
-            foreach($oauthProviderOptions as $providerHandle => $provider) {
-                $projectConfig->set('plugins.videos.settings.oauthProviderOptions.'.$providerHandle, $provider, "Save the “{$providerHandle}” provider");
+            foreach ($oauthProviderOptions as $providerHandle => $provider) {
+                $projectConfig->set('plugins.videos.settings.oauthProviderOptions.' . $providerHandle, $provider, "Save the “{$providerHandle}” provider");
             }
         }
     }

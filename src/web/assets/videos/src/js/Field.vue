@@ -126,7 +126,7 @@ export default {
       })
     },
 
-    preview:debounce(function() {
+    preview: debounce(function() {
       if (!this.videoUrl) {
         this.previewLoading = false
         this.previewVideo = null

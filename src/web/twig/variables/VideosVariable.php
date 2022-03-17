@@ -34,7 +34,7 @@ class VideosVariable
      *
      * @param      $videoUrl
      * @param bool $enableCache
-     * @param int  $cacheExpiry
+     * @param int $cacheExpiry
      *
      * @return bool|null
      */
@@ -43,7 +43,7 @@ class VideosVariable
         try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
         } catch (\Exception $e) {
-            Craft::info('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
+            Craft::info('Couldn’t get video from its url (' . $videoUrl . '): ' . $e->getMessage(), __METHOD__);
         }
 
         return null;
@@ -54,7 +54,7 @@ class VideosVariable
      *
      * @param      $videoUrl
      * @param bool $enableCache
-     * @param int  $cacheExpiry
+     * @param int $cacheExpiry
      */
     public function url($videoUrl, $enableCache = true, $cacheExpiry = 3600)
     {

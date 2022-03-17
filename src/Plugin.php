@@ -176,7 +176,7 @@ class Plugin extends \craft\base\Plugin
             $event->options[] = [
                 'key' => 'videos-caches',
                 'label' => Craft::t('videos', 'Videos caches'),
-                'action' => Craft::$app->path->getRuntimePath().'/videos'
+                'action' => Craft::$app->path->getRuntimePath() . '/videos'
             ];
         });
     }
