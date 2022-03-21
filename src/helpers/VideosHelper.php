@@ -63,14 +63,14 @@ class VideosHelper
         $iso8601 = 'PT';
 
         if ($hours > 0) {
-            $iso8601 .= "{$hours}H";
+            $iso8601 .= sprintf('%dH', $hours);
         }
 
         if ($minutes > 0) {
-            $iso8601 .= "{$minutes}M";
+            $iso8601 .= sprintf('%dM', $minutes);
         }
 
-        return $iso8601 . "{$seconds}S";
+        return $iso8601 . sprintf('%dS', $seconds);
     }
 
     /**
@@ -109,10 +109,10 @@ class VideosHelper
             if (!$originalPath) {
                 try {
                     $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
-                } catch (ApiResponseException $e) {
+                } catch (ApiResponseException $apiResponseException) {
                     Craft::info('Couldn’t get video thumbnail:' . "\r\n"
-                        . 'Message: ' . "\r\n" . $e->getMessage() . "\r\n"
-                        . 'Trace: ' . "\r\n" . $e->getTraceAsString(), __METHOD__);
+                        . 'Message: ' . "\r\n" . $apiResponseException->getMessage() . "\r\n"
+                        . 'Trace: ' . "\r\n" . $apiResponseException->getTraceAsString(), __METHOD__);
                     return null;
                 }
 
@@ -162,7 +162,7 @@ class VideosHelper
             $name = pathinfo($file, PATHINFO_BASENAME);
         }
 
-        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true) . "/{$name}";
+        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true) . sprintf('/%s', $name);
     }
 
     /**

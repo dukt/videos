@@ -36,7 +36,7 @@ class m200925_135118_refactor_oauth_provider_options extends Migration
 
             // Rebuild OAuth provider options
             foreach ($oauthProviderOptions as $providerHandle => $provider) {
-                $projectConfig->set('plugins.videos.settings.oauthProviderOptions.' . $providerHandle, $provider, "Save the “{$providerHandle}” provider");
+                $projectConfig->set('plugins.videos.settings.oauthProviderOptions.' . $providerHandle, $provider, sprintf('Save the “%s” provider', $providerHandle));
             }
         }
     }

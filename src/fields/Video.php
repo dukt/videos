@@ -132,8 +132,8 @@ class Video extends Field
 
                 return $video;
             }
-        } catch (\Exception $e) {
-            Craft::info("Couldn't get video in field normalizeValue: " . $e->getMessage(), __METHOD__);
+        } catch (\Exception $exception) {
+            Craft::info("Couldn't get video in field normalizeValue: " . $exception->getMessage(), __METHOD__);
         }
 
         return null;

@@ -72,7 +72,7 @@ class Tokens extends Component
                 ->one();
 
             if (!$tokenRecord) {
-                throw new InvalidViewException("No token exists with the ID '{$token->id}'");
+                throw new InvalidViewException(sprintf('No token exists with the ID \'%s\'', $token->id));
             }
 
             $isNewToken = false;
@@ -96,10 +96,10 @@ class Tokens extends Component
             }
 
             $transaction->commit();
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $transaction->rollBack();
 
-            throw $e;
+            throw $exception;
         }
 
         return true;

@@ -88,7 +88,7 @@ class m190601_092217_tokens extends Migration
                     $providerHandle = null;
             }
 
-            if (!$providerHandle) {
+            if ($providerHandle === null) {
                 continue;
             }
 

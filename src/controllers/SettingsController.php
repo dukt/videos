@@ -38,10 +38,10 @@ class SettingsController extends Controller
             try {
                 $accounts[$gateway->getHandle()] = $gateway->getAccount();
                 $accountErrors[$gateway->getHandle()] = false;
-            } catch (IdentityProviderException $e) {
-                $error = $e->getMessage();
+            } catch (IdentityProviderException $identityProviderException) {
+                $error = $identityProviderException->getMessage();
 
-                $data = $e->getResponseBody();
+                $data = $identityProviderException->getResponseBody();
 
                 if (isset($data['error_description'])) {
                     $error = $data['error_description'];
@@ -76,9 +76,9 @@ class SettingsController extends Controller
 
         try {
             $account = $gateway->getAccount();
-        } catch (IdentityProviderException $e) {
-            $error = $e->getMessage();
-            $data = $e->getResponseBody();
+        } catch (IdentityProviderException $identityProviderException) {
+            $error = $identityProviderException->getMessage();
+            $data = $identityProviderException->getResponseBody();
 
             if (isset($data['error_description'])) {
                 $error = $data['error_description'];
@@ -137,7 +137,7 @@ class SettingsController extends Controller
         $key = 'plugins.videos.settings.oauthProviderOptions';
         $configPath = $key . '.' . $gateway->getHandle();
 
-        Craft::$app->getProjectConfig()->set($configPath, $configData, "Save the “{$gateway->getHandle()}” integration");
+        Craft::$app->getProjectConfig()->set($configPath, $configData, sprintf('Save the “%s” integration', $gateway->getHandle()));
 
         Craft::$app->getSession()->setNotice(Craft::t('videos', 'Gateway’s OAuth settings saved.'));
 

@@ -168,13 +168,13 @@ abstract class Gateway implements GatewayInterface
 
             // Redirect
             Craft::$app->getSession()->setNotice(Craft::t('videos', 'Connected to {gateway}.', ['gateway' => $this->getName()]));
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             Craft::error('Couldn’t connect to video gateway:' . "\r\n"
-                . 'Message: ' . "\r\n" . $e->getMessage() . "\r\n"
-                . 'Trace: ' . "\r\n" . $e->getTraceAsString(), __METHOD__);
+                . 'Message: ' . "\r\n" . $exception->getMessage() . "\r\n"
+                . 'Trace: ' . "\r\n" . $exception->getTraceAsString(), __METHOD__);
 
             // Failed to get the token credentials or user details.
-            Craft::$app->getSession()->setError($e->getMessage());
+            Craft::$app->getSession()->setError($exception->getMessage());
         }
 
         $redirectUrl = UrlHelper::cpUrl('videos/settings');
@@ -432,7 +432,7 @@ abstract class Gateway implements GatewayInterface
 
             try {
                 $data = Json::decode($body);
-            } catch (JsonParsingException $e) {
+            } catch (JsonParsingException $jsonParsingException) {
                 throw $badResponseException;
             }
         }
