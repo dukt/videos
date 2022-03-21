@@ -8,6 +8,7 @@
 namespace dukt\videos\web\twig\variables;
 
 use Craft;
+use dukt\videos\models\Video;
 use dukt\videos\Plugin as Videos;
 
 class VideosVariable
@@ -34,7 +35,7 @@ class VideosVariable
      *
      * @param      $videoUrl
      *
-     * @return bool|null
+     * @return Video|null
      */
     public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
     {
@@ -51,9 +52,10 @@ class VideosVariable
      * Alias for the `getVideoByUrl()` method.
      *
      * @param      $videoUrl
+     * @return Video|null
      */
-    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600): void
+    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
     {
-        $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
+        return $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }
 }

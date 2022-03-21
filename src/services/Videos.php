@@ -8,6 +8,7 @@
 namespace dukt\videos\services;
 
 use Craft;
+use dukt\videos\models\Video;
 use yii\base\Component;
 use dukt\videos\Plugin as VideosPlugin;
 
@@ -83,7 +84,7 @@ class Videos extends Component
      *
      * @param      $videoUrl
      *
-     * @return bool|mixed|null
+     * @return Video|null
      * @throws \yii\base\InvalidConfigException
      */
     public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
