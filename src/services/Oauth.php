@@ -37,7 +37,7 @@ class Oauth extends Component
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if ($token === null) {
+        if (!$token instanceof \dukt\videos\models\Token) {
             return null;
         }
 
@@ -90,7 +90,7 @@ class Oauth extends Component
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if ($token === null) {
+        if (!$token instanceof \dukt\videos\models\Token) {
             return true;
         }
 

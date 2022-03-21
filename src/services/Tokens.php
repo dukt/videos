@@ -117,7 +117,7 @@ class Tokens extends Component
     {
         $tokenRecord = TokenRecord::findOne($id);
 
-        if ($tokenRecord === null) {
+        if (!$tokenRecord instanceof \dukt\videos\records\Token) {
             return true;
         }
 

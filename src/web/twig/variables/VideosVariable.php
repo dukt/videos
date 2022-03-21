@@ -37,7 +37,7 @@ class VideosVariable
      *
      * @return Video|null
      */
-    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600): ?\dukt\videos\models\Video
     {
         try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
@@ -54,7 +54,7 @@ class VideosVariable
      * @param      $videoUrl
      * @return Video|null
      */
-    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
+    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600): ?\dukt\videos\models\Video
     {
         return $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }

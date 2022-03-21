@@ -48,11 +48,11 @@ class Videos extends Component
      * @return null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbed($videoUrl, array $embedOptions = [])
+    public function getEmbed($videoUrl, array $embedOptions = []): ?\Twig_Markup
     {
         $video = $this->getVideoByUrl($videoUrl);
 
-        if ($video) {
+        if ($video !== null) {
             return $video->getEmbed($embedOptions);
         }
 

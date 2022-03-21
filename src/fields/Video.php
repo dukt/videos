@@ -112,7 +112,7 @@ class Video extends Field
     /**
      * @inheritdoc
      */
-    public function normalizeValue($videoUrl, ElementInterface $element = null)
+    public function normalizeValue($videoUrl, ElementInterface $element = null): ?\dukt\videos\models\Video
     {
         if ($videoUrl instanceof \dukt\videos\models\Video) {
             return $videoUrl;
@@ -122,7 +122,7 @@ class Video extends Field
             if (!empty($videoUrl)) {
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
 
-                if ($video) {
+                if ($video !== null) {
                     return $video;
                 }
 

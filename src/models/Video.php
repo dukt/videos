@@ -170,7 +170,7 @@ class Video extends Model
     {
         $gateway = $this->getGateway();
 
-        if ($gateway === null) {
+        if (!$gateway instanceof \dukt\videos\base\Gateway) {
             return null;
         }
 
@@ -185,7 +185,7 @@ class Video extends Model
      */
     public function getGateway(): ?\dukt\videos\base\Gateway
     {
-        if ($this->_gateway === null) {
+        if (!$this->_gateway instanceof \dukt\videos\base\Gateway) {
             $this->_gateway = Videos::$plugin->getGateways()->getGateway($this->gatewayHandle);
         }
 

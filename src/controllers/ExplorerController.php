@@ -63,7 +63,7 @@ class ExplorerController extends Controller
 
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
-        if ($gateway === null) {
+        if (!$gateway instanceof \dukt\videos\base\Gateway) {
             throw new GatewayNotFoundException('Gateway not found.');
         }
 
@@ -95,7 +95,7 @@ class ExplorerController extends Controller
 
         $video = Plugin::getInstance()->getVideos()->getVideoByUrl($url);
 
-        if (!$video) {
+        if ($video === null) {
             return $this->asErrorJson(Craft::t('videos', 'Unable to find the video.'));
         }
 
