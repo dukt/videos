@@ -164,7 +164,7 @@ class YouTube extends Gateway
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Playlists',
                 'collections' => $collections,
@@ -367,7 +367,7 @@ class YouTube extends Gateway
 
         // Get videos from video IDs
 
-        if (\count($videoIds) > 0) {
+        if ($videoIds !== []) {
 
             $query = [];
             $query['part'] = 'snippet,statistics,contentDetails';

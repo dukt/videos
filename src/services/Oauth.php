@@ -39,7 +39,7 @@ class Oauth extends Component
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$token) {
+        if ($token === null) {
             return null;
         }
 
@@ -58,7 +58,7 @@ class Oauth extends Component
     {
         $tokenModel = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$tokenModel) {
+        if ($tokenModel === null) {
             $tokenModel = new Token();
             $tokenModel->gateway = $gatewayHandle;
         }
@@ -92,7 +92,7 @@ class Oauth extends Component
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$token) {
+        if ($token === null) {
             return true;
         }
 

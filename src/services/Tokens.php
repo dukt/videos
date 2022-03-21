@@ -117,7 +117,7 @@ class Tokens extends Component
     {
         $tokenRecord = TokenRecord::findOne($id);
 
-        if (!$tokenRecord) {
+        if ($tokenRecord === null) {
             return true;
         }
 

@@ -66,11 +66,7 @@ class Gateways extends Component
     {
         $this->loadGateways();
 
-        if ($enabledOnly) {
-            $gateways = $this->_gateways;
-        } else {
-            $gateways = $this->_allGateways;
-        }
+        $gateways = $enabledOnly ? $this->_gateways : $this->_allGateways;
 
         foreach ($gateways as $g) {
             if ($g->getHandle() === $gatewayHandle) {
@@ -120,7 +116,7 @@ class Gateways extends Component
 
                 $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-                if ($token) {
+                if ($token !== null) {
                     $this->_gateways[] = $gateway;
                 }
             } else {

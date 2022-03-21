@@ -129,7 +129,7 @@ class Vimeo extends Gateway
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Folders',
                 'collections' => $collections,
@@ -151,7 +151,7 @@ class Vimeo extends Gateway
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Showcases',
                 'collections' => $collections,
@@ -173,7 +173,7 @@ class Vimeo extends Gateway
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Channels',
                 'collections' => $collections,
@@ -200,7 +200,7 @@ class Vimeo extends Gateway
             ],
         ]);
 
-        if ($data) {
+        if ($data !== []) {
             return $this->parseVideo($data);
         }
 
@@ -708,8 +708,6 @@ class Vimeo extends Gateway
             unset($params['q']);
         }
 
-        $query = array_merge($query, $params);
-
-        return $query;
+        return array_merge($query, $params);
     }
 }

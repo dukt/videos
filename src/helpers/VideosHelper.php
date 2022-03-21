@@ -70,9 +70,7 @@ class VideosHelper
             $iso8601 .= "{$minutes}M";
         }
 
-        $iso8601 .= "{$seconds}S";
-
-        return $iso8601;
+        return $iso8601 . "{$seconds}S";
     }
 
     /**
@@ -103,7 +101,7 @@ class VideosHelper
             if (is_dir($originalDir)) {
                 $originalFiles = FileHelper::findFiles($originalDir);
 
-                if (\count($originalFiles) > 0) {
+                if ($originalFiles !== []) {
                     $originalPath = $originalFiles[0];
                 }
             }
@@ -137,7 +135,7 @@ class VideosHelper
                     $mime = FileHelper::getMimeType($originalPath);
                     $ext = FileHelper::getExtensionByMimeType($mime);
 
-                    if ($ext) {
+                    if ($ext !== '' && $ext !== '0') {
                         $name .= '.' . $ext;
                         $targetPath = $originalDir . DIRECTORY_SEPARATOR . $name;
 
@@ -221,7 +219,7 @@ class VideosHelper
 
         $files = FileHelper::findFiles($dir);
 
-        if (\count($files) === 0) {
+        if ($files === []) {
             return null;
         }
 

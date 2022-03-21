@@ -63,7 +63,7 @@ class ExplorerController extends Controller
 
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle);
 
-        if (!$gateway) {
+        if ($gateway === null) {
             throw new GatewayNotFoundException('Gateway not found.');
         }
 

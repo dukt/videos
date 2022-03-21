@@ -42,9 +42,8 @@ abstract class Gateway implements GatewayInterface
     public function getHandle(): string
     {
         $handle = \get_class($this);
-        $handle = strtolower(substr($handle, strrpos($handle, "\\") + 1));
 
-        return $handle;
+        return strtolower(substr($handle, strrpos($handle, "\\") + 1));
     }
 
     /**
@@ -192,12 +191,7 @@ abstract class Gateway implements GatewayInterface
     public function hasToken(): bool
     {
         $token = Videos::$plugin->getOauth()->getToken($this->getHandle(), false);
-
-        if ($token) {
-            return true;
-        }
-
-        return false;
+        return (bool) $token;
     }
 
     /**
@@ -277,7 +271,7 @@ abstract class Gateway implements GatewayInterface
     {
         $format = $this->getEmbedFormat();
 
-        if (\count($options) > 0) {
+        if ($options !== []) {
             $queryMark = '?';
 
             if (strpos($this->getEmbedFormat(), '?') !== false) {
