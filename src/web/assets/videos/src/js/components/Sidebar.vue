@@ -118,3 +118,14 @@ export default {
     </nav>
   </div>
 </template>
+
+<style lang="pcss" scoped>
+.sidebar {
+  li.heading {
+    @apply !dv-mx-3;
+  }
+  a {
+    @apply !dv-px-3;
+  }
+}
+</style>
