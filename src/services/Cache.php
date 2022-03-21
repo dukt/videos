@@ -32,7 +32,7 @@ class Cache extends Component
      *
      * @return mixed
      */
-    public function get($id)
+    public function get(array $id)
     {
         $cacheKey = $this->getCacheKey($id);
 

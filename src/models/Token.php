@@ -52,7 +52,7 @@ class Token extends Model
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -64,7 +64,7 @@ class Token extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id'], 'number', 'integerOnly' => true],

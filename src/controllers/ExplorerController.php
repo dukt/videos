@@ -85,7 +85,7 @@ class ExplorerController extends Controller
         ]);
     }
 
-    public function actionGetVideo()
+    public function actionGetVideo(): \yii\web\Response
     {
         $this->requireAcceptsJson();
 

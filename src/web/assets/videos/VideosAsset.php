@@ -16,13 +16,15 @@ class VideosAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
-
+    /**
+     * @var bool
+     */
     private $devServer = true;
 
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         $this->depends = [
             CpAsset::class,

@@ -166,7 +166,7 @@ class Video extends Model
      * @return null|string
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbedUrl(array $opts = [])
+    public function getEmbedUrl(array $opts = []): ?string
     {
         $gateway = $this->getGateway();
 
@@ -183,7 +183,7 @@ class Video extends Model
      * @return Gateway|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getGateway()
+    public function getGateway(): ?\dukt\videos\base\Gateway
     {
         if ($this->_gateway === null) {
             $this->_gateway = Videos::$plugin->getGateways()->getGateway($this->gatewayHandle);
@@ -195,7 +195,6 @@ class Video extends Model
     /**
      * Get the video’s thumbnail.
      *
-     * @param int $size
      *
      * @return null|string
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -203,7 +202,7 @@ class Video extends Model
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function getThumbnail($size = 300)
+    public function getThumbnail(int $size = 300): ?string
     {
         return VideosHelper::getVideoThumbnail($this->gatewayHandle, $this->id, $size);
     }

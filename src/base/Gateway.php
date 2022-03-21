@@ -200,7 +200,7 @@ abstract class Gateway implements GatewayInterface
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauthToken()
+    public function getOauthToken(): ?\League\OAuth2\Client\Token\AccessToken
     {
         return Videos::$plugin->getOauth()->getToken($this->getHandle());
     }
@@ -333,7 +333,7 @@ abstract class Gateway implements GatewayInterface
      * @return mixed
      * @throws VideoNotFoundException
      */
-    public function getVideoByUrl($url)
+    public function getVideoByUrl($url): \dukt\videos\models\Video
     {
         $url = $url['url'];
 
@@ -380,8 +380,8 @@ abstract class Gateway implements GatewayInterface
      * Returns the OAuth provider options.
      *
      * @param bool $parse
-     * @return array
      * @throws \yii\base\InvalidConfigException
+     * @return mixed[]|null
      */
     public function getOauthProviderOptions(bool $parse = true): array
     {

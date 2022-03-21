@@ -33,7 +33,7 @@ class Tokens extends Component
      * @param $gatewayHandle
      * @return Token|null
      */
-    public function getToken($gatewayHandle)
+    public function getToken($gatewayHandle): ?\dukt\videos\models\Token
     {
         $result = TokenRecord::find()
             ->where(['gateway' => $gatewayHandle])

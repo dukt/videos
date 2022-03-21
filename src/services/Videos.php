@@ -31,6 +31,7 @@ class Videos extends Component
 
     /**
      * {@inheritdoc}
+     * @var bool
      */
     public $pluginDevMode = false;
 
@@ -81,13 +82,11 @@ class Videos extends Component
      * Get video by URL.
      *
      * @param      $videoUrl
-     * @param bool $enableCache
-     * @param int $cacheExpiry
      *
      * @return bool|mixed|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -100,19 +99,16 @@ class Videos extends Component
 
     // Private Methods
     // =========================================================================
-
     /**
      * Request video by ID.
      *
      * @param      $gatewayHandle
      * @param      $id
-     * @param bool $enableCache
-     * @param int $cacheExpiry
      *
      * @return \dukt\videos\models\Video|mixed
      * @throws \yii\base\InvalidConfigException
      */
-    private function requestVideoById($gatewayHandle, $id, $enableCache = true, $cacheExpiry = 3600)
+    private function requestVideoById($gatewayHandle, $id, bool $enableCache = true, int $cacheExpiry = 3600)
     {
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
 
@@ -141,13 +137,11 @@ class Videos extends Component
      * Request video by URL.
      *
      * @param      $videoUrl
-     * @param bool $enableCache
-     * @param int $cacheExpiry
      *
      * @return bool|mixed
      * @throws \yii\base\InvalidConfigException
      */
-    private function requestVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = 3600)
+    private function requestVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
     {
         $key = 'videos.video.' . md5($videoUrl);
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;

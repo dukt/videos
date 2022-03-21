@@ -86,7 +86,7 @@ class VideosHelper
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getVideoThumbnail($gatewayHandle, $videoId, $size)
+    public static function getVideoThumbnail($gatewayHandle, $videoId, $size): ?string
     {
         $baseDir = Craft::$app->getPath()->getRuntimePath() . DIRECTORY_SEPARATOR . 'videos' . DIRECTORY_SEPARATOR . 'thumbnails' . DIRECTORY_SEPARATOR . $gatewayHandle . DIRECTORY_SEPARATOR . $videoId;
         $originalDir = $baseDir . DIRECTORY_SEPARATOR . 'original';

@@ -44,7 +44,7 @@ class m200925_135118_refactor_oauth_provider_options extends Migration
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m200925_135118_refactor_oauth_provider_options cannot be reverted.\n";
         return false;

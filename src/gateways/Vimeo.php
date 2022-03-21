@@ -659,7 +659,7 @@ class Vimeo extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    private function performVideosRequest($uri, $params): array
+    private function performVideosRequest($uri, array $params): array
     {
         $query = $this->queryFromParams($params);
         $query['fields'] = 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files';

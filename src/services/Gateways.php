@@ -53,16 +53,14 @@ class Gateways extends Component
 
     // Public Methods
     // =========================================================================
-
     /**
      * Get gateway by handle.
      *
      * @param      $gatewayHandle
-     * @param bool $enabledOnly
      *
      * @return Gateway|null
      */
-    public function getGateway($gatewayHandle, $enabledOnly = true)
+    public function getGateway($gatewayHandle, bool $enabledOnly = true)
     {
         $this->loadGateways();
 
@@ -80,11 +78,10 @@ class Gateways extends Component
     /**
      * Get gateways.
      *
-     * @param bool $enabledOnly
      *
      * @return Gateway[]
      */
-    public function getGateways($enabledOnly = true): array
+    public function getGateways(bool $enabledOnly = true): array
     {
         $this->loadGateways();
 
@@ -181,7 +178,7 @@ class Gateways extends Component
      *
      * @return mixed
      */
-    private function _createGateway($gatewayType)
+    private function _createGateway($gatewayType): object
     {
         return new $gatewayType;
     }
