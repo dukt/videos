@@ -192,7 +192,7 @@ class VideosHelper
         ]);
 
         if ($videoModel->id && $videoModel->gatewayHandle) {
-            $video['thumbnail'] = $videoModel->getThumbnail();
+            $video['thumbnail'] = $videoModel->thumbnailSource;
             $video['embedUrl'] = $videoModel->getEmbedUrl();
             $video['duration'] = $videoModel->getDuration();
         }
