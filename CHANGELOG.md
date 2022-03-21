@@ -5,6 +5,7 @@ Changelog
 
 ### Changed
 - Allow video gateway OAuth settings editing and saving only when `allowAdminChanges` Craft config is enabled.
+- Videos now uses Vue.js.
 
 ### Fixed
 - Fixed a bug where the field’s video URL value could get lost if the gateway wasn’t available.
