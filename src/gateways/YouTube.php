@@ -549,7 +549,7 @@ class YouTube extends Gateway
     {
         $more = false;
 
-        if (!empty($response['nextPageToken']) && \count($videos) > 0) {
+        if (!empty($response['nextPageToken']) && (is_array($videos) || $videos instanceof \Countable ? \count($videos) : 0) > 0) {
             $more = true;
         }
 

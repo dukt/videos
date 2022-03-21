@@ -135,7 +135,7 @@ class Install extends Migration
      */
     protected function removeIndexes()
     {
-        $this->dropIndex($this->db->getIndexName('{{%videos_tokens}}', 'gateway', true), '{{%videos_tokens}}');
+        $this->dropIndex($this->db->getIndexName(), '{{%videos_tokens}}');
     }
 
     /**

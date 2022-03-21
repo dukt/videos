@@ -31,7 +31,7 @@ class Gateways extends Component
     /**
      * @event RegisterLoginProviderTypesEvent The event that is triggered when registering login providers.
      */
-    const EVENT_REGISTER_GATEWAY_TYPES = 'registerGatewayTypes';
+    public const EVENT_REGISTER_GATEWAY_TYPES = 'registerGatewayTypes';
 
     // Properties
     // =========================================================================
