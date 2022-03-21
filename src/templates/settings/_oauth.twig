@@ -1,7 +1,5 @@
 {% extends "_layouts/cp" %}
 
-{% set fullPageForm = true %}
-
 {% set crumbs = [
     { label: "Settings"|t('videos'), url: url('settings') },
     { label: "Plugins"|t('videos'), url: url('settings/plugins') },
@@ -12,6 +10,10 @@
 {% set title = "{gateway} OAuth Settings"|t('videos', { gateway: gateway.name }) %}
 
 {% import "_includes/forms" as forms %}
+
+{% if craft.app.config.general.allowAdminChanges %}
+    {% set fullPageForm = true %}
+{% endif %}
 
 {% set content %}
     <input
@@ -44,6 +46,7 @@
         value: (gateway.getOauthProviderOptions(false).clientId ?? null),
         suggestions: craft.cp.getEnvSuggestions(),
         suggestEnvVars: true,
+        disabled: (craft.app.config.general.allowAdminChanges ? false : true)
     }) }}
 
     {{ forms.autosuggestField({
@@ -52,6 +55,7 @@
         value: (gateway.getOauthProviderOptions(false).clientSecret ?? null),
         suggestions: craft.cp.getEnvSuggestions(),
         suggestEnvVars: true,
+        disabled: (craft.app.config.general.allowAdminChanges ? false : true)
     }) }}
 
     <hr />

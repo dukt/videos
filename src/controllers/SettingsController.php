@@ -121,6 +121,8 @@ class SettingsController extends Controller
      */
     public function actionSaveGateway(): Response
     {
+        $this->requireAdmin();
+
         $gatewayHandle = Craft::$app->getRequest()->getParam('gatewayHandle');
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
