@@ -15,6 +15,7 @@ use craft\helpers\StringHelper;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\web\assets\videos\VideosAsset;
+use craft\helpers\Html;
 
 /**
  * Video field
@@ -50,8 +51,8 @@ class Video extends Field
         $view = Craft::$app->getView();
         $name = $this->handle;
 
-        // Reformat the input name into something that looks more like an ID
-        $id = $view->formatInputId($name);
+        // Normalize the element ID into only alphanumeric characters, underscores, and dashes.
+        $id = Html::id($name);
 
         // Init CSRF Token
         $jsTemplate = 'window.csrfTokenName = "' . Craft::$app->getConfig()->getGeneral()->csrfTokenName . '";';
