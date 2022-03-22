@@ -12,7 +12,7 @@ use craft\base\Model;
 use dukt\videos\base\Gateway;
 use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
-use Twig_Markup;
+use Twig\Markup;
 
 /**
  * Video model class.
@@ -147,15 +147,15 @@ class Video extends Model
      *
      * @param array $opts
      *
-     * @return Twig_Markup
+     * @return \Twig\Markup
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbed(array $opts = []): Twig_Markup
+    public function getEmbed(array $opts = []): \Twig\Markup
     {
         $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
-        return new Twig_Markup($embed, $charset);
+        return new \Twig\Markup($embed, $charset);
     }
 
     /**
