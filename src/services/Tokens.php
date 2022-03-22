@@ -72,7 +72,7 @@ class Tokens extends Component
                 ->one();
 
             if (!$tokenRecord) {
-                throw new InvalidViewException(sprintf('No token exists with the ID \'%s\'', $token->id));
+                throw new InvalidViewException(sprintf("No token exists with the ID '%s'", $token->id));
             }
 
             $isNewToken = false;
