@@ -42,11 +42,11 @@ class Video extends Field
      * @param ElementInterface|null $element
      *
      * @return string
-     * @throws \Twig_Error_Loader
+     * @throws \Twig\Error\LoaderError
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function getInputHtml($value, \craft\base\ElementInterface $element = null): string
+    public function getInputHtml(mixed $value, ?\craft\base\ElementInterface $element = null): string
     {
         $view = Craft::$app->getView();
         $name = $this->handle;
@@ -100,7 +100,7 @@ class Video extends Field
     /**
      * @inheritdoc
      */
-    public function serializeValue($value, ElementInterface $element = null)
+    public function serializeValue(mixed $value, ?\craft\base\ElementInterface $element = null): mixed
     {
         if (!empty($value->url)) {
             return Db::prepareValueForDb($value->url);
@@ -112,7 +112,7 @@ class Video extends Field
     /**
      * @inheritdoc
      */
-    public function normalizeValue($videoUrl, ElementInterface $element = null): ?\dukt\videos\models\Video
+    public function normalizeValue(mixed $videoUrl, ?\craft\base\ElementInterface $element = null): mixed
     {
         if ($videoUrl instanceof \dukt\videos\models\Video) {
             return $videoUrl;
@@ -147,7 +147,7 @@ class Video extends Field
      *
      * @return string
      */
-    public function getSearchKeywords($value, \craft\base\ElementInterface $element): string
+    public function getSearchKeywords(mixed $value, \craft\base\ElementInterface $element): string
     {
         $keywords = [];
 

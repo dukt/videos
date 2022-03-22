@@ -41,12 +41,12 @@ class Plugin extends \craft\base\Plugin
     /**
      * @inheritDoc
      */
-    public $schemaVersion = '1.0.3';
+    public string $schemaVersion = '1.0.3';
 
     /**
      * @var bool
      */
-    public $hasCpSettings = true;
+    public bool $hasCpSettings = true;
 
     /**
      * @var \dukt\videos\Plugin The plugin instance.
@@ -74,7 +74,7 @@ class Plugin extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    public function getSettingsResponse()
+    public function getSettingsResponse(): mixed
     {
         $url = UrlHelper::cpUrl('videos/settings');
 
@@ -119,7 +119,7 @@ class Plugin extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel(): \dukt\videos\models\Settings
+    protected function createSettingsModel(): ?\craft\base\Model
     {
         return new Settings();
     }
