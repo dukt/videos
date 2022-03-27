@@ -16,10 +16,6 @@ class VideosAsset extends AssetBundle
 {
     // Public Methods
     // =========================================================================
-    /**
-     * @var bool
-     */
-    private $devServer = true;
 
     /**
      * @inheritdoc
