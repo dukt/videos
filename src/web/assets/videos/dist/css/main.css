@@ -1,0 +1,335 @@
+/*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-2[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/web/assets/videos/src/js/components/Sidebar.vue?vue&type=style&index=0&id=52853fc8&lang=pcss&scoped=true& ***!
+  \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+
+.sidebar li.heading[data-v-52853fc8] {
+    margin-left: 0.75rem !important;
+    margin-right: 0.75rem !important
+}
+.sidebar a[data-v-52853fc8] {
+    padding-left: 0.75rem !important;
+    padding-right: 0.75rem !important
+}
+
+/*!******************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-2[0].rules[0].use[3]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./src/web/assets/videos/src/js/Player.vue?vue&type=style&index=0&lang=css& ***!
+  \******************************************************************************************************************************************************************************************************************************************************************************************************************************/
+
+.videos-player iframe {
+    position: absolute;
+    height: 100%;
+    width: 100%
+}
+
+/*!***************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-2[0].rules[0].use[3]!./src/web/assets/videos/src/css/videos.pcss ***!
+  \***************************************************************************************************************************************************************************/
+*, ::before, ::after {
+        --tw-translate-x: 0;
+        --tw-translate-y: 0;
+        --tw-rotate: 0;
+        --tw-skew-x: 0;
+        --tw-skew-y: 0;
+        --tw-scale-x: 1;
+        --tw-scale-y: 1;
+        --tw-pan-x:  ;
+        --tw-pan-y:  ;
+        --tw-pinch-zoom:  ;
+        --tw-scroll-snap-strictness: proximity;
+        --tw-ordinal:  ;
+        --tw-slashed-zero:  ;
+        --tw-numeric-figure:  ;
+        --tw-numeric-spacing:  ;
+        --tw-numeric-fraction:  ;
+        --tw-ring-inset:  ;
+        --tw-ring-offset-width: 0px;
+        --tw-ring-offset-color: #fff;
+        --tw-ring-color: rgb(59 130 246 / 0.5);
+        --tw-ring-offset-shadow: 0 0 #0000;
+        --tw-ring-shadow: 0 0 #0000;
+        --tw-shadow: 0 0 #0000;
+        --tw-shadow-colored: 0 0 #0000;
+        --tw-blur:  ;
+        --tw-brightness:  ;
+        --tw-contrast:  ;
+        --tw-grayscale:  ;
+        --tw-hue-rotate:  ;
+        --tw-invert:  ;
+        --tw-saturate:  ;
+        --tw-sepia:  ;
+        --tw-drop-shadow:  ;
+        --tw-backdrop-blur:  ;
+        --tw-backdrop-brightness:  ;
+        --tw-backdrop-contrast:  ;
+        --tw-backdrop-grayscale:  ;
+        --tw-backdrop-hue-rotate:  ;
+        --tw-backdrop-invert:  ;
+        --tw-backdrop-opacity:  ;
+        --tw-backdrop-saturate:  ;
+        --tw-backdrop-sepia:  
+}
+.videoselectormodal .footer {
+        position: absolute;
+        left: 0px;
+        bottom: 0px;
+        margin: 0px;
+        width: 100%
+}
+.videos-thumb {
+        position: relative;
+        display: block;
+        overflow: hidden;
+        border-radius: 0.25rem;
+        border-width: 0px;
+        border-color: transparent
+}
+.dv-group:hover .videos-thumb {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+                box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+        --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity));
+        --tw-ring-opacity: 0.8
+}
+.videos-thumb .videos-thumb-image-container {
+        position: relative;
+        aspect-ratio: 16 / 9
+}
+.videos-thumb .videos-thumb-image-container .videos-thumb-image {
+        height: 100%;
+        width: 100%;
+        background-size: cover;
+        background-position: center
+}
+.videos-thumb .duration {
+        position: absolute;
+        bottom: 0.25rem;
+        right: 0.25rem;
+        display: block;
+        border-radius: 0.125rem;
+        background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+        --tw-bg-opacity: 0.8;
+        padding-left: 4px;
+        padding-right: 4px;
+        padding-top: 3px;
+        padding-bottom: 3px;
+        font-size: 0.75rem;
+        font-weight: 700;
+        line-height: .75rem;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity))
+}
+.videos-thumb .play {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        border-radius: 9999px;
+        border-width: 2px;
+        border-style: solid;
+        --tw-border-opacity: 1;
+        border-color: rgb(255 255 255 / var(--tw-border-opacity));
+        opacity: 0;
+        margin-top: -1.25rem;
+        margin-left: -1rem;
+        height: 2rem;
+        width: 2rem;
+        --tw-bg-opacity: 1;
+        background-color: rgb(0 0 0 / var(--tw-bg-opacity));
+        background-position: center;
+        background-repeat: no-repeat;
+        background-image: url(../939bc88a78d7a5e7ec87.png)
+}
+.videos-thumb .play:hover {
+        cursor: pointer;
+            opacity: .7 !important
+}
+.videos-thumb:hover .play {
+        opacity: 0.5
+}
+.videos-thumb .private {
+        position: absolute;
+        bottom: 0.25rem;
+        left: 0.25rem;
+        --tw-text-opacity: 1;
+        color: rgb(255 255 255 / var(--tw-text-opacity));
+        opacity: 0.8
+}
+.videos-settings .gateway-cell a {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center
+}
+.videos-settings .gateway-cell a img {
+        margin-right: 0.75rem
+}
+.dv-absolute {
+        position: absolute
+}
+.dv-relative {
+        position: relative
+}
+.dv-top-2\.5 {
+        top: 0.625rem
+}
+.dv-right-4 {
+        right: 1rem
+}
+.dv-top-2 {
+        top: 0.5rem
+}
+.dv-float-right {
+        float: right
+}
+.dv-mb-6 {
+        margin-bottom: 1.5rem
+}
+.dv-mt-2 {
+        margin-top: 0.5rem
+}
+.dv-mt-4 {
+        margin-top: 1rem
+}
+.dv-ml-2 {
+        margin-left: 0.5rem
+}
+.dv-mr-2 {
+        margin-right: 0.5rem
+}
+.dv-mr-1 {
+        margin-right: 0.25rem
+}
+.dv-block {
+        display: block
+}
+.dv-flex {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex
+}
+.dv-grid {
+        display: grid
+}
+.dv-h-full {
+        height: 100%
+}
+.dv-h-5 {
+        height: 1.25rem
+}
+.dv-h-4 {
+        height: 1rem
+}
+.dv-w-full {
+        width: 100%
+}
+.dv-w-44 {
+        width: 11rem
+}
+.dv-w-5 {
+        width: 1.25rem
+}
+.dv-w-4 {
+        width: 1rem
+}
+.dv-min-w-0 {
+        min-width: 0px
+}
+.dv-max-w-sm {
+        max-width: 24rem
+}
+.dv-flex-1 {
+        -webkit-box-flex: 1;
+            -ms-flex: 1 1 0%;
+                flex: 1 1 0%
+}
+.dv-shrink-0 {
+        -ms-flex-negative: 0;
+            flex-shrink: 0
+}
+.dv-shrink {
+        -ms-flex-negative: 1;
+            flex-shrink: 1
+}
+.dv-cursor-pointer {
+        cursor: pointer
+}
+.dv-grid-cols-3 {
+        grid-template-columns: repeat(3, minmax(0, 1fr))
+}
+.dv-flex-row {
+        -webkit-box-orient: horizontal;
+        -webkit-box-direction: normal;
+            -ms-flex-direction: row;
+                flex-direction: row
+}
+.dv-flex-nowrap {
+        -ms-flex-wrap: nowrap;
+            flex-wrap: nowrap
+}
+.dv-items-start {
+        -webkit-box-align: start;
+            -ms-flex-align: start;
+                align-items: flex-start
+}
+.dv-items-center {
+        -webkit-box-align: center;
+            -ms-flex-align: center;
+                align-items: center
+}
+.dv-justify-center {
+        -webkit-box-pack: center;
+            -ms-flex-pack: center;
+                justify-content: center
+}
+.dv-gap-4 {
+        gap: 1rem
+}
+.dv-bg-black {
+        --tw-bg-opacity: 1;
+        background-color: rgb(0 0 0 / var(--tw-bg-opacity))
+}
+.dv-px-2 {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem
+}
+.dv-pt-0 {
+        padding-top: 0px
+}
+.dv-text-xs {
+        font-size: 0.75rem;
+        line-height: 1rem
+}
+.dv-text-\[\#0b69a3\] {
+        --tw-text-opacity: 1;
+        color: rgb(11 105 163 / var(--tw-text-opacity))
+}
+.dv-text-blue-500 {
+        --tw-text-opacity: 1;
+        color: rgb(59 130 246 / var(--tw-text-opacity))
+}
+.dv-ring {
+        --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+        --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+        -webkit-box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+                box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000)
+}
+.dv-ring-red-500 {
+        --tw-ring-opacity: 1;
+        --tw-ring-color: rgb(239 68 68 / var(--tw-ring-opacity))
+}
+.dv-ring-opacity-80 {
+        --tw-ring-opacity: 0.8
+}
+.dv-line-clamp-2 {
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2
+}
+.hover\:dv-underline:hover {
+        -webkit-text-decoration-line: underline;
+                text-decoration-line: underline
+}
+
