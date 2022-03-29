@@ -1,7 +1,7 @@
 const {expect} = require('@playwright/test');
 
 const goToSingleVideoPage = async (baseURL, page) => {
-  await page.goto(baseURL + '/globals/default/singleVideo');
+  await page.goto(baseURL + '/globals/singleVideo?site=default');
   const title = page.locator('h1');
   await expect(title).toHaveText('Single Video');
 }

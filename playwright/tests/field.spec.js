@@ -1,7 +1,7 @@
 const {test, expect} = require('@playwright/test');
 
 test('Shoud show a Videos field', async ({ page, context, baseURL }) => {
-  await page.goto(baseURL + '/globals/default/singleVideo');
+  await page.goto(baseURL + '/globals/singleVideo?site=default');
 
   const title = page.locator('h1');
   await expect(title).toHaveText('Single Video');
@@ -12,7 +12,7 @@ test('Shoud show a Videos field', async ({ page, context, baseURL }) => {
 
 
 test('Shoud show a Matrix Videos field', async ({ page, context, baseURL }) => {
-  await page.goto(baseURL + '/globals/default/matrixVideos');
+  await page.goto(baseURL + '/globals/matrixVideos?site=default');
 
   const title = page.locator('h1');
   await expect(title).toHaveText('Matrix Videos');
