@@ -22,7 +22,7 @@ test('Search videos', async ({ page }) => {
   await page.fill('.videoselectormodal input[type=search]', 'space');
   await page.waitForResponse(response => {
     return (
-      response.url().includes('actions/videos/explorer/get-videos')
+      response.url().includes(encodeURIComponent('actions/videos/explorer/get-videos'))
     )
   })
 

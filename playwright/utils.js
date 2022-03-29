@@ -11,7 +11,7 @@ const openExplorer = async (baseURL, page) => {
     // Wait for the initial videos request to be done
     page.waitForResponse(response => {
       return (
-        response.url().includes('actions/videos/explorer/get-videos')
+        response.url().includes(encodeURIComponent('actions/videos/explorer/get-videos'))
       )
     }),
 

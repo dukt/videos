@@ -28,7 +28,7 @@ test('Browse Vimeo likes', async ({ page, context, baseURL }) => {
   // Wait for the likes request to be done
   await page.waitForResponse(response => {
     return (
-      response.url().includes('actions/videos/explorer/get-videos')
+      response.url().includes(encodeURIComponent('actions/videos/explorer/get-videos'))
     )
   })
 

@@ -15,7 +15,7 @@ const selectYoutubeGateway = async (page) => {
     // Wait for videos
     await page.waitForResponse(response => {
       return (
-        response.url().includes('actions/videos/explorer/get-videos')
+        response.url().includes(encodeURIComponent('actions/videos/explorer/get-videos'))
       )
     })
   }
@@ -46,7 +46,7 @@ test('Browse YouTube like videos', async ({ page, context, baseURL }) => {
   // Wait for the favorites request to be done
   await page.waitForResponse(response => {
     return (
-      response.url().includes('actions/videos/explorer/get-videos')
+      response.url().includes(encodeURIComponent('actions/videos/explorer/get-videos'))
     )
   })
 
