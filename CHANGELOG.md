@@ -3,6 +3,11 @@ Changelog
 
 ## Unreleased
 
+### Added 
+- Added icons for Vimeo uploads, likes, folders, albums and showcases.
+- Added icons for YouTube uploads, favorites, and playlists.
+- Added support for Vimeo folders and showcases.
+
 ### Changed
 - Allow video gateway OAuth settings editing and saving only when `allowAdminChanges` Craft config is enabled.
 - Videos now uses Vue.js.
