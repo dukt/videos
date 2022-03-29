@@ -3,4 +3,4 @@
 cypress.json
 composer.lock
 node_modules/
-playwright/
+/playwright/report/
