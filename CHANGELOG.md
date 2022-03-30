@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.1.0 - 2022-03-30
 
 ### Added 
 - Added icons for Vimeo uploads, likes, folders, albums and showcases.
