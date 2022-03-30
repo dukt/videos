@@ -9,7 +9,7 @@ Changelog
 - Added support for Vimeo folders and showcases.
 
 ### Changed
-- Allow video gateway OAuth settings editing and saving only when `allowAdminChanges` Craft config is enabled.
+- Allow gateway OAuth settings editing and saving only when `allowAdminChanges` Craft config is enabled.
 - Videos now uses Vue.js.
 
 ### Fixed
