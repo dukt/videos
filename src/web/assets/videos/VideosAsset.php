@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -9,6 +9,8 @@ namespace dukt\videos\web\assets\videos;
 
 use craft\web\AssetBundle;
 use craft\web\assets\cp\CpAsset;
+use craft\web\assets\vue\VueAsset;
+use dukt\videos\Plugin;
 
 class VideosAsset extends AssetBundle
 {
@@ -18,27 +20,21 @@ class VideosAsset extends AssetBundle
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
-        // define the path that your publishable resources live
-        $this->sourcePath = __DIR__.'/dist';
-
-        // define the dependencies
         $this->depends = [
             CpAsset::class,
+            VueAsset::class,
         ];
 
-        // define the relative path to CSS/JS files that should be registered with the page
-        // when this asset bundle is registered
-        $this->js = [
-            'js/Videos'.$this->dotJs(),
-            'js/VideosExplorer'.$this->dotJs(),
-        ];
-
-        $this->css = [
-            'css/videos.css',
-            'css/VideosExplorer.css',
-        ];
+        if (!Plugin::getInstance()->getVideos()->useDevServer) {
+            $this->sourcePath = __DIR__ . '/dist';
+            $this->js[] = 'main.js';
+            $this->css[] = 'css/main.css';
+        } else {
+            $this->css[] = 'https://localhost:8090/css/main.css';
+            $this->js[] = 'https://localhost:8090/main.js';
+        }
 
         parent::init();
     }

@@ -14,7 +14,7 @@ class m180910_103838_craft3_upgrade extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         // Place migration code here...
         $this->update('{{%fields}}', [
@@ -25,7 +25,7 @@ class m180910_103838_craft3_upgrade extends Migration
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m180910_103838_craft3_upgrade cannot be reverted.\n";
         return false;

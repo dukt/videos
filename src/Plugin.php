@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -59,7 +59,7 @@ class Plugin extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
         self::$plugin = $this;
@@ -119,7 +119,7 @@ class Plugin extends \craft\base\Plugin
     /**
      * @inheritdoc
      */
-    protected function createSettingsModel()
+    protected function createSettingsModel(): \dukt\videos\models\Settings
     {
         return new Settings();
     }
@@ -130,7 +130,7 @@ class Plugin extends \craft\base\Plugin
     /**
      * Set plugin components.
      */
-    private function _setPluginComponents()
+    private function _setPluginComponents(): void
     {
         $this->setComponents([
             'videos' => \dukt\videos\services\Videos::class,
@@ -144,9 +144,9 @@ class Plugin extends \craft\base\Plugin
     /**
      * Register CP routes.
      */
-    private function _registerCpRoutes()
+    private function _registerCpRoutes(): void
     {
-        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event) {
+        Event::on(UrlManager::class, UrlManager::EVENT_REGISTER_CP_URL_RULES, function(RegisterUrlRulesEvent $event): void {
             $rules = [
                 'videos/settings' => 'videos/settings/index',
                 'videos/settings/<gatewayHandle:{handle}>' => 'videos/settings/gateway',
@@ -160,9 +160,9 @@ class Plugin extends \craft\base\Plugin
     /**
      * Register field types.
      */
-    private function _registerFieldTypes()
+    private function _registerFieldTypes(): void
     {
-        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event) {
+        Event::on(Fields::class, Fields::EVENT_REGISTER_FIELD_TYPES, function(RegisterComponentTypesEvent $event): void {
             $event->types[] = VideoField::class;
         });
     }
@@ -170,13 +170,13 @@ class Plugin extends \craft\base\Plugin
     /**
      * Register cache options.
      */
-    private function _registerCacheOptions()
+    private function _registerCacheOptions(): void
     {
-        Event::on(ClearCaches::class, ClearCaches::EVENT_REGISTER_CACHE_OPTIONS, function(RegisterCacheOptionsEvent $event) {
+        Event::on(ClearCaches::class, ClearCaches::EVENT_REGISTER_CACHE_OPTIONS, function(RegisterCacheOptionsEvent $event): void {
             $event->options[] = [
                 'key' => 'videos-caches',
                 'label' => Craft::t('videos', 'Videos caches'),
-                'action' => Craft::$app->path->getRuntimePath().'/videos'
+                'action' => Craft::$app->path->getRuntimePath() . '/videos'
             ];
         });
     }
@@ -184,9 +184,9 @@ class Plugin extends \craft\base\Plugin
     /**
      * Register template variable.
      */
-    private function _registerVariable()
+    private function _registerVariable(): void
     {
-        Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function(Event $event) {
+        Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function(Event $event): void {
             /** @var CraftVariable $variable */
             $variable = $event->sender;
             $variable->set('videos', VideosVariable::class);

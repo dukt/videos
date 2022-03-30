@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -20,7 +20,7 @@ use Twig_Markup;
  * @author Dukt <support@dukt.net>
  * @since  2.0
  *
- * @property string                         $duration
+ * @property string $duration
  * @property \dukt\videos\base\Gateway|null $gateway
  */
 class Video extends Model
@@ -163,12 +163,18 @@ class Video extends Model
      *
      * @param array $opts
      *
-     * @return string
+     * @return null|string
      * @throws \yii\base\InvalidConfigException
      */
-    public function getEmbedUrl(array $opts = []): string
+    public function getEmbedUrl(array $opts = []): ?string
     {
-        return $this->getGateway()->getEmbedUrl($this->id, $opts);
+        $gateway = $this->getGateway();
+
+        if (!$gateway instanceof \dukt\videos\base\Gateway) {
+            return null;
+        }
+
+        return $gateway->getEmbedUrl($this->id, $opts);
     }
 
     /**
@@ -177,9 +183,9 @@ class Video extends Model
      * @return Gateway|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getGateway()
+    public function getGateway(): ?\dukt\videos\base\Gateway
     {
-        if (!$this->_gateway) {
+        if (!$this->_gateway instanceof \dukt\videos\base\Gateway) {
             $this->_gateway = Videos::$plugin->getGateways()->getGateway($this->gatewayHandle);
         }
 
@@ -189,7 +195,6 @@ class Video extends Model
     /**
      * Get the video’s thumbnail.
      *
-     * @param int $size
      *
      * @return null|string
      * @throws \GuzzleHttp\Exception\GuzzleException
@@ -197,7 +202,7 @@ class Video extends Model
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public function getThumbnail($size = 300)
+    public function getThumbnail(int $size = 300): ?string
     {
         return VideosHelper::getVideoThumbnail($this->gatewayHandle, $this->id, $size);
     }

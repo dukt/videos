@@ -1,8 +1,8 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
- * @license   https://github.com/dukt/videos/blob/master/LICENSE.md
+ * @copyright Copyright (c) Dukt
+ * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\models;
@@ -52,7 +52,7 @@ class Token extends Model
     /**
      * @inheritdoc
      */
-    public function init()
+    public function init(): void
     {
         parent::init();
 
@@ -64,7 +64,7 @@ class Token extends Model
     /**
      * @inheritdoc
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id'], 'number', 'integerOnly' => true],

@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -12,8 +12,10 @@ use craft\base\ElementInterface;
 use craft\base\Field;
 use craft\helpers\Db;
 use craft\helpers\StringHelper;
-use dukt\videos\web\assets\videofield\VideoFieldAsset;
+use dukt\videos\helpers\VideosHelper;
 use dukt\videos\Plugin as Videos;
+use dukt\videos\web\assets\videos\VideosAsset;
+use craft\helpers\Html;
 
 /**
  * Video field
@@ -49,37 +51,50 @@ class Video extends Field
         $view = Craft::$app->getView();
         $name = $this->handle;
 
-
-        // Reformat the input name into something that looks more like an ID
-        $id = $view->formatInputId($name);
+        // Normalize the element ID into only alphanumeric characters, underscores, and dashes.
+        $id = Html::id($name);
 
         // Init CSRF Token
-        $jsTemplate = 'window.csrfTokenName = "'.Craft::$app->getConfig()->getGeneral()->csrfTokenName.'";';
-        $jsTemplate .= 'window.csrfTokenValue = "'.Craft::$app->getRequest()->getCsrfToken().'";';
+        $jsTemplate = 'window.csrfTokenName = "' . Craft::$app->getConfig()->getGeneral()->csrfTokenName . '";';
+        $jsTemplate .= 'window.csrfTokenValue = "' . Craft::$app->getRequest()->getCsrfToken() . '";';
         $js = $view->renderString($jsTemplate);
         $view->registerJs($js);
 
         // Asset bundle
-        $view->registerAssetBundle(VideoFieldAsset::class);
+        $view->registerAssetBundle(VideosAsset::class);
 
-        // Instantiate Videos Field
-        $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
+        // Field value
+        $video = null;
 
-
-        // Preview
-
-        if ($value instanceof \dukt\videos\models\Video) {
-            $preview = $view->renderTemplate('videos/_elements/fieldPreview', ['video' => $value]);
-        } else {
-            $preview = null;
+        if (is_object($value)) {
+            $video = VideosHelper::videoToArray($value);
         }
 
-        return $view->renderTemplate('videos/_components/fieldtypes/Video/input', [
+        // Translations
+        $view->registerTranslations('videos', [
+            'Browse videos…',
+            'Cancel',
+            'Enter a video URL from YouTube or Vimeo',
+            'Remove',
+            'Search {gateway} videos…',
+            'Select',
+            '{plays} plays',
+        ]);
+
+        // Variables
+        $variables = [
             'id' => $id,
             'name' => $name,
-            'value' => $value,
-            'preview' => $preview
-        ]);
+            'value' => $video,
+            'namespaceId' => $view->namespaceInputId($id),
+            'namespaceName' => $view->namespaceInputName($id),
+        ];
+
+        // Instantiate Videos Field
+        // $view->registerJs('new Videos.Field("'.$view->namespaceInputId($id).'");');
+        $view->registerJs('new VideoFieldConstructor({data: {fieldVariables: ' . \json_encode($variables) . '}}).$mount("#' . $view->namespaceInputId($id) . '-vue");');
+
+        return $view->renderTemplate('videos/_components/fieldtypes/Video/input', $variables);
     }
 
     /**
@@ -97,7 +112,7 @@ class Video extends Field
     /**
      * @inheritdoc
      */
-    public function normalizeValue($videoUrl, ElementInterface $element = null)
+    public function normalizeValue($videoUrl, ElementInterface $element = null): ?\dukt\videos\models\Video
     {
         if ($videoUrl instanceof \dukt\videos\models\Video) {
             return $videoUrl;
@@ -107,12 +122,18 @@ class Video extends Field
             if (!empty($videoUrl)) {
                 $video = Videos::$plugin->getVideos()->getVideoByUrl($videoUrl);
 
-                if ($video) {
+                if ($video !== null) {
                     return $video;
                 }
+
+                $video = new \dukt\videos\models\Video();
+                $video->url = $videoUrl;
+                $video->addError('url', Craft::t('videos', 'Unable to find the video.'));
+
+                return $video;
             }
-        } catch (\Exception $e) {
-            Craft::info("Couldn't get video in field normalizeValue: ".$e->getMessage(), __METHOD__);
+        } catch (\Exception $exception) {
+            Craft::info("Couldn't get video in field normalizeValue: " . $exception->getMessage(), __METHOD__);
         }
 
         return null;
@@ -121,7 +142,7 @@ class Video extends Field
     /**
      * Get Search Keywords
      *
-     * @param mixed            $value
+     * @param mixed $value
      * @param ElementInterface $element
      *
      * @return string

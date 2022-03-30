@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -42,9 +42,8 @@ abstract class Gateway implements GatewayInterface
     public function getHandle(): string
     {
         $handle = \get_class($this);
-        $handle = strtolower(substr($handle, strrpos($handle, "\\") + 1));
 
-        return $handle;
+        return strtolower(substr($handle, strrpos($handle, "\\") + 1));
     }
 
     /**
@@ -169,13 +168,13 @@ abstract class Gateway implements GatewayInterface
 
             // Redirect
             Craft::$app->getSession()->setNotice(Craft::t('videos', 'Connected to {gateway}.', ['gateway' => $this->getName()]));
-        } catch (Exception $e) {
-            Craft::error('Couldn’t connect to video gateway:'."\r\n"
-                .'Message: '."\r\n".$e->getMessage()."\r\n"
-                .'Trace: '."\r\n".$e->getTraceAsString(), __METHOD__);
+        } catch (Exception $exception) {
+            Craft::error('Couldn’t connect to video gateway:' . "\r\n"
+                . 'Message: ' . "\r\n" . $exception->getMessage() . "\r\n"
+                . 'Trace: ' . "\r\n" . $exception->getTraceAsString(), __METHOD__);
 
             // Failed to get the token credentials or user details.
-            Craft::$app->getSession()->setError($e->getMessage());
+            Craft::$app->getSession()->setError($exception->getMessage());
         }
 
         $redirectUrl = UrlHelper::cpUrl('videos/settings');
@@ -192,12 +191,7 @@ abstract class Gateway implements GatewayInterface
     public function hasToken(): bool
     {
         $token = Videos::$plugin->getOauth()->getToken($this->getHandle(), false);
-
-        if ($token) {
-            return true;
-        }
-
-        return false;
+        return (bool) $token;
     }
 
     /**
@@ -206,7 +200,7 @@ abstract class Gateway implements GatewayInterface
      * @return mixed
      * @throws \yii\base\InvalidConfigException
      */
-    public function getOauthToken()
+    public function getOauthToken(): ?\League\OAuth2\Client\Token\AccessToken
     {
         return Videos::$plugin->getOauth()->getToken($this->getHandle());
     }
@@ -248,7 +242,7 @@ abstract class Gateway implements GatewayInterface
 
         $title = $options['title'] ?? false;
 
-        if($title) {
+        if ($title) {
             $this->parseEmbedAttribute($embedAttributes, $options, 'title', 'title');
         }
 
@@ -259,10 +253,10 @@ abstract class Gateway implements GatewayInterface
         $embedAttributesString = '';
 
         foreach ($embedAttributes as $key => $value) {
-            $embedAttributesString .= ' '.$key.'="'.$value.'"';
+            $embedAttributesString .= ' ' . $key . '="' . $value . '"';
         }
 
-        return '<iframe src="'.$embedUrl.'"'.$embedAttributesString.'></iframe>';
+        return '<iframe src="' . $embedUrl . '"' . $embedAttributesString . '></iframe>';
     }
 
     /**
@@ -277,7 +271,7 @@ abstract class Gateway implements GatewayInterface
     {
         $format = $this->getEmbedFormat();
 
-        if (\count($options) > 0) {
+        if ($options !== []) {
             $queryMark = '?';
 
             if (strpos($this->getEmbedFormat(), '?') !== false) {
@@ -286,7 +280,7 @@ abstract class Gateway implements GatewayInterface
 
             $options = http_build_query($options);
 
-            $format .= $queryMark.$options;
+            $format .= $queryMark . $options;
         }
 
         return sprintf($format, $videoId);
@@ -313,7 +307,7 @@ abstract class Gateway implements GatewayInterface
     {
         $token = $this->getOauthToken();
 
-        if ($token) {
+        if ($token !== null) {
             $account = Videos::$plugin->getCache()->get(['getAccount', $token]);
 
             if (!$account) {
@@ -339,7 +333,7 @@ abstract class Gateway implements GatewayInterface
      * @return mixed
      * @throws VideoNotFoundException
      */
-    public function getVideoByUrl($url)
+    public function getVideoByUrl($url): \dukt\videos\models\Video
     {
         $url = $url['url'];
 
@@ -363,13 +357,13 @@ abstract class Gateway implements GatewayInterface
      */
     public function getVideos($method, $options)
     {
-        $realMethod = 'getVideos'.ucwords($method);
+        $realMethod = 'getVideos' . ucwords($method);
 
         if (method_exists($this, $realMethod)) {
             return $this->{$realMethod}($options);
         }
 
-        throw new GatewayMethodNotFoundException('Gateway method “'.$realMethod.'” not found.');
+        throw new GatewayMethodNotFoundException('Gateway method “' . $realMethod . '” not found.');
     }
 
     /**
@@ -386,8 +380,8 @@ abstract class Gateway implements GatewayInterface
      * Returns the OAuth provider options.
      *
      * @param bool $parse
-     * @return array
      * @throws \yii\base\InvalidConfigException
+     * @return mixed[]|null
      */
     public function getOauthProviderOptions(bool $parse = true): array
     {
@@ -422,6 +416,14 @@ abstract class Gateway implements GatewayInterface
 
         try {
             $response = $client->request('GET', $uri, $options);
+
+            if (Videos::$plugin->getVideos()->pluginDevMode && $this->getHandle() === 'vimeo') {
+                Craft::info('URI: '.Json::encode($uri), __METHOD__);
+                Craft::info('Options: '.Json::encode($options), __METHOD__);
+                Craft::info('Vimeo X-RateLimit-Limit: '.Json::encode($response->getHeader('X-RateLimit-Limit')), __METHOD__);
+                Craft::info('Vimeo X-RateLimit-Remaining: '.Json::encode($response->getHeader('X-RateLimit-Remaining')), __METHOD__);
+            }
+
             $body = (string)$response->getBody();
             $data = Json::decode($body);
         } catch (BadResponseException $badResponseException) {
@@ -430,7 +432,7 @@ abstract class Gateway implements GatewayInterface
 
             try {
                 $data = Json::decode($body);
-            } catch (JsonParsingException $e) {
+            } catch (JsonParsingException $jsonParsingException) {
                 throw $badResponseException;
             }
         }

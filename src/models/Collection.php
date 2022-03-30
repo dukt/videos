@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -34,4 +34,10 @@ class Collection extends Model
      * @var mixed|null Options
      */
     public $options;
+
+    /**
+     * @var string|null Icon
+     */
+    public $icon;
+
 }

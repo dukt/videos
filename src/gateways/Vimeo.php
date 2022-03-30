@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -103,14 +103,38 @@ class Vimeo extends Gateway
                 new Collection([
                     'name' => 'Uploads',
                     'method' => 'uploads',
+                    'icon' => 'video-camera',
                 ]),
                 new Collection([
-                    'name' => 'Favorites',
-                    'method' => 'favorites',
+                    'name' => 'Likes',
+                    'method' => 'likes',
+                    'icon' => 'thumb-up'
                 ]),
             ]
         ]);
 
+
+        // Folders
+
+        $folders = $this->getCollectionsFolders();
+
+        $collections = [];
+
+        foreach ($folders as $folder) {
+            $collections[] = new Collection([
+                'name' => $folder['title'],
+                'method' => 'folder',
+                'options' => ['id' => $folder['id']],
+                'icon' => 'folder',
+            ]);
+        }
+
+        if ($collections !== []) {
+            $sections[] = new Section([
+                'name' => 'Folders',
+                'collections' => $collections,
+            ]);
+        }
 
         // Albums
 
@@ -122,13 +146,14 @@ class Vimeo extends Gateway
             $collections[] = new Collection([
                 'name' => $album['title'],
                 'method' => 'album',
-                'options' => ['id' => $album['id']]
+                'options' => ['id' => $album['id']],
+                'icon' => 'layout'
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
-                'name' => 'Playlists',
+                'name' => 'Showcases',
                 'collections' => $collections,
             ]);
         }
@@ -148,7 +173,7 @@ class Vimeo extends Gateway
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Channels',
                 'collections' => $collections,
@@ -169,13 +194,13 @@ class Vimeo extends Gateway
      */
     public function getVideoById(string $id): Video
     {
-        $data = $this->get('videos/'.$id, [
+        $data = $this->get('videos/' . $id, [
             'query' => [
                 'fields' => 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files'
             ],
         ]);
 
-        if ($data) {
+        if ($data !== []) {
             return $this->parseVideo($data);
         }
 
@@ -249,8 +274,8 @@ class Vimeo extends Gateway
         $options = [
             'base_uri' => $this->getApiUrl(),
             'headers' => [
-                'Accept' => 'application/vnd.vimeo.*+json;version='.$this->getApiVersion(),
-                'Authorization' => 'Bearer '.$this->getOauthToken()->getToken()
+                'Accept' => 'application/vnd.vimeo.*+json;version=' . $this->getApiVersion(),
+                'Authorization' => 'Bearer ' . $this->getOauthToken()->getToken()
             ],
         ];
 
@@ -271,7 +296,24 @@ class Vimeo extends Gateway
         unset($params['id']);
 
         // albums/#album_id
-        return $this->performVideosRequest('me/albums/'.$albumId.'/videos', $params);
+        return $this->performVideosRequest('me/albums/' . $albumId . '/videos', $params);
+    }
+
+    /**
+     * Returns a list of videos in an folder
+     *
+     * @param array $params
+     *
+     * @return array
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
+    protected function getVideosFolder(array $params = []): array
+    {
+        $folderId = $params['id'];
+        unset($params['id']);
+
+        // folders/#folder_id
+        return $this->performVideosRequest('me/folders/' . $folderId . '/videos', $params);
     }
 
     /**
@@ -287,7 +329,7 @@ class Vimeo extends Gateway
         $params['channel_id'] = $params['id'];
         unset($params['id']);
 
-        return $this->performVideosRequest('channels/'.$params['channel_id'].'/videos', $params);
+        return $this->performVideosRequest('channels/' . $params['channel_id'] . '/videos', $params);
     }
 
     /**
@@ -298,7 +340,7 @@ class Vimeo extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    protected function getVideosFavorites(array $params = []): array
+    protected function getVideosLikes(array $params = []): array
     {
         return $this->performVideosRequest('me/likes', $params);
     }
@@ -357,8 +399,11 @@ class Vimeo extends Gateway
      */
     private function getCollectionsAlbums(array $params = []): array
     {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri,stats';
+
         $data = $this->get('me/albums', [
-            'query' => $this->queryFromParams($params)
+            'query' => $query,
         ]);
 
         return $this->parseCollections('album', $data['data']);
@@ -371,10 +416,32 @@ class Vimeo extends Gateway
      * @throws CollectionParsingException
      * @throws \dukt\videos\errors\ApiResponseException
      */
+    private function getCollectionsFolders(array $params = []): array
+    {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri';
+
+        $data = $this->get('me/folders', [
+            'query' => $query
+        ]);
+
+        return $this->parseCollections('folder', $data['data']);
+    }
+
+    /**
+     * @param array $params
+     *
+     * @return array
+     * @throws CollectionParsingException
+     * @throws \dukt\videos\errors\ApiResponseException
+     */
     private function getCollectionsChannels(array $params = []): array
     {
+        $query = $this->queryFromParams($params);
+        $query['fields'] = 'name,uri';
+
         $data = $this->get('me/channels', [
-            'query' => $this->queryFromParams($params)
+            'query' => $query
         ]);
 
         return $this->parseCollections('channel', $data['data']);
@@ -394,6 +461,9 @@ class Vimeo extends Gateway
         foreach ($collections as $collection) {
 
             switch ($type) {
+                case 'folder':
+                    $parsedCollection = $this->parseCollectionFolder($collection);
+                    break;
                 case 'album':
                     $parsedCollection = $this->parseCollectionAlbum($collection);
                     break;
@@ -402,7 +472,7 @@ class Vimeo extends Gateway
                     break;
 
                 default:
-                    throw new CollectionParsingException('Couldn’t parse collection of type ”'.$type.'“.');
+                    throw new CollectionParsingException('Couldn’t parse collection of type ”' . $type . '“.');
             }
 
             $parseCollections[] = $parsedCollection;
@@ -423,6 +493,22 @@ class Vimeo extends Gateway
         $collection['url'] = $data['uri'];
         $collection['title'] = $data['name'];
         $collection['totalVideos'] = $data['stats']['videos'];
+
+        return $collection;
+    }
+
+    /**
+     * @param $data
+     *
+     * @return array
+     */
+    private function parseCollectionFolder($data): array
+    {
+        $collection = [];
+        $collection['id'] = substr($data['uri'], strpos($data['uri'], '/projects/') + \strlen('/projects/'));
+        $collection['url'] = $data['uri'];
+        $collection['title'] = $data['name'];
+        $collection['totalVideos'] = $data['metadata']['connections']['videos']['total'] ?? 0;
 
         return $collection;
     }
@@ -480,10 +566,10 @@ class Vimeo extends Gateway
         $video->description = $data['description'];
         $video->gatewayHandle = 'vimeo';
         $video->gatewayName = 'Vimeo';
-        $video->id = (int) substr($data['uri'], \strlen('/videos/'));
+        $video->id = (int)substr($data['uri'], \strlen('/videos/'));
         $video->plays = $data['stats']['plays'] ?? 0;
         $video->title = $data['name'];
-        $video->url = 'https://vimeo.com/'.substr($data['uri'], 8);
+        $video->url = 'https://vimeo.com/' . substr($data['uri'], 8);
         $video->width = $data['width'];
         $video->height = $data['height'];
 
@@ -508,7 +594,7 @@ class Vimeo extends Gateway
     {
         $privacyOptions = ['nobody', 'contacts', 'password', 'users', 'disable'];
 
-        if(in_array($data['privacy']['view'], $privacyOptions, true)) {
+        if (in_array($data['privacy']['view'], $privacyOptions, true)) {
             $video->private = true;
         }
 
@@ -573,9 +659,10 @@ class Vimeo extends Gateway
      * @return array
      * @throws \dukt\videos\errors\ApiResponseException
      */
-    private function performVideosRequest($uri, $params): array
+    private function performVideosRequest($uri, array $params): array
     {
         $query = $this->queryFromParams($params);
+        $query['fields'] = 'created_time,description,duration,height,link,name,pictures,pictures,privacy,stats,uri,user,width,download,review_link,files';
 
         $data = $this->get($uri, [
             'query' => $query
@@ -605,27 +692,22 @@ class Vimeo extends Gateway
      */
     private function queryFromParams(array $params = []): array
     {
-        $query = [];
-
-        $query['full_response'] = 1;
+        $query = [
+            'full_response' => 1,
+            'page' => 1,
+            'per_page' => $this->getVideosPerPage(),
+        ];
 
         if (!empty($params['moreToken'])) {
             $query['page'] = $params['moreToken'];
             unset($params['moreToken']);
-        } else {
-            $query['page'] = 1;
         }
-
-        // $params['moreToken'] = $query['page'] + 1;
 
         if (!empty($params['q'])) {
             $query['query'] = $params['q'];
             unset($params['q']);
         }
 
-        $query['per_page'] = $this->getVideosPerPage();
-        $query = array_merge($query, $params);
-
-        return $query;
+        return array_merge($query, $params);
     }
 }
