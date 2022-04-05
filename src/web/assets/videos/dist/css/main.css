@@ -221,9 +221,6 @@
 .dv-h-4 {
         height: 1rem
 }
-.dv-w-full {
-        width: 100%
-}
 .dv-w-44 {
         width: 11rem
 }
@@ -232,6 +229,9 @@
 }
 .dv-w-4 {
         width: 1rem
+}
+.dv-w-full {
+        width: 100%
 }
 .dv-min-w-0 {
         min-width: 0px
