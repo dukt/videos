@@ -1,7 +1,7 @@
 {
   "name": "dukt/videos",
   "description": "Connect to YouTube & Vimeo and publish social videos on your website.",
-  "version": "2.1.0",
+  "version": "3.0.0-beta.1",
   "type": "craft-plugin",
   "license": "proprietary",
   "keywords": [
@@ -25,6 +25,7 @@
     "rss": "https://github.com/dukt/videos/commits/v2.atom"
   },
   "require": {
+    "php": "^8.0.2",
     "craftcms/cms": "^4.0.0-beta.1",
     "league/oauth2-client": "^2.5.0",
     "dukt/oauth2-vimeo": "^2.0.1",
