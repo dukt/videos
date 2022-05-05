@@ -3,6 +3,9 @@ Changelog
 
 ## Unreleased
 
+### Added
+- Added missing translations.
+
 ### Fixed
 - Fixed a bug where the `site` query param was present in the OAuth redirect URI.
 
