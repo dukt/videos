@@ -119,7 +119,8 @@ abstract class Gateway implements GatewayInterface
      */
     public function getRedirectUri(): string
     {
-        return UrlHelper::actionUrl('videos/oauth/callback');
+        $url = UrlHelper::actionUrl('videos/oauth/callback');
+        return UrlHelper::removeParam($url, 'site');;
     }
 
     /**
