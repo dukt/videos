@@ -69,9 +69,6 @@ class ExplorerController extends Controller
 
         $videosResponse = $gateway->getVideos($method, $options);
 
-
-        // Todo: Make this happen in the Video model toArray()
-
         $videos = [];
 
         foreach ($videosResponse['videos'] as $video) {
