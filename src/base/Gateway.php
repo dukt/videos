@@ -21,11 +21,13 @@ use GuzzleHttp\Exception\BadResponseException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
 use yii\web\Response;
+use GuzzleHttp\Client;
 
 
 /**
  * Gateway is the base class for classes representing video gateways.
  *
+ * @method Client createClient()
  * @author Dukt <support@dukt.net>
  * @since  1.0
  */
@@ -120,7 +122,7 @@ abstract class Gateway implements GatewayInterface
     public function getRedirectUri(): string
     {
         $url = UrlHelper::actionUrl('videos/oauth/callback');
-        return UrlHelper::removeParam($url, 'site');;
+        return UrlHelper::removeParam($url, 'site');
     }
 
     /**

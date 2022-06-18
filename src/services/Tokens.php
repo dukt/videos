@@ -9,6 +9,7 @@ namespace dukt\videos\services;
 
 use Craft;
 use dukt\analytics\errors\InvalidViewException;
+use dukt\videos\errors\TokenNotFoundException;
 use dukt\videos\models\Token;
 use dukt\videos\records\Token as TokenRecord;
 use Exception;
@@ -72,7 +73,7 @@ class Tokens extends Component
                 ->one();
 
             if (!$tokenRecord) {
-                throw new InvalidViewException(sprintf("No token exists with the ID '%s'", $token->id));
+                throw new TokenNotFoundException(sprintf("No token exists with the ID '%s'", $token->id));
             }
 
             $isNewToken = false;
