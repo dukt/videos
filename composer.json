@@ -42,5 +42,17 @@
     "description": "Connect to YouTube & Vimeo and publish social videos on your website",
     "documentationUrl": "https://dukt.net/docs/videos/v2",
     "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
+  },
+  "config": {
+    "allow-plugins": {
+      "yiisoft/yii2-composer": true,
+      "craftcms/plugin-installer": true
+    }
+  },
+  "require-dev": {
+    "craftcms/phpstan": "dev-main"
+  },
+  "scripts": {
+    "phpstan": "phpstan --memory-limit=1G"
   }
 }
