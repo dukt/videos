@@ -52,12 +52,11 @@ class Tokens extends Component
     }
 
     /**
-     * Saves a token.
-     *
      * @param Token $token
      * @param bool $runValidation
      * @return bool
-     * @throws InvalidViewException
+     * @throws TokenNotFoundException
+     * @throws \yii\db\Exception
      */
     public function saveToken(Token $token, bool $runValidation = true): bool
     {
@@ -68,9 +67,7 @@ class Tokens extends Component
         }
 
         if ($token->id) {
-            $tokenRecord = TokenRecord::find()
-                ->where(['id' => $token->id])
-                ->one();
+            $tokenRecord = TokenRecord::findOne($token->id);
 
             if (!$tokenRecord) {
                 throw new TokenNotFoundException(sprintf("No token exists with the ID '%s'", $token->id));

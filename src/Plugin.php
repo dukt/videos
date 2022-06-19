@@ -25,6 +25,7 @@ use yii\base\Event;
 /**
  * Videos plugin class.
  *
+ * @method Settings getSettings()
  * @author  Dukt <support@dukt.net>
  * @since   1.0
  */

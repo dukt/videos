@@ -9,6 +9,13 @@ namespace dukt\videos\records;
 
 use craft\db\ActiveRecord;
 
+/**
+ * Token record.
+ *
+ * @property int $id
+ * @property string $gateway
+ * @property string $accessToken
+ */
 class Token extends ActiveRecord
 {
     // Public Methods

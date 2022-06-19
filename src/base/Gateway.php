@@ -16,7 +16,6 @@ use dukt\videos\errors\JsonParsingException;
 use dukt\videos\errors\VideoNotFoundException;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\Plugin;
-use dukt\videos\records\Token as TokenRecord;
 use GuzzleHttp\Exception\BadResponseException;
 use Exception;
 use Psr\Http\Message\ResponseInterface;
@@ -200,7 +199,7 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the gateway's OAuth token.
      *
-     * @return mixed
+     * @return \League\OAuth2\Client\Token\AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
     public function getOauthToken(): ?\League\OAuth2\Client\Token\AccessToken
@@ -333,7 +332,7 @@ abstract class Gateway implements GatewayInterface
      *
      * @param $url
      *
-     * @return mixed
+     * @return \dukt\videos\models\Video
      * @throws VideoNotFoundException
      */
     public function getVideoByUrl($url): \dukt\videos\models\Video
@@ -384,9 +383,9 @@ abstract class Gateway implements GatewayInterface
      *
      * @param bool $parse
      * @throws \yii\base\InvalidConfigException
-     * @return mixed[]|null
+     * @return null|array
      */
-    public function getOauthProviderOptions(bool $parse = true): array
+    public function getOauthProviderOptions(bool $parse = true)
     {
         return Plugin::getInstance()->getOauthProviderOptions($this->getHandle(), $parse);
     }

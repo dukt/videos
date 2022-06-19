@@ -176,7 +176,7 @@ class Gateways extends Component
      *
      * @param $gatewayType
      *
-     * @return mixed
+     * @return object
      */
     private function _createGateway($gatewayType): object
     {
