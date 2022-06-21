@@ -24,6 +24,7 @@
     "clone-deep": "^4.0.1",
     "core-js": "^3.6.5",
     "css-loader": "^6.7.1",
+    "dotenv": "^16.0.1",
     "eslint": "^8.11.0",
     "eslint-plugin-vue": "^8.5.0",
     "eslint-webpack-plugin": "^3.1.1",

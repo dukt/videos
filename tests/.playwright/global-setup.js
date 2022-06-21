@@ -7,8 +7,8 @@ module.exports = async config => {
   const page = await browser.newPage();
 
   await page.goto(baseURL);
-  await page.fill('#loginName', 'admin');
-  await page.fill('#password', 'password');
+  await page.fill('#loginName', process.env.PLAYWRIGHT_USERNAME);
+  await page.fill('#password', process.env.PLAYWRIGHT_PASSWORD);
   await page.click('button#submit');
 
   const title = page.locator('h1');
