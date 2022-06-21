@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-const {goToSingleVideoPage, openExplorer} = require('../utils')
+const {goToSingleVideoPage, openExplorer} = require('./utils')
 
 test.beforeEach(async ({page, baseURL}) => {
   await goToSingleVideoPage(baseURL, page)

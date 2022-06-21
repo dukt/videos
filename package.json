@@ -7,7 +7,7 @@
     "serve": "webpack-dev-server --node-env=development",
     "lint": "eslint src/web/assets/videos/src/ --ext .js,.vue",
     "test": "npx playwright test",
-    "test:watch": "chokidar 'playwright/tests/*.spec.js' -c 'yarn test:playwright -- --retries=0 {path}'"
+    "test:watch": "chokidar 'tests/.playwright/tests/*.spec.js' -c 'yarn test -- --retries=0 {path}'"
   },
   "devDependencies": {
     "@babel/core": "^7.17.8",

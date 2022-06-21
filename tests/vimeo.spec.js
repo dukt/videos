@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-const {goToSingleVideoPage, openExplorer} = require('../utils')
+const {goToSingleVideoPage, openExplorer} = require('./utils')
 
 test('Browse Vimeo uploads', async ({ page, context, baseURL }) => {
   await goToSingleVideoPage(baseURL, page)

@@ -1,5 +1,5 @@
 const {test, expect} = require('@playwright/test');
-const {goToSingleVideoPage, openExplorer} = require('../utils')
+const {goToSingleVideoPage, openExplorer} = require('./utils')
 
 const selectYoutubeGateway = async (page) => {
   // Check if the YouTube gateway is already selected

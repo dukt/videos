@@ -15,6 +15,6 @@ module.exports = async config => {
   await expect(title).toHaveText('Dashboard');
 
   // Save signed-in state
-  await page.context().storageState({ path: './playwright/authentication/admin.json' });
+  await page.context().storageState({ path: './tests/.playwright/authentication/admin.json' });
   await browser.close();
 };

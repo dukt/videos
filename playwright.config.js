@@ -13,8 +13,8 @@ const { devices } = require('@playwright/test');
  * @type {import('@playwright/test').PlaywrightTestConfig}
  */
 const config = {
-  globalSetup: require.resolve('./playwright/global-setup'),
-  testDir: './playwright/tests',
+  globalSetup: require.resolve('./tests/.playwright/global-setup'),
+  testDir: './tests/',
   /* Maximum time one test can run for. */
   timeout: 30 * 1000,
   expect: {
@@ -32,7 +32,7 @@ const config = {
   workers: process.env.CI ? 1 : 1,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
   reporter: [
-    ['html', {outputFolder: './playwright/report/'}]
+    ['list', {outputFolder: './tests/.playwright/report/'}]
   ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
@@ -44,7 +44,7 @@ const config = {
     trace: 'on-first-retry',
 
     ignoreHTTPSErrors: true,
-    storageState: './playwright/authentication/admin.json',
+    storageState: './tests/.playwright/authentication/admin.json',
   },
 
   /* Configure projects for major browsers */
