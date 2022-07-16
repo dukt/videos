@@ -76,11 +76,11 @@ class Vimeo extends Gateway
      *
      * @param array $options
      *
-     * @return \Dukt\OAuth2\Client\Provider\Vimeo
+     * @return \Saf33r\OAuth2\Client\Provider\Vimeo
      */
-    public function createOauthProvider(array $options): \Dukt\OAuth2\Client\Provider\Vimeo
+    public function createOauthProvider(array $options): \Saf33r\OAuth2\Client\Provider\Vimeo
     {
-        return new \Dukt\OAuth2\Client\Provider\Vimeo($options);
+        return new \Saf33r\OAuth2\Client\Provider\Vimeo($options);
     }
 
     /**

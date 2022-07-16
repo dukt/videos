@@ -8,6 +8,7 @@ Changelog
 
 ### Changed
 - Updated `league/oauth2-google` to 4.0.
+- Use `saf33r/oauth2-vimeo` instead of `dukt/oauth2-vimeo`.
 
 ### Fixed
 - Fixed a bug where the `site` query param was present in the OAuth redirect URI.
