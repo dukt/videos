@@ -310,13 +310,13 @@ abstract class Gateway implements GatewayInterface
         $token = $this->getOauthToken();
 
         if ($token !== null) {
-            $account = Videos::$plugin->getCache()->get(['getAccount', $this->getHandle()]);
+            $account = Videos::$plugin->getCache()->get(['getAccount', get_class($this->getOauthProvider())]);
 
             if (!$account) {
                 $oauthProvider = $this->getOauthProvider();
                 $account = $oauthProvider->getResourceOwner($token);
 
-                Videos::$plugin->getCache()->set(['getAccount', $this->getHandle()], $account);
+                Videos::$plugin->getCache()->set(['getAccount', get_class($this->getOauthProvider())], $account);
             }
 
             if ($account) {
