@@ -1,7 +1,7 @@
 # Requirements
 
 ## Craft CMS
-Videos requires Craft CMS 3.7.0 and above.
+Videos requires Craft CMS 4.0.0 and above.
 
 ## PHP
-Videos requires PHP 7.2.5 and above.
+Videos requires PHP 8.0.2 and above.
