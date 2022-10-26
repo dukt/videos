@@ -133,6 +133,11 @@ class VideosHelper
                 if (!$mimeByExt) {
                     // Add the extension to the filename if it doesn’t have one
                     $mime = FileHelper::getMimeType($originalPath);
+
+                    if (!$mime) {
+                        return null;
+                    }
+
                     $ext = FileHelper::getExtensionByMimeType($mime);
 
                     if ($ext !== '' && $ext !== '0') {
