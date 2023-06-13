@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -9,6 +9,8 @@ namespace dukt\videos\helpers;
 
 use Craft;
 use craft\helpers\FileHelper;
+use dukt\videos\errors\ApiResponseException;
+use dukt\videos\models\Video;
 use dukt\videos\Plugin;
 
 /**
@@ -35,10 +37,10 @@ class VideosHelper
         $hms = '';
 
         if ($hours > 0) {
-            $hms .= str_pad($hours, 2, '0', STR_PAD_LEFT).':';
+            $hms .= str_pad($hours, 2, '0', STR_PAD_LEFT) . ':';
         }
 
-        $hms .= str_pad($minutes, 2, '0', STR_PAD_LEFT).':';
+        $hms .= str_pad($minutes, 2, '0', STR_PAD_LEFT) . ':';
 
         $hms .= str_pad($seconds, 2, '0', STR_PAD_LEFT);
 
@@ -61,16 +63,14 @@ class VideosHelper
         $iso8601 = 'PT';
 
         if ($hours > 0) {
-            $iso8601 .= "{$hours}H";
+            $iso8601 .= sprintf('%dH', $hours);
         }
 
         if ($minutes > 0) {
-            $iso8601 .= "{$minutes}M";
+            $iso8601 .= sprintf('%dM', $minutes);
         }
 
-        $iso8601 .= "{$seconds}S";
-
-        return $iso8601;
+        return $iso8601 . sprintf('%dS', $seconds);
     }
 
     /**
@@ -86,11 +86,11 @@ class VideosHelper
      * @throws \yii\base\Exception
      * @throws \yii\base\InvalidConfigException
      */
-    public static function getVideoThumbnail($gatewayHandle, $videoId, $size)
+    public static function getVideoThumbnail($gatewayHandle, $videoId, $size): ?string
     {
-        $baseDir = Craft::$app->getPath()->getRuntimePath().DIRECTORY_SEPARATOR.'videos'.DIRECTORY_SEPARATOR.'thumbnails'.DIRECTORY_SEPARATOR.$gatewayHandle.DIRECTORY_SEPARATOR.$videoId;
-        $originalDir = $baseDir.DIRECTORY_SEPARATOR.'original';
-        $dir = $baseDir.DIRECTORY_SEPARATOR.$size;
+        $baseDir = Craft::$app->getPath()->getRuntimePath() . DIRECTORY_SEPARATOR . 'videos' . DIRECTORY_SEPARATOR . 'thumbnails' . DIRECTORY_SEPARATOR . $gatewayHandle . DIRECTORY_SEPARATOR . $videoId;
+        $originalDir = $baseDir . DIRECTORY_SEPARATOR . 'original';
+        $dir = $baseDir . DIRECTORY_SEPARATOR . $size;
 
         $file = self::getThumbnailFile($dir);
 
@@ -101,18 +101,25 @@ class VideosHelper
             if (is_dir($originalDir)) {
                 $originalFiles = FileHelper::findFiles($originalDir);
 
-                if (\count($originalFiles) > 0) {
+                if ($originalFiles !== []) {
                     $originalPath = $originalFiles[0];
                 }
             }
 
             if (!$originalPath) {
-                // Copy the original thumbnail
-                $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
+                try {
+                    $video = Plugin::$plugin->getVideos()->getVideoById($gatewayHandle, $videoId);
+                } catch (ApiResponseException $apiResponseException) {
+                    Craft::info('Couldn’t get video thumbnail:' . "\r\n"
+                        . 'Message: ' . "\r\n" . $apiResponseException->getMessage() . "\r\n"
+                        . 'Trace: ' . "\r\n" . $apiResponseException->getTraceAsString(), __METHOD__);
+                    return null;
+                }
+
                 $url = $video->thumbnailSource;
 
                 $name = pathinfo($url, PATHINFO_BASENAME);
-                $originalPath = $originalDir.DIRECTORY_SEPARATOR.$name;
+                $originalPath = $originalDir . DIRECTORY_SEPARATOR . $name;
 
                 FileHelper::createDirectory($originalDir);
                 $client = new \GuzzleHttp\Client();
@@ -128,9 +135,9 @@ class VideosHelper
                     $mime = FileHelper::getMimeType($originalPath);
                     $ext = FileHelper::getExtensionByMimeType($mime);
 
-                    if ($ext) {
-                        $name .= '.'.$ext;
-                        $targetPath = $originalDir.DIRECTORY_SEPARATOR.$name;
+                    if ($ext !== '' && $ext !== '0') {
+                        $name .= '.' . $ext;
+                        $targetPath = $originalDir . DIRECTORY_SEPARATOR . $name;
 
                         rename($originalPath, $targetPath);
 
@@ -146,7 +153,7 @@ class VideosHelper
             }
 
             // Generate the thumb
-            $path = $dir.DIRECTORY_SEPARATOR.$name;
+            $path = $dir . DIRECTORY_SEPARATOR . $name;
             FileHelper::createDirectory($dir);
             Craft::$app->getImages()->loadImage($originalPath, false, $size)
                 ->scaleToFit($size, $size)
@@ -155,7 +162,43 @@ class VideosHelper
             $name = pathinfo($file, PATHINFO_BASENAME);
         }
 
-        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true)."/{$name}";
+        return Craft::$app->getAssetManager()->getPublishedUrl($dir, true) . sprintf('/%s', $name);
+    }
+
+    /**
+     * Transforms a video model into an array.
+     *
+     * @param Video $videoModel
+     * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \craft\errors\ImageException
+     * @throws \yii\base\Exception
+     * @throws \yii\base\InvalidConfigException
+     */
+    public static function videoToArray(Video $videoModel): array
+    {
+        $video = $videoModel->toArray([
+            'id',
+            'gatewayHandle',
+            'title',
+            'url',
+            'authorName',
+            'authorUrl',
+            'durationSeconds',
+            'plays',
+            'private'
+        ]);
+
+        if ($videoModel->id && $videoModel->gatewayHandle) {
+            $video['thumbnail'] = $videoModel->thumbnailSource;
+            $video['embedUrl'] = $videoModel->getEmbedUrl();
+            $video['duration'] = $videoModel->getDuration();
+        }
+
+        $video['errors'] = $videoModel->getErrors();
+        $video['hasErrors'] = $videoModel->hasErrors();
+
+        return $video;
     }
 
     // Private Methods
@@ -176,7 +219,7 @@ class VideosHelper
 
         $files = FileHelper::findFiles($dir);
 
-        if (\count($files) === 0) {
+        if ($files === []) {
             return null;
         }
 

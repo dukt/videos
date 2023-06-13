@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -12,10 +12,10 @@ use dukt\videos\Plugin as Videos;
 /**
  * PluginTrait implements the common methods and properties for plugin classes.
  *
- * @property \dukt\videos\services\Videos   $videos     The videos service
- * @property \dukt\videos\services\Cache    $cache      The cache service
+ * @property \dukt\videos\services\Videos $videos     The videos service
+ * @property \dukt\videos\services\Cache $cache      The cache service
  * @property \dukt\videos\services\Gateways $gateways   The gateways service
- * @property \dukt\videos\services\Oauth    $oauth      The oauth service
+ * @property \dukt\videos\services\Oauth $oauth      The oauth service
  */
 trait PluginTrait
 {

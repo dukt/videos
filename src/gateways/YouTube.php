@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -100,7 +100,7 @@ class YouTube extends Gateway
     {
         $options = parent::getOauthProviderOptions($parse);
 
-        if(!isset($options['useOidcMode'])) {
+        if (!isset($options['useOidcMode'])) {
             $options['useOidcMode'] = true;
         }
 
@@ -138,10 +138,12 @@ class YouTube extends Gateway
                 new Collection([
                     'name' => 'Uploads',
                     'method' => 'uploads',
+                    'icon' => 'video-camera',
                 ]),
                 new Collection([
                     'name' => 'Liked videos',
                     'method' => 'likes',
+                    'icon' => 'thumb-up'
                 ])
             ]
         ]);
@@ -158,10 +160,11 @@ class YouTube extends Gateway
                 'name' => $playlist['title'],
                 'method' => 'playlist',
                 'options' => ['id' => $playlist['id']],
+                'icon' => 'list'
             ]);
         }
 
-        if (\count($collections) > 0) {
+        if ($collections !== []) {
             $sections[] = new Section([
                 'name' => 'Playlists',
                 'collections' => $collections,
@@ -264,7 +267,7 @@ class YouTube extends Gateway
         $options = [
             'base_uri' => $this->getApiUrl(),
             'headers' => [
-                'Authorization' => 'Bearer '.$this->getOauthToken()->getToken()
+                'Authorization' => 'Bearer ' . $this->getOauthToken()->getToken()
             ]
         ];
 
@@ -364,7 +367,7 @@ class YouTube extends Gateway
 
         // Get videos from video IDs
 
-        if (\count($videoIds) > 0) {
+        if ($videoIds !== []) {
 
             $query = [];
             $query['part'] = 'snippet,statistics,contentDetails';
@@ -546,7 +549,7 @@ class YouTube extends Gateway
     {
         $more = false;
 
-        if (!empty($response['nextPageToken']) && \count($videos) > 0) {
+        if (!empty($response['nextPageToken']) && (is_array($videos) || $videos instanceof \Countable ? \count($videos) : 0) > 0) {
             $more = true;
         }
 
@@ -601,7 +604,7 @@ class YouTube extends Gateway
         $video = new Video;
         $video->raw = $data;
         $video->authorName = $data['snippet']['channelTitle'];
-        $video->authorUrl = 'http://youtube.com/channel/'.$data['snippet']['channelId'];
+        $video->authorUrl = 'http://youtube.com/channel/' . $data['snippet']['channelId'];
         $video->date = strtotime($data['snippet']['publishedAt']);
         $video->description = $data['snippet']['description'];
         $video->gatewayHandle = 'youtube';
@@ -609,11 +612,11 @@ class YouTube extends Gateway
         $video->id = $data['id'];
         $video->plays = $data['statistics']['viewCount'];
         $video->title = $data['snippet']['title'];
-        $video->url = 'http://youtu.be/'.$video->id;
+        $video->url = 'http://youtu.be/' . $video->id;
 
         // Video Duration
         $interval = new \DateInterval($data['contentDetails']['duration']);
-        $video->durationSeconds = (int) date_create('@0')->add($interval)->getTimestamp();
+        $video->durationSeconds = (int)date_create('@0')->add($interval)->getTimestamp();
         $video->duration8601 = $data['contentDetails']['duration'];
 
         // Thumbnails
@@ -648,7 +651,7 @@ class YouTube extends Gateway
      * @param array $thumbnails
      * @return null|string
      */
-    private function getLargestThumbnail(array $thumbnails)
+    private function getLargestThumbnail(array $thumbnails): ?string
     {
         $largestSize = 0;
         $largestThumbnail = null;

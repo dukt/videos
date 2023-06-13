@@ -1,13 +1,14 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
 namespace dukt\videos\web\twig\variables;
 
 use Craft;
+use dukt\videos\models\Video;
 use dukt\videos\Plugin as Videos;
 
 class VideosVariable
@@ -36,14 +37,14 @@ class VideosVariable
      * @param bool $enableCache
      * @param int  $cacheExpiry
      *
-     * @return bool|null
+     * @return Video|null
      */
-    public function getVideoByUrl($videoUrl, $enableCache = true, $cacheExpiry = null)
+    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = null): ?\dukt\videos\models\Video
     {
         try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
-        } catch (\Exception $e) {
-            Craft::info('Couldn’t get video from its url ('.$videoUrl.'): '.$e->getMessage(), __METHOD__);
+        } catch (\Exception $exception) {
+            Craft::info('Couldn’t get video from its url (' . $videoUrl . '): ' . $exception->getMessage(), __METHOD__);
         }
 
         return null;
@@ -55,9 +56,10 @@ class VideosVariable
      * @param      $videoUrl
      * @param bool $enableCache
      * @param int  $cacheExpiry
+     * @return Video|null
      */
-    public function url($videoUrl, $enableCache = true, $cacheExpiry = null)
+    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = null): ?\dukt\videos\models\Video
     {
-        $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
+        return $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }
 }

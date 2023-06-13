@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -27,11 +27,11 @@ class Gateways extends Component
 {
     // Constants
     // =========================================================================
-
     /**
      * @event RegisterLoginProviderTypesEvent The event that is triggered when registering login providers.
+     * @var string
      */
-    const EVENT_REGISTER_GATEWAY_TYPES = 'registerGatewayTypes';
+    public const EVENT_REGISTER_GATEWAY_TYPES = 'registerGatewayTypes';
 
     // Properties
     // =========================================================================
@@ -53,24 +53,18 @@ class Gateways extends Component
 
     // Public Methods
     // =========================================================================
-
     /**
      * Get gateway by handle.
      *
      * @param      $gatewayHandle
-     * @param bool $enabledOnly
      *
      * @return Gateway|null
      */
-    public function getGateway($gatewayHandle, $enabledOnly = true)
+    public function getGateway($gatewayHandle, bool $enabledOnly = true)
     {
         $this->loadGateways();
 
-        if ($enabledOnly) {
-            $gateways = $this->_gateways;
-        } else {
-            $gateways = $this->_allGateways;
-        }
+        $gateways = $enabledOnly ? $this->_gateways : $this->_allGateways;
 
         foreach ($gateways as $g) {
             if ($g->getHandle() === $gatewayHandle) {
@@ -84,11 +78,10 @@ class Gateways extends Component
     /**
      * Get gateways.
      *
-     * @param bool $enabledOnly
      *
      * @return Gateway[]
      */
-    public function getGateways($enabledOnly = true): array
+    public function getGateways(bool $enabledOnly = true): array
     {
         $this->loadGateways();
 
@@ -120,7 +113,7 @@ class Gateways extends Component
 
                 $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-                if ($token) {
+                if ($token !== null) {
                     $this->_gateways[] = $gateway;
                 }
             } else {
@@ -185,7 +178,7 @@ class Gateways extends Component
      *
      * @return mixed
      */
-    private function _createGateway($gatewayType)
+    private function _createGateway($gatewayType): object
     {
         return new $gatewayType;
     }

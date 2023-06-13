@@ -14,7 +14,7 @@ class m190601_092217_tokens extends Migration
     /**
      * @inheritdoc
      */
-    public function safeUp()
+    public function safeUp(): void
     {
         if (!$this->db->tableExists('{{%videos_tokens}}')) {
             $this->createTables();
@@ -24,7 +24,7 @@ class m190601_092217_tokens extends Migration
         $this->updateOauthClient();
     }
 
-    public function createTables()
+    public function createTables(): void
     {
         $this->createTable(
             '{{%videos_tokens}}',
@@ -88,7 +88,7 @@ class m190601_092217_tokens extends Migration
                     $providerHandle = null;
             }
 
-            if (!$providerHandle) {
+            if ($providerHandle === null) {
                 continue;
             }
 
@@ -102,7 +102,7 @@ class m190601_092217_tokens extends Migration
     /**
      * @inheritdoc
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         echo "m190601_092217_tokens cannot be reverted.\n";
         return false;

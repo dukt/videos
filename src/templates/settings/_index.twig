@@ -1,0 +1,42 @@
+{% extends "videos/_layouts/settings" %}
+
+{% set content %}
+    <div class="videos-settings tablepane">
+        <table class="data fullwidth">
+            <thead>
+            <tr>
+                <th>{{ "Gateway"|t('videos') }}</th>
+                <th>{{ "Account"|t('videos') }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for gateway in gateways %}
+
+                {% set account = accounts[gateway.handle] %}
+                {% set accountError = accountErrors[gateway.handle] %}
+
+                <tr>
+                    <th class="gateway-cell">
+                        <a href="{{ url('videos/settings/'~gateway.handle) }}">
+                            <img
+                                    src="{{ gateway.iconUrl }}"
+                                    width="24" />
+                            {{ gateway.name }}
+                        </a>
+                    </th>
+                    <td>
+                        {% if account %}
+                            {{ account.name }} <span
+                                class="light">— <code>{{ account.id }}</code></span>
+                        {% elseif accountError %}
+                            <div class="error">{{ accountError }}</div>
+                        {% else %}
+                            <span class="light">—</span>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endset %}

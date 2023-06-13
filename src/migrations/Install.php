@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -35,7 +35,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
-    public function safeUp()
+    public function safeUp(): bool
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
         $this->createTables();
@@ -56,7 +56,7 @@ class Install extends Migration
      * @return boolean return a false value to indicate the migration fails
      * and should not proceed further. All other return values mean the migration succeeds.
      */
-    public function safeDown()
+    public function safeDown(): bool
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
         $this->removeForeignKeys();
@@ -68,13 +68,10 @@ class Install extends Migration
 
     // Protected Methods
     // =========================================================================
-
     /**
      * Creates the tables needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function createTables()
+    protected function createTables(): void
     {
         $this->createTable(
             '{{%videos_tokens}}',
@@ -92,58 +89,46 @@ class Install extends Migration
 
     /**
      * Creates the indexes needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function createIndexes()
+    protected function createIndexes(): void
     {
         $this->createIndex(null, '{{%videos_tokens}}', 'gateway', true);
     }
 
     /**
      * Creates the foreign keys needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function addForeignKeys()
+    protected function addForeignKeys(): void
     {
     }
 
     /**
      * Populates the DB with the default data.
-     *
-     * @return void
      */
-    protected function insertDefaultData()
+    protected function insertDefaultData(): void
     {
     }
 
     /**
      * Removes the tables needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function removeTables()
+    protected function removeTables(): void
     {
         $this->dropTable('{{%videos_tokens}}');
     }
 
     /**
      * Removes the indexes needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function removeIndexes()
+    protected function removeIndexes(): void
     {
-        $this->dropIndex($this->db->getIndexName('{{%videos_tokens}}', 'gateway', true), '{{%videos_tokens}}');
+        $this->dropIndex($this->db->getIndexName(), '{{%videos_tokens}}');
     }
 
     /**
      * Removes the foreign keys needed for the Records used by the plugin
-     *
-     * @return void
      */
-    protected function removeForeignKeys()
+    protected function removeForeignKeys(): void
     {
     }
 }

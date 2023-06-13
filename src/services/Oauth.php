@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -26,20 +26,18 @@ class Oauth extends Component
 {
     // Public Methods
     // =========================================================================
-
     /**
      * Get a token by its gateway handle.
      *
      * @param $gatewayHandle
-     * @param bool $refresh
      * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
-    public function getToken($gatewayHandle, $refresh = true)
+    public function getToken(string $gatewayHandle, bool $refresh = true): ?\League\OAuth2\Client\Token\AccessToken
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$token) {
+        if (!$token instanceof \dukt\videos\models\Token) {
             return null;
         }
 
@@ -58,7 +56,7 @@ class Oauth extends Component
     {
         $tokenModel = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$tokenModel) {
+        if ($tokenModel === null) {
             $tokenModel = new Token();
             $tokenModel->gateway = $gatewayHandle;
         }
@@ -92,7 +90,7 @@ class Oauth extends Component
     {
         $token = Plugin::getInstance()->getTokens()->getToken($gatewayHandle);
 
-        if (!$token) {
+        if (!$token instanceof \dukt\videos\models\Token) {
             return true;
         }
 
@@ -101,18 +99,14 @@ class Oauth extends Component
 
     // Private Methods
     // =========================================================================
-
     /**
      * Create token from data.
      *
-     * @param string $gatewayHandle
-     * @param array  $data
-     * @param bool   $refreshToken
      *
      * @return AccessToken|null
      * @throws \yii\base\InvalidConfigException
      */
-    private function createTokenFromData(string $gatewayHandle, array $data, $refreshToken = true)
+    private function createTokenFromData(string $gatewayHandle, array $data, bool $refreshToken = true): ?\League\OAuth2\Client\Token\AccessToken
     {
         if (!isset($data['accessToken'])) {
             return null;

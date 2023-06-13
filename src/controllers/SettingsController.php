@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -10,7 +10,7 @@ namespace dukt\videos\controllers;
 use Craft;
 use craft\web\Controller;
 use dukt\videos\Plugin as Videos;
-use dukt\videos\web\assets\settings\SettingsAsset;
+use dukt\videos\web\assets\videos\VideosAsset;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use yii\base\InvalidConfigException;
 use yii\web\BadRequestHttpException;
@@ -38,10 +38,10 @@ class SettingsController extends Controller
             try {
                 $accounts[$gateway->getHandle()] = $gateway->getAccount();
                 $accountErrors[$gateway->getHandle()] = false;
-            } catch (IdentityProviderException $e) {
-                $error = $e->getMessage();
+            } catch (IdentityProviderException $identityProviderException) {
+                $error = $identityProviderException->getMessage();
 
-                $data = $e->getResponseBody();
+                $data = $identityProviderException->getResponseBody();
 
                 if (isset($data['error_description'])) {
                     $error = $data['error_description'];
@@ -52,7 +52,7 @@ class SettingsController extends Controller
             }
         }
 
-        Craft::$app->getView()->registerAssetBundle(SettingsAsset::class);
+        Craft::$app->getView()->registerAssetBundle(VideosAsset::class);
 
         return $this->renderTemplate('videos/settings/_index', [
             'gateways' => $gateways,
@@ -76,9 +76,9 @@ class SettingsController extends Controller
 
         try {
             $account = $gateway->getAccount();
-        } catch (IdentityProviderException $e) {
-            $error = $e->getMessage();
-            $data = $e->getResponseBody();
+        } catch (IdentityProviderException $identityProviderException) {
+            $error = $identityProviderException->getMessage();
+            $data = $identityProviderException->getResponseBody();
 
             if (isset($data['error_description'])) {
                 $error = $data['error_description'];
@@ -121,6 +121,8 @@ class SettingsController extends Controller
      */
     public function actionSaveGateway(): Response
     {
+        $this->requireAdmin();
+
         $gatewayHandle = Craft::$app->getRequest()->getParam('gatewayHandle');
         $gateway = Videos::$plugin->getGateways()->getGateway($gatewayHandle, false);
 
@@ -135,7 +137,7 @@ class SettingsController extends Controller
         $key = 'plugins.videos.settings.oauthProviderOptions';
         $configPath = $key . '.' . $gateway->getHandle();
 
-        Craft::$app->getProjectConfig()->set($configPath, $configData, "Save the “{$gateway->getHandle()}” integration");
+        Craft::$app->getProjectConfig()->set($configPath, $configData, sprintf('Save the “%s” integration', $gateway->getHandle()));
 
         Craft::$app->getSession()->setNotice(Craft::t('videos', 'Gateway’s OAuth settings saved.'));
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -33,7 +33,7 @@ class Tokens extends Component
      * @param $gatewayHandle
      * @return Token|null
      */
-    public function getToken($gatewayHandle)
+    public function getToken($gatewayHandle): ?\dukt\videos\models\Token
     {
         $result = TokenRecord::find()
             ->where(['gateway' => $gatewayHandle])
@@ -72,7 +72,7 @@ class Tokens extends Component
                 ->one();
 
             if (!$tokenRecord) {
-                throw new InvalidViewException("No token exists with the ID '{$token->id}'");
+                throw new InvalidViewException(sprintf('No token exists with the ID \'%s\'', $token->id));
             }
 
             $isNewToken = false;
@@ -96,10 +96,10 @@ class Tokens extends Component
             }
 
             $transaction->commit();
-        } catch (Exception $e) {
+        } catch (Exception $exception) {
             $transaction->rollBack();
 
-            throw $e;
+            throw $exception;
         }
 
         return true;
@@ -117,7 +117,7 @@ class Tokens extends Component
     {
         $tokenRecord = TokenRecord::findOne($id);
 
-        if (!$tokenRecord) {
+        if (!$tokenRecord instanceof \dukt\videos\records\Token) {
             return true;
         }
 

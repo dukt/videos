@@ -1,7 +1,7 @@
 <?php
 /**
  * @link      https://dukt.net/videos/
- * @copyright Copyright (c) 2021, Dukt
+ * @copyright Copyright (c) Dukt
  * @license   https://github.com/dukt/videos/blob/v2/LICENSE.md
  */
 
@@ -33,7 +33,7 @@ class Cache extends Component
      *
      * @return mixed
      */
-    public function get($id)
+    public function get(array $id)
     {
         $cacheKey = $this->getCacheKey($id);
 
@@ -89,6 +89,6 @@ class Cache extends Component
 
         $hash = md5(serialize($request));
 
-        return 'videos.'.$hash;
+        return 'videos.' . $hash;
     }
 }

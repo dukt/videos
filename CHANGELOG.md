@@ -1,10 +1,34 @@
 Changelog
 =========
 
-## 2.0.15 - 2021-05-19
+## 2.1.0 - 2022-03-30
+
+### Added 
+- Added icons for Vimeo uploads, likes, folders, albums and showcases.
+- Added icons for YouTube uploads, favorites, and playlists.
+- Added support for Vimeo folders and showcases.
 
 ### Changed
+- Allow gateway OAuth settings editing and saving only when `allowAdminChanges` Craft config is enabled.
+- Videos now uses Vue.js.
+
+### Fixed
+- Fixed a bug where the field’s video URL value could get lost if the gateway wasn’t available.
+
+## 2.0.15 - 2021-05-19
+
+### Added
+- Added Vimeo folders support.
+- Added collection icon support.
+
+### Changed
+- Renamed Vimeo’s “Playlists” section to “Showcases”.
+- Renamed Vimeo’s “Favorites” to “Likes”.
 - The plugin’s icon has been updated.
+- Use Vue.js for JavaScript interactions.
+
+### Fixed
+- Fixed a bug where Vimeo video listing might not be loaded properly when the plugin was unable to find one of the videos’ thumbnail.
 
 ### Fixed
 - Fixed a bug where Vimeo thumbnail generation could fail due to Vimeo not providing a file with an extension, resulting in an exception for installs using the GD image driver. ([#40](https://github.com/dukt/videos/issues/40), [#54](https://github.com/dukt/videos/issues/54))
