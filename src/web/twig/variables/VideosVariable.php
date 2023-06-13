@@ -34,10 +34,11 @@ class VideosVariable
      * Get a video from its URL.
      *
      * @param      $videoUrl
-     *
+     * @param bool $enableCache
+     * @param int|null $cacheExpiry
      * @return Video|null
      */
-    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600): ?\dukt\videos\models\Video
+    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = null): ?\dukt\videos\models\Video
     {
         try {
             return Videos::$plugin->getVideos()->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
@@ -52,9 +53,11 @@ class VideosVariable
      * Alias for the `getVideoByUrl()` method.
      *
      * @param      $videoUrl
+     * @param bool $enableCache
+     * @param int|null $cacheExpiry
      * @return Video|null
      */
-    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600): ?\dukt\videos\models\Video
+    public function url($videoUrl, bool $enableCache = true, int $cacheExpiry = null): ?\dukt\videos\models\Video
     {
         return $this->getVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
     }

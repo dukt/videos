@@ -11,6 +11,7 @@ use Craft;
 use dukt\videos\models\Video;
 use yii\base\Component;
 use dukt\videos\Plugin as VideosPlugin;
+use yii\base\InvalidConfigException;
 
 /**
  * Class Videos service.
@@ -83,11 +84,12 @@ class Videos extends Component
      * Get video by URL.
      *
      * @param      $videoUrl
-     *
+     * @param bool $enableCache
+     * @param int|null $cacheExpiry
      * @return Video|null
-     * @throws \yii\base\InvalidConfigException
+     * @throws InvalidConfigException
      */
-    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
+    public function getVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = null)
     {
         $video = $this->requestVideoByUrl($videoUrl, $enableCache, $cacheExpiry);
 
@@ -105,11 +107,12 @@ class Videos extends Component
      *
      * @param      $gatewayHandle
      * @param      $id
-     *
-     * @return \dukt\videos\models\Video|mixed
-     * @throws \yii\base\InvalidConfigException
+     * @param bool $enableCache
+     * @param int|null $cacheExpiry
+     * @return Video|mixed
+     * @throws InvalidConfigException
      */
-    private function requestVideoById($gatewayHandle, $id, bool $enableCache = true, int $cacheExpiry = 3600)
+    private function requestVideoById($gatewayHandle, $id, bool $enableCache = true, int $cacheExpiry = null)
     {
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
 
@@ -142,7 +145,7 @@ class Videos extends Component
      * @return bool|mixed
      * @throws \yii\base\InvalidConfigException
      */
-    private function requestVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = 3600)
+    private function requestVideoByUrl($videoUrl, bool $enableCache = true, int $cacheExpiry = null)
     {
         $key = 'videos.video.' . md5($videoUrl);
         $enableCache = VideosPlugin::$plugin->getSettings()->enableCache === false ? false : $enableCache;
