@@ -4,8 +4,8 @@ Changelog
 ## Unreleased
 
 ### Fixed
-- Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/analytics/issues/82))
-- Fixed the default `totalVideos` value if the `stats` are not present in the Vimeo video response.
+- Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/videos/issues/82))
+- Fixed the default `totalVideos` value if the `stats` are not present in the Vimeo video response. ([#78](https://github.com/dukt/videos/pull/78))
 
 ## 2.1.0 - 2022-03-30
 
