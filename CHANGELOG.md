@@ -11,6 +11,7 @@ Changelog
 - Use `saf33r/oauth2-vimeo` instead of `dukt/oauth2-vimeo`.
 
 ### Fixed
+- Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/analytics/issues/82))
 - Fixed a bug where the `site` query param was present in the OAuth redirect URI.
 
 ## 3.0.0-beta.1 - 2022-04-06

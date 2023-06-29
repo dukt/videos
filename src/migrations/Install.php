@@ -59,8 +59,6 @@ class Install extends Migration
     public function safeDown(): bool
     {
         $this->driver = Craft::$app->getConfig()->getDb()->driver;
-        $this->removeForeignKeys();
-        $this->removeIndexes();
         $this->removeTables();
 
         return true;
@@ -115,20 +113,5 @@ class Install extends Migration
     protected function removeTables(): void
     {
         $this->dropTable('{{%videos_tokens}}');
-    }
-
-    /**
-     * Removes the indexes needed for the Records used by the plugin
-     */
-    protected function removeIndexes(): void
-    {
-        $this->dropIndex($this->db->getIndexName(), '{{%videos_tokens}}');
-    }
-
-    /**
-     * Removes the foreign keys needed for the Records used by the plugin
-     */
-    protected function removeForeignKeys(): void
-    {
     }
 }
