@@ -1,6 +1,6 @@
 # Twig Variables
 
-## craft.videos.getEmbed(videoUrl, embedOptions = [])
+## getEmbed(videoUrl, embedOptions = [])
 
 Returns the embed code for a video.
 
@@ -13,7 +13,7 @@ Returns the embed code for a video.
 {{ videoEmbed }}
 ```
 
-## craft.videos.getVideoByUrl(videoUrl, enableCache = true, cacheExpiry = 3600)
+## getVideoByUrl(videoUrl, enableCache = true, cacheExpiry = 3600)
 
 Retrieve a video from its URL.
 
@@ -44,6 +44,6 @@ Retrieve a video from its URL.
 {% endinf %}
 ```
 
-## craft.videos.url(videoUrl, enableCache = true, cacheExpiry = 3600)
+## url(videoUrl, enableCache = true, cacheExpiry = 3600)
 
-Alias for [craft.videos.getVideoByUrl()](#craft-videos-getvideobyurl-videourl-enablecache-true-cacheexpiry-3600).
+Alias for [getVideoByUrl()](#getvideobyurl-videourl-enablecache-true-cacheexpiry-3600).
