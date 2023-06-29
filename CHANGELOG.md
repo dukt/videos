@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## Unreleased
+## 2.1.1 - 2023-06-29
 
 ### Fixed
 - Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/videos/issues/82))
