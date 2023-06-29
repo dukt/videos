@@ -7,25 +7,27 @@ The Video field type lets you add videos to your entries. Retrieving video infor
 
 ## Output
 
-The Video field returns a [Video model](video-model.md) which you can use to access a video’s attributes from your templates or a [FailedVideo model](failed-video-model.md) if an error occured during video loading.
-
-You can use the `loaded` property: if is set to true this is a `Video`, if false this is a `FailedVideo`.
+The Video field returns a [Video model](video-model.md) which you can use to access a video’s attributes from your templates.
 
 ```twig
 {% set video = entry.video %}
 
-{% if video.loaded %}
-    <ul>
-        [...]
-        <li>title: {{ video.title }}</li>
-        <li>url: {{ video.url }}</li>
-        [...]
-    </ul>
+{% if video %}
+    {% if not video.hasErrors('url') %}
+        <ul>
+            <li>title: {{ video.title }}</li>
+            <li>url: {{ video.url }}</li>
+            <li>embed: {{ video.embed({ width: 300, height: 200 }) }}</li>
+        </ul>
+    {% else %}
+        <p>Video has errors:</p>
+        <ul>
+            {% for error in video.getErrors('url') %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 {% else %}
-    <ul>
-        {% for error in video.errors %}
-            <li>{{ error }}</li>
-        {% endfor %}
-    </ul>
-{% endif %}
+    <p>No video.</p>
+{% endinf %}
 ```

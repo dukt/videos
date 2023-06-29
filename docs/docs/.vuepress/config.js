@@ -43,9 +43,7 @@ module.exports = {
                     title: 'Templates',
                     collapsable: false,
                     children: [
-                        'twig-filters',
                         'twig-variables',
-                        'full-video-example',
                     ]
                 },
                 {
@@ -53,14 +51,6 @@ module.exports = {
                     collapsable: false,
                     children: [
                         'video-model',
-                        'video-embed-model',
-                    ]
-                },
-                {
-                    title: 'Extends',
-                    collapsable: false,
-                    children: [
-                        'gateway-extends',
                     ]
                 },
             ],
