@@ -18,11 +18,9 @@
     }
   ],
   "support": {
-    "email": "support@dukt.net",
-    "issues": "https://github.com/dukt/videos/issues?state=open",
-    "source": "https://github.com/dukt/videos",
     "docs": "https://github.com/dukt/videos",
-    "rss": "https://github.com/dukt/videos/commits/v2.atom"
+    "source": "https://github.com/dukt/videos",
+    "issues": "https://github.com/dukt/videos/issues?state=open"
   },
   "require": {
     "php": "^8.0.2",
