@@ -24,7 +24,7 @@
   },
   "require": {
     "php": "^8.0.2",
-    "craftcms/cms": "^4.0.0-beta.1",
+    "craftcms/cms": "^4.0.0",
     "league/oauth2-client": "^2.5.0",
     "saf33r/oauth2-vimeo": "^0.3.0",
     "league/oauth2-google": "^4.0.0"
@@ -36,10 +36,7 @@
   },
   "extra": {
     "name": "Videos",
-    "handle": "videos",
-    "description": "Connect to YouTube & Vimeo and publish social videos on your website",
-    "documentationUrl": "https://dukt.net/docs/videos/v2",
-    "changelogUrl": "https://github.com/dukt/videos/blob/v2/CHANGELOG.md"
+    "handle": "videos"
   },
   "config": {
     "allow-plugins": {
