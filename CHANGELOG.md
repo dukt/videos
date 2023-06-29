@@ -11,8 +11,10 @@ Changelog
 - Use `saf33r/oauth2-vimeo` instead of `dukt/oauth2-vimeo`.
 
 ### Fixed
-- Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/analytics/issues/82))
+- Fixed a bug where the plugin couldn’t be uninstalled. ([#82](https://github.com/dukt/videos/issues/82))
+- Fixed the default `totalVideos` value if the `stats` are not present in the Vimeo video response. ([#78](https://github.com/dukt/videos/pull/78))
 - Fixed a bug where the `site` query param was present in the OAuth redirect URI.
+- Fixed an error when `dukt\videos\helpers\VideosHelper::getVideoThumbnail()` is unable to resolve the thumbnail MIME type. ([#71](https://github.com/dukt/videos/pull/73))
 
 ## 3.0.0-beta.1 - 2022-04-06
 
