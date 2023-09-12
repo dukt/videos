@@ -44,6 +44,11 @@ class Video extends Model
     public $url;
 
     /**
+     * @var string|null The embed URL of the video
+     */
+    public $embedUrl;
+
+    /**
      * @var string|null The gateway’s handle
      */
     public $gatewayHandle;
@@ -152,7 +157,7 @@ class Video extends Model
      */
     public function getEmbed(array $opts = []): Twig_Markup
     {
-        $embed = $this->getGateway()->getEmbedHtml($this->id, $opts);
+        $embed = $this->getGateway()->getEmbedHtml($this, $opts);
         $charset = Craft::$app->getView()->getTwig()->getCharset();
 
         return new Twig_Markup($embed, $charset);
@@ -174,7 +179,7 @@ class Video extends Model
             return null;
         }
 
-        return $gateway->getEmbedUrl($this->id, $opts);
+        return $gateway->getEmbedUrl($this, $opts);
     }
 
     /**

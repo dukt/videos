@@ -14,6 +14,7 @@ use dukt\videos\errors\ApiResponseException;
 use dukt\videos\errors\GatewayMethodNotFoundException;
 use dukt\videos\errors\JsonParsingException;
 use dukt\videos\errors\VideoNotFoundException;
+use dukt\videos\models\Video;
 use dukt\videos\Plugin as Videos;
 use dukt\videos\Plugin;
 use dukt\videos\records\Token as TokenRecord;
@@ -218,12 +219,12 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the HTML of the embed from a video ID.
      *
-     * @param       $videoId
+     * @param Video $video
      * @param array $options
      *
      * @return string
      */
-    public function getEmbedHtml($videoId, array $options = []): string
+    public function getEmbedHtml(Video $video, array $options = []): string
     {
         $embedAttributes = [
             'title' => 'External video from ' . $this->getHandle(),
@@ -248,7 +249,7 @@ abstract class Gateway implements GatewayInterface
 
         $this->parseEmbedAttribute($embedAttributes, $options, 'iframeClass', 'class');
 
-        $embedUrl = $this->getEmbedUrl($videoId, $options);
+        $embedUrl = $this->getEmbedUrl($video, $options);
 
         $embedAttributesString = '';
 
@@ -262,28 +263,28 @@ abstract class Gateway implements GatewayInterface
     /**
      * Returns the URL of the embed from a video ID.
      *
-     * @param       $videoId
+     * @param Video $video
      * @param array $options
      *
      * @return string
      */
-    public function getEmbedUrl($videoId, array $options = []): string
+    public function getEmbedUrl(Video $video, array $options = []): string
     {
-        $format = $this->getEmbedFormat();
+        $embedUrl = $video->embedUrl ?: sprintf($this->getEmbedFormat(), $video->id);
 
         if ($options !== []) {
             $queryMark = '?';
 
-            if (strpos($this->getEmbedFormat(), '?') !== false) {
+            if (strpos($embedUrl, '?') !== false) {
                 $queryMark = '&';
             }
 
             $options = http_build_query($options);
 
-            $format .= $queryMark . $options;
+            $embedUrl .= $queryMark . $options;
         }
 
-        return sprintf($format, $videoId);
+        return $embedUrl;
     }
 
     /**
