@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 4.0.0 - 2023-06-29
+## 3.0.0 - 2023-06-29
 
 ### Added
 - Added missing translations.
