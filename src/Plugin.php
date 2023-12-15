@@ -11,6 +11,7 @@ use Craft;
 use craft\events\RegisterCacheOptionsEvent;
 use craft\events\RegisterComponentTypesEvent;
 use craft\events\RegisterUrlRulesEvent;
+use craft\helpers\App;
 use craft\helpers\UrlHelper;
 use craft\services\Fields;
 use craft\utilities\ClearCaches;
@@ -19,7 +20,9 @@ use craft\web\UrlManager;
 use dukt\videos\base\PluginTrait;
 use dukt\videos\fields\Video as VideoField;
 use dukt\videos\models\Settings;
+use dukt\videos\web\assets\videos\VideosAsset;
 use dukt\videos\web\twig\variables\VideosVariable;
+use nystudio107\pluginvite\services\VitePluginService;
 use yii\base\Event;
 
 /**
@@ -139,6 +142,15 @@ class Plugin extends \craft\base\Plugin
             'gateways' => \dukt\videos\services\Gateways::class,
             'oauth' => \dukt\videos\services\Oauth::class,
             'tokens' => \dukt\videos\services\Tokens::class,
+            'vite' => [
+                'class' => VitePluginService::class,
+                'assetClass' => VideosAsset::class,
+                'useDevServer' => true,
+                'serverPublic' => App::env('PRIMARY_SITE_URL'),
+                'devServerPublic' => 'http://localhost:'.App::env('VIDEOS_VITE_DEV_PORT'),
+                'devServerInternal' => 'http://host.docker.internal:'.App::env('VIDEOS_VITE_DEV_PORT'),
+                'checkDevServer' => true,
+            ],
         ]);
     }
 
@@ -190,7 +202,10 @@ class Plugin extends \craft\base\Plugin
         Event::on(CraftVariable::class, CraftVariable::EVENT_INIT, function(Event $event): void {
             /** @var CraftVariable $variable */
             $variable = $event->sender;
-            $variable->set('videos', VideosVariable::class);
+            $variable->set('videos', [
+                'class' => VideosVariable::class,
+                'viteService' => $this->vite,
+            ]);
         });
     }
 

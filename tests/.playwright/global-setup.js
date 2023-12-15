@@ -15,7 +15,7 @@ module.exports = async config => {
   await page.waitForResponse((response) =>
     response.url().includes('/admin/dashboard')
   );
-  
+
   // Save signed-in state
   await page.context().storageState({ path: './tests/.playwright/authentication/admin.json' });
   await browser.close();

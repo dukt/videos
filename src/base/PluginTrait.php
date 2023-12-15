@@ -16,6 +16,7 @@ use dukt\videos\Plugin as Videos;
  * @property \dukt\videos\services\Cache $cache      The cache service
  * @property \dukt\videos\services\Gateways $gateways   The gateways service
  * @property \dukt\videos\services\Oauth $oauth      The oauth service
+ * @property \nystudio107\pluginvite\services\VitePluginService $vite   The vite plugin service
  */
 trait PluginTrait
 {

@@ -3,6 +3,7 @@ Changelog
 
 ## Unreleased
 
+- Use Vite instead of Webpack to build assets.
 - Updated the play icon to an SVG.
 
 ## 3.0.0 - 2023-06-29

@@ -10,9 +10,12 @@ namespace dukt\videos\web\twig\variables;
 use Craft;
 use dukt\videos\models\Video;
 use dukt\videos\Plugin as Videos;
+use nystudio107\pluginvite\variables\ViteVariableTrait;
 
 class VideosVariable
 {
+    use ViteVariableTrait;
+
     // Public Methods
     // =========================================================================
 
