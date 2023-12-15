@@ -5,3 +5,4 @@ composer.lock
 node_modules/
 /playwright/report/
 /vendor
+/.env
