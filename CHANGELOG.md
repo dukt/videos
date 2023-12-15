@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## Unreleased
+
+- Updated the play icon to an SVG.
+
 ## 3.0.0 - 2023-06-29
 
 ### Added

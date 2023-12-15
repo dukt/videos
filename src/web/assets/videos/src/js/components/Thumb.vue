@@ -1,5 +1,8 @@
 <script>
+import PlayIcon from "@/icons/Play.vue";
+
 export default {
+  components: {PlayIcon},
   props: {
     url: {
       type: String,
@@ -37,6 +40,8 @@ export default {
     <div
       class="play"
       @click.prevent="$emit('playVideo')"
-    />
+    >
+      <PlayIcon />
+    </div>
   </div>
 </template>
