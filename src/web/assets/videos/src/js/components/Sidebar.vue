@@ -84,13 +84,13 @@ export default {
       </div>
     </div>
 
-    <nav>
+    <nav class="dv-mt-4">
       <ul>
         <template v-if="currentGateway">
           <template v-for="(section, sectionKey) in currentGateway.sections">
             <li
               :key="`section-${sectionKey}`"
-              class="heading"
+              class="heading !dv-mb-1"
             >
               <span>{{ section.name }}</span>
             </li>
