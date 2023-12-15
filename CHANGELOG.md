@@ -5,6 +5,7 @@ Changelog
 
 - Use Vite instead of Webpack to build assets.
 - Updated the play icon to an SVG.
+- Fixed spacing between the gateway dropdown and the nav items.
 
 ## 3.0.0 - 2023-06-29
 
