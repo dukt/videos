@@ -7,13 +7,15 @@ module.exports = async config => {
   const page = await browser.newPage();
 
   await page.goto(baseURL);
+
   await page.fill('#loginName', process.env.PLAYWRIGHT_USERNAME);
   await page.fill('#password', process.env.PLAYWRIGHT_PASSWORD);
   await page.click('button#submit');
 
-  const title = page.locator('h1');
-  await expect(title).toHaveText('Dashboard');
-
+  await page.waitForResponse((response) =>
+    response.url().includes('/admin/dashboard')
+  );
+  
   // Save signed-in state
   await page.context().storageState({ path: './tests/.playwright/authentication/admin.json' });
   await browser.close();
